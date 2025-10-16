@@ -1,5 +1,6 @@
-@use "../../../scss/lib/core/mixins" as m;
-@use "../../../scss/browser/misc/ps-properties" as *;
+@use "veela-lib/core/mixins" as m;
+@use "veela-runtime/misc/ps-properties" as *;
+@use "veela-runtime/misc/ps-cursor" as *;
 
 //
 @property --value  { syntax: "<number>"; initial-value: 0; inherits: true; };

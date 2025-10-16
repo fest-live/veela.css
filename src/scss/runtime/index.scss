@@ -1,10 +1,29 @@
 @use "./core/layers" as *;
+@use "./core/properties" as *;
+@use "./core/variables" as *;
+
+//
+@use "./classes/shapes" as *;
+@use "./classes/states" as *;
+
+//
+@use "./layout/normalize" as *;
+@use "./layout/core-layout" as *;
+@use "./layout/grid-oriented" as *;
+@use "./layout/layout" as *;
+@use "./layout/essentials" as *;
+
+//
 @use "./design/wavy" as *;
 @use "./design/color-2" as *;
-@use "./layout/ps-anchor" as *;
-@use "./layout/ps-centered" as *;
-@use "./layout/ps-cursor" as *;
-@use "./layout/ps-draggable" as *;
-@use "./layout/ps-resizable" as *;
-@use "./layout/ps-properties" as *;
-@use "./layout/ps-mechanic" as *;
+@use "./design/shadows" as *;
+@use "./design/animation" as *;
+
+//
+@use "./misc/ps-anchor" as *;
+@use "./misc/ps-centered" as *;
+@use "./misc/ps-cursor" as *;
+@use "./misc/ps-draggable" as *;
+@use "./misc/ps-resizable" as *;
+@use "./misc/ps-properties" as *;
+@use "./misc/ps-mechanic" as *;

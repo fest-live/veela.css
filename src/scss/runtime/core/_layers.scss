@@ -1,3 +1,4 @@
+@use "veela-lib/index" as *;
 @layer ux-layers {
     @layer ux-variables, ux-properties, ux-mixins, ux-normalize, ux-layout, ux-classes, ux-design, ux-misc, ux-states, ux-shapes, ux-shadows;
 }

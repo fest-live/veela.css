@@ -1,0 +1,24 @@
+//
+$ui-radius-sm: 0.25rem !default;
+$ui-radius-md: 0.5rem !default;
+$ui-radius-lg: 0.75rem !default;
+$ui-border-width: 1px !default;
+$ui-duration-fast: 0.15s !default;
+$ui-duration-standard: 0.25s !default;
+$ui-ease-standard: ease !default;
+$ui-spacing-2xs: 0.125rem !default;
+$ui-spacing-xs: 0.25rem !default;
+$ui-spacing-sm: 0.5rem !default;
+$ui-spacing-md: 0.75rem !default;
+$ui-titlebar-height: 32px !default;
+$ui-font-title-size: 0.75rem !default;
+$ui-font-subtitle-size: 0.5rem !default;
+$ui-shadow-soft: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08) !default;
+$ui-shadow-elevated: 0 4px 12px rgb(0 0 0 / 0.15), 0 1px 3px rgb(0 0 0 / 0.1) !default;
+
+$mobileWidth: 9in;
+$isTouch    : "screen and (hover: none) and (pointer: coarse)";
+$isNotWide  : "(width < #{$mobileWidth})";
+$isDesktop  : "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobileWidth}) or (orientation: landscape)))";
+$isMobile   : "not #{$isDesktop}";
+$isWindowed : "@container u2-windowed #{$isNotWide}";

@@ -55,3 +55,9 @@
     }
 }
 
+@mixin host-related($host, $child) {
+    // outside web component
+    #{$host} { & > #{$child} { @content; } }
+    // inside web component
+    :host(#{$host}) { ::slotted(#{$child}) { @content; } }
+}

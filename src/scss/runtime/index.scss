@@ -1,12 +1,11 @@
 @use "./core/layers" as *;
 @use "./core/properties" as *;
 @use "./core/variables" as *;
+@use "./core/wavy" as *;
+@use "./core/color-2" as *;
 
 //
-@use "./classes/shapes" as *;
-@use "./classes/states" as *;
-
-//
+@use "./layout/states" as *;
 @use "./layout/normalize" as *;
 @use "./layout/core-layout" as *;
 @use "./layout/grid-oriented" as *;
@@ -14,10 +13,10 @@
 @use "./layout/essentials" as *;
 
 //
-@use "./design/wavy" as *;
-@use "./design/color-2" as *;
+@use "./design/shapes" as *;
 @use "./design/shadows" as *;
 @use "./design/animation" as *;
+@use "./design/shapes" as *;
 
 //
 @use "./misc/ps-anchor" as *;

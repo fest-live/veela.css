@@ -1,0 +1,248 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+
+// Alignment helpers
+@mixin center($axis: "both") {
+    & {
+        @if $axis == "both" { place-content: center; place-items: center; }
+        @else if $axis == "x" { justify-content: center; align-items: stretch; }
+        @else if $axis == "y" { align-items: center; justify-content: stretch; }
+    }
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin hover($selector: "&") {
+    & {
+        @media screen and ((hover: hover) or (pointer: fine)) { #{$selector}:hover { @content; } }
+        @media screen and ((hover: none) and (pointer: coarse)) { #{$selector}:action { @content; } }
+    }
+}
+
+// Sizing
+@mixin size($inline: 100%, $block: 100%, $aspect-ratio: auto) {
+    & {
+        inline-size: #{$inline};
+        block-size: #{$block};
+        aspect-ratio: #{$aspect-ratio};
+    }
+}
+
+@mixin position($type: absolute, $inset: 0) {
+    & {
+        position: #{$type};
+        inset: #{$inset};
+    }
+}
+
+@mixin display($type: inline-block, $direction: row, $items: center, $content: center) {
+    & {
+        display: #{$type};
+        flex-direction: #{$direction};
+        place-items: #{$items};
+        place-content: #{$content};
+        box-sizing: border-box;
+    }
+}
+
+@mixin interaction($pointerEvents: auto, $cursor: default, $userSelect: none) {
+    & {
+        pointer-events: #{$pointerEvents};
+        user-select: #{$userSelect};
+        cursor: #{$cursor};
+    }
+}
+
+@mixin scrollbar($overflow: hidden, $width: thin, $color: transparent transparent, $gutter: auto) {
+    & {
+        scrollbar-width: #{$width};
+        scrollbar-color: #{$color};
+        scrollbar-gutter: #{$gutter};
+        overflow: #{$overflow};
+    }
+}
+
+@mixin place($method: stretch) {
+    & {
+        place-content: #{$method};
+        place-items: center;
+    }
+}
+
+@mixin grid-flow($direction: row) {
+    & {
+        display: grid;
+        grid-auto-flow: #{$direction};
+    }
+}
+
+@mixin grid-center {
+    display: grid;
+    place-items: center;
+}
+
+@mixin flex-flow($direction: row) {
+    & {
+        display: flex;
+        flex-direction: #{$direction};
+    }
+}
+
+@mixin grid-column {
+    @include grid-flow(row);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: var(--order, 1) / calc(var(--order, 1) + 1);
+        grid-row: 1 / -1;
+        grid-template-columns: minmax(0px, 1fr);
+        grid-template-rows: subgrid;
+    }
+}
+
+@mixin grid-row {
+    @include grid-flow(column);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: 1 / -1;
+        grid-row: var(--order, 1) / calc(var(--order, 1) + 1);
+        grid-template-columns: subgrid;
+        grid-template-rows: minmax(0px, max-content);
+    }
+}
+
+@mixin flex-column {
+    & {
+        --order: sibling-index();
+        order: var(--order, auto);
+        flex: 1 1 max-content;
+    }
+
+    @include place(center);
+}
+
+@function limit-by-size($pwidth, $basis: 100%, $min: 0px) {
+    @return max(calc($basis - ($basis - $pwidth)), $min);
+}
+
+@mixin inline-stretch { & { inline-size: 100%; inline-size: -webkit-fill-available; inline-size: stretch; } }
+@mixin block-stretch { & { block-size: 100%; block-size: -webkit-fill-available; block-size: stretch; } }
+@mixin content-inline-size { & { padding-inline: limit-by-size(calc(var(--content-inline-size, 100%) * 0.5), 100%); } }
+@mixin content-block-size { & { padding-block: limit-by-size(calc(var(--content-block-size, 100%) * 0.5), 100%); } }
+@mixin ux-anchor { & { transform: scale3d(var(--scale, 1), var(--scale, 1), 1) translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px); } }
+
+@mixin grid-layered {
+    & { grid-template-columns: minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr); }
+    & > * { grid-column: 1 / -1; grid-row: 1 / -1; }
+}
+
+@mixin grid-rows-3c { & { grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content); } }
+
+@mixin grid-layout($columns: minmax(0px, 1fr), $rows: minmax(0px, 1fr), $type: inline) {
+    display: #{$type} grid;
+    grid-template-columns: #{$columns};
+    grid-template-rows: #{$rows};
+}
+
+@mixin grid-auto-fill($min-size: 260px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($min-size, 1fr));
+    gap: var(--gap-md);
+}
+
+@mixin scrollable($direction: "y") {
+    @if $direction == "x" {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    @else if $direction == "y" {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    @else {
+        overflow: auto;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--scrollbar-opacity)) transparent;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        inline-size: 6px;
+        block-size: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--scrollbar-opacity));
+        border-radius: var(--radius-full);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+@mixin hide-scrollbar {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@mixin breakpoint($size) {
+    @if $size == "sm" {
+        @media (max-width: 480px) { @content; }
+    } @else if $size == "md" {
+        @media (max-width: 720px) { @content; }
+    } @else if $size == "lg" {
+        @media (max-width: 960px) { @content; }
+    } @else if $size == "xl" {
+        @media (max-width: 1200px) { @content; }
+    } @else {
+        @media (max-width: #{$size}) { @content; }
+    }
+}
+
+@mixin breakpoint-up($size) {
+    @if $size == "sm" {
+        @media (min-width: 481px) { @content; }
+    } @else if $size == "md" {
+        @media (min-width: 721px) { @content; }
+    } @else if $size == "lg" {
+        @media (min-width: 961px) { @content; }
+    } @else if $size == "xl" {
+        @media (min-width: 1201px) { @content; }
+    } @else {
+        @media (min-width: #{$size}) { @content; }
+    }
+}
+
+@mixin container-query($size) {
+    @if $size == "sm" {
+        @container (max-inline-size: 480px) { @content; }
+    } @else if $size == "md" {
+        @container (max-inline-size: 720px) { @content; }
+    } @else if $size == "lg" {
+        @container (max-inline-size: 960px) { @content; }
+    } @else {
+        @container (max-inline-size: #{$size}) { @content; }
+    }
+}
+

@@ -1,4 +1,3 @@
-@use "./core/mixins" as *;
-@use "./core/logical" as *;
-@use "./core/mixins" as *;
-@use "./design/colorize" as *;
+@forward "./mixins/index";
+@forward "./core/logical";
+@forward "./design/colorize";

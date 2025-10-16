@@ -1,0 +1,57 @@
+@use "sass:meta";
+@use "sass:list";
+
+// Transition helpers
+@mixin transition($properties: all, $duration: $ui-duration-fast, $timing: $ui-ease-standard) {
+    & {
+        $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+        transition: $prop-list $duration $timing;
+    }
+}
+
+// Spacing helpers
+@mixin padding($value) { & { padding: $value; } }
+@mixin margin($value) { & { margin: $value; } }
+@mixin spacing($p: null, $m: null) {
+    & {
+        @if $p != null { padding: $p; }
+        @if $m != null { margin: $m; }
+    }
+}
+
+// Border/radius/shadow helpers
+@mixin border($width: $ui-border-width, $style: solid, $color: currentColor) {
+    & {
+        border-width: $width;
+        border-style: $style;
+        border-color: $color;
+    }
+}
+
+@mixin radius($r: $ui-radius-md) { & { border-radius: $r; } }
+@mixin shadow($value: $ui-shadow-soft) { & { box-shadow: $value; } }
+
+// Container helpers
+// pseudo-container helper for future compatibility
+@mixin container-base($type: size, $name: auto, $contain: strict) {
+    & {
+        container-type: $type;
+        @if $name != auto { container-name: $name; }
+        contain: $contain;
+    }
+}
+
+@mixin box($r, $ov: visible) {
+    & {
+        border-radius: $r;
+        overflow: $ov;
+    }
+}
+
+@mixin color($bg: transparent, $color: transparent) {
+    & {
+        color: #{$color};
+        background-color: #{$bg};
+    }
+}
+

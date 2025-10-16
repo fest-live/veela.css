@@ -1,0 +1,110 @@
+@use "veela-lib/core/logical" as lg;
+
+@mixin oriented($property, $portrait, $landscape) {
+    & { #{$property}: #{$portrait}; }
+    @media (orientation: portrait) { #{$property}: #{$portrait}; }
+    @media (orientation: landscape) { #{$property}: #{$landscape}; }
+}
+
+@mixin compute_os_conditions {
+    & {
+        --in-rev-cond-x: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 1))});
+        --in-rev-cond-y: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 3))});
+        --in-swap-cond: _rem(var(--orient, 0), 2);
+        --in-rev-vx: calc(var(--in-rev-cond-x, 1) * -2 + 1);
+        --in-rev-vy: calc(var(--in-rev-cond-y, 1) * -2 + 1);
+    }
+}
+
+@mixin compute_os_size_to_cs {
+    & {
+        --cs-size-x: #{lg.mix(var(--os-size-x, 100cqb), var(--os-size-y, 100cqi), var(--in-swap-cond, 0))};
+        --cs-size-y: #{lg.mix(var(--os-size-y, 100cqi), var(--os-size-x, 100cqb), var(--in-swap-cond, 0))};
+        --cs-self-size-x: #{lg.mix(var(--os-self-size-y, 100cqb), var(--os-self-size-x, 100cqi), var(--in-swap-cond, 0))};
+        --cs-self-size-y: #{lg.mix(var(--os-self-size-x, 100cqi), var(--os-self-size-y, 100cqb), var(--in-swap-cond, 0))};
+    }
+}
+
+@mixin compute_cs_size_to_os {
+    & {
+        --os-size-x: #{lg.mix(var(--cs-size-x, 100cqi), var(--cs-size-y, 100cqb), var(--in-swap-cond, 0))};
+        --os-size-y: #{lg.mix(var(--cs-size-y, 100cqb), var(--cs-size-x, 100cqi), var(--in-swap-cond, 0))};
+        --os-self-size-x: #{lg.mix(var(--cs-self-size-y, 100cqb), var(--cs-self-size-x, 100cqi), var(--in-swap-cond, 0))};
+        --os-self-size-y: #{lg.mix(var(--cs-self-size-x, 100cqi), var(--cs-self-size-y, 100cqb), var(--in-swap-cond, 0))};
+    }
+}
+
+@mixin compute_from_os_to_cs {
+    & {
+        --in-inset-x: #{lg.mix(var(--os-inset-x, 0px), var(--os-inset-y, 0px), var(--in-swap-cond, 0))};
+        --in-inset-y: #{lg.mix(var(--os-inset-y, 0px), var(--os-inset-x, 0px), var(--in-swap-cond, 0))};
+        --in-drag-x: #{lg.mix(var(--os-drag-x, 0px), var(--os-drag-y, 0px), var(--in-swap-cond, 0))};
+        --in-drag-y: #{lg.mix(var(--os-drag-y, 0px), var(--os-drag-x, 0px), var(--in-swap-cond, 0))};
+    }
+
+    & {
+        --cs-inset-x: #{lg.mix(var(--in-inset-x, 0px), calc(var(--cs-size-x, 100cqi) - var(--in-inset-x, 0px)), var(--in-rev-cond-x, 0))};
+        --cs-inset-y: #{lg.mix(var(--in-inset-y, 0px), calc(var(--cs-size-y, 100cqb) - var(--in-inset-y, 0px)), var(--in-rev-cond-y, 0))};
+        --cs-drag-x: calc(var(--in-drag-x, 0px) * var(--in-rev-vx, 1));
+        --cs-drag-y: calc(var(--in-drag-y, 0px) * var(--in-rev-vy, 1));
+    }
+}
+
+@mixin compute_from_cs_to_os {
+    & {
+        --in-inset-x: #{lg.mix(var(--cs-inset-x, 0px), calc(var(--cs-size-x, 100cqi) - var(--cs-inset-x, 0px)), var(--in-rev-cond-x, 0))};
+        --in-inset-y: #{lg.mix(var(--cs-inset-y, 0px), calc(var(--cs-size-y, 100cqi) - var(--cs-inset-y, 0px)), var(--in-rev-cond-y, 0))};
+        --in-drag-x: calc(var(--cs-drag-x, 0px) * var(--in-rev-vx, 1));
+        --in-drag-y: calc(var(--cs-drag-y, 0px) * var(--in-rev-vy, 1));
+    }
+
+    & {
+        --os-inset-x: #{lg.mix(var(--in-inset-x, 0px), var(--in-inset-y, 0px), var(--in-swap-cond, 0))};
+        --os-inset-y: #{lg.mix(var(--in-inset-y, 0px), var(--in-inset-x, 0px), var(--in-swap-cond, 0))};
+        --os-drag-x: #{lg.mix(var(--in-drag-y, 0px), var(--in-drag-x, 0px), var(--in-swap-cond, 0))};
+        --os-drag-y: #{lg.mix(var(--in-drag-x, 0px), var(--in-drag-y, 0px), var(--in-swap-cond, 0))};
+    }
+}
+
+@mixin portrait-size {
+    --cqi: 100cqmin;
+    --cqb: 100cqmax;
+}
+
+@mixin landscape-size {
+    --cqi: 100cqmax;
+    --cqb: 100cqmin;
+}
+
+@mixin init-os-size-by-native {
+    --os-size-x: var(--cqi, 100cqi);
+    --os-size-y: var(--cqb, 100cqb);
+}
+
+@mixin init-cs-size {
+    --cs-size-x: 100cqw;
+    --cs-size-y: 100cqh;
+}
+
+@mixin centered-self($transforms: null) {
+    transform-origin: 0% 0%;
+    transform:
+        #{$transforms}
+        scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
+        lg.perfect-translate(calc(var(--translate-x, 0px) - 50%), calc(var(--translate-y, 0px) - 50%));
+    place-self: center;
+}
+
+@mixin centered-with-offset {
+    $translate: lg.perfect-translate(var(--cs-drag-x, 0px), var(--cs-drag-y, 0px));
+    @include centered-self($translate);
+}
+
+@mixin use-inset {
+    inset: var(--cs-inset-y, 0px) auto auto var(--cs-inset-x, 0px);
+}
+
+@function _rem($value, $mod) {
+    @return lg.rem($value, $mod);
+}
+

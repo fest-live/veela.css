@@ -1,0 +1,31 @@
+@mixin fade-in($duration: var(--duration-normal)) {
+    animation: fade-in $duration var(--ease-out);
+}
+
+@mixin slide-up($duration: var(--duration-normal)) {
+    animation: slide-up $duration var(--ease-out);
+}
+
+@mixin scale-in($duration: var(--duration-fast)) {
+    animation: scale-in $duration var(--ease-bounce);
+}
+
+@mixin focus-ring($tint: var(--outline-tint)) {
+    &:focus-visible {
+        outline: 2px solid oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / var(--outline-opacity));
+        outline-offset: 2px;
+    }
+}
+
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+@mixin high-contrast {
+    @media (prefers-contrast: high) {
+        @content;
+    }
+}
+

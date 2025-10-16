@@ -1,0 +1,68 @@
+@mixin HQRendering($importance: null) {}
+
+@mixin LQRendering($importance: null) {}
+
+@mixin hw-optimize() {
+    @include LQRendering();
+
+    transform: translateZ(0);
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+
+    @supports (contain: layout paint) {
+        contain: layout paint;
+    }
+
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: none;
+    will-change: transform;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+    }
+
+    @supports (scrollbar-gutter: stable both-edges) {
+        scrollbar-gutter: stable both-edges;
+    }
+}
+
+@mixin disable-transform() {
+    rotate: none;
+    scale: none;
+    translate: none;
+    transform: none;
+
+    transform-origin: 50% 50%;
+    backface-visibility: visible;
+
+    filter: none;
+    backdrop-filter: none;
+
+    perspective: none;
+    isolation: auto;
+}
+
+@mixin hide-scrollbars() {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    scrollbar-color: transparent;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+        scrollbar-color: transparent;
+    }
+
+    @supports (scrollbar-gutter: stable both-edges) {
+        scrollbar-gutter: stable both-edges;
+    }
+
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        inline-size: 0px;
+        block-size: 0px;
+        display: none;
+    }
+}
+

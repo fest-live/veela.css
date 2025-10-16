@@ -1,4 +1,5 @@
-@use "veela-lib/core/mixins" as mx;
+@use "../../lib/mixins/orientation" as mx;
+@use "../../lib/mixins/extras" as ext;
 
 //
 @layer ux-agate {
@@ -132,7 +133,7 @@
                 transform-style: flat;
                 transform-box: fill-box;
                 transform:
-                    mx.perfect-translate(var(--translate-x, 0%), var(--translate-y, 0%))
+                    ext.perfect-translate(var(--translate-x, 0%), var(--translate-y, 0%))
                     scale3d(var(--scale, 1), var(--scale, 1), 1);
                 translate: 0% 0% 0%;
                 opacity: var(--opacity, 1);
@@ -241,7 +242,7 @@
 
         //
         :where(body) {
-            @include mx.fit-viewport();
+            @include ext.fit-viewport();
 
             //
             & {

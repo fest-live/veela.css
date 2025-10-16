@@ -123,6 +123,11 @@
 @property --accent-tone-shift { syntax: "<number>"; initial-value: 0.0; inherits: true; };
 @property --scrollbar-tone-shift { syntax: "<number>"; initial-value: 0.0; inherits: true; };
 
+
+// =============================================================================
+// THEME-SPECIFIC OVERRIDES
+// =============================================================================
+
 /* */
 @layer ux-ctm {
 
@@ -142,6 +147,13 @@
         }
 
         & { color-scheme: light; };
+    }
+
+    :host {
+        --secondary: inherit;
+        --trinary: inherit;
+        --primary: inherit;
+        --current: inherit;
     }
 
     .c2-surface {

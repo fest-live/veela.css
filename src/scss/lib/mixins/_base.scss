@@ -1,8 +1,10 @@
 @use "sass:meta";
 @use "sass:list";
 
+@use "../core/constants" as c;
+
 // Transition helpers
-@mixin transition($properties: all, $duration: $ui-duration-fast, $timing: $ui-ease-standard) {
+@mixin transition($properties: all, $duration: c.$ui-duration-fast, $timing: c.$ui-ease-standard) {
     & {
         $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
         transition: $prop-list $duration $timing;
@@ -29,6 +31,7 @@
 }
 
 @mixin radius($r: $ui-radius-md) { & { border-radius: $r; } }
+@mixin border-radius($r: $ui-radius-md) { & { border-radius: $r; } }
 @mixin shadow($value: $ui-shadow-soft) { & { box-shadow: $value; } }
 
 // Container helpers
@@ -60,4 +63,11 @@
     #{$host} { & > #{$child} { @content; } }
     // inside web component
     :host(#{$host}) { ::slotted(#{$child}) { @content; } }
+}
+
+@mixin host-context($host) {
+    // outside web component
+    #{$host} { @content; }
+    // inside web component
+    :host(#{$host}) { @content; }
 }

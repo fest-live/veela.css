@@ -2,6 +2,9 @@
 @use "sass:list";
 @use "sass:meta";
 
+@use "../core/constants" as c;
+@use "./base" as m;
+
 // Alignment helpers
 @mixin center($axis: "both") {
     & {
@@ -73,11 +76,8 @@
     }
 }
 
-@mixin place($method: stretch) {
-    & {
-        place-content: #{$method};
-        place-items: center;
-    }
+@mixin place($method: stretch, $items: center) {
+    & { place-content: #{$method}; place-items: #{$items}; }
 }
 
 @mixin grid-flow($direction: row) {
@@ -246,3 +246,70 @@
     }
 }
 
+@mixin flex($direction: row, $items: center, $content: center) {
+    @include display('flex', $direction, $items, $content);
+}
+
+@mixin grid($columns: minmax(0px, 1fr), $rows: minmax(0px, var(--ui-window-frame-titlebar-height)) minmax(0px, 1fr)) {
+    display: grid;
+    grid-template-columns: #{$columns};
+    grid-template-rows: #{$rows};
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
+/*
+@mixin container-base($size: stretch, $strict: false) {
+    @if $strict {
+        @include size($size);
+    }
+    @else {
+        @include size(stretch);
+    }
+}*/
+
+@mixin container-layout($type: ui-container, $contain: strict) {
+    @include m.container-base(stretch, false);
+    container-type: #{$type};
+    contain: #{$contain};
+}
+
+// Container query variants
+@mixin container($size) {
+    @if $size =="sm" {
+        @container (max-inline-size: 480px) {
+            @content;
+        }
+    }
+
+    @else if $size =="md" {
+        @container (max-inline-size: 720px) {
+            @content;
+        }
+    }
+
+    @else if $size =="lg" {
+        @container (max-inline-size: 960px) {
+            @content;
+        }
+    }
+
+    @else {
+        @container (max-inline-size: #{$size}) {
+            @content;
+        }
+    }
+}
+
+
+@mixin text($size: c.$ui-font-base-size, $weight: 400, $color: currentColor) {
+    font-size: #{$size};
+    font-weight: #{$weight};
+    color: #{$color};
+}
+
+@mixin text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

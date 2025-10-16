@@ -277,13 +277,3 @@
     --nav-padding: var(--padding-sm);
     --nav-radius: var(--radius-sm);
 }
-
-// =============================================================================
-// THEME-SPECIFIC OVERRIDES
-// =============================================================================
-
-// These can be overridden by specific themes or components
-:root {
-    --primary: #6366f1; // Default primary color
-    --current: var(--primary); // Current theme color context
-}

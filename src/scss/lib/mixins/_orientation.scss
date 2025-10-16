@@ -1,4 +1,7 @@
-@use "veela-lib/core/logical" as lg;
+@use "../core/logical" as lg;
+
+@use "sass:string";
+
 
 @mixin oriented($property, $portrait, $landscape) {
     & { #{$property}: #{$portrait}; }
@@ -10,7 +13,7 @@
     & {
         --in-rev-cond-x: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 1))});
         --in-rev-cond-y: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 3))});
-        --in-swap-cond: _rem(var(--orient, 0), 2);
+        --in-swap-cond: #{_rem(var(--orient, 0), 2)};
         --in-rev-vx: calc(var(--in-rev-cond-x, 1) * -2 + 1);
         --in-rev-vy: calc(var(--in-rev-cond-y, 1) * -2 + 1);
     }
@@ -91,12 +94,12 @@
     transform:
         #{$transforms}
         scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
-        lg.perfect-translate(calc(var(--translate-x, 0px) - 50%), calc(var(--translate-y, 0px) - 50%));
+        #{perfect-translate(calc(var(--translate-x, 0px) - 50%), calc(var(--translate-y, 0px) - 50%))};
     place-self: center;
 }
 
 @mixin centered-with-offset {
-    $translate: lg.perfect-translate(var(--cs-drag-x, 0px), var(--cs-drag-y, 0px));
+    $translate: #{perfect-translate(var(--cs-drag-x, 0px), var(--cs-drag-y, 0px))};
     @include centered-self($translate);
 }
 
@@ -105,6 +108,6 @@
 }
 
 @function _rem($value, $mod) {
-    @return lg.rem($value, $mod);
+    @return string.unquote("rem(#{$value}, #{$mod})");
 }
 

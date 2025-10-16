@@ -26,7 +26,7 @@
 //
 @mixin   bound-size { @include pair-props('bound-', 'inline-size', 'block-size', '100cqi', '100cqb', '<length-percentage>'); }
 @mixin initial-size { @include pair-props('initial-', 'inline-size', 'block-size', '100%', '100%', '<length-percentage>'); }
-@mixin         size { @include pair-props('', 'inline-size', 'block-size', '100%', '100%', '<length-percentage>'); }
+@mixin   frame-size { @include pair-props('', 'inline-size', 'block-size', '100%', '100%', '<length-percentage>'); }
 
 //
 @include pointer-coords;
@@ -40,7 +40,7 @@
 @include resize-coords;
 @include rs-coords;
 @include bound-size;
-@include size;
+@include frame-size;
 @include initial-size;
 
 //

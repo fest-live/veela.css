@@ -1,3 +1,13 @@
 @forward "./mixins/index";
 @forward "./core/logical";
 @forward "./design/colorize";
+@forward "./design/theme";
+
+//
+@forward "./misc/ps-properties";
+@forward "./misc/ps-anchor";
+@forward "./misc/ps-centered";
+@forward "./misc/ps-cursor";
+@forward "./misc/ps-draggable";
+@forward "./misc/ps-resizable";
+@forward "./misc/ps-mechanic";

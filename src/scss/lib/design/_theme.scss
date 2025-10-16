@@ -1,5 +1,5 @@
-@use "veela-lib/design/colorize" as *;
-@use "veela-lib/core/logical" as lg;
+@use "../design/colorize" as *;
+@use "../core/logical" as lg;
 
 @mixin tm-dep($property, $light, $dark) {
     & {

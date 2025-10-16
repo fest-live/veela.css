@@ -1,0 +1,1670 @@
+@use "sass:meta";
+@use "sass:color";
+@use "sass:string";
+@use "sass:list";
+
+// Core Mixins Library
+// Reusable mixins for common styling patterns
+@use "sass:map";
+
+//
+@use "variables" as *;
+@use "colorize" as *;
+@use "../lib/logical" as lg;
+
+//
+$ui-radius-sm: 0.25rem !default;
+$ui-radius-md: 0.5rem !default;
+$ui-radius-lg: 0.75rem !default;
+$ui-border-width: 1px !default;
+$ui-duration-fast: 0.15s !default;
+$ui-duration-standard: 0.25s !default;
+$ui-ease-standard: ease !default;
+$ui-spacing-2xs: 0.125rem !default;
+$ui-spacing-xs: 0.25rem !default;
+$ui-spacing-sm: 0.5rem !default;
+$ui-spacing-md: 0.75rem !default;
+$ui-titlebar-height: 32px !default;
+$ui-font-title-size: 0.75rem !default;
+$ui-font-subtitle-size: 0.5rem !default;
+$ui-shadow-soft: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08) !default;
+$ui-shadow-elevated: 0 4px 12px rgb(0 0 0 / 0.15), 0 1px 3px rgb(0 0 0 / 0.1) !default;
+
+// Transition helpers
+@mixin transition($properties: all, $duration: $ui-duration-fast, $timing: $ui-ease-standard) {
+    & {
+        $prop-list: if(meta.type-of($properties) == 'list', list.join($properties, ", "), $properties);
+        transition: $prop-list $duration $timing;
+    }
+}
+
+// Spacing helpers
+@mixin padding($value) { & { padding: $value; } }
+@mixin margin($value) { & { margin: $value; } }
+@mixin spacing($p: null, $m: null) {
+    & {
+        @if $p != null { padding: $p; }
+        @if $m != null { margin: $m; }
+    }
+}
+
+// Border/radius/shadow helpers
+@mixin border($width: $ui-border-width, $style: solid, $color: currentColor) {
+    & {
+        border-width: $width;
+        border-style: $style;
+        border-color: $color;
+    }
+}
+
+//
+@mixin radius($r: $ui-radius-md) { & { border-radius: $r; } }
+@mixin shadow($value: $ui-shadow-soft) { & { box-shadow: $value; } }
+
+// Container helpers
+@mixin container($name: auto, $type: size, $contain: strict) {
+    & {
+        container-type: $type;
+        @if $name != auto { container-name: $name; }
+        contain: $contain;
+    }
+}
+
+// Text helpers
+@mixin text($size: inherit, $weight: 400, $color: inherit) {
+    & {
+        font-size: $size;
+        font-weight: $weight;
+        color: $color;
+    }
+}
+
+
+@mixin text-ellipsis($nowrap: true) {
+    & {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        @if $nowrap { white-space: nowrap; }
+    }
+}
+
+// Alignment helpers
+@mixin center($axis: 'both') {
+    & {
+        @if $axis == 'both' { place-content: center; place-items: center; }
+        @else if $axis == 'x' { justify-content: center; align-items: stretch; }
+        @else if $axis == 'y' { align-items: center; justify-content: stretch; }
+    }
+}
+
+//
+@mixin hover($selector: "&") {
+    & {
+        @media screen and ((hover: hover) or (pointer: fine))   { #{$selector}:hover  { @content; } }
+        @media screen and ((hover: none) and (pointer: coarse)) { #{$selector}:action { @content; } }
+    }
+}
+
+//
+// theme-dependent property setter
+// prefers CSS light-dark when available, otherwise uses color-mix with var(--tm-scheme)
+@mixin tm-dep($property, $light, $dark) {
+    & {
+        #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
+        @supports(color: light-dark(white, black)) { #{$property}: light-dark(#{$light}, #{$dark}); }
+    }
+}
+
+//
+@mixin inverse {
+    & {
+        @include tm-dep("--tm-cr", var(--tm-cr-dark), var(--tm-cr-light));
+        --tm-ac: #{tm-lo(var(--tm-origin, currentColor), 80%) };
+    }
+}
+
+//
+@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
+
+//
+@mixin box($r, $ov: visible) {
+    & {
+        border-radius: $r;
+        overflow: $ov;
+    }
+}
+
+//
+@mixin flex($dir, $justify: start, $align: center) {
+    & {
+        display: flex;
+        flex-direction: $dir;
+        justify-content: $justify;
+        align-items: $align;
+    }
+}
+
+//
+@mixin grid($cols, $rows, $gap: 0) {
+    & {
+        display: grid;
+        grid-template-columns: $cols;
+        grid-template-rows: $rows;
+        gap: $gap;
+    }
+}
+
+//
+// (removed duplicate tm-dep mixin) keep single canonical version above
+
+//
+$def-ff: 'InterVariable', 'Inter', 'Open Sans', 'Source Sans 3','Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
+@mixin typography($fs, $ff: $def-ff) {
+    & {
+        font-size: $fs;
+        font-family: $ff;
+    }
+}
+
+//
+@function tm-hi($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-hi, white)); };
+@function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); };
+
+//
+@mixin size($inline: 100%, $block: 100%, $aspect-ratio: auto) {
+    & {
+        inline-size: #{$inline};
+        block-size: #{$block};
+        aspect-ratio: #{$aspect-ratio};
+    }
+}
+
+//
+@mixin position($type: absolute, $inset: 0) {
+    & {
+        position: #{$type};
+        inset: #{$inset};
+    }
+}
+
+//
+@mixin display($type: inline-block, $direction: row, $items: center, $content: center) {
+    & {
+        display: #{$type};
+        flex-direction: #{$direction};
+        place-items: #{$items};
+        place-content: #{$content};
+        box-sizing: border-box;
+    }
+}
+
+//
+@mixin interaction($pointerEvents: auto, $cursor: default, $userSelect: none) {
+    & {
+        pointer-events: #{$pointerEvents};
+        user-select: #{$userSelect};
+        cursor: #{$cursor};
+    }
+}
+
+//
+@mixin scrollbar($overflow: hidden, $width: thin, $color: transparent transparent, $gutter: auto) {
+    & {
+        scrollbar-width: #{$width};
+        scrollbar-color: #{$color};
+        scrollbar-gutter: #{$gutter};
+        overflow: #{$overflow};
+    }
+}
+
+//
+@mixin color($bg: transparent, $color: transparent) {
+    & {
+        color: #{$color};
+        background-color: #{$bg};
+    }
+}
+
+//
+@mixin place($method: stretch) {
+    & {
+        place-content: #{$method};
+        place-items: center;
+    }
+}
+
+//
+@mixin grid-flow ($direction: row) {
+    & {
+        display: grid;
+        grid-auto-flow: #{$direction};
+    }
+}
+
+//
+@mixin flex-flow ($direction: row) {
+    & {
+        display: flex;
+        flex-direction: #{$direction};
+    }
+}
+
+//
+@mixin grid-column {
+    @include grid-flow(row);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: var(--order, 1) / calc(var(--order, 1) + 1); grid-row: 1 / -1;
+        grid-template-columns: minmax(0px, 1fr); grid-template-rows: subgrid;
+    }
+}
+
+//
+@mixin grid-row {
+    @include grid-flow(column);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: 1 / -1; grid-row: var(--order, 1) / calc(var(--order, 1) + 1);
+        grid-template-columns: subgrid; grid-template-rows: minmax(0px, max-content);
+    }
+}
+
+//
+@mixin flex-column {
+    & {
+        --order: sibling-index();
+        order: var(--order, auto);
+        flex: 1 1 max-content;
+    }
+
+    //
+    @include place(center);
+}
+
+// used with padding
+@function limit-by-size($pwidth, $basis: 100%, $min: 0px) {
+    @return max(calc($basis - ($basis - $pwidth)), $min);
+}
+
+//
+//@mixin radius($radius: 50%) { clip-path: inset(0px 0px round #{$radius}); }
+@mixin round-corner($radius: 50%) {
+    & { clip-path: inset(0px 0px round #{$radius}); }
+}
+
+// utility to apply the same content both inside :host(...) and outside host using slotted child
+@mixin host-related($host, $child) {
+    // outside web component
+    #{$host} { & > #{$child} { @content; } }
+    // inside web component
+    :host(#{$host}) { ::slotted(#{$child}) { @content; } }
+}
+
+//
+@mixin host-context($host, $relative: null) {
+    @if $relative == null {
+        #{$host} { @content; }
+        :host(#{$host}) { @content; }
+    } @else {
+        #{$relative} { #{$host} { @content; } }
+        :host(#{$host}):host-context(#{$relative}) { @content; }
+    }
+}
+
+//
+@mixin inline-stretch { & { inline-size: 100%; inline-size: -webkit-fill-available; inline-size: stretch; } }
+
+//
+@mixin block-stretch { & { block-size: 100%; block-size: -webkit-fill-available; block-size: stretch; } }
+
+//
+@mixin content-inline-size { & { padding-inline: limit-by-size(calc(var(--content-inline-size, 100%) * 0.5), 100%); } }
+
+//
+@mixin content-block-size { & { padding-block: limit-by-size(calc(var(--content-block-size, 100%) * 0.5), 100%); } }
+
+//
+@mixin ux-anchor { & { transform: scale3d(var(--scale, 1), var(--scale, 1), 1) translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px); } }
+
+//
+@mixin grid-layered {
+    & { grid-template-columns: minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr); }
+    & > * { grid-column: 1 / -1; grid-row: 1 / -1; }
+}
+
+//
+@mixin grid-rows-3c { & { grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content); } }
+
+// Internal helpers
+@function _merge-color-options($defaults, $overrides) {
+    @if $overrides == null or meta.type-of($overrides) != "map" or list.length($overrides) == 0 {
+        @return $defaults;
+    }
+
+    @return map.merge($defaults, $overrides);
+}
+
+
+// =============================================================================
+// RESPONSIVE BREAKPOINTS
+// =============================================================================
+
+@mixin breakpoint($size) {
+    @if $size =="sm" {
+        @media (max-width: 480px) {
+            @content;
+        }
+    }
+
+    @else if $size =="md" {
+        @media (max-width: 720px) {
+            @content;
+        }
+    }
+
+    @else if $size =="lg" {
+        @media (max-width: 960px) {
+            @content;
+        }
+    }
+
+    @else if $size =="xl" {
+        @media (max-width: 1200px) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (max-width: #{$size}) {
+            @content;
+        }
+    }
+}
+
+@mixin breakpoint-up($size) {
+    @if $size =="sm" {
+        @media (min-width: 481px) {
+            @content;
+        }
+    }
+
+    @else if $size =="md" {
+        @media (min-width: 721px) {
+            @content;
+        }
+    }
+
+    @else if $size =="lg" {
+        @media (min-width: 961px) {
+            @content;
+        }
+    }
+
+    @else if $size =="xl" {
+        @media (min-width: 1201px) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (min-width: #{$size}) {
+            @content;
+        }
+    }
+}
+
+// Container query variants
+@mixin container($size) {
+    @if $size =="sm" {
+        @container (max-inline-size: 480px) {
+            @content;
+        }
+    }
+
+    @else if $size =="md" {
+        @container (max-inline-size: 720px) {
+            @content;
+        }
+    }
+
+    @else if $size =="lg" {
+        @container (max-inline-size: 960px) {
+            @content;
+        }
+    }
+
+    @else {
+        @container (max-inline-size: #{$size}) {
+            @content;
+        }
+    }
+}
+
+// =============================================================================
+// LAYOUT MIXINS
+// =============================================================================
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin grid-center {
+    display: grid;
+    place-items: center;
+}
+
+@mixin grid-auto-fill($min-size: 260px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($min-size, 1fr));
+    gap: var(--gap-md);
+}
+
+@mixin scrollable($direction: "y") {
+    @if $direction =="x" {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    @else if $direction =="y" {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    @else {
+        overflow: auto;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--scrollbar-opacity)) transparent;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        inline-size: 6px;
+        block-size: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--scrollbar-opacity));
+        border-radius: var(--radius-full);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+@mixin hide-scrollbar {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// =============================================================================
+// SURFACE & COLOR MIXINS
+// =============================================================================
+
+@mixin surface($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+}
+
+@mixin surface-interactive($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+
+    &:hover {
+        --color-shade: calc(#{$shade} + var(--hover-lift));
+    }
+
+    &:active {
+        --color-shade: calc(#{$shade} + var(--active-lift));
+    }
+
+    &:focus-visible {
+        --color-shade: calc(#{$shade} + var(--focus-lift));
+    }
+}
+
+@mixin text-color($tint: var(--text-tint-primary)) {
+    color: --c2-on-surface($tint, var(--current, currentColor));
+}
+
+@mixin border-color($tint: var(--scrollbar-tint), $opacity: var(--border-opacity-default)) {
+    border-color: oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / $opacity);
+}
+
+// =============================================================================
+// TEXT MIXINS
+// =============================================================================
+
+@mixin text-wrap {
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    hyphens: auto;
+}
+
+@mixin text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin text-clamp($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// =============================================================================
+// COMPONENT MIXINS
+// =============================================================================
+
+@mixin button-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-xs);
+    padding: var(--button-padding-y) var(--button-padding-x);
+    border: none;
+    border-radius: var(--button-radius);
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-colors), var(--transition-transform);
+    text-decoration: none;
+    user-select: none;
+
+    &:disabled {
+        opacity: var(--text-opacity-disabled);
+        pointer-events: none;
+    }
+}
+
+@mixin button-variant($surface-opacity: var(--surface-opacity-default)) {
+    @include button-base;
+    @include surface-interactive($surface-opacity);
+    @include text-color(0);
+}
+
+@mixin card-base {
+    display: grid;
+    gap: var(--card-gap);
+    padding: var(--card-padding);
+    border-radius: var(--card-radius);
+    transition: var(--transition-colors), var(--transition-transform);
+
+    @include surface(var(--surface-opacity-muted));
+}
+
+@mixin input-base {
+    display: block;
+    inline-size: stretch;
+    padding: var(--form-padding);
+    border: 1px solid transparent;
+    border-radius: var(--form-radius);
+    font: inherit;
+    outline: none;
+    transition: var(--transition-colors);
+    min-inline-size: 0;
+
+    @include surface(var(--surface-opacity-muted));
+    @include text-color(0);
+}
+
+@mixin panel-base {
+    display: grid;
+    gap: var(--gap-md);
+    padding: var(--padding-xl);
+    border-radius: var(--radius-lg);
+    border: 1px solid;
+
+    @include surface(var(--surface-opacity-muted));
+    @include border-color(var(--surface-opacity-emphasis));
+}
+
+// =============================================================================
+// ANIMATION MIXINS
+// =============================================================================
+
+@mixin fade-in($duration: var(--duration-normal)) {
+    animation: fade-in $duration var(--ease-out);
+}
+
+@mixin slide-up($duration: var(--duration-normal)) {
+    animation: slide-up $duration var(--ease-out);
+}
+
+@mixin scale-in($duration: var(--duration-fast)) {
+    animation: scale-in $duration var(--ease-bounce);
+}
+
+// Keyframe definitions
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// =============================================================================
+// ACCESSIBILITY MIXINS
+// =============================================================================
+
+@mixin focus-ring($tint: var(--outline-tint)) {
+    &:focus-visible {
+        outline: 2px solid oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / var(--outline-opacity));
+        outline-offset: 2px;
+    }
+}
+
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+@mixin high-contrast {
+    @media (prefers-contrast: high) {
+        @content;
+    }
+}
+
+// =============================================================================
+// UTILITY MIXINS
+// =============================================================================
+
+@mixin aspect-ratio($ratio: 1) {
+    aspect-ratio: $ratio;
+
+    // Fallback for browsers without aspect-ratio support
+    @supports not (aspect-ratio: 1) {
+        position: relative;
+
+        &::before {
+            content: "";
+            display: block;
+            padding-top: calc(100% / #{$ratio});
+        }
+
+        > * {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+@mixin backdrop-blur($strength: "default") {
+    @if $strength =="subtle" {
+        backdrop-filter: var(--backdrop-blur-subtle);
+    }
+
+    @else if $strength =="strong" {
+        backdrop-filter: var(--backdrop-blur-strong);
+    }
+
+    @else {
+        backdrop-filter: var(--backdrop-blur-default);
+    }
+}
+
+@mixin glass-effect($shade: 0.0, $opacity: 0.04, $blur: true) {
+    @include overlay-colorize("&", ("shade": $shade, "tint": 0.0, "opacity": $opacity, "enable-blur": $blur));
+}
+
+// =============================================================================
+// COMPONENT-SPECIFIC MIXINS
+// =============================================================================
+
+@mixin toolbar-button {
+    font-size: var(--font-sm);
+
+    @include button-variant(var(--surface-opacity-default));
+    @include container("md") {
+        span {
+            display: none;
+        }
+    }
+}
+
+@mixin nav-item {
+    @include flex-between;
+    padding: var(--nav-padding);
+    border-radius: var(--nav-radius);
+    @include surface-interactive(0);
+    @include text-color(0);
+    text-decoration: none;
+    gap: var(--nav-gap);
+
+    ui-icon {
+        --icon-size: var(--icon-size-md);
+        --icon-color: currentColor;
+    }
+}
+
+@mixin accordion-base {
+    border-radius: var(--radius-lg);
+    @include surface(var(--surface-opacity-muted));
+    overflow: hidden;
+    transition: var(--transition-colors);
+
+    &[open] {
+        --color-shade: var(--surface-opacity-emphasis);
+        @include border-color(0.12);
+        border: 1px solid;
+    }
+
+    summary {
+        @include flex-between;
+        padding: var(--padding-lg);
+        cursor: pointer;
+        list-style: none;
+        font-weight: var(--font-weight-semibold);
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+}
+
+@mixin empty-state {
+    @include grid-center;
+    padding: var(--padding-2xl);
+    border-radius: var(--radius-lg);
+    @include surface(var(--surface-opacity-default));
+    @include text-color(var(--text-tint-muted));
+    border: 1px dashed oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--border-opacity-dashed));
+    text-align: center;
+    min-block-size: var(--space-2xl);
+}
+
+// =============================================================================
+// VALIDATION STATE MIXINS
+// =============================================================================
+
+@mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
+    border-color: oklch(from $color l c h / $border-opacity);
+    background: oklch(from $color l c h / $bg-opacity);
+}
+
+@mixin validation-success {
+    @include validation-state(var(--color-success));
+}
+
+@mixin validation-error {
+    @include validation-state(var(--color-error));
+    box-shadow: 0 0 0 3px oklch(from var(--color-error) l c h / 0.12);
+}
+
+@mixin validation-warning {
+    @include validation-state(var(--color-warning));
+}
+
+// =============================================================================
+// FONT MIXINS
+// =============================================================================
+
+// Utility mixins for common patterns
+@mixin form-field-base($color-options: ()) {
+    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
+
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    outline: none;
+    cursor: text;
+    user-select: text;
+    pointer-events: auto;
+    inline-size: stretch;
+    max-inline-size: stretch;
+    field-sizing: content;
+
+    //
+    @include solid-colorize("&", $resolved-options);
+    @include font-style("&");
+
+    & {
+        border-width: 0px;
+    }
+
+    &:where(select) {
+        user-select: none;
+    }
+}
+
+@mixin button-base($color-options: ()) {
+    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    block-size: max-content;
+    inline-size: max-content;
+    max-inline-size: stretch;
+    line-height: normal;
+
+    @include solid-colorize("&", $resolved-options);
+    @include font-style("&");
+}
+
+@mixin option-style($color-options: ()) {
+    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    user-select: none;
+
+    @include solid-colorize("&", $resolved-options);
+
+    & {
+        border-width: 0px;
+        border-inline-start-width: 0.5px;
+        border-inline-end-width: 0.5px;
+    }
+
+    &:first-of-type {
+        border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        border-block-start-width: 0.5px;
+    }
+
+    &:last-of-type {
+        border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        border-block-end-width: 0.5px;
+    }
+
+    &:not(:last-of-type) {
+        border-block-end: none;
+        border-block-end-width: 0.5px;
+    }
+}
+
+@mixin select-dropdown($color-options: ()) {
+    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
+
+    @include form-field-base($resolved-options);
+
+    & {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        padding-inline-end: calc(var(--space-lg) * 2);
+    }
+
+    //
+    &:where(select) {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: base-select;
+        cursor: pointer;
+        padding-inline: 0;
+        background: none;
+        user-select: none;
+        padding: var(--space-sm);
+        display: flex;
+        place-content: center;
+        place-items: center;
+        justify-content: start;
+        gap: var(--space-xs);
+        min-inline-size: 0;
+
+        text-indent: 0.01px;
+        text-overflow: '';
+        text-overflow: "";
+    }
+
+    &::picker(select) {
+        appearance: base-select;
+        cursor: pointer;
+        background: transparent;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    &::after {
+        mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3e%3cpath d='M4.2 6.4a.75.75 0 0 1 1.06-.05L8 8.68l2.74-2.33a.75.75 0 1 1 .98 1.14l-3.24 2.75a.75.75 0 0 1-.98 0L4.25 7.49a.75.75 0 0 1-.05-1.06z'/%3e%3c/svg%3e");
+        mask-repeat: no-repeat;
+        mask-origin: content-box;
+        mask-clip: content-box;
+        mask-position: center;
+        mask-size: contain;
+        mask-type: alpha;
+
+        background-color: var(--icon-color, currentColor);
+        content: "";
+        display: flex;
+        inline-size: var(--space-lg);
+        block-size: var(--space-lg);
+        max-inline-size: var(--space-lg);
+        max-block-size: var(--space-lg);
+        box-sizing: border-box;
+        aspect-ratio: 1 / 1;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    option {
+        @include option-style($resolved-options);
+    }
+}
+
+@mixin checkbox-radio-base($color-options: ()) {
+    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
+    aspect-ratio: 1 / 1;
+    inline-size: auto;
+    block-size: auto;
+    max-inline-size: stretch;
+    max-block-size: stretch;
+    border-radius: var(--radius-xs);
+    contain: strict;
+    line-height: 0;
+    content-visibility: auto;
+    will-change: transform;
+    transform: translateZ(0);
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+
+    @include solid-colorize("&", $resolved-options);
+
+    &::before {
+        content: "";
+        display: block;
+        inline-size: stretch;
+        block-size: stretch;
+        max-inline-size: stretch;
+        max-block-size: stretch;
+        box-sizing: border-box;
+        aspect-ratio: 1 / 1;
+        text-align: center;
+        overflow: hidden;
+        border-radius: var(--radius-sm);
+        contain: strict;
+        object-fit: contain;
+        object-position: center;
+        background-color: var(--on-surface-color);
+        mask-image: var(--ui-icon-mask, linear-gradient(#0000, #0000));
+        mask-repeat: no-repeat;
+        mask-origin: content-box;
+        mask-clip: content-box;
+        mask-position: center;
+        mask-size: contain;
+        mask-type: alpha;
+        transition: background-color var(--transition-normal);
+        padding: 0;
+        margin: 0;
+    }
+}
+
+
+
+@mixin no-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    word-wrap: normal;
+    flex-wrap: nowrap;
+    line-height: 0;
+}
+
+// display: contents + pointer-events: none
+// used for transparent wrappers
+@mixin contents {
+    container-type: normal;
+    contain: none;
+    display: contents;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+//
+@mixin flex($dir: row) {
+    display: inline flex;
+    flex-direction: #{$dir};
+    flex-wrap: nowrap;
+}
+
+//
+@mixin fit-in-grid($columns: 1, $rows: 1) {
+    grid-column: 1 / $columns span;
+    grid-row: 1 / $rows span;
+}
+
+//
+@mixin row-subgrid($column: 1, $columns: 1) {
+    grid-template-columns: subgrid;
+    grid-column: 1 / calc($column + $columns) span;
+}
+
+//
+@mixin column-subgrid($row: 1, $rows: 1) {
+    grid-template-rows: subgrid;
+    grid-row: 1 / calc($row + $rows) span;
+}
+
+
+
+//
+@mixin center {
+    place-content: safe center;
+    place-items: safe center;
+}
+
+//
+@mixin stretch {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+    inline-size: 100%;
+    block-size: 100%;
+    flex-basis: 100%;
+    flex-grow: 1;
+}
+
+// line-break for flex-wrap
+@mixin flex-break {
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+// full-spacing in flex space
+@mixin flex-space {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+//
+@mixin fit-by-block($size, $aspect: "1 / 1") {
+    aspect-ratio: #{$aspect};
+    inline-size: max-content;
+    block-size: #{$size};
+}
+
+//
+@mixin fit-by-inline($size, $aspect: "1 / 1") {
+    aspect-ratio: #{$aspect};
+    inline-size: #{$size};
+    block-size: max-content;
+}
+
+//
+@mixin clamped-inline($size, $min: "0px", $max: "100%") {
+    inline-size: #{$size};
+    min-inline-size: #{$min};
+    max-inline-size: #{$max};
+}
+
+//
+@mixin clamped-block($size, $min: "0px", $max: "100%") {
+    block-size: #{$size};
+    min-block-size: #{$min};
+    max-block-size: #{$max};
+}
+
+//
+@mixin limited-inline($size: "max-content", $max: "100%") {
+    inline-size: #{$size};
+    max-inline-size: #{$max};
+}
+
+//
+@mixin limited-block($size: "max-content", $max: "100%") {
+    block-size: #{$size};
+    max-block-size: #{$max};
+}
+
+
+
+
+//
+@mixin HQRendering($importance: null) {
+    /*
+    -webkit-font-smoothing: subpixel-antialiased #{$importance};
+    -moz-osx-font-smoothing: auto #{$importance};
+    text-rendering: optimizeLegibility #{$importance};
+    text-rendering: geometricPrecision #{$importance};
+    font-smooth: auto #{$importance};
+    shape-rendering: auto #{$importance};
+    shape-rendering: geometricPrecision #{$importance};
+    image-rendering: auto #{$importance};
+    image-rendering: optimizeQuality #{$importance};
+    image-rendering: smooth #{$importance};
+    image-rendering: high-quality #{$importance};
+    image-rendering: crisp-edges #{$importance};*/
+}
+
+//
+@mixin LQRendering($importance: null) {
+    /*
+    -webkit-font-smoothing: none #{$importance};
+    -moz-osx-font-smoothing: grayscale #{$importance};
+    text-rendering: optimizeSpeed #{$importance};
+    font-smooth: 0px #{$importance};
+    font-smooth: never #{$importance};
+    shape-rendering: crispEdges #{$importance};
+    shape-rendering: optimizeSpeed #{$importance};
+    image-rendering: auto #{$importance};
+    image-rendering: crisp-edges #{$importance};
+    image-rendering: optimizeSpeed #{$importance};
+    image-rendering: pixelated #{$importance};
+    will-change: transform #{$importance};*/
+}
+
+//
+@mixin hw-optimize() {
+    @include LQRendering();
+
+    transform: translateZ(0);
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+
+    @supports (contain: layout paint) {
+        contain: layout paint;
+    }
+
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: none;
+    will-change: transform;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+    }
+
+    @supports (scrollbar-gutter: stable both-edges) {
+        scrollbar-gutter: stable both-edges;
+    }
+}
+
+//
+@mixin disable-transform() {
+    rotate: none;
+    scale: none;
+    translate: none;
+    transform: none;
+
+    //
+    transform-origin: 50% 50%;
+    backface-visibility: visible;
+
+    //
+    filter: none;
+    backdrop-filter: none;
+
+    //
+    perspective: none;
+    isolation: auto;
+
+    //
+    //contain: size style;
+    //container-type: normal;
+}
+
+//
+@mixin hide-scrollbars() {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    scrollbar-color: transparent;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+        scrollbar-color: transparent;
+    }
+
+    @supports (scrollbar-gutter: stable both-edges) {
+        scrollbar-gutter: stable both-edges;
+    }
+
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        inline-size: 0px;
+        block-size: 0px;
+        display: none;
+    }
+}
+
+//
+@function pixel-perfect-translate($vx: unquote("var(--translate-x)"), $vy: unquote("var(--translate-y)"), $importance: null) {
+    @return translate3d(
+        #{unquote("round(nearest, calc(#{$vx} + 0.0001px), var(--ppx))")},
+        #{unquote("round(nearest, calc(#{$vy} + 0.0001px), var(--ppx))")},
+        0px
+    );
+}
+
+//
+@mixin grid-layout(
+    $columns: minmax(0px, 1fr),
+    $rows: minmax(0px, 1fr),
+    $type: inline
+) {
+    display: #{$type} grid;
+    grid-template-columns: #{$columns};
+    grid-template-rows: #{$rows};
+}
+
+
+
+
+
+
+/* // note about counter-clock-wise from portrait
+export const orientationNumberMap = {
+    "portrait-primary": 0, // as 0deg, aka. 360deg
+    "landscape-primary": 1, // as -90deg, aka. 270deg
+    "portrait-secondary": 2, // as -180deg, aka. 180deg
+    "landscape-secondary": 3 // as -270deg, aka. 90deg
+}
+*/
+
+/* // also from landscape basis (by counter-wise)
+export const orientationNumberMap = {
+    "landscape-primary": 0, // as 0deg, aka. -360deg
+    "portrait-primary": 1, // as 90deg, aka. -270deg
+    "landscape-secondary": 2, // as 180deg, aka. -180deg
+    "portrait-secondary": 3, // as 270deg, aka. -90deg
+}
+*/
+
+
+
+/* //orient coordinate swap (if counter-clock-size)
+    0: [ x,  y],
+    1: [ y, -x],
+    2: [-x, -y],
+    3: [-y,  x]
+*/
+
+/* //orient coordinate swap (if clock-size)
+    0: [ x,  y],
+    1: [-y,  x], // swapped
+    2: [-x, -y],
+    3: [ y, -x]  // swapped
+*/
+
+
+
+// in some cases, needs PostCSS polyfill
+/*@function --oriented(--portrait type(<length>), --landscape type(<length>))
+{
+    result: var(--portrait);
+    @media (orientation: portrait)  { result: var(--portrait); };
+    @media (orientation: landscape) { result: var(--landscape); };
+};
+*/
+
+
+//
+@mixin oriented($property, $portrait, $landscape) {
+    & { #{$property}: #{$portrait}; };
+    @media (orientation: portrait)  { #{$property}: #{$portrait}; };
+    @media (orientation: landscape) { #{$property}: #{$landscape}; };
+}
+
+
+//
+@mixin compute_os_conditions {
+    //
+    & { // reversion condition
+        --in-rev-cond-x: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 1))} );
+        --in-rev-cond-y: calc(1 - #{lg.lor(lg.eq(var(--orient, 0), 0), lg.eq(var(--orient, 0), 3))} );
+
+        // compute swap condition
+        --in-swap-cond: rem(var(--orient, 0), 2); // for coordinate swap condition
+
+        // compute as negate coefficient
+        --in-rev-vx: calc(var(--in-rev-cond-x, 1) * -2 + 1);
+        --in-rev-vy: calc(var(--in-rev-cond-y, 1) * -2 + 1);
+    }
+}
+
+//
+@mixin compute_os_size_to_cs {
+    // size swapping
+    & { //
+        --cs-size-x: #{lg.mix(var(--os-size-x, 100cqb), var(--os-size-y, 100cqi), var(--in-swap-cond, 0))};
+        --cs-size-y: #{lg.mix(var(--os-size-y, 100cqi), var(--os-size-x, 100cqb), var(--in-swap-cond, 0))};
+
+        //
+        --cs-self-size-x: #{lg.mix(var(--os-self-size-y, 100cqb), var(--os-self-size-x, 100cqi), var(--in-swap-cond, 0))};
+        --cs-self-size-y: #{lg.mix(var(--os-self-size-x, 100cqi), var(--os-self-size-y, 100cqb), var(--in-swap-cond, 0))};
+    }
+}
+
+//
+@mixin compute_cs_size_to_os {
+    // size swapping
+    & { //
+        --os-size-x: #{lg.mix(var(--cs-size-x, 100cqb), var(--cs-size-y, 100cqi), var(--in-swap-cond, 0))};
+        --os-size-y: #{lg.mix(var(--cs-size-y, 100cqi), var(--cs-size-x, 100cqb), var(--in-swap-cond, 0))};
+
+        //
+        --os-self-size-x: #{lg.mix(var(--cs-self-size-y, 100cqb), var(--cs-self-size-x, 100cqi), var(--in-swap-cond, 0))};
+        --os-self-size-y: #{lg.mix(var(--cs-self-size-x, 100cqi), var(--cs-self-size-y, 100cqb), var(--in-swap-cond, 0))};
+    }
+}
+
+
+
+// conversion from virtual space to client space by orientation
+@mixin compute_from_os_to_cs {
+
+    //
+    & { // component swap condition
+        --in-inset-x: #{lg.mix(var(--os-inset-x, 0px), var(--os-inset-y, 0px), var(--in-swap-cond, 0))};
+        --in-inset-y: #{lg.mix(var(--os-inset-y, 0px), var(--os-inset-x, 0px), var(--in-swap-cond, 0))};
+
+        //
+        --in-drag-x: #{lg.mix(var(--os-drag-x, 0px), var(--os-drag-y, 0px), var(--in-swap-cond, 0))};
+        --in-drag-y: #{lg.mix(var(--os-drag-y, 0px), var(--os-drag-x, 0px), var(--in-swap-cond, 0))};
+    }
+
+    // as alternative, you can swap before with os-size
+    & { // inset position with reverse
+        --cs-inset-x: #{lg.mix(var(--in-inset-x, 0px), calc(var(--cs-size-x, 100cqi) - var(--in-inset-x, 0px)), var(--in-rev-cond-x, 0))};
+        --cs-inset-y: #{lg.mix(var(--in-inset-y, 0px), calc(var(--cs-size-y, 100cqb) - var(--in-inset-y, 0px)), var(--in-rev-cond-y, 0))};
+
+        // drag offset with reversion
+        --cs-drag-x: calc(var(--in-drag-x, 0px) * var(--in-rev-vx, 1));
+        --cs-drag-y: calc(var(--in-drag-y, 0px) * var(--in-rev-vy, 1));
+    }
+
+}
+
+// conversion from client space to virtual space by orientation
+@mixin compute_from_cs_to_os {
+
+    // as alternative, you can swap with os-size after
+    & { // component swap condition
+        --in-inset-x: #{lg.mix(var(--cs-inset-x, 0px), calc(var(--cs-size-x, 100cqi) - var(--cs-inset-x, 0px)), var(--in-rev-cond-x, 0))};
+        --in-inset-y: #{lg.mix(var(--cs-inset-y, 0px), calc(var(--cs-size-y, 100cqi) - var(--cs-inset-y, 0px)), var(--in-rev-cond-y, 0))};
+
+        //
+        --in-drag-x: calc(var(--cs-drag-x, 0px) * var(--in-rev-vx, 1));
+        --in-drag-y: calc(var(--cs-drag-y, 0px) * var(--in-rev-vy, 1));
+    }
+
+    // reverse for orientation space
+    & {
+        --os-inset-x: #{lg.mix(var(--in-inset-x, 0px), var(--in-inset-y, 0px), var(--in-swap-cond, 0))};
+        --os-inset-y: #{lg.mix(var(--in-inset-y, 0px), var(--in-inset-x, 0px), var(--in-swap-cond, 0))};
+
+        //
+        --os-drag-x: #{lg.mix(var(--in-drag-y, 0px), var(--in-drag-x, 0px), var(--in-swap-cond, 0))};
+        --os-drag-y: #{lg.mix(var(--in-drag-x, 0px), var(--in-drag-y, 0px), var(--in-swap-cond, 0))};
+    }
+
+}
+
+
+
+// relative from main orientation
+// for inline/block layouts
+// rotate layout by clock-wise
+// also, only for LTR layouts
+@mixin prop-0deg   { --wm: horizontal-tb; --dir: ltr; --rot: 0deg; --i-rot: 0deg; } // default
+@mixin prop-90deg  { --wm: vertical-rl;   --dir: ltr; --rot: 0deg; --i-rot: 0deg; }
+@mixin prop-180deg { --wm: horizontal-tb; --dir: ltr; --rot: 180deg; --i-rot: 180deg; }
+@mixin prop-270deg {
+                                        & { --wm: vertical-lr; --dir: rtl; --rot: 0deg; --i-rot: 180deg; }
+    @supports(writing-mode: sideways-lr)  { --wm: sideways-lr; --dir: ltr; --rot: 0deg; --i-rot: 0deg; }
+}
+
+// in client-space, depends of writing-mode...
+@mixin portrait-size {
+    --cqi: 100cqmin; //@include oriented(--cqi, 100cqi, 100cqb);
+    --cqb: 100cqmax; //@include oriented(--cqb, 100cqb, 100cqi);
+}
+@mixin landscape-size {
+    --cqi: 100cqmax; //@include oriented(--cqi, 100cqb, 100cqi);
+    --cqb: 100cqmin; //@include oriented(--cqb, 100cqi, 100cqb);
+}
+
+//
+@mixin init-os-size-by-native {
+    --os-size-x: var(--cqi, 100cqi);
+    --os-size-y: var(--cqb, 100cqb);
+}
+
+// in client-space, without writing-mode...
+@mixin init-cs-size {
+    --cs-size-x: 100cqw; //100cqi
+    --cs-size-y: 100cqh; //100cqb
+}
+
+
+
+//
+@mixin centered-self($transforms: null) {
+    transform-origin: 0% 0%;
+    transform:
+        #{$transforms}
+        scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
+        perfect-translate(calc(var(--translate-x, 0px) - 50%), calc(var(--translate-y, 0px) - 50%));
+    place-self: center;
+}
+
+//
+@mixin centered-with-offset {
+    $translate: perfect-translate(var(--cs-drag-x, 0px), var(--cs-drag-y, 0px));
+    @include centered-self($translate);
+}
+
+//
+@mixin use-inset {
+    inset: var(--cs-inset-y, 0px) auto auto var(--cs-inset-x, 0px);
+}
+
+
+
+
+//
+@mixin use_dvp {
+    & { --avi: 100dvmin; --avb: 100dvmax; };
+    & {
+        --vp-i-size: var(--avi, 100dvmin);
+        --vp-b-size: var(--avb, 100dvmax);
+    }
+}
+
+//
+@mixin use_lvp {
+    & { --avi: 100lvmin; --avb: 100lvmax; };
+    & {
+        --vp-i-size: var(--avi, 100lvmin);
+        --vp-b-size: var(--avb, 100lvmax);
+    }
+}
+
+
+//
+@mixin when-fullscreen($selector: &) {
+    @media (display-mode: fullscreen) { @content; }
+    @at-root :fullscreen #{$selector} { @content; }
+}
+
+
+//
+@mixin vp-vars {
+    @include use_dvp();
+    @include when-fullscreen() {
+        @include use_lvp();
+        & {
+            --vp-i-size: min(var(--avail-width, 100dvmin), 100dvmin);
+            --vp-b-size: min(var(--avail-height, 100dvmax), 100dvmax);
+        }
+    }
+};
+
+
+//
+@mixin fit-viewport {
+    @include vp-vars;
+    & {
+        @include oriented(inline-size, var(--vp-i-size, 100lvi), var(--vp-b-size, 100lvb));
+        @include oriented(block-size, var(--vp-b-size, 100lvb), var(--vp-i-size, 100lvi));
+        @include oriented(max-inline-size, var(--vp-i-size, 100lvi), var(--vp-b-size, 100lvb));
+        @include oriented(max-block-size, var(--vp-b-size, 100lvb), var(--vp-i-size, 100lvi));
+    }
+};
+
+
+//
+@function perfect-translate($x: 0px, $y: 0px) {
+    @return translate3d(round(nearest, #{$x}, calc(1px / var(--pixel-ratio, 1))), round(nearest, #{$y}, calc(1px / var(--pixel-ratio, 1))), 0);
+}
+
+//
+@mixin compute_grid_item_cell() {
+    & {
+        --p-cell-x: var(--cell-x);
+        --p-cell-y: var(--cell-y);
+
+        // CLAMPED GRID
+        --f-col: clamp(4, var(--layout-c, 4), 6);
+        --f-row: clamp(8, var(--layout-r, 8), 12);
+
+        //
+        --fc-cell-x: calc(clamp(0, var(--cell-x), calc(var(--f-col) - 1)) + 1);
+        --fc-cell-y: calc(clamp(0, var(--cell-y), calc(var(--f-row) - 1)) + 1);
+
+        //
+        --fp-cell-x: calc(clamp(0, var(--p-cell-x), calc(var(--f-col) - 1)) + 1);
+        --fp-cell-y: calc(clamp(0, var(--p-cell-y), calc(var(--f-row) - 1)) + 1);
+
+        //
+        --dir-x: calc(var(--fc-cell-x) - var(--fp-cell-x));
+        --dir-y: calc(var(--fc-cell-y) - var(--fp-cell-y));
+
+        //
+        --grid-c: var(--fc-cell-x);
+        --grid-r: var(--fc-cell-y);
+    }
+
+    & {
+        --ox-c-unit:  calc(var(--os-size-x, 100cqi) / var(--os-layout-c, 1));
+        --ox-r-unit:  calc(var(--os-size-y, 100cqb) / var(--os-layout-r, 1));
+        --os-inset-x: calc((var(--grid-c, 1) - 0.5) * var(--ox-c-unit, 1px));
+        --os-inset-y: calc((var(--grid-r, 1) - 0.5) * var(--ox-r-unit, 1px));
+    }
+
+    //
+    /*
+    &[data-dragging] {
+        --grid-c: var(--fp-cell-x, 1);
+        --grid-r: var(--fp-cell-y, 1);
+    }*/
+}
+
+//
+@mixin compute_orient_grid_layout() {
+    & {
+        --os-layout-c: var(--layout-c, 4);
+        --os-layout-r: var(--layout-r, 8);
+
+        //
+        --cs-layout-c: #{lg.mix(var(--os-layout-c, 4), var(--os-layout-r, 8), var(--in-swap-cond, 0))};
+        --cs-layout-r: #{lg.mix(var(--os-layout-r, 8), var(--os-layout-c, 4), var(--in-swap-cond, 0))};
+    }
+
+    & > :where(*) {
+        // hack: use translate diff shifting for correct animation for CSS Grid Layout
+        & { // currently, I have no viable solution for correct animation for CSS Grid Layout
+            --cs-sw-unit-x: #{lg.mix(var(--ox-c-unit, 1px), var(--ox-r-unit, 1px), var(--in-swap-cond, 0))};
+            --cs-sw-unit-y: #{lg.mix(var(--ox-r-unit, 1px), var(--ox-c-unit, 1px), var(--in-swap-cond, 0))};
+
+            //
+            --cs-transition-c: calc((var(--cs-inset-x, 0px) - (round(nearest, var(--cs-grid-c, 1), 1) - 0.5) * var(--cs-sw-unit-x, 1px)));
+            --cs-transition-r: calc((var(--cs-inset-y, 0px) - (round(nearest, var(--cs-grid-r, 1), 1) - 0.5) * var(--cs-sw-unit-y, 1px)));
+        }
+
+        //
+        & { // compute oriented grid cell to client-space coordinates
+            --os-grid-c: var(--grid-c, 1);
+            --os-grid-r: var(--grid-r, 1);
+
+            // needs re-orient by...
+            --in-grid-c: #{lg.mix(var(--os-grid-c, 1), var(--os-grid-r, 1), var(--in-swap-cond, 0))};
+            --in-grid-r: #{lg.mix(var(--os-grid-r, 1), var(--os-grid-c, 1), var(--in-swap-cond, 0))};
+
+            //
+            --cs-grid-c: #{lg.mix(var(--in-grid-c, 1), calc(var(--cs-layout-c, 4) - (var(--in-grid-c, 1) - 1)), var(--in-rev-cond-x, 0))};
+            --cs-grid-r: #{lg.mix(var(--in-grid-r, 1), calc(var(--cs-layout-r, 8) - (var(--in-grid-r, 1) - 1)), var(--in-rev-cond-y, 0))};
+        }
+    }
+}

@@ -132,9 +132,6 @@
                 transform-origin: 50% 50%;
                 transform-style: flat;
                 transform-box: fill-box;
-                transform:
-                    ext.perfect-translate(var(--translate-x, 0%), var(--translate-y, 0%))
-                    scale3d(var(--scale, 1), var(--scale, 1), 1);
                 translate: 0% 0% 0%;
                 opacity: var(--opacity, 1);
                 rotate: 0deg;

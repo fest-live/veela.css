@@ -19,8 +19,8 @@
         transform:
             scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
             translate3d(
-                round(nearest, calc(/*var(--drag-x) * 1px)*/ -50%), calc(1px / var(--pixel-ratio, 1))),
-                round(nearest, calc(/*var(--drag-y) * 1px)*/ -50%), calc(1px / var(--pixel-ratio, 1)))
+                round(nearest, -50%, calc(1px / var(--pixel-ratio, 1))),
+                round(nearest, -50%, calc(1px / var(--pixel-ratio, 1)))
             , 0%);
         transform-origin: 0% 0%;
         writing-mode: horizontal-tb;

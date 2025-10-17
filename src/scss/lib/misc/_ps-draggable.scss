@@ -17,5 +17,9 @@
         translate: 0% 0% 0%;
         direction: ltr;
         position: fixed;
+
+        transform:
+            scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
+            translate3d(calc(var(--drag-x, 0) * 1px), calc(var(--drag-y, 0) * 1px), 0px);
     };
 };

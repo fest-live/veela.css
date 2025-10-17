@@ -134,7 +134,9 @@
         transform-origin: 50% 50%;
         transform-style: flat;
         transform-box: fill-box;
-        transform: translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px) scale3d(var(--scale, 1), var(--scale, 1), 1);
+        transform:
+            scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
+            translate3d(calc(var(--drag-x, 0) * 1px), calc(var(--drag-y, 0) * 1px), 0px);
     }
 
     & { /* z-index: 1 + sibling index */

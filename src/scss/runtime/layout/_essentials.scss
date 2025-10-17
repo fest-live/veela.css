@@ -19,8 +19,8 @@
     //
     ui-window-frame, :host(ui-window-frame) {
         & {
-            --translate-x: var(--ds-x, 0px);
-            --translate-y: var(--ds-y, 0px);
+            --translate-x: calc(var(--drag-x, 0) * 1px);//var(--ds-x, 0px);
+            --translate-y: calc(var(--drag-y, 0) * 1px);//var(--ds-y, 0px);
         }
 
         & {

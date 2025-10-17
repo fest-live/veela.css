@@ -2,6 +2,55 @@
 @use "sass:meta";
 @use "sass:list";
 
+@use "../core/logical" as lg;
+
+@mixin tm-dep($property, $light, $dark) {
+    & {
+        #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
+        @supports(color: light-dark(white, black)) { #{$property}: light-dark(#{$light}, #{$dark}); }
+    }
+}
+
+@mixin inverse {
+    & {
+        @include tm-dep("--tm-cr", var(--tm-cr-dark), var(--tm-cr-light));
+        --tm-ac: #{tm-lo(var(--tm-origin, currentColor), 80%)};
+    }
+}
+
+@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
+
+@function tm-hi($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-hi, white)); }
+@function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); }
+
+@mixin surface($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+}
+
+@mixin surface-interactive($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+
+    &:hover {
+        --color-shade: calc(#{$shade} + var(--hover-lift));
+    }
+
+    &:active {
+        --color-shade: calc(#{$shade} + var(--active-lift));
+    }
+
+    &:focus-visible {
+        --color-shade: calc(#{$shade} + var(--focus-lift));
+    }
+}
+
+@mixin text-color($tint: var(--text-tint-primary)) {
+    color: --c2-on-surface($tint, var(--current, currentColor));
+}
+
+@mixin border-color($tint: var(--scrollbar-tint), $opacity: var(--border-opacity-default)) {
+    border-color: oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / $opacity);
+}
+
 // Internal helpers
 @function _merge-color-options($defaults, $overrides) {
     @if $overrides == null or meta.type-of($overrides) != "map" or list.length($overrides) == 0 {
@@ -10,7 +59,6 @@
 
     @return map.merge($defaults, $overrides);
 }
-
 
 // Color system properties
 @property --color-shade {
@@ -153,3 +201,18 @@
         --color-opacity: calc(#{map.get($options, "opacity") or 0.04} + 0.04);
     }
 }
+
+@mixin backdrop-blur($strength: "default") {
+    @if $strength =="subtle" {
+        backdrop-filter: var(--backdrop-blur-subtle);
+    }
+
+    @else if $strength =="strong" {
+        backdrop-filter: var(--backdrop-blur-strong);
+    }
+
+    @else {
+        backdrop-filter: var(--backdrop-blur-default);
+    }
+}
+

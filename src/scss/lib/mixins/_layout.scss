@@ -29,7 +29,7 @@
 @mixin hover($selector: "&") {
     & {
         @media screen and ((hover: hover) or (pointer: fine)) { #{$selector}:hover { @content; } }
-        @media screen and ((hover: none) and (pointer: coarse)) { #{$selector}:action { @content; } }
+        @media screen and ((hover: none) and (pointer: coarse)) { #{$selector}:active { @content; } }
     }
 }
 
@@ -207,40 +207,50 @@
 }
 
 @mixin breakpoint($size) {
-    @if $size == "sm" {
-        @media (max-width: 480px) { @content; }
-    } @else if $size == "md" {
-        @media (max-width: 720px) { @content; }
-    } @else if $size == "lg" {
-        @media (max-width: 960px) { @content; }
-    } @else if $size == "xl" {
-        @media (max-width: 1200px) { @content; }
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px,
+        "xl": 1200px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @media (max-width: $limit) { @content; }
     } @else {
         @media (max-width: #{$size}) { @content; }
     }
 }
 
 @mixin breakpoint-up($size) {
-    @if $size == "sm" {
-        @media (min-width: 481px) { @content; }
-    } @else if $size == "md" {
-        @media (min-width: 721px) { @content; }
-    } @else if $size == "lg" {
-        @media (min-width: 961px) { @content; }
-    } @else if $size == "xl" {
-        @media (min-width: 1201px) { @content; }
+    $map: (
+        "sm": 481px,
+        "md": 721px,
+        "lg": 961px,
+        "xl": 1201px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @media (min-width: $limit) { @content; }
     } @else {
         @media (min-width: #{$size}) { @content; }
     }
 }
 
 @mixin container-query($size) {
-    @if $size == "sm" {
-        @container (max-inline-size: 480px) { @content; }
-    } @else if $size == "md" {
-        @container (max-inline-size: 720px) { @content; }
-    } @else if $size == "lg" {
-        @container (max-inline-size: 960px) { @content; }
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @container (max-inline-size: $limit) { @content; }
     } @else {
         @container (max-inline-size: #{$size}) { @content; }
     }
@@ -276,28 +286,18 @@
 
 // Container query variants
 @mixin container($size) {
-    @if $size =="sm" {
-        @container (max-inline-size: 480px) {
-            @content;
-        }
-    }
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px
+    );
 
-    @else if $size =="md" {
-        @container (max-inline-size: 720px) {
-            @content;
-        }
-    }
+    $limit: map.get($map, $size);
 
-    @else if $size =="lg" {
-        @container (max-inline-size: 960px) {
-            @content;
-        }
-    }
-
-    @else {
-        @container (max-inline-size: #{$size}) {
-            @content;
-        }
+    @if $limit {
+        @container (max-inline-size: $limit) { @content; }
+    } @else {
+        @container (max-inline-size: #{$size}) { @content; }
     }
 }
 

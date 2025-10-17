@@ -1,3 +1,14 @@
 @layer ux-layers {
-    @layer ux-variables, ux-properties, ux-mixins, ux-normalize, ux-layout, ux-classes, ux-design, ux-misc, ux-states, ux-shapes, ux-shadows;
+    @layer
+        ux-variables,
+        ux-properties,
+        ux-normalize,
+        ux-mixins,
+        ux-layout,
+        ux-classes,
+        ux-design,
+        ux-misc,
+        ux-states,
+        ux-shapes,
+        ux-shadows;
 }

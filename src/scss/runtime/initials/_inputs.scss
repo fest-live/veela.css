@@ -1,0 +1,155 @@
+@use "veela-lib" as *;
+
+//
+@layer u2-inputs {
+
+    ui-longtext {
+        --thumb-size: 1.25rem;
+        --track-height: 0.25rem;
+        display: inline-block;
+    }
+
+    ui-slider[variant="slider"] {
+        block-size: 1rem;
+        border-radius: 9999px;
+    }
+
+    // Enhanced select dropdown styling
+    select {
+        display: block;
+        block-size: max-content;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+        user-select: none;
+
+        text-indent: 0.01px;
+        text-overflow: '';
+        text-overflow: "";
+        color: transparent !important;
+
+        @include select-dropdown;
+
+        &,
+        &::picker(select) {
+            appearance: base-select;
+            outline: none;
+        }
+
+        &::picker(select) {
+            background: transparent;
+            background-color: transparent;
+            padding: 0;
+        }
+
+        &::-ms-expand {
+            display: none;
+        }
+
+        option {
+            appearance: none;
+            display: flex;
+            flex-direction: row;
+            place-content: center;
+            place-items: center;
+            justify-content: start;
+            block-size: max-content;
+            gap: var(--space-xs);
+            min-inline-size: 0;
+            outline: none;
+            user-select: none;
+            cursor: pointer;
+
+            @include solid-colorize("&");
+            @include font-style("&", ("size": "sm"));
+
+            & {
+                border-width: 0px;
+                border-inline-start-width: 0.5px;
+                border-inline-end-width: 0.5px;
+            }
+
+            &:first-of-type {
+                border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+                border-block-start-width: 0.5px;
+            }
+
+            &:last-of-type {
+                border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+                border-block-end-width: 0.5px;
+            }
+
+            &:not(:last-of-type) {
+                border-block-end: none;
+                border-block-end-width: 0.5px;
+            }
+        }
+    }
+
+    ::picker(select) {
+        appearance: base-select;
+        border: none;
+        outline: none;
+        background: transparent;
+        background-color: transparent;
+        line-height: 0;
+        padding: 0;
+    }
+
+    input {
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"]) {
+            font-variant-numeric: tabular-nums;
+        }
+
+        &:where([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
+            padding-inline-end: calc(var(--space-lg) * 2);
+
+            @include form-field-base;
+        }
+
+        &:where([type="datetime-local"], [type="date"], [type="time"], [type="text"], [type="number"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="month"], [type="week"]) {
+            @include form-field-base;
+        }
+
+        &:is([type="radio"]:checked) {
+            border-radius: var(--radius-full);
+        }
+    }
+
+    :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
+        @include checkbox-radio-base;
+
+        --icon-color: currentColor;
+        content: " ";
+
+        &::before {
+            --icon-color: inherit;
+            line-height: 0;
+            background-color: var(--icon-color, currentColor);
+        }
+    }
+
+    button {
+        background-color: --c2-surface(var(--background-tone-shift, 0.0), var(--current, inherit));
+        block-size: max-content;
+        inline-size: max-content;
+        line-height: normal;
+    }
+
+    button:is(.btn, .save, .cancel) {
+        @include button-base;
+        gap: var(--space-sm);
+        padding: calc(var(--space-sm) * 0.9) var(--space-md);
+        border-radius: var(--radius-xl);
+
+        &.save { --current: var(--color-success); }
+        &.cancel { --current: var(--color-error); }
+    }
+
+}

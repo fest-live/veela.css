@@ -24,15 +24,25 @@
 
         //
         :host, :scope, :root {
-            //
-            :where(*), ::slotted(*) {
-                transition-behavior: allow-discrete;
-                interpolate-size: allow-keywords;
-                box-sizing: border-box;
+            & > :where(*) {
                 background-color: transparent;
                 background-image: none;
                 mask-image: none;
             }
+
+            //
+            & :where(*), &::slotted(*) {
+                transition-behavior: allow-discrete;
+                interpolate-size: allow-keywords;
+                box-sizing: border-box;
+            }
+
+            /*
+            & :where(button) {
+                --light-btn-color: oklch(from currentColor calc(max(l, 0.8)) c h);
+                --dark-btn-color: oklch(from currentColor calc(l * 0.6) c h);
+                background-color: light-dark(var(--light-btn-color), var(--dark-btn-color));
+            }*/
 
             // if there is nothing, why there is needs content?
             :where(img, video, audio, picture, canvas) { content-visibility: auto; }

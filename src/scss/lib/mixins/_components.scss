@@ -22,6 +22,9 @@
 }
 
 @mixin button-base {
+    place-content: center;
+    place-items: center;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -31,14 +34,38 @@
     border-radius: var(--button-radius);
     font: inherit;
     font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
     cursor: pointer;
     transition: var(--transition-colors), var(--transition-transform);
     text-decoration: none;
     user-select: none;
 
+    block-size: max-content;
+    inline-size: fit-content;
+    line-height: normal;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+
+    @include theme.solid-colorize("&");
+
     &:disabled {
         opacity: var(--text-opacity-disabled);
         pointer-events: none;
+    }
+
+    & > * {
+        max-inline-size: stretch;
+    }
+
+    & :where(span, a) {
+        display: inline;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        flex-wrap: nowrap;
     }
 }
 

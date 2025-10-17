@@ -96,6 +96,10 @@
         padding: 0;
     }
 
+    textarea {
+        @include form-field-base;
+    }
+
     input {
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -133,23 +137,6 @@
             line-height: 0;
             background-color: var(--icon-color, currentColor);
         }
-    }
-
-    button {
-        background-color: --c2-surface(var(--background-tone-shift, 0.0), var(--current, inherit));
-        block-size: max-content;
-        inline-size: max-content;
-        line-height: normal;
-    }
-
-    button:is(.btn, .save, .cancel) {
-        @include button-base;
-        gap: var(--space-sm);
-        padding: calc(var(--space-sm) * 0.9) var(--space-md);
-        border-radius: var(--radius-xl);
-
-        &.save { --current: var(--color-success); }
-        &.cancel { --current: var(--color-error); }
     }
 
 }

@@ -1,0 +1,20 @@
+@use "veela-lib" as *;
+
+//
+@layer u2-buttons {
+
+    :where(button, input[type="checkbox"]) {
+        @include button-base;
+    }
+
+    :where(button, input[type="checkbox"]):is(.btn, .save, .cancel) {
+        @include button-base;
+        gap: var(--space-sm);
+        padding: calc(var(--space-sm) * 0.9) var(--space-md);
+        border-radius: var(--radius-xl);
+
+        &.save { --current: var(--color-success); }
+        &.cancel { --current: var(--color-error); }
+    }
+
+}

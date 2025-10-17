@@ -237,8 +237,8 @@
     border: none;
     cursor: pointer;
     pointer-events: auto;
-    block-size: max-content;
-    inline-size: max-content;
+    block-size: fit-content;
+    inline-size: fit-content;
     max-inline-size: stretch;
     line-height: normal;
 

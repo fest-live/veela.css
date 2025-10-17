@@ -17,7 +17,7 @@
     // Enhanced select dropdown styling
     select {
         display: block;
-        block-size: max-content;
+        block-size: fit-content;
         cursor: pointer;
         background: none;
         padding: 0;
@@ -53,7 +53,7 @@
             place-content: center;
             place-items: center;
             justify-content: start;
-            block-size: max-content;
+            block-size: fit-content;
             gap: var(--space-xs);
             min-inline-size: 0;
             outline: none;

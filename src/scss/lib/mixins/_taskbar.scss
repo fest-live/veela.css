@@ -37,7 +37,7 @@
     //
     & {
         min-inline-size: 0px;
-        inline-size: max-content;
+        inline-size: fit-content;
         block-size: calc(var(--taskbar-height) + env(safe-area-inset-bottom, 0px));
     }
 
@@ -102,7 +102,7 @@
 @mixin taskbar-children {
     & > ::slotted(ui-task) {
         scroll-snap-align: start;
-        inline-size: max-content;
+        inline-size: fit-content;
     }
 }
 

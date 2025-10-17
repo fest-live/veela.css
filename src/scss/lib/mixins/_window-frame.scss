@@ -321,7 +321,7 @@
     @include l.text(c.$ui-font-subtitle-size, 400, #{"--c2-on-surface(0.0, var(--current))"});
 
     & {
-        inline-size: max-content;
+        inline-size: fit-content;
         block-size: stretch;
     }
 
@@ -351,7 +351,7 @@
     @include l.flex(row, center, center);
 
     & {
-        inline-size: max-content;
+        inline-size: fit-content;
         block-size: stretch;
         min-inline-size: 1rem;
     }
@@ -410,7 +410,7 @@
 
     & {
         block-size: stretch;
-        inline-size: max-content;
+        inline-size: fit-content;
         max-block-size: 2rem;
     }
 

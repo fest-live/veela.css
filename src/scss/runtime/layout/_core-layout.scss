@@ -54,7 +54,7 @@
             place-self: start;
 
             //
-            line-height: 0;
+            line-height: normal;
             flex-direction: column;
             display: flex;
         };
@@ -67,6 +67,9 @@
                 translate: 0px 0px !important;
                 transform: none !important;
                 margin: 0px !important;
+                padding: 0px !important;
+                border: none 0px transparent !important;
+                outline: none 0px transparent !important;
 
                 //
                 font-size: 0.9rem;
@@ -112,8 +115,8 @@
                 grid-row: 1 / 1 span;*/
 
                 //
-                inline-size: 100%;
-                block-size: 100%;
+                inline-size: stretch;
+                block-size: stretch;
 
                 //
                 max-inline-size: min(var(--screen-width, 100dvi), 100%) !important;

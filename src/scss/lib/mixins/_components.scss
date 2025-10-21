@@ -24,6 +24,7 @@
 @mixin button-base {
     place-content: center;
     place-items: center;
+    padding: 0.125rem;
 
     display: inline-flex;
     align-items: center;
@@ -31,7 +32,7 @@
     gap: var(--gap-xs);
     padding: var(--button-padding-y) var(--button-padding-x);
     border: none;
-    border-radius: var(--button-radius);
+    border-radius: var(--radius-sm);
     font: inherit;
     font-weight: var(--font-weight-medium);
     font-size: var(--text-base);
@@ -43,6 +44,8 @@
     block-size: fit-content;
     inline-size: fit-content;
     line-height: normal;
+    max-block-size: stretch;
+    max-inline-size: stretch;
 
     text-overflow: ellipsis;
     overflow: hidden;

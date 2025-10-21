@@ -105,9 +105,6 @@
 
             //
             :where(*) {
-                touch-action: none;
-
-                //
                 -webkit-user-select: none;
                 -khtml-user-select: none;
                 -moz-user-select: none;
@@ -124,16 +121,14 @@
             [aria-hidden="true"] { display: none !important; }
 
             //
-
-            //
             :where(img, picture, span, a, button, input, svg, video, canvas) {
-                touch-action: none;
                 -webkit-user-drag: none;
                 -khtml-user-drag: none;
                 -moz-user-drag: none;
                 -o-user-drag: none;
                 -ms-user-drag: none;
                 user-drag: none;
+                user-select: none;
             }
 
             //

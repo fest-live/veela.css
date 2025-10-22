@@ -5,28 +5,9 @@
         "outDir": "./dist/",
         "paths": {
             "fest/veela": ["./src/index.ts"],
-            "fest/veela-runtime": ["./src/scss/runtime/index.scss"],
-            "fest/veela-lib": ["./src/scss/lib/index.scss"],
-            "fest/veela-mixins": ["./src/scss/lib/mixins/index.scss"],
-            "fest/veela/*": ["./src/scss/*"],
-            "fest/veela-runtime/*": ["./src/scss/runtime/*"],
-            "fest/veela-lib/*": ["./src/scss/lib/*"],
-            "fest/veela-mixins/*": ["./src/scss/lib/mixins/*"],
-
-            "veela": ["./src/index.ts"],
-            "veela/*": ["./src/scss/*"],
-
-            "veela-css": ["./src/scss/index.scss"],
-            "veela-css/*": ["./src/scss/*"],
-
-            "veela-runtime": ["./src/scss/runtime/index.ts"],
-            "veela-runtime/*": ["./src/scss/runtime/*"],
-
+            "fest/veela-runtime": ["./src/index.ts"],
             "veela-lib": ["./src/scss/lib/index.scss"],
-            "veela-lib/*": ["./src/scss/lib/*"],
-
-            "veela-mixins": ["./src/scss/lib/mixins/index.scss"],
-            "veela-mixins/*": ["./src/scss/lib/mixins/*"],
+            "veela-lib/*": ["./src/scss/lib/*"]
         },
         "target": "ESNext",
         "module": "ESNext",

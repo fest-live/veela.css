@@ -95,7 +95,7 @@
         // Computed color values
         --surface-color: --c2-surface(var(--color-shade), var(--current, currentColor));
         --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor));
-        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.2);
+        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.15);
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.4);
 
         // Apply colors

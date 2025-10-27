@@ -1,0 +1,85 @@
+@use "../../lib/mixins/viewport" as mx;
+
+//
+@layer ux-orientbox {
+
+    //
+    .ui-orientbox {
+        @include mx.compute_os_conditions;
+        @include mx.compute_cs_size_to_os;
+        @include mx.compute_from_os_to_cs;
+
+        //
+        & {
+            --cs-size-x: 100cqi;
+            --cs-size-y: 100cqb;
+
+            //
+            position: relative;
+            container-type: size !important;
+            contain: strict !important;
+            background-color: transparent;
+            inset: 0px;
+
+            //
+            grid-column: 1 / -1;
+            grid-row: 1 / -1;
+            place-self: start;
+
+            //
+            min-inline-size: 1px;
+            min-block-size: 1px;
+            inline-size: 100%;
+            block-size: 100%;
+            max-inline-size: 100%;
+            max-block-size: 100%;
+            pointer-events: none;
+
+            //
+            zoom: max(var(--zoom, 1), 0.125);
+            font-size: 16px;
+
+            //
+            writing-mode: horizontal-tb !important;
+            direction: ltr !important;
+
+            //
+            max-inline-size: min(var(--screen-width, 100dvi), 100%) !important;
+            max-block-size: min(var(--screen-height, 100dvb), 100%) !important;
+        }
+
+        // by default, won't support rtl/vertical
+        /*:where(*) {
+            writing-mode: inherit;
+            direction: inherit;
+        }*/
+
+        //
+        & {
+            //
+            --zoom: max(var(--scaling, 1), 0.125);
+            --zpx: calc(1px / max(var(--zoom, 1), 0.125));
+            --ppx: calc(1px / max(var(--pixel-ratio, 1), 0.125));
+        }
+
+        //
+        & > :where(*),
+        & :where(ui-frame, .u2-grid-item, ui-modal, [is="ui-orientbox"], [is="ui-gridbox"], [is="ui-orientbox"] > :where(*), [is="ui-gridbox"] > :where(*), .ui-gridlayout, .ui-gridlayout > :where(*))
+        {
+            @include mx.compute_os_conditions;
+            @include mx.compute_cs_size_to_os;
+            @include mx.compute_from_os_to_cs;
+        }
+
+        //
+        .center-self {
+            @include mx.use-inset;
+            @include mx.centered-with-offset();
+        }
+
+        //
+        .fixed { @include mx.use-inset; position: fixed !important; }
+        .absolute { @include mx.use-inset; position: absolute !important; }
+    }
+
+}

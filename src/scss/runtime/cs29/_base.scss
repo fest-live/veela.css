@@ -1,0 +1,313 @@
+// =============================================================================
+// BASE STYLES
+// =============================================================================
+
+//
+@use "../../lib/mixins/constants" as *;
+@use "../../lib/mixins/layout" as *;
+
+// =============================================================================
+// RESET & NORMALIZE
+// =============================================================================
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+    line-height: 1.6;
+    color: $text-primary;
+    background: #f8f9fa; // Clean, professional light gray background
+    min-height: 100vh;
+    position: relative;
+}
+
+// =============================================================================
+// TYPOGRAPHY
+// =============================================================================
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 $spacing-md 0;
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-extrabold;
+}
+
+h2 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+}
+
+h3 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+}
+
+h4 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+}
+
+h5 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+}
+
+h6 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+}
+
+p {
+    margin: 0 0 $spacing-md 0;
+}
+
+a {
+    color: $color-primary;
+    text-decoration: none;
+    transition: color $transition-base;
+
+    &:hover {
+        color: $color-secondary;
+    }
+}
+
+// =============================================================================
+// FORM ELEMENTS
+// =============================================================================
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    @include input-base;
+}
+
+button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+
+// =============================================================================
+// LISTS
+// =============================================================================
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// =============================================================================
+// TABLES
+// =============================================================================
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+// =============================================================================
+// IMAGES
+// =============================================================================
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+// =============================================================================
+// FOCUS STYLES
+// =============================================================================
+
+:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+}
+
+// =============================================================================
+// SELECTION
+// =============================================================================
+
+::selection {
+    background: rgba(102, 126, 234, 0.2);
+    color: $text-primary;
+}
+
+::-moz-selection {
+    background: rgba(102, 126, 234, 0.2);
+    color: $text-primary;
+}
+
+// =============================================================================
+// SCROLLBAR
+// =============================================================================
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius-full;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(44, 62, 80, 0.4);
+    border-radius: $border-radius-full;
+    transition: background $transition-base;
+
+    &:hover {
+        background: rgba(44, 62, 80, 0.6);
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// =============================================================================
+// UTILITY CLASSES
+// =============================================================================
+
+.sr-only {
+    @include sr-only;
+}
+
+.truncate {
+    @include truncate;
+}
+
+.flex-center {
+    @include flex-center;
+}
+
+.flex-between {
+    @include flex-between;
+}
+
+.flex-column {
+    @include flex-column;
+}
+
+.grid-center {
+    @include grid-center;
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    53%,
+    80%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+    40%,
+    43% {
+        transform: translate3d(0, -30px, 0);
+    }
+    70% {
+        transform: translate3d(0, -15px, 0);
+    }
+    90% {
+        transform: translate3d(0, -4px, 0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.4s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}

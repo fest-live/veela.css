@@ -1,4 +1,10 @@
-@use "./core/layers" as *;
+//
+@use "./initials/layers" as *;
+@use "./initials/normalize" as *;
+@use "./initials/inputs" as *;
+@use "./initials/buttons" as *;
+
+//
 @use "./core/properties" as *;
 @use "./core/variables" as *;
 
@@ -7,15 +13,10 @@
 @use "./core/color-2" as *;
 
 //
-@use "./layout/normalize" as *;
-@use "./layout/states" as *;
 @use "./layout/core-layout" as *;
-@use "./layout/grid-oriented" as *;
-
-//
-@use "./initials/inputs" as *;
-@use "./initials/themed" as *;
-@use "./initials/buttons" as *;
+@use "./layout/states" as *;
+@use "./layout/gridbox" as *;
+@use "./layout/orientbox" as *;
 
 //
 @use "./layout/layout" as *;

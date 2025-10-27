@@ -1,0 +1,408 @@
+// =============================================================================
+// COMPONENT STYLES
+// =============================================================================
+
+//
+@use "../../lib/core/constants" as *;
+@use "../../lib/mixins/layout" as *;
+
+//
+@use "sass:color";
+
+// =============================================================================
+// BUTTONS
+// =============================================================================
+
+.btn {
+    @include button-base;
+
+    &.btn-primary {
+        background: $color-primary;
+        color: $text-light;
+        box-shadow: $shadow-glow-primary;
+
+        &:hover {
+            background: color.adjust($color-primary, $lightness: -5%);
+            box-shadow: $shadow-md;
+        }
+    }
+
+    &.btn-secondary {
+        background: $color-accent;
+        color: $text-light;
+        box-shadow: $shadow-glow-accent;
+
+        &:hover {
+            background: color.adjust($color-accent, $lightness: -5%);
+            box-shadow: $shadow-md;
+        }
+    }
+}
+
+// =============================================================================
+// FORM COMPONENTS
+// =============================================================================
+
+.form-group {
+    margin-bottom: $spacing-lg;
+
+    label {
+        display: block;
+        margin-bottom: $spacing-sm;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+    }
+
+    input,
+    select,
+    textarea {
+        @include input-base;
+    }
+
+    .form-help {
+        margin-top: $spacing-xs;
+        font-size: $font-size-sm;
+        color: $text-muted;
+    }
+
+    .form-error {
+        margin-top: $spacing-xs;
+        font-size: $font-size-sm;
+        color: $color-danger;
+    }
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-md;
+
+    @include media-down(sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// =============================================================================
+// CARDS
+// =============================================================================
+
+.card {
+    @include panel-base;
+    padding: $spacing-lg;
+
+    .card-header {
+        margin-bottom: $spacing-md;
+        padding-bottom: $spacing-md;
+        border-bottom: 1px solid $bg-tertiary;
+
+        h3 {
+            margin: 0;
+            color: $text-primary;
+            font-size: $font-size-xl;
+        }
+    }
+
+    .card-body {
+        color: $text-secondary;
+        line-height: 1.6;
+    }
+
+    .card-footer {
+        margin-top: $spacing-md;
+        padding-top: $spacing-md;
+        border-top: 1px solid $bg-tertiary;
+        display: flex;
+        gap: $spacing-sm;
+        justify-content: flex-end;
+    }
+}
+
+// =============================================================================
+// BADGES
+// =============================================================================
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &.badge-primary {
+        background: $color-primary;
+        color: $text-light;
+    }
+
+    &.badge-secondary {
+        background: $color-secondary;
+        color: $text-light;
+    }
+
+    &.badge-success {
+        background: $color-success;
+        color: $text-light;
+    }
+
+    &.badge-warning {
+        background: $color-warning;
+        color: $text-primary;
+    }
+
+    &.badge-danger {
+        background: $color-danger;
+        color: $text-light;
+    }
+
+    &.badge-info {
+        background: $color-info;
+        color: $text-light;
+    }
+}
+
+// =============================================================================
+// ALERTS
+// =============================================================================
+
+.alert {
+    padding: $spacing-md $spacing-lg;
+    border-radius: $border-radius-md;
+    border: 1px solid transparent;
+    margin-bottom: $spacing-lg;
+    position: relative;
+
+    &.alert-success {
+        background: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+
+    &.alert-warning {
+        background: #fff3cd;
+        border-color: #ffeaa7;
+        color: #856404;
+    }
+
+    &.alert-danger {
+        background: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+    &.alert-info {
+        background: #d1ecf1;
+        border-color: #bee5eb;
+        color: #0c5460;
+    }
+}
+
+// =============================================================================
+// MODALS
+// =============================================================================
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: $backdrop-blur-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: $z-modal;
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-base;
+
+    &.modal-show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background: $bg-primary;
+        border-radius: $border-radius-xl;
+        box-shadow: $shadow-2xl;
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow: auto;
+        transform: scale(0.9);
+        transition: transform $transition-base;
+    }
+
+    &.modal-show .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-header {
+        padding: $spacing-lg;
+        border-bottom: 1px solid $bg-tertiary;
+        @include flex-between;
+
+        h3 {
+            margin: 0;
+            color: $text-primary;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: $font-size-xl;
+            cursor: pointer;
+            color: $text-muted;
+            transition: color $transition-base;
+
+            &:hover {
+                color: $text-primary;
+            }
+        }
+    }
+
+    .modal-body {
+        padding: $spacing-lg;
+    }
+
+    .modal-footer {
+        padding: $spacing-lg;
+        border-top: 1px solid $bg-tertiary;
+        display: flex;
+        gap: $spacing-sm;
+        justify-content: flex-end;
+    }
+}
+
+// =============================================================================
+// LOADING SPINNER
+// =============================================================================
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $bg-tertiary;
+    border-top: 2px solid $color-primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    color: $text-muted;
+    font-size: $font-size-sm;
+}
+
+// =============================================================================
+// TOOLTIPS
+// =============================================================================
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+    .tooltip-content {
+        position: absolute;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: $text-primary;
+        color: $text-light;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-sm;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all $transition-base;
+        z-index: $z-tooltip;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: $text-primary;
+        }
+    }
+
+    &:hover .tooltip-content {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+// =============================================================================
+// PROGRESS BARS
+// =============================================================================
+
+.progress {
+    width: 100%;
+    height: 8px;
+    background: $bg-tertiary;
+    border-radius: $border-radius-full;
+    overflow: hidden;
+
+    .progress-bar {
+        height: 100%;
+        background: $color-primary;
+        transition: width $transition-base;
+    }
+}
+
+// =============================================================================
+// TABS
+// =============================================================================
+
+.tabs {
+    .tab-list {
+        display: flex;
+        border-bottom: 2px solid $bg-tertiary;
+        margin-bottom: $spacing-lg;
+
+        .tab {
+            padding: $spacing-md $spacing-lg;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: $text-muted;
+            font-weight: $font-weight-medium;
+            transition: all $transition-base;
+            border-bottom: 2px solid transparent;
+
+            &:hover {
+                color: $text-primary;
+                background: $bg-secondary;
+            }
+
+            &.tab-active {
+                color: $color-primary;
+                border-bottom-color: $color-primary;
+                background: $bg-secondary;
+            }
+        }
+    }
+
+    .tab-content {
+        display: none;
+
+        &.tab-content-active {
+            display: block;
+        }
+    }
+}

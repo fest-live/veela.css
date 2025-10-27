@@ -1,7 +1,7 @@
-@use "veela-lib" as *;
+@use "../../lib/mixins/components" as *;
 
 //
-@layer u2-buttons {
+@layer ux-buttons {
 
     :where(button, input[type="checkbox"]) {
         @include button-base;

@@ -1,12 +1,11 @@
-@use "../../lib/mixins/orientation" as mx;
-@use "../../lib/mixins/extras" as ext;
+@use "../../lib/mixins/viewport" as mx;
 
 //
-@layer ux-grid-layout {
+@layer ux-gridbox {
 
     //
     .ui-gridlayout {
-        @include ext.compute_orient_grid_layout();
+        @include mx.compute_orient_grid_layout();
 
         //
         & {
@@ -55,7 +54,7 @@
 
         //
         & > :where(*) {
-            @include ext.compute_grid_item_cell();
+            @include mx.compute_grid_item_cell();
 
             // calculate visible size
             & { --item-size: min((100cqmin / min(calc(var(--layout-c, 4) / var(--ox-c-span, 1)), calc(var(--layout-r, 8) / var(--ox-r-span, 1)))) - 0.5 * min(var(--c-gap, 1rem), var(--r-gap, 1rem)), 6rem); }

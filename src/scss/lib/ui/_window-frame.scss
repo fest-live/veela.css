@@ -1,9 +1,7 @@
-@use "./base" as m;
-@use "./layout" as l;
-@use "./typography" as t;
+@use "../mixins/base" as m;
+@use "../mixins/layout" as l;
 @use "../core/constants" as c;
-
-
+@use "../design/typography" as t;
 
 // default styles
 @mixin reset-styles {

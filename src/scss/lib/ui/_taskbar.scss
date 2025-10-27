@@ -1,5 +1,5 @@
-@use "./base" as *;
-@use "./layout" as l;
+@use "../mixins/base" as *;
+@use "../mixins/layout" as l;
 
 // Variables for taskbar theming and sizing
 @mixin taskbar-variables {

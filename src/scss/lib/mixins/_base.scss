@@ -36,13 +36,6 @@
 
 // Container helpers
 // pseudo-container helper for future compatibility
-@mixin container-base($type: size, $name: auto, $contain: strict) {
-    & {
-        container-type: $type;
-        @if $name != auto { container-name: $name; }
-        contain: $contain;
-    }
-}
 
 @mixin box($r, $ov: visible) {
     & {

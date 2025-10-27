@@ -5,11 +5,84 @@
 @use "sass:list";
 
 //
+@use "../core/constants" as *;
 @use "../design/colorize" as theme;
 
 //
-@use "./typography" as typography;
-@use "./layout" as layout;
+@use "../design/typography" as typography;
+@use "../mixins/layout" as layout;
+
+// =============================================================================
+// FORM MIXINS
+// =============================================================================
+
+@mixin input-base {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: 2px solid $border-light;
+    border-radius: $border-radius-lg;
+    font-size: $font-size-base;
+    transition: all $transition-bounce;
+    background: rgba(255, 255, 255, 0.9);
+
+    &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
+        background: rgba(255, 255, 255, 1);
+    }
+
+    &:hover {
+        border-color: $border-medium;
+        background: rgba(255, 255, 255, 0.95);
+    }
+}
+
+
+// =============================================================================
+// COMPONENT MIXINS
+// =============================================================================
+
+@mixin panel-base {
+    @include glass-morphism;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: all $transition-base;
+
+    &:hover {
+        box-shadow: $shadow-lg;
+    }
+}
+
+@mixin panel-header {
+    background: $primary-gradient;
+    color: $text-light;
+    padding: $spacing-xl;
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+    position: relative;
+
+    h2 {
+        margin: 0;
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        position: relative;
+        z-index: 1;
+    }
+}
+
+@mixin table-base {
+    width: 100%;
+    border-collapse: collapse;
+    background: $bg-primary;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+}
 
 
 // Internal helpers
@@ -22,9 +95,19 @@
 }
 
 @mixin button-base {
+    transition: all $transition-base;
+    position: relative;
+
     place-content: center;
     place-items: center;
-    padding: 0.125rem;
+
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: none;
 
     display: inline-flex;
     align-items: center;
@@ -33,23 +116,16 @@
     padding: var(--button-padding-y) var(--button-padding-x);
     border: none;
     border-radius: var(--radius-sm);
-    font: inherit;
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-base);
     cursor: pointer;
-    transition: var(--transition-colors), var(--transition-transform);
-    text-decoration: none;
-    user-select: none;
 
     block-size: fit-content;
     inline-size: fit-content;
+
     line-height: normal;
     max-block-size: stretch;
     max-inline-size: stretch;
 
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
     flex-wrap: nowrap;
 
     @include theme.solid-colorize("&");
@@ -69,6 +145,15 @@
         overflow: hidden;
         white-space: nowrap;
         flex-wrap: nowrap;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+    }
+
+    &:active {
+        transform: translateY(0);
     }
 }
 

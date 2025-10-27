@@ -1,0 +1,299 @@
+// =============================================================================
+// MAIN SCSS FILE
+// =============================================================================
+// This is the main entry point for all styles
+// Import order is important for proper cascade
+
+// 1.
+@use "../../lib/mixins/constants" as *;
+
+// 2.
+@use "../../lib/mixins/layout" as *;
+
+// 3. Base styles and resets
+@use "base" as *;
+
+// 4. Layout components
+@use "layout" as *;
+
+// 5. UI components
+@use "components" as *;
+
+// 6. Utility classes
+@use "utilities" as *;
+
+// =============================================================================
+// CUSTOM PROPERTIES (CSS Variables)
+// =============================================================================
+// Define CSS custom properties for runtime theming
+
+:root {
+    // Color system
+    --color-primary: #{$color-primary};
+    --color-secondary: #{$color-secondary};
+    --color-accent: #{$color-accent};
+    --color-success: #{$color-success};
+    --color-warning: #{$color-warning};
+    --color-danger: #{$color-danger};
+    --color-info: #{$color-info};
+
+    // Text colors
+    --text-primary: #{$text-primary};
+    --text-secondary: #{$text-secondary};
+    --text-muted: #{$text-muted};
+    --text-light: #{$text-light};
+
+    // Background colors
+    --bg-primary: #{$bg-primary};
+    --bg-secondary: #{$bg-secondary};
+    --bg-tertiary: #{$bg-tertiary};
+    --bg-overlay: #{$bg-overlay};
+
+    // Spacing scale
+    --spacing-xs: #{$spacing-xs};
+    --spacing-sm: #{$spacing-sm};
+    --spacing-md: #{$spacing-md};
+    --spacing-lg: #{$spacing-lg};
+    --spacing-xl: #{$spacing-xl};
+    --spacing-2xl: #{$spacing-2xl};
+    --spacing-3xl: #{$spacing-3xl};
+
+    // Border radius
+    --border-radius-sm: #{$border-radius-sm};
+    --border-radius-md: #{$border-radius-md};
+    --border-radius-lg: #{$border-radius-lg};
+    --border-radius-xl: #{$border-radius-xl};
+    --border-radius-2xl: #{$border-radius-2xl};
+    --border-radius-full: #{$border-radius-full};
+
+    // Shadows
+    --shadow-sm: #{$shadow-sm};
+    --shadow-md: #{$shadow-md};
+    --shadow-lg: #{$shadow-lg};
+    --shadow-xl: #{$shadow-xl};
+    --shadow-2xl: #{$shadow-2xl};
+
+    // Transitions
+    --transition-fast: #{$transition-fast};
+    --transition-base: #{$transition-base};
+    --transition-slow: #{$transition-slow};
+    --transition-bounce: #{$transition-bounce};
+
+    // Z-index scale
+    --z-dropdown: #{$z-dropdown};
+    --z-sticky: #{$z-sticky};
+    --z-fixed: #{$z-fixed};
+    --z-modal-backdrop: #{$z-modal-backdrop};
+    --z-modal: #{$z-modal};
+    --z-popover: #{$z-popover};
+    --z-tooltip: #{$z-tooltip};
+}
+
+// =============================================================================
+// DARK THEME SUPPORT
+// =============================================================================
+// Optional dark theme implementation
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        // Override colors for dark theme
+        --text-primary: #ffffff;
+        --text-secondary: #e2e8f0;
+        --text-muted: #94a3b8;
+        --text-light: #1a202c;
+
+        --bg-primary: #1a202c;
+        --bg-secondary: #2d3748;
+        --bg-tertiary: #4a5568;
+        --bg-overlay: rgba(26, 32, 44, 0.95);
+    }
+}
+
+// =============================================================================
+// PRINT STYLES
+// =============================================================================
+// Optimize styles for printing
+
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    .lumber-calculator {
+        background: white !important;
+
+        &::before {
+            display: none;
+        }
+    }
+
+    .panel-header {
+        background: white !important;
+        color: black !important;
+        border-bottom: 2px solid black;
+    }
+
+    .btn {
+        display: none;
+    }
+
+    .analysis-placeholder {
+        display: none;
+    }
+
+    .data-table {
+        border: 1px solid black;
+
+        th,
+        td {
+            border: 1px solid black;
+        }
+    }
+}
+
+// =============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// =============================================================================
+// Additional accessibility features
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary: #0000ff;
+        --color-secondary: #000000;
+        --text-primary: #000000;
+        --text-secondary: #000000;
+        --bg-primary: #ffffff;
+        --bg-secondary: #ffffff;
+    }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .animate-fade-in,
+    .animate-slide-in,
+    .animate-pulse,
+    .animate-bounce {
+        animation: none !important;
+    }
+}
+
+// Focus improvements for keyboard navigation
+:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+// Skip link for screen readers
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--color-primary);
+    color: var(--text-light);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+
+    &:focus {
+        top: 6px;
+    }
+}
+
+// =============================================================================
+// PERFORMANCE OPTIMIZATIONS
+// =============================================================================
+
+// GPU acceleration for smooth animations
+.will-change-transform {
+    will-change: transform;
+}
+
+.will-change-opacity {
+    will-change: opacity;
+}
+
+// Contain layout for better performance
+.contain-layout {
+    contain: layout;
+}
+
+.contain-paint {
+    contain: paint;
+}
+
+.contain-strict {
+    contain: strict;
+}
+
+// =============================================================================
+// DEBUG UTILITIES
+// =============================================================================
+// Development-only styles for debugging
+
+.debug-grid {
+    background-image: linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.debug-outline * {
+    outline: 1px solid red;
+}
+
+// =============================================================================
+// CUSTOM SCROLLBAR FOR WEBKIT
+// =============================================================================
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(44, 62, 80, 0.4);
+    border-radius: var(--border-radius-full);
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: background var(--transition-base);
+
+    &:hover {
+        background: rgba(44, 62, 80, 0.6);
+        background-clip: content-box;
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// =============================================================================
+// SELECTION STYLES
+// =============================================================================
+
+::selection {
+    background: rgba(44, 62, 80, 0.2);
+    color: var(--text-primary);
+}
+
+::-moz-selection {
+    background: rgba(44, 62, 80, 0.2);
+    color: var(--text-primary);
+}

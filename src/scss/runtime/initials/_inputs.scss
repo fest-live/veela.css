@@ -1,4 +1,8 @@
-@use "veela-lib" as *;
+@use "../../lib/mixins/viewport" as *;
+@use "../../lib/mixins/layout" as *;
+@use "../../lib/mixins/components" as *;
+@use "../../lib/design/colorize" as *;
+@use "../../lib/design/typography" as *;
 
 //
 @layer u2-inputs {

@@ -30,17 +30,10 @@
 @mixin surface-interactive($shade: var(--surface-opacity-default)) {
     @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
 
-    &:hover {
-        --color-shade: calc(#{$shade} + var(--hover-lift));
-    }
-
-    &:active {
-        --color-shade: calc(#{$shade} + var(--active-lift));
-    }
-
-    &:focus-visible {
-        --color-shade: calc(#{$shade} + var(--focus-lift));
-    }
+    //
+    &:hover { --color-shade: calc(0.08 + var(--hover-lift)); }
+    &:active { --color-shade: calc(0.08 + var(--active-lift)); }
+    &:focus-visible { --color-shade: calc(0.08 + var(--focus-lift)); }
 }
 
 @mixin text-color($tint: var(--text-tint-primary)) {
@@ -99,16 +92,18 @@
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.4);
 
         // Apply colors
-        border-color: var(--border-color);
-        background: var(--surface-color);
-        color: var(--on-surface-color);
-        accent-color: var(--on-surface-color);
-        caret-color: var(--on-surface-color);
-        text-decoration-color: var(--on-surface-color);
-        text-emphasis-color: var(--on-surface-color);
-        scrollbar-color: var(--scrollbar-color) transparent;
-        -webkit-tap-highlight-color: var(--on-surface-color);
-        -webkit-text-fill-color: var(--on-surface-color);
+        &, &:hover, &:active, &:focus-visible {
+            border-color: var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
 
         //
         &:where(button, input, select, textarea) {
@@ -179,16 +174,18 @@
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.1);
 
         //
-        border: solid 0.5px var(--border-color);
-        background: var(--surface-color);
-        color: var(--on-surface-color);
-        accent-color: var(--on-surface-color);
-        caret-color: var(--on-surface-color);
-        text-decoration-color: var(--on-surface-color);
-        text-emphasis-color: var(--on-surface-color);
-        scrollbar-color: var(--scrollbar-color) transparent;
-        -webkit-tap-highlight-color: var(--on-surface-color);
-        -webkit-text-fill-color: var(--on-surface-color);
+        &, &:hover, &:active, &:focus-visible {
+            border: solid 0.5px var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
     }
 
     //

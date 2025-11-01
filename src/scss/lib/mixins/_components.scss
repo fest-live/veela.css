@@ -17,25 +17,12 @@
 // =============================================================================
 
 @mixin input-base {
-    width: 100%;
+    inline-size: stretch;
     padding: $spacing-sm $spacing-md;
     border: 2px solid $border-light;
     border-radius: $border-radius-lg;
     font-size: $font-size-base;
     transition: all $transition-bounce;
-    background: rgba(255, 255, 255, 0.9);
-
-    &:focus {
-        outline: none;
-        border-color: $color-primary;
-        box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
-        background: rgba(255, 255, 255, 1);
-    }
-
-    &:hover {
-        border-color: $border-medium;
-        background: rgba(255, 255, 255, 0.95);
-    }
 }
 
 
@@ -76,7 +63,7 @@
 }
 
 @mixin table-base {
-    width: 100%;
+    inline-size: stretch;
     border-collapse: collapse;
     background: $bg-primary;
     border-radius: $border-radius-md;
@@ -146,15 +133,6 @@
         white-space: nowrap;
         flex-wrap: nowrap;
     }
-
-    &:hover {
-        transform: translateY(-1px);
-        box-shadow: $shadow-md;
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
 }
 
 @mixin button-variant($surface-opacity: var(--surface-opacity-default)) {
@@ -209,13 +187,14 @@
 }
 
 @mixin nav-item {
-    @include layout.flex-between;
     padding: var(--nav-padding);
     border-radius: var(--nav-radius);
-    @include theme.surface-interactive(0);
-    @include theme.text-color(0);
     text-decoration: none;
     gap: var(--nav-gap);
+
+    @include layout.flex-between;
+    @include theme.surface-interactive(0);
+    @include theme.text-color(0);
 
     ui-icon {
         --icon-size: var(--icon-size-md);

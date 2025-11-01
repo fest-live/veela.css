@@ -290,7 +290,7 @@
 
 // Container query variants
 @mixin container($size) {
-    max-inline-size: $container-max-width;
+    max-inline-size: stretch;//$container-max-width;
     margin: 0 auto;
 
     $map: (
@@ -301,9 +301,9 @@
 
     $limit: map.get($map, $size);
 
-    @include media-down(md) {
+    /*@include media-down(md) {
         padding: 0 $spacing-md;
-    }
+    }*/
 
     @if $limit {
         @container (max-inline-size: $limit) { @content; }

@@ -232,9 +232,9 @@
     --transition-slow: 200ms ease;
 
     // Interactive states
-    --hover-lift: 0.04;
-    --active-lift: 0.05;
-    --focus-lift: 0.02;
+    --hover-lift: 0.08;
+    --active-lift: 0.1;
+    --focus-lift: 0.12;
 }
 
 @supports (width: clamp(1rem, 1vw, 2rem)) {

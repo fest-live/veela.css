@@ -34,45 +34,61 @@
 }
 
 // Sizing
-@mixin size($inline: 100%, $block: 100%, $aspect-ratio: auto) {
+@mixin size($inline: null, $block: null, $aspect-ratio: null) {
     & {
-        inline-size: #{$inline};
-        block-size: #{$block};
-        aspect-ratio: #{$aspect-ratio};
+        @if $inline != null { --i-size: #{$inline}; }
+        @if $block != null { --b-size: #{$block}; }
+        @if $aspect-ratio != null { --ar: #{$aspect-ratio}; }
+        inline-size: var(--i-size, 100%);
+        block-size: var(--b-size, 100%);
+        aspect-ratio: var(--ar, auto);
     }
 }
 
-@mixin position($type: absolute, $inset: 0) {
+@mixin position($type: null, $inset: null) {
     & {
-        position: #{$type};
-        inset: #{$inset};
+        @if $type != null { --pos: #{$type}; }
+        @if $inset != null { --inset: #{$inset}; }
+        position: var(--pos, absolute);
+        inset: var(--inset, 0);
     }
 }
 
-@mixin display($type: inline-block, $direction: row, $items: center, $content: center) {
+@mixin display($type: null, $direction: null, $items: null, $content: null) {
     & {
-        display: #{$type};
-        flex-direction: #{$direction};
-        place-items: #{$items};
-        place-content: #{$content};
+        @if $type != null { --display: #{$type}; }
+        @if $direction != null { --flow: #{$direction}; }
+        @if $items != null { --items: #{$items}; }
+        @if $content != null { --content: #{$content}; }
+        display: var(--display, inline-block);
+        flex-direction: var(--flow, row);
+        place-items: var(--items, center);
+        place-content: var(--content, center);
         box-sizing: border-box;
     }
 }
 
-@mixin interaction($pointerEvents: auto, $cursor: default, $userSelect: none) {
+@mixin interaction($pointerEvents: null, $cursor: null, $userSelect: null) {
     & {
-        pointer-events: #{$pointerEvents};
-        user-select: #{$userSelect};
-        cursor: #{$cursor};
+        @if $pointerEvents != null { --pe: #{$pointerEvents}; }
+        @if $userSelect != null { --us: #{$userSelect}; }
+        @if $cursor != null { --cursor: #{$cursor}; }
+        pointer-events: var(--pe, auto);
+        user-select: var(--us, none);
+        cursor: var(--cursor, default);
     }
 }
 
-@mixin scrollbar($overflow: hidden, $width: thin, $color: transparent transparent, $gutter: auto) {
+@mixin scrollbar($overflow: null, $width: null, $color: null, $gutter: null) {
     & {
-        scrollbar-width: #{$width};
-        scrollbar-color: #{$color};
-        scrollbar-gutter: #{$gutter};
-        overflow: #{$overflow};
+        @if $width != null { --sb-w: #{$width}; }
+        @if $color != null { --sb-c: #{$color}; }
+        @if $gutter != null { --sb-g: #{$gutter}; }
+        @if $overflow != null { --ov: #{$overflow}; }
+        scrollbar-width: var(--sb-w, thin);
+        scrollbar-color: var(--sb-c, transparent transparent);
+        scrollbar-gutter: var(--sb-g, auto);
+        overflow: var(--ov, hidden);
     }
 }
 
@@ -158,9 +174,10 @@
     grid-template-rows: #{$rows};
 }
 
-@mixin grid-auto-fill($min-size: 260px) {
+@mixin grid-auto-fill($min-size: null) {
+    @if $min-size != null { --min-col-size: #{$min-size}; }
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax($min-size, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-col-size, 260px), 1fr));
     gap: var(--gap-md);
 }
 

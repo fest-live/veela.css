@@ -27,7 +27,7 @@
 
             //
             background-color: transparent;
-            container-type: normal;
+            container-type: size;
             container-name: html root;
             contain: none;
             overflow: visible;
@@ -71,7 +71,7 @@
                 outline: none 0px transparent !important;
 
                 //
-                font-size: 0.9rem;
+                font-size: var(--text-base, 0.9rem);
 
                 //
                 overflow: visible;
@@ -90,7 +90,7 @@
 
                 // if needs viewport
                 container-name: body;
-                container-type: normal;
+                container-type: inline-size;
                 contain: none;
 
                 //
@@ -149,16 +149,7 @@
         };
 
         //
-        :root, :where(html) {
-            background-color: transparent;
-            container-type: size;
-            container-name: html root !important;
-            contain: none;
-            overflow: visible;
-            position: fixed;
-            inset: 0px;
-            inset-block-end: auto;
-        }
+        
 
         //
         :where(body) {

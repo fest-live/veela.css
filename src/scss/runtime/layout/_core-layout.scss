@@ -108,12 +108,6 @@
 
             //
             & > :where(*) {
-                /*display: grid;
-                place-self: safe center;
-                grid-column: 1 / 1 span;
-                grid-row: 1 / 1 span;*/
-
-                //
                 inline-size: stretch;
                 block-size: stretch;
 

@@ -15,26 +15,12 @@
     }
 
     //
-    ui-window-frame, :host(ui-window-frame) {
-        & {
-            --translate-x: calc(var(--drag-x, 0) * 1px);//var(--ds-x, 0px);
-            --translate-y: calc(var(--drag-y, 0) * 1px);//var(--ds-y, 0px);
-        }
-
-        & {
-            background-color: var(--ui-window-frame-surface, transparent);
-        }
-    }
-
-    //
     .round-decor {
         & { --background-tone-shift: 0; };
 
         & {
             padding-block: 0.25rem;
             border-radius: 0.25rem;
-            //box-shadow: 0px 0px 0.333rem oklch(from #010101 l c h / 0.4);
-            background-color: --c2-surface(var(--background-tone-shift, 0), var(--current, transparent));
             overflow: hidden;
         }
 
@@ -85,7 +71,6 @@
     //
     .ctx-menu {
         & {
-            --shadow-color: oklch(from --c2-surface(0.0, var(--current)) l c h / 0.4);
             position: fixed;
             min-inline-size: 100px;
             inline-size: fit-content;
@@ -111,7 +96,6 @@
         & > * {
             transition-behavior: allow-discrete;
             transition: --background-tone-shift 0.2s ease-in-out;
-            background-color: --c2-surface(var(--background-tone-shift, 0), var(--current, transparent));
             pointer-events: auto;
             place-content: center;
             place-items: center;
@@ -120,12 +104,6 @@
             /* */
             &:not(.ctx-menu-separator) {
                 padding: 0.125rem;
-            }
-
-            /* */
-            & { --background-tone-shift: 0; };
-            &:hover {
-                --background-tone-shift: 0.1;
             }
 
             & > span {
@@ -154,7 +132,6 @@
     //
     .ui-ws-item {
         & {
-            --shadow-color: oklch(from --c2-surface(0.0, var(--current)) l c h / 0.4);
             cursor: pointer;
             user-select: none;
             pointer-events: auto;
@@ -167,7 +144,6 @@
             inline-size: fit-content;
             block-size: fit-content;
             display: inline;
-            filter: drop-shadow(0px 0px 0.125rem var(--shadow-color));
         }
 
         //

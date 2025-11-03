@@ -31,8 +31,6 @@
             min-block-size: 1px;
             inline-size: 100%;
             block-size: 100%;
-            max-inline-size: 100%;
-            max-block-size: 100%;
             pointer-events: none;
 
             //
@@ -47,12 +45,6 @@
             max-inline-size: min(var(--screen-width, 100dvi), 100%) !important;
             max-block-size: min(var(--screen-height, 100dvb), 100%) !important;
         }
-
-        // by default, won't support rtl/vertical
-        /*:where(*) {
-            writing-mode: inherit;
-            direction: inherit;
-        }*/
 
         //
         & {

@@ -4,6 +4,23 @@
 @layer ux-buttons {
 
     :where(button, input[type="checkbox"]) {
+        display: flex;
+        place-items: center;
+        place-content: center;
+
+        //
+        cursor: pointer;
+        pointer-events: auto;
+
+        //
+        margin: 0px;
+        padding: 0px;
+
+        //
+        border: none 0px transparent;
+        outline: none 0px transparent;
+
+        //
         @include button-base;
     }
 
@@ -16,5 +33,4 @@
         &.save { --current: var(--color-success); }
         &.cancel { --current: var(--color-error); }
     }
-
 }

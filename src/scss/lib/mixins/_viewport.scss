@@ -199,13 +199,6 @@
         --os-inset-x: calc((var(--grid-c, 1) - 0.5) * var(--ox-c-unit, 1px));
         --os-inset-y: calc((var(--grid-r, 1) - 0.5) * var(--ox-r-unit, 1px));
     }
-
-    //
-    /*
-    &[data-dragging] {
-        --grid-c: var(--fp-cell-x, 1);
-        --grid-r: var(--fp-cell-y, 1);
-    }*/
 }
 
 //

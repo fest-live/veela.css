@@ -27,10 +27,11 @@
     background: $primary-gradient;
     color: $text-light;
     padding: $spacing-xl;
-    @include layout.flex-between;
     flex-wrap: wrap;
     gap: $spacing-lg;
     position: relative;
+
+    @include layout.flex-between;
 
     h2 {
         margin: 0;
@@ -43,14 +44,16 @@
 
 @mixin accordion-base {
     border-radius: var(--radius-lg);
-    @include colorize.surface(var(--surface-opacity-muted));
     overflow: hidden;
     transition: var(--transition-colors);
 
+    @include colorize.surface(var(--surface-opacity-muted));
+
     &[open] {
         --color-shade: var(--surface-opacity-emphasis);
-        @include colorize.border-color(0.12);
         border: 1px solid;
+
+        @include colorize.border-color(0.12);
     }
 
     summary {
@@ -65,14 +68,15 @@
 }
 
 @mixin empty-state {
-    @include layout.grid-center;
     padding: var(--padding-2xl);
     border-radius: var(--radius-lg);
-    @include colorize.surface(var(--surface-opacity-default));
-    @include colorize.text-color(var(--text-tint-muted));
     border: 1px dashed oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--border-opacity-dashed));
     text-align: center;
     min-block-size: var(--space-2xl);
+
+    @include layout.grid-center;
+    @include colorize.surface(var(--surface-opacity-default));
+    @include colorize.text-color(var(--text-tint-muted));
 }
 
 @mixin nav-item {

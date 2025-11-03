@@ -45,8 +45,6 @@
     @return "shape(evenodd #{$points}, close)";
 }
 
-/*from 50% 50%,*/
-
 //
 @mixin wavy-shaped($detail: 100) {
     --clip-amplitude: 0.05;

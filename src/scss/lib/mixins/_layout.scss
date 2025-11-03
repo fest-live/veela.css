@@ -2,8 +2,60 @@
 @use "sass:list";
 @use "sass:meta";
 
+//
 @use "../core/constants" as *;
-@use "./base" as *;
+
+
+@mixin host-related($host, $child) {
+    // outside web component
+    #{$host} { & > #{$child} { @content; } }
+    // inside web component
+    :host(#{$host}) { ::slotted(#{$child}) { @content; } }
+}
+
+@mixin host-context($host) {
+    // outside web component
+    #{$host} { @content; }
+    // inside web component
+    :host(#{$host}) { @content; }
+}
+
+
+// Spacing helpers
+@mixin padding($value: null) {
+    & {
+        @if $value != null { --p: #{$value}; }
+        padding: var(--p, var(--padding-md, #{$ui-spacing-md}));
+    }
+}
+
+//
+@mixin margin($value: null) {
+    & {
+        @if $value != null { --m: #{$value}; }
+        margin: var(--m, var(--space-md, #{$ui-spacing-md}));
+    }
+}
+
+//
+@mixin spacing($p: null, $m: null) {
+    & {
+        @if $p != null { padding: $p; }
+        @if $m != null { margin: $m; }
+    }
+}
+
+// Border/radius/shadow helpers
+@mixin border($width: null, $style: null, $color: null) {
+    & {
+        @if $width != null { --border-w: #{$width}; }
+        @if $style != null { --border-s: #{$style}; }
+        @if $color != null { --border-c: #{$color}; }
+        border-width: var(--border-w, #{$ui-border-width});
+        border-style: var(--border-s, solid);
+        border-color: var(--border-c, currentColor);
+    }
+}
 
 // Alignment helpers
 @mixin center($axis: "both") {
@@ -13,6 +65,49 @@
         @else if $axis == "y" { align-items: center; justify-content: stretch; }
     }
 }
+
+
+// Border/radius/shadow helpers
+@mixin outline($width: null, $style: null, $color: null) {
+    & {
+        @if $width != null { --outline-w: #{$width}; }
+        @if $style != null { --outline-s: #{$style}; }
+        @if $color != null { --outline-c: #{$color}; }
+        outline-width: var(--outline-w, #{$ui-border-width});
+        outline-style: var(--outline-s, solid);
+        outline-color: var(--outline-c, currentColor);
+    }
+}
+
+//
+@mixin radius($r: null) { & { @if $r != null { --radius: #{$r}; } border-radius: var(--radius, var(--radius-md, #{$ui-radius-md})); } }
+@mixin border-radius($r: null) { & { @if $r != null { --radius: #{$r}; } border-radius: var(--radius, var(--radius-md, #{$ui-radius-md})); } }
+@mixin shadow($value: null) { & { @if $value != null { --shadow: #{$value}; } box-shadow: var(--shadow, #{$ui-shadow-soft}); } }
+
+// Container helpers
+// pseudo-container helper for future compatibility
+
+@mixin box($r: null, $ov: null) {
+    & {
+        @if $r != null { --radius: #{$r}; }
+        @if $ov != null { --overflow: #{$ov}; }
+        border-radius: var(--radius, var(--radius-md, #{$ui-radius-md}));
+        overflow: var(--overflow, visible);
+    }
+}
+
+@mixin color($bg: null, $color: null) {
+    & {
+        @if $bg != null { --bg: #{$bg}; }
+        @if $color != null { --fg: #{$color}; }
+        color: var(--fg, currentColor);
+        background-color: var(--bg, transparent);
+    }
+}
+
+
+
+
 
 @mixin flex-center {
     display: flex;
@@ -330,7 +425,7 @@
 }
 
 
-@mixin text($size: c.$ui-font-base-size, $weight: 400, $color: currentColor) {
+@mixin text($size: $ui-font-base-size, $weight: 400, $color: currentColor) {
     font-size: #{$size};
     font-weight: #{$weight};
     color: #{$color};

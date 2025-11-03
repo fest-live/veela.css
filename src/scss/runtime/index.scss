@@ -1,8 +1,10 @@
 //
 @use "./initials/layers" as *;
 @use "./initials/normalize" as *;
-@use "./initials/inputs" as *;
-@use "./initials/buttons" as *;
+
+//
+@use "./input/inputs" as *;
+@use "./input/buttons" as *;
 
 //
 @use "./core/properties" as *;

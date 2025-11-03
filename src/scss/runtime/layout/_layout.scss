@@ -51,15 +51,6 @@
     }
 
     //
-    /*
-    @include host-related(".flex-rows", "::slotted(*)") { @include flex-row; }
-    @include host-related(".flex-rows", "*") { @include flex-row; }
-    @include host-context(".flex-rows") {
-        @include display(inline-flex, row, center, center);
-        @include size(max-content, max-content);
-    }*/
-
-    //
     @include host-related(".flex-columns", "::slotted(*)") { @include flex-column; }
     @include host-related(".flex-columns", "*") { @include flex-column; }
     @include host-context(".flex-columns") {

@@ -140,4 +140,16 @@
         }
     }
 
+    // able to select inputs when edit
+    :where(input[type="text"], input[type="number"]) {
+        user-select: text;
+        cursor: text;
+
+        &:disabled {
+            user-select: none;
+            cursor: default;
+            pointer-events: none;
+        }
+    }
+
 }

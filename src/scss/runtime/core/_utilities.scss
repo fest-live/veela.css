@@ -7,6 +7,267 @@
 
 
 // =============================================================================
+// MIXINS & MAPS
+// =============================================================================
+
+// Generic helper to emit utility classes from a map of name -> declaration block
+@mixin emit-utilities($class-prefix, $map, $prop: null) {
+    @each $name, $value in $map {
+        .#{$class-prefix}#{$name} {
+            @if $prop == null {
+                @content;
+            } @else {
+                #{$prop}: $value;
+            }
+        }
+    }
+}
+
+// Helper to emit classes with arbitrary rule bodies
+@mixin emit-rules($rules) {
+    @each $selector, $body in $rules {
+        #{$selector} {
+            @each $prop, $val in $body {
+                #{$prop}: #{$val};
+            }
+        }
+    }
+}
+
+// Common maps
+$display-map: (
+    none: none,
+    block: block,
+    inline: inline,
+    inline-block: inline-block,
+    flex: flex,
+    inline-flex: inline-flex,
+    grid: grid,
+    inline-grid: inline-grid,
+);
+
+$flex-direction-map: (
+    row: row,
+    column: column,
+    row-reverse: row-reverse,
+    column-reverse: column-reverse,
+);
+
+$flex-wrap-map: (
+    wrap: wrap,
+    nowrap: nowrap,
+    wrap-reverse: wrap-reverse,
+);
+
+$justify-map: (
+    start: flex-start,
+    end: flex-end,
+    center: center,
+    between: space-between,
+    around: space-around,
+    evenly: space-evenly,
+);
+
+$align-map: (
+    start: flex-start,
+    end: flex-end,
+    center: center,
+    baseline: baseline,
+    stretch: stretch,
+);
+
+$grid-cols: 1, 2, 3, 4, 5, 6, 12;
+$col-spans: 1, 2, 3, 4, 5, 6, 12;
+
+$gap-map: (
+    0: 0,
+    1: $spacing-xs,
+    2: $spacing-sm,
+    3: $spacing-md,
+    4: $spacing-lg,
+    5: $spacing-xl,
+    6: $spacing-2xl,
+);
+
+$text-align-map: (
+    left: left,
+    center: center,
+    right: right,
+    justify: justify,
+);
+
+$font-size-map: (
+    xs: $font-size-sm,
+    sm: $font-size-base,
+    base: $font-size-lg,
+    lg: $font-size-xl,
+    xl: $font-size-2xl,
+    2xl: $font-size-3xl,
+    3xl: $font-size-4xl,
+);
+
+$font-weight-map: (
+    normal: $font-weight-normal,
+    medium: $font-weight-medium,
+    semibold: $font-weight-semibold,
+    bold: $font-weight-bold,
+    extrabold: $font-weight-extrabold,
+);
+
+$text-transform-map: (
+    uppercase: uppercase,
+    lowercase: lowercase,
+    capitalize: capitalize,
+);
+
+$font-style-map: (
+    italic: italic,
+    not-italic: normal,
+);
+
+$text-decoration-map: (
+    underline: underline,
+    no-underline: none,
+);
+
+$leading-map: (
+    tight: 1.25,
+    normal: 1.5,
+    relaxed: 1.625,
+    loose: 2,
+);
+
+$bg-color-map: (
+    primary: $color-primary,
+    secondary: $color-secondary,
+    success: $color-success,
+    warning: $color-warning,
+    danger: $color-danger,
+    info: $color-info,
+    light: $bg-secondary,
+    dark: $text-primary,
+    white: $bg-primary,
+    transparent: transparent,
+);
+
+$text-color-map: (
+    primary: $color-primary,
+    secondary: $color-secondary,
+    success: $color-success,
+    warning: $color-warning,
+    danger: $color-danger,
+    info: $color-info,
+    light: $text-light,
+    dark: $text-primary,
+    muted: $text-muted,
+);
+
+$border-color-map: (
+    primary: $color-primary,
+    secondary: $color-secondary,
+    success: $color-success,
+    warning: $color-warning,
+    danger: $color-danger,
+    info: $color-info,
+);
+
+$radius-map: (
+    none: 0,
+    sm: $border-radius-sm,
+    null: $border-radius-md,
+    lg: $border-radius-lg,
+    xl: $border-radius-xl,
+    2xl: $border-radius-2xl,
+    full: $border-radius-full,
+);
+
+$shadow-map: (
+    none: none,
+    sm: $shadow-sm,
+    null: $shadow-md,
+    lg: $shadow-lg,
+    xl: $shadow-xl,
+    2xl: $shadow-2xl,
+);
+
+$position-map: (
+    static: static,
+    relative: relative,
+    absolute: absolute,
+    fixed: fixed,
+    sticky: sticky,
+);
+
+$inset-zero-map: (
+    top-0: (top: 0),
+    right-0: (right: 0),
+    bottom-0: (bottom: 0),
+    left-0: (left: 0),
+);
+
+$z-map: (
+    0: 0,
+    10: 10,
+    20: 20,
+    30: 30,
+    40: 40,
+    50: 50,
+);
+
+$overflow-map: (
+    auto: auto,
+    hidden: hidden,
+    visible: visible,
+    scroll: scroll,
+);
+
+$overflow-axis-map: (
+    x: x,
+    y: y,
+);
+
+$size-width-map: (
+    auto: auto,
+    full: 100%,
+    screen: 100vw,
+    min: min-content,
+    max: max-content,
+);
+
+$size-height-map: (
+    auto: auto,
+    full: 100%,
+    screen: 100vh,
+    min: min-content,
+    max: max-content,
+);
+
+$min-size-map: (
+    w-0: (min-width: 0),
+    w-full: (min-width: 100%),
+    h-0: (min-height: 0),
+    h-full: (min-height: 100%),
+    h-screen: (min-height: 100vh),
+);
+
+$max-width-map: (
+    none: none,
+    xs: 20rem,
+    sm: 24rem,
+    md: 28rem,
+    lg: 32rem,
+    xl: 36rem,
+    2xl: 42rem,
+    full: 100%,
+);
+
+$max-height-map: (
+    none: none,
+    full: 100%,
+    screen: 100vh,
+);
+
+// =============================================================================
 // SPACING UTILITIES
 // =============================================================================
 
@@ -90,609 +351,173 @@
 // DISPLAY UTILITIES
 // =============================================================================
 
-.d-none {
-    display: none;
-}
-.d-block {
-    display: block;
-}
-.d-inline {
-    display: inline;
-}
-.d-inline-block {
-    display: inline-block;
-}
-.d-flex {
-    display: flex;
-}
-.d-inline-flex {
-    display: inline-flex;
-}
-.d-grid {
-    display: grid;
-}
-.d-inline-grid {
-    display: inline-grid;
+@each $k, $v in $display-map {
+    .d-#{$k} { display: $v; }
 }
 
 // =============================================================================
 // FLEXBOX UTILITIES
 // =============================================================================
 
-.flex-row {
-    flex-direction: row;
-}
-.flex-column {
-    flex-direction: column;
-}
-.flex-row-reverse {
-    flex-direction: row-reverse;
-}
-.flex-column-reverse {
-    flex-direction: column-reverse;
+@each $name, $val in $flex-direction-map {
+    .flex-#{$name} { flex-direction: $val; }
 }
 
-.flex-wrap {
-    flex-wrap: wrap;
-}
-.flex-nowrap {
-    flex-wrap: nowrap;
-}
-.flex-wrap-reverse {
-    flex-wrap: wrap-reverse;
+@each $name, $val in $flex-wrap-map {
+    .flex-#{$name} { flex-wrap: $val; }
 }
 
-.justify-start {
-    justify-content: flex-start;
-}
-.justify-end {
-    justify-content: flex-end;
-}
-.justify-center {
-    justify-content: center;
-}
-.justify-between {
-    justify-content: space-between;
-}
-.justify-around {
-    justify-content: space-around;
-}
-.justify-evenly {
-    justify-content: space-evenly;
+@each $name, $val in $justify-map {
+    .justify-#{$name} { justify-content: $val; }
 }
 
-.align-start {
-    align-items: flex-start;
-}
-.align-end {
-    align-items: flex-end;
-}
-.align-center {
-    align-items: center;
-}
-.align-baseline {
-    align-items: baseline;
-}
-.align-stretch {
-    align-items: stretch;
+@each $name, $val in $align-map {
+    .align-#{$name} { align-items: $val; }
 }
 
-.flex-1 {
-    flex: 1;
-}
-.flex-auto {
-    flex: auto;
-}
-.flex-none {
-    flex: none;
-}
+.flex-1 { flex: 1; }
+.flex-auto { flex: auto; }
+.flex-none { flex: none; }
 
 // =============================================================================
 // GRID UTILITIES
 // =============================================================================
 
-.grid-cols-1 {
-    grid-template-columns: repeat(1, 1fr);
-}
-.grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-}
-.grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-}
-.grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-}
-.grid-cols-5 {
-    grid-template-columns: repeat(5, 1fr);
-}
-.grid-cols-6 {
-    grid-template-columns: repeat(6, 1fr);
-}
-.grid-cols-12 {
-    grid-template-columns: repeat(12, 1fr);
+@each $n in $grid-cols {
+    .grid-cols-#{$n} { grid-template-columns: repeat(#{$n}, 1fr); }
 }
 
-.col-span-1 {
-    grid-column: span 1;
-}
-.col-span-2 {
-    grid-column: span 2;
-}
-.col-span-3 {
-    grid-column: span 3;
-}
-.col-span-4 {
-    grid-column: span 4;
-}
-.col-span-5 {
-    grid-column: span 5;
-}
-.col-span-6 {
-    grid-column: span 6;
-}
-.col-span-12 {
-    grid-column: span 12;
+@each $n in $col-spans {
+    .col-span-#{$n} { grid-column: span #{$n}; }
 }
 
-.gap-0 {
-    gap: 0;
-}
-.gap-1 {
-    gap: $spacing-xs;
-}
-.gap-2 {
-    gap: $spacing-sm;
-}
-.gap-3 {
-    gap: $spacing-md;
-}
-.gap-4 {
-    gap: $spacing-lg;
-}
-.gap-5 {
-    gap: $spacing-xl;
-}
-.gap-6 {
-    gap: $spacing-2xl;
+@each $k, $v in $gap-map {
+    .gap-#{$k} { gap: $v; }
 }
 
 // =============================================================================
 // TEXT UTILITIES
 // =============================================================================
 
-.text-left {
-    text-align: left;
-}
-.text-center {
-    text-align: center;
-}
-.text-right {
-    text-align: right;
-}
-.text-justify {
-    text-align: justify;
+@each $k, $v in $text-align-map {
+    .text-#{$k} { text-align: $v; }
 }
 
-.text-xs {
-    font-size: $font-size-sm;
-}
-.text-sm {
-    font-size: $font-size-base;
-}
-.text-base {
-    font-size: $font-size-lg;
-}
-.text-lg {
-    font-size: $font-size-xl;
-}
-.text-xl {
-    font-size: $font-size-2xl;
-}
-.text-2xl {
-    font-size: $font-size-3xl;
-}
-.text-3xl {
-    font-size: $font-size-4xl;
+@each $k, $v in $font-size-map {
+    .text-#{$k} { font-size: $v; }
 }
 
-.font-normal {
-    font-weight: $font-weight-normal;
-}
-.font-medium {
-    font-weight: $font-weight-medium;
-}
-.font-semibold {
-    font-weight: $font-weight-semibold;
-}
-.font-bold {
-    font-weight: $font-weight-bold;
-}
-.font-extrabold {
-    font-weight: $font-weight-extrabold;
+@each $k, $v in $font-weight-map {
+    .font-#{$k} { font-weight: $v; }
 }
 
-.text-primary {
-    color: $text-primary;
-}
-.text-secondary {
-    color: $text-secondary;
-}
-.text-muted {
-    color: $text-muted;
-}
-.text-light {
-    color: $text-light;
+// legacy semantic text colors
+.text-primary { color: $text-primary; }
+.text-secondary { color: $text-secondary; }
+.text-muted { color: $text-muted; }
+.text-light { color: $text-light; }
+
+@each $k, $v in $text-transform-map {
+    .#{$k} { text-transform: $v; }
 }
 
-.uppercase {
-    text-transform: uppercase;
-}
-.lowercase {
-    text-transform: lowercase;
-}
-.capitalize {
-    text-transform: capitalize;
+@each $k, $v in $font-style-map {
+    .#{$k} { font-style: $v; }
 }
 
-.italic {
-    font-style: italic;
-}
-.not-italic {
-    font-style: normal;
+@each $k, $v in $text-decoration-map {
+    .#{$k} { text-decoration: $v; }
 }
 
-.underline {
-    text-decoration: underline;
-}
-.no-underline {
-    text-decoration: none;
-}
-
-.leading-tight {
-    line-height: 1.25;
-}
-.leading-normal {
-    line-height: 1.5;
-}
-.leading-relaxed {
-    line-height: 1.625;
-}
-.leading-loose {
-    line-height: 2;
+@each $k, $v in $leading-map {
+    .leading-#{$k} { line-height: $v; }
 }
 
 // =============================================================================
 // COLOR UTILITIES
 // =============================================================================
 
-.bg-primary {
-    background-color: $color-primary;
-}
-.bg-secondary {
-    background-color: $color-secondary;
-}
-.bg-success {
-    background-color: $color-success;
-}
-.bg-warning {
-    background-color: $color-warning;
-}
-.bg-danger {
-    background-color: $color-danger;
-}
-.bg-info {
-    background-color: $color-info;
-}
-.bg-light {
-    background-color: $bg-secondary;
-}
-.bg-dark {
-    background-color: $text-primary;
-}
-.bg-white {
-    background-color: $bg-primary;
-}
-.bg-transparent {
-    background-color: transparent;
+@each $k, $v in $bg-color-map {
+    .bg-#{$k} { background-color: $v; }
 }
 
-.text-primary {
-    color: $color-primary;
-}
-.text-secondary {
-    color: $color-secondary;
-}
-.text-success {
-    color: $color-success;
-}
-.text-warning {
-    color: $color-warning;
-}
-.text-danger {
-    color: $color-danger;
-}
-.text-info {
-    color: $color-info;
-}
-.text-light {
-    color: $text-light;
-}
-.text-dark {
-    color: $text-primary;
-}
-.text-muted {
-    color: $text-muted;
+@each $k, $v in $text-color-map {
+    .text-#{$k} { color: $v; }
 }
 
 // =============================================================================
 // BORDER UTILITIES
 // =============================================================================
 
-.border {
-    border: 1px solid $border-light;
-}
-.border-0 {
-    border: 0;
-}
-.border-t {
-    border-top: 1px solid $border-light;
-}
-.border-r {
-    border-right: 1px solid $border-light;
-}
-.border-b {
-    border-bottom: 1px solid $border-light;
-}
-.border-l {
-    border-left: 1px solid $border-light;
+.border { border: 1px solid $border-light; }
+.border-0 { border: 0; }
+.border-t { border-top: 1px solid $border-light; }
+.border-r { border-right: 1px solid $border-light; }
+.border-b { border-bottom: 1px solid $border-light; }
+.border-l { border-left: 1px solid $border-light; }
+
+@each $k, $v in $border-color-map {
+    .border-#{$k} { border-color: $v; }
 }
 
-.border-primary {
-    border-color: $color-primary;
-}
-.border-secondary {
-    border-color: $color-secondary;
-}
-.border-success {
-    border-color: $color-success;
-}
-.border-warning {
-    border-color: $color-warning;
-}
-.border-danger {
-    border-color: $color-danger;
-}
-.border-info {
-    border-color: $color-info;
-}
-
-.rounded-none {
-    border-radius: 0;
-}
-.rounded-sm {
-    border-radius: $border-radius-sm;
-}
-.rounded {
-    border-radius: $border-radius-md;
-}
-.rounded-lg {
-    border-radius: $border-radius-lg;
-}
-.rounded-xl {
-    border-radius: $border-radius-xl;
-}
-.rounded-2xl {
-    border-radius: $border-radius-2xl;
-}
-.rounded-full {
-    border-radius: $border-radius-full;
+@each $k, $v in $radius-map {
+    @if $k == null {
+        .rounded { border-radius: $v; }
+    } @else {
+        .rounded-#{$k} { border-radius: $v; }
+    }
 }
 
 // =============================================================================
 // SHADOW UTILITIES
 // =============================================================================
 
-.shadow-none {
-    box-shadow: none;
-}
-.shadow-sm {
-    box-shadow: $shadow-sm;
-}
-.shadow {
-    box-shadow: $shadow-md;
-}
-.shadow-lg {
-    box-shadow: $shadow-lg;
-}
-.shadow-xl {
-    box-shadow: $shadow-xl;
-}
-.shadow-2xl {
-    box-shadow: $shadow-2xl;
+@each $k, $v in $shadow-map {
+    @if $k == null {
+        .shadow { box-shadow: $v; }
+    } @else {
+        .shadow-#{$k} { box-shadow: $v; }
+    }
 }
 
 // =============================================================================
 // POSITION UTILITIES
 // =============================================================================
 
-.static {
-    position: static;
-}
-.relative {
-    position: relative;
-}
-.absolute {
-    position: absolute;
-}
-.fixed {
-    position: fixed;
-}
-.sticky {
-    position: sticky;
+@each $k, $v in $position-map {
+    .#{$k} { position: $v; }
 }
 
-.top-0 {
-    top: 0;
-}
-.right-0 {
-    right: 0;
-}
-.bottom-0 {
-    bottom: 0;
-}
-.left-0 {
-    left: 0;
-}
+@include emit-rules($inset-zero-map);
 
-.z-0 {
-    z-index: 0;
-}
-.z-10 {
-    z-index: 10;
-}
-.z-20 {
-    z-index: 20;
-}
-.z-30 {
-    z-index: 30;
-}
-.z-40 {
-    z-index: 40;
-}
-.z-50 {
-    z-index: 50;
-}
+@each $k, $v in $z-map { .z-#{$k} { z-index: $v; } }
 
 // =============================================================================
 // OVERFLOW UTILITIES
 // =============================================================================
 
-.overflow-auto {
-    overflow: auto;
-}
-.overflow-hidden {
-    overflow: hidden;
-}
-.overflow-visible {
-    overflow: visible;
-}
-.overflow-scroll {
-    overflow: scroll;
+@each $k, $v in $overflow-map {
+    .overflow-#{$k} { overflow: $v; }
 }
 
-.overflow-x-auto {
-    overflow-x: auto;
-}
-.overflow-x-hidden {
-    overflow-x: hidden;
-}
-.overflow-x-visible {
-    overflow-x: visible;
-}
-.overflow-x-scroll {
-    overflow-x: scroll;
-}
-
-.overflow-y-auto {
-    overflow-y: auto;
-}
-.overflow-y-hidden {
-    overflow-y: hidden;
-}
-.overflow-y-visible {
-    overflow-y: visible;
-}
-.overflow-y-scroll {
-    overflow-y: scroll;
+@each $axis, $axis-val in $overflow-axis-map {
+    @each $k, $v in $overflow-map {
+        .overflow-#{$axis}-#{$k} { overflow-#{$axis-val}: $v; }
+    }
 }
 
 // =============================================================================
 // WIDTH & HEIGHT UTILITIES
 // =============================================================================
 
-.w-auto {
-    width: auto;
-}
-.w-full {
-    width: 100%;
-}
-.w-screen {
-    width: 100vw;
-}
-.w-min {
-    width: min-content;
-}
-.w-max {
-    width: max-content;
-}
+@each $k, $v in $size-width-map { .w-#{$k} { width: $v; } }
+@each $k, $v in $size-height-map { .h-#{$k} { height: $v; } }
 
-.h-auto {
-    height: auto;
-}
-.h-full {
-    height: 100%;
-}
-.h-screen {
-    height: 100vh;
-}
-.h-min {
-    height: min-content;
-}
-.h-max {
-    height: max-content;
-}
+@include emit-rules($min-size-map);
 
-.min-w-0 {
-    min-width: 0;
-}
-.min-w-full {
-    min-width: 100%;
-}
-.min-h-0 {
-    min-height: 0;
-}
-.min-h-full {
-    min-height: 100%;
-}
-.min-h-screen {
-    min-height: 100vh;
-}
+@each $k, $v in $max-width-map { .max-w-#{$k} { max-width: $v; } }
 
-.max-w-none {
-    max-width: none;
-}
-.max-w-xs {
-    max-width: 20rem;
-}
-.max-w-sm {
-    max-width: 24rem;
-}
-.max-w-md {
-    max-width: 28rem;
-}
-.max-w-lg {
-    max-width: 32rem;
-}
-.max-w-xl {
-    max-width: 36rem;
-}
-.max-w-2xl {
-    max-width: 42rem;
-}
-.max-w-full {
-    max-width: 100%;
-}
-
-.max-h-none {
-    max-height: none;
-}
-.max-h-full {
-    max-height: 100%;
-}
-.max-h-screen {
-    max-height: 100vh;
-}
+@each $k, $v in $max-height-map { .max-h-#{$k} { max-height: $v; } }
 
 // =============================================================================
 // RESPONSIVE UTILITIES

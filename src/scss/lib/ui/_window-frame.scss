@@ -1,4 +1,3 @@
-@use "../mixins/base" as m;
 @use "../mixins/layout" as l;
 @use "../core/constants" as c;
 @use "../design/typography" as t;
@@ -89,8 +88,8 @@
 
 // layout
 @mixin window-frame-layout {
-    @include m.border-radius(var(--ui-window-frame-border-radius));
-    @include m.border(var(--ui-window-frame-border-width), solid, var(--ui-window-frame-border-color));
+    @include l.border-radius(var(--ui-window-frame-border-radius));
+    @include l.border(var(--ui-window-frame-border-width), solid, var(--ui-window-frame-border-color));
     @include l.container-layout(ui-window-frame, strict);
     @include l.grid();
     @include l.place('center', 'center');
@@ -148,8 +147,8 @@
 // content
 @mixin content-styles {
     @include l.container-layout(ui-content, strict);
-    @include m.border-radius(var(--ui-window-frame-content-border-radius));
-    @include m.border(0px, solid, transparent);
+    @include l.border-radius(var(--ui-window-frame-content-border-radius));
+    @include l.border(0px, solid, transparent);
 
     // grid-specific styles
     & { grid-area: content; display: flex; flex-direction: column; gap: 0.5rem; place-content: stretch; place-items: stretch; }

@@ -149,6 +149,15 @@
             stroke-color: --c2-#{$on}(var(--stroke-tone-shift, 0.0), var(--current, transparent));
         }
 
+        button {
+            background-color: --c2-#{$name}(var(--background-tone-shift, 0.0), var(--current, inherit));
+            color: --c2-#{$on}(var(--color-tone-shift, 0.0), var(--current, currentColor));
+        }
+
+        ui-icon {
+            --icon-color: --c2-#{$on}(var(--icon-tone-shift, 0.0), var(--current, currentColor));
+        }
+
         svg {
             fill-color: --c2-#{$on}(var(--fill-tone-shift, 0.0), var(--current, transparent));
             stroke-color: --c2-#{$on}(var(--stroke-tone-shift, 0.0), var(--current, transparent));

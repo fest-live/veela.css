@@ -1,14 +1,14 @@
-@use "../../lib/mixins/components" as *;
+@use "../../lib/mixins/components" as mx;
 
 //
 @layer ux-buttons {
 
     :where(button, input[type="checkbox"]) {
-        @include button-base;
+        @include mx.button-base;
     }
 
     :where(button, input[type="checkbox"]):is(.btn, .save, .cancel) {
-        @include button-base;
+        @include mx.button-base;
         gap: var(--space-sm);
         padding: calc(var(--space-sm) * 0.9) var(--space-md);
         border-radius: var(--radius-xl);

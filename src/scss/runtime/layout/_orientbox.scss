@@ -81,5 +81,4 @@
         .fixed { @include mx.use-inset; position: fixed !important; }
         .absolute { @include mx.use-inset; position: absolute !important; }
     }
-
 }

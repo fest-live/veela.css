@@ -1,0 +1,27 @@
+@use "../core/constants" as *;
+
+@mixin table-base {
+    inline-size: stretch;
+    border-collapse: collapse;
+    background: $bg-primary;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+}
+
+@mixin table-header {
+    background: $primary-gradient;
+    color: $text-light;
+    padding: $spacing-md $spacing-sm;
+    text-align: start;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+}
+
+@mixin table-cell {
+    padding: $spacing-sm;
+    border-block-end: 1px solid $bg-tertiary;
+    vertical-align: middle;
+}
+

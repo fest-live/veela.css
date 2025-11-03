@@ -1,4 +1,4 @@
-@use "../../lib/mixins/rendering" as ps;
+@use "../../lib/index" as *;
 
 //
 @layer ux-normalize {
@@ -15,7 +15,7 @@
                 inset: 0px;
                 border: none 0px transparent;
                 background-color: transparent;
-                @include ps.HQRendering();
+                @include HQRendering();
             }
 
             //
@@ -70,7 +70,7 @@
 
             //
             :where(ui-icon::before) {
-                @include ps.LQRendering();
+                @include LQRendering();
             }
 
             //

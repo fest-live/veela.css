@@ -4,22 +4,13 @@
 // This is the main entry point for all styles
 // Import order is important for proper cascade
 
-// 1.
-@use "../../lib/mixins/constants" as *;
+//
+@use "../../lib/index" as *;
 
-// 2.
-@use "../../lib/mixins/layout" as *;
-
-// 3. Base styles and resets
+//
 @use "base" as *;
-
-// 4. Layout components
 @use "layout" as *;
-
-// 5. UI components
 @use "components" as *;
-
-// 6. Utility classes
 @use "utilities" as *;
 
 // =============================================================================

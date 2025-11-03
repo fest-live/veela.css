@@ -133,3 +133,35 @@
 //
 @property --c-shift-mod { syntax: "<number>"; initial-value: 0; inherits: true; }
 @property --r-shift-mod { syntax: "<number>"; initial-value: 0; inherits: true; }
+
+//
+@property --light-az { syntax: '<angle>'; inherits: true; initial-value: 225deg; }
+@property --light-alt { syntax: '<angle>'; inherits: true; initial-value: 55deg; }
+@property --soft-ang  { syntax: '<angle>'; inherits: true; initial-value: 18deg; }
+
+@property --parallax-k { syntax: '<number>'; inherits: true; initial-value: 0.01; }
+@property --parallax-ref { syntax: '<length>'; inherits: true; initial-value: 600px; } // нормализация px->[-1..1]
+@property --az-span      { syntax: '<angle>';  inherits: true; initial-value: 12deg; } // макс. отклонение азимута
+@property --alt-span     { syntax: '<angle>';  inherits: true; initial-value: 6deg; }  // макс. отклонение высоты
+
+@property --umbra-density    { syntax: '<number>'; inherits: true; initial-value: 0.32; }
+@property --penumbra-density { syntax: '<number>'; inherits: true; initial-value: 0.18; }
+
+/* height of the element above the plane */
+@property --elev { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+/* 3D vector of the source */
+@property --lx { syntax: '<number>'; inherits: true; initial-value: -1; }
+@property --ly { syntax: '<number>'; inherits: true; initial-value: -1; }
+@property --lz { syntax: '<number>'; inherits: true; initial-value: 1.2; }
+
+/* shadow properties (elevation) */
+@property --z-index { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --dx { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --dy { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --spreadC { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --spreadU { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --spreadP { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --alphaC { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --alphaU { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --alphaP { syntax: '<number>'; inherits: true; initial-value: 0; }

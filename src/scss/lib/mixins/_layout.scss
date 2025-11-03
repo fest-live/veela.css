@@ -434,52 +434,8 @@
 
 // =============================================================================
 // VISUAL EFFECTS MIXINS
+// (moved to design/_effects.scss)
 // =============================================================================
-
-@mixin glass-morphism($opacity: 0.95, $blur: $backdrop-blur-md) {
-    background: rgba(255, 255, 255, $opacity);
-    // Remove backdrop-filter for flat design
-    border: 1px solid rgba(44, 62, 80, 0.1);
-}
-
-@mixin gradient-text($gradient: $primary-gradient) {
-    color: $gradient; // Use solid color instead of gradient
-}
-
-@mixin hover-lift($lift: -1px, $shadow: $shadow-md) {
-    transition:
-        transform $transition-base,
-        box-shadow $transition-base;
-
-    &:hover {
-        transform: translateY($lift);
-        box-shadow: $shadow;
-    }
-}
-
-@mixin shimmer-effect($duration: 3s) {
-    // Removed shimmer effect for flat design
-}
-
-@mixin button-shine($duration: 0.5s) {
-    // Removed button shine effect for flat design
-}
-
-@mixin table-header {
-    background: $primary-gradient;
-    color: $text-light;
-    padding: $spacing-md $spacing-sm;
-    text-align: left;
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-sm;
-    white-space: nowrap;
-}
-
-@mixin table-cell {
-    padding: $spacing-sm;
-    border-bottom: 1px solid $bg-tertiary;
-    vertical-align: middle;
-}
 
 // =============================================================================
 // UTILITY MIXINS

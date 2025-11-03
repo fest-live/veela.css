@@ -1,0 +1,96 @@
+@use "../design/colorize" as colorize;
+@use "../design/typography" as typography;
+@use "../mixins/layout" as layout;
+@use "../design/animation" as animation;
+
+@use "../core/constants" as c;
+@use "sass:map";
+@use "sass:meta";
+@use "sass:list";
+
+@mixin button-base {
+    @include animation.transition(all, var(--transition-base, #{c.$ui-duration-standard}));
+    position: relative;
+
+    place-content: center;
+    place-items: center;
+
+    font: inherit;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-xs);
+    padding: var(--button-padding-y) var(--button-padding-x);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+
+    block-size: fit-content;
+    inline-size: fit-content;
+
+    line-height: normal;
+    max-block-size: stretch;
+    max-inline-size: stretch;
+
+    overflow: hidden;
+    flex-wrap: nowrap;
+
+    @include colorize.solid-colorize("&");
+
+    &:disabled {
+        opacity: var(--text-opacity-disabled);
+        pointer-events: none;
+    }
+
+    & > * { max-inline-size: stretch; }
+
+    & :where(span, a) {
+        display: inline;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+    }
+}
+
+@mixin button-variant($surface-opacity: var(--surface-opacity-default)) {
+    @include button-base;
+    @include colorize.surface-interactive($surface-opacity);
+    @include colorize.text-color(0);
+}
+
+@mixin button-base-variant($color-options: ()) {
+    $resolved-options: map.merge(("shade": 0.0, "tint": 0.0), if(meta.type-of($color-options) == "map", $color-options, ()));
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    block-size: fit-content;
+    inline-size: fit-content;
+    max-inline-size: stretch;
+    line-height: normal;
+
+    @include colorize.solid-colorize("&", $resolved-options);
+    @include typography.font-style("&");
+}
+
+@mixin toolbar-button {
+    font-size: var(--font-sm);
+
+    @include button-variant(var(--surface-opacity-default));
+    @include layout.container-query("md") { span { display: none; } }
+}
+

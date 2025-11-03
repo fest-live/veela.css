@@ -1,6 +1,8 @@
+@use "../../lib/index" as *;
+
+//
 @use "sass:math";
 @use "sass:list";
-@use "../core/wavy" as wavy;
 
 //
 @layer ux-shapes {
@@ -55,7 +57,7 @@
         & {
             --clip-amplitude: 0.05;
             --clip-freq: 8;
-            --clip-path: #{wavy.Integrate("wavy-step", 100)};
+            --clip-path: #{Integrate("wavy-step", 100)};
             --corrector: 1.1;
         }
 

@@ -3,19 +3,6 @@
 
 @use "../core/constants" as c;
 
-// Transition helpers (preserve signature; better defaults via CSS vars)
-@mixin transition($properties: all, $duration: null, $timing: null) {
-    & {
-        $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
-        --transition-props: #{$prop-list};
-        @if $duration != null { --transition-duration: #{$duration}; }
-        @if $timing != null { --transition-timing: #{$timing}; }
-        transition:
-            var(--transition-props)
-            var(--transition-duration, var(--transition-normal, #{c.$ui-duration-standard}))
-            var(--transition-timing, var(--ease-out, #{c.$ui-ease-standard}));
-    }
-}
 
 // Spacing helpers
 @mixin padding($value: null) {

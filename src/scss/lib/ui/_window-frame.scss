@@ -2,6 +2,7 @@
 @use "../mixins/layout" as l;
 @use "../core/constants" as c;
 @use "../design/typography" as t;
+@use "../design/animation" as animation;
 
 // default styles
 @mixin reset-styles {
@@ -197,7 +198,7 @@
 
 // resize handle
 @mixin resize-handle-styles {
-    @include m.transition('opacity', $duration: c.$ui-duration-fast);
+    @include animation.transition('opacity', var(--transition-base, #{c.$ui-duration-standard}));
 
     & {
         inline-size: 12px;
@@ -444,7 +445,7 @@
 
 // control button base
 @mixin control-button-base {
-    @include m.transition(background-color, $duration: c.$ui-duration-fast);
+    @include animation.transition(background-color, var(--transition-base, #{c.$ui-duration-standard}));
 
     & {
         block-size: stretch;

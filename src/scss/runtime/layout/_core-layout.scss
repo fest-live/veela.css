@@ -1,4 +1,4 @@
-@use "../../lib/mixins/viewport" as mx;
+@use "../../lib/index" as *;
 
 //
 @layer ux-agate {
@@ -150,7 +150,7 @@
 
         //
         :where(body) {
-            @include mx.fit-viewport();
+            @include fit-viewport();
 
             //
             & {
@@ -169,7 +169,7 @@
 
         //
         .native-portrait-optimized {
-            @include mx.oriented(--in-swap-cond, 0, 1);
+            @include oriented(--in-swap-cond, 0, 1);
         };
 
     };

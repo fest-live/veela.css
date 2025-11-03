@@ -2,8 +2,35 @@
 @use "sass:meta";
 @use "sass:list";
 
+//
 @use "../core/logical" as lg;
 
+// Color system properties
+@property --color-shade {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-tint {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-opacity {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-enable-blur {
+    syntax: "<boolean>";
+    inherits: false;
+    initial-value: false;
+}
+
+//
 @mixin tm-dep($property, $light, $dark) {
     & {
         #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
@@ -51,31 +78,6 @@
     }
 
     @return map.merge($defaults, $overrides);
-}
-
-// Color system properties
-@property --color-shade {
-    syntax: "<number>";
-    inherits: false;
-    initial-value: 0.0;
-}
-
-@property --color-tint {
-    syntax: "<number>";
-    inherits: false;
-    initial-value: 0.0;
-}
-
-@property --color-opacity {
-    syntax: "<number>";
-    inherits: false;
-    initial-value: 0.0;
-}
-
-@property --color-enable-blur {
-    syntax: "<boolean>";
-    inherits: false;
-    initial-value: false;
 }
 
 // Enhanced colorize mixin with better organization
@@ -213,3 +215,16 @@
     }
 }
 
+@mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
+    border-color: oklch(from $color l c h / $border-opacity);
+    background: oklch(from $color l c h / $bg-opacity);
+}
+
+@mixin validation-success { @include validation-state(var(--color-success)); }
+
+@mixin validation-error {
+    @include validation-state(var(--color-error));
+    box-shadow: 0 0 0 3px oklch(from var(--color-error) l c h / 0.12);
+}
+
+@mixin validation-warning { @include validation-state(var(--color-warning)); }

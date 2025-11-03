@@ -1,13 +1,13 @@
-@use "../../lib/mixins/viewport" as mx;
+@use "../../lib/index" as *;
 
 //
 @layer ux-orientbox {
 
     //
     .ui-orientbox {
-        @include mx.compute_os_conditions;
-        @include mx.compute_cs_size_to_os;
-        @include mx.compute_from_os_to_cs;
+        @include compute_os_conditions;
+        @include compute_cs_size_to_os;
+        @include compute_from_os_to_cs;
 
         //
         & {
@@ -66,19 +66,19 @@
         & > :where(*),
         & :where(ui-frame, .u2-grid-item, ui-modal, [is="ui-orientbox"], [is="ui-gridbox"], [is="ui-orientbox"] > :where(*), [is="ui-gridbox"] > :where(*), .ui-gridlayout, .ui-gridlayout > :where(*))
         {
-            @include mx.compute_os_conditions;
-            @include mx.compute_cs_size_to_os;
-            @include mx.compute_from_os_to_cs;
+            @include compute_os_conditions;
+            @include compute_cs_size_to_os;
+            @include compute_from_os_to_cs;
         }
 
         //
         .center-self {
-            @include mx.use-inset;
-            @include mx.centered-with-offset();
+            @include use-inset;
+            @include centered-with-offset();
         }
 
         //
-        .fixed { @include mx.use-inset; position: fixed !important; }
-        .absolute { @include mx.use-inset; position: absolute !important; }
+        .fixed { @include use-inset; position: fixed !important; }
+        .absolute { @include use-inset; position: absolute !important; }
     }
 }

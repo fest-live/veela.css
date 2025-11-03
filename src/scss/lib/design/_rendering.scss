@@ -8,15 +8,14 @@
     transform: translateZ(0);
     transform-origin: 50% 50%;
     backface-visibility: hidden;
-
-    @supports (contain: layout paint) {
-        contain: layout paint;
-    }
-
     box-sizing: border-box;
     overflow: hidden;
     transition: none;
     will-change: transform;
+
+    @supports (contain: layout paint) {
+        contain: layout paint;
+    }
 
     @supports (scrollbar-width: none) {
         scrollbar-width: none;

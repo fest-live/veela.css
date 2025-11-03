@@ -1,0 +1,115 @@
+@use "sass:meta";
+@use "sass:list";
+@use "../core/constants" as c;
+
+
+@mixin fade-in($duration: var(--duration-normal)) {
+    animation: fade-in $duration var(--ease-out);
+}
+
+@mixin slide-up($duration: var(--duration-normal)) {
+    animation: slide-up $duration var(--ease-out);
+}
+
+@mixin scale-in($duration: var(--duration-fast)) {
+    animation: scale-in $duration var(--ease-bounce);
+}
+
+@mixin focus-ring($tint: var(--outline-tint)) {
+    &:focus-visible {
+        outline: 2px solid oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / var(--outline-opacity));
+        outline-offset: 2px;
+    }
+}
+
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+@mixin high-contrast {
+    @media (prefers-contrast: high) {
+        @content;
+    }
+}
+
+// Transition helpers (preserve signature; better defaults via CSS vars)
+@mixin transition($properties: all, $duration: null, $timing: null) {
+    & {
+        $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+        --transition-props: #{$prop-list};
+        @if $duration != null { --transition-duration: #{$duration}; }
+        @if $timing != null { --transition-timing: #{$timing}; }
+        transition:
+            var(--transition-props)
+            var(--transition-duration, var(--transition-normal, #{c.$ui-duration-standard}))
+            var(--transition-timing, var(--ease-out, #{c.$ui-ease-standard}));
+    }
+}
+
+//
+@layer ux-animation {
+
+    // Keyframe definitions
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slide-up {
+        from {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes scale-in {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+
+    @keyframes validationPulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.01);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* animations */
+    @keyframes lift {
+        from { --elev: 6; }
+        to   { --elev: 32; }
+    }
+
+    /* */
+    @keyframes daylight {
+        0%   { --light-az: 210deg; --light-alt: 30deg; }
+        50%  { --light-az: 270deg; --light-alt: 70deg; }
+        100% { --light-az: 330deg; --light-alt: 30deg; }
+    }
+
+}

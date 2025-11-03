@@ -1,9 +1,5 @@
 //
-@use "../../lib/mixins/viewport" as mv;
-@use "../../lib/mixins/layout" as ml;
-@use "../../lib/mixins/components" as mc;
-@use "../../lib/design/colorize" as dc;
-@use "../../lib/design/typography" as dt;
+@use "../../lib/index" as *;
 
 //
 @layer ux-inputs {
@@ -33,7 +29,7 @@
         text-overflow: "";
         color: transparent !important;
 
-        @include mc.select-dropdown;
+        @include select-dropdown;
 
         &,
         &::picker(select) {
@@ -65,8 +61,8 @@
             user-select: none;
             cursor: pointer;
 
-            @include dc.solid-colorize("&", ("shade": 0.0, "tint": 0.0));
-            @include dt.font-style("&", ("size": "sm", "weight": 400));
+            @include solid-colorize("&", ("shade": 0.0, "tint": 0.0));
+            @include font-style("&", ("size": "sm", "weight": 400));
 
             & {
                 border-width: 0px;
@@ -102,7 +98,7 @@
     }
 
     textarea {
-        @include mc.form-field-base;
+        @include form-field-base;
     }
 
     input {
@@ -119,11 +115,11 @@
         &:where([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
             padding-inline-end: calc(var(--space-lg) * 2);
 
-            @include mc.form-field-base;
+            @include form-field-base;
         }
 
         &:where([type="datetime-local"], [type="date"], [type="time"], [type="text"], [type="number"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="month"], [type="week"]) {
-            @include mc.form-field-base;
+            @include form-field-base;
         }
 
         &:is([type="radio"]:checked) {
@@ -132,7 +128,7 @@
     }
 
     :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
-        @include mc.checkbox-radio-base;
+        @include checkbox-radio-base;
 
         --icon-color: currentColor;
         content: " ";

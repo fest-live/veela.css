@@ -17,6 +17,7 @@
 ) {
     position: relative;
 
+    pointer-events: auto;
     place-content: center;
     place-items: center;
 
@@ -75,6 +76,7 @@
 
 @mixin button-base {
     @include button-structure();
+    @include button-colors();
 }
 
 @mixin button-variant($surface-opacity: var(--surface-opacity-default)) {
@@ -88,9 +90,6 @@
 
     // Reuse unified structure with alternate sizing tokens
     @include button-structure(var(--space-sm), var(--space-md), var(--space-sm), var(--radius-md));
-    pointer-events: auto;
-    max-inline-size: stretch;
-
     @include button-interactions();
     @include button-colors(var(--surface-opacity-default), $resolved-options);
     @include typography.font-style("&");

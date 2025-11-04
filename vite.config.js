@@ -1,5 +1,6 @@
 import { resolve  } from "node:path";
 import { readFile } from "node:fs/promises";
+import { fontEncoder } from "./vite-plugin-font-encoder.js";
 
 //
 const importConfig = (url, ...args)=>{ return import(url)?.then?.((m)=>m?.default?.(...args)); }
@@ -28,11 +29,28 @@ const objectAssign = (target, ...sources) => {
 //
 export const NAME = "veela";
 export const __dirname = resolve(import.meta.dirname, "./");
+
+// Base config
+const baseConfig = await importConfig(resolve(__dirname, "../../shared/vite.config.js"),
+    NAME,
+    JSON.parse(await readFile(resolve(__dirname, "./tsconfig.json"), {encoding: "utf8"})),
+    __dirname
+);
+
+// Add font encoder plugin
+const fontEncoderPlugin = fontEncoder({
+    fontDir: resolve(__dirname, "./fonts"),
+    outputFile: resolve(__dirname, "./src/ts/font-registry.ts"),
+    compress: false // woff2 files are already compressed
+});
+
+// Merge configs
 export default objectAssign(
-    await importConfig(resolve(__dirname, "../../shared/vite.config.js"),
-        NAME,
-        JSON.parse(await readFile(resolve(__dirname, "./tsconfig.json"), {encoding: "utf8"})),
-        __dirname
-    ),
-    {}
+    baseConfig,
+    {
+        plugins: [
+            ...(baseConfig?.plugins || []),
+            fontEncoderPlugin
+        ]
+    }
 );

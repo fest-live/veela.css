@@ -280,3 +280,7 @@ docs/*
 docs
 ./docs
 ./docs/*
+
+#
+font-registry.ts
+font-registry.json

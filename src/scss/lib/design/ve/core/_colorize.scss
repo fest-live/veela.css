@@ -30,6 +30,86 @@
     initial-value: false;
 }
 
+@property --on-surface {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --on-surface-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --surface-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --border-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --scrollbar-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --contrast-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --on-contrast-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --on-contrast {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+//
+@property --outline-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --accent-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --text-decoration-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+@property --fill-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
+//
+@property --text-emphasis-color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: currentColor;
+}
+
 //
 @mixin tm-dep($property, $light, $dark) {
     & {
@@ -89,7 +169,15 @@
 
         // Computed color values
         --surface-color: --c2-surface(var(--color-shade), var(--current, currentColor));
-        --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor));
+
+        // make contrast color based on surface color (shade)
+        --on-surface-color: color-mix(in oklch,
+            --c2-on-surface(var(--color-tint), var(--current, currentColor)) calc((1 - var(--color-shade)) * 100%),
+            --c2-surface(var(--color-tint), var(--current, currentColor))
+        );
+
+        //
+        --on-surface: var(--on-surface-color, currentColor); // alias
         --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.15);
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.4);
 
@@ -209,6 +297,7 @@
         --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor));
         --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.1);
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.1);
+        --on-surface: var(--on-surface-color, currentColor); // alias
 
         //
         &, &:hover, &:active, &:focus-visible {

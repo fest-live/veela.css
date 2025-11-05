@@ -1,20 +1,7 @@
-@use "../design/colorize" as colorize;
-@use "../design/typography" as typography;
 @use "../mixins/layout" as layout;
-@use "../design/animation" as animation;
-@use "../core/constants" as c;
-
-@use "sass:map";
-@use "sass:meta";
-@use "sass:list";
 
 // Unified, decomposed mixins
-@mixin button-structure(
-    $padding-y: var(--button-padding-y),
-    $padding-x: var(--button-padding-x),
-    $gap: var(--gap-xs),
-    $radius: var(--radius-sm)
-) {
+@mixin button-structure() {
     position: relative;
 
     pointer-events: auto;
@@ -22,7 +9,7 @@
     place-items: center;
 
     font: inherit;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
     font-size: var(--text-base);
     text-decoration: none;
     text-overflow: ellipsis;
@@ -32,10 +19,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: $gap;
-    padding: $padding-y $padding-x;
+    gap: var(--gap-xs);
+    padding: var(--button-padding-y) var(--button-padding-x);
     border: none;
-    border-radius: $radius;
+    border-radius: var(--radius-sm);
     cursor: pointer;
 
     block-size: fit-content;
@@ -64,40 +51,7 @@
     }
 }
 
-@mixin button-interactions($transition: var(--transition-base, #{c.$ui-duration-standard})) {
-    @include animation.transition(all, $transition);
-}
-
-@mixin button-colors($surface-opacity: var(--surface-opacity-default), $color-options: ()) {
-    @include colorize.surface-interactive($surface-opacity);
-    @include colorize.text-color(0);
-    @include colorize.solid-colorize("&", $color-options);
-}
-
+//
 @mixin button-base {
     @include button-structure();
-    @include button-colors();
-}
-
-@mixin button-variant($surface-opacity: var(--surface-opacity-default)) {
-    @include button-interactions();
-    @include button-colors($surface-opacity);
-    @include button-base;
-}
-
-@mixin button-base-variant($color-options: ()) {
-    $resolved-options: map.merge(("shade": 0.0, "tint": 0.0), if(meta.type-of($color-options) == "map", $color-options, ()));
-
-    // Reuse unified structure with alternate sizing tokens
-    @include button-structure(var(--space-sm), var(--space-md), var(--space-sm), var(--radius-md));
-    @include button-interactions();
-    @include button-colors(var(--surface-opacity-default), $resolved-options);
-    @include typography.font-style("&");
-}
-
-@mixin toolbar-button {
-    font-size: var(--font-sm);
-
-    @include button-variant(var(--surface-opacity-default));
-    @include layout.container-query("md") { span { display: none; } }
 }

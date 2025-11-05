@@ -1,0 +1,38 @@
+@use "../design/colorize" as colorize;
+@use "../design/typography" as typography;
+@use "../mixins/layout" as layout;
+@use "../design/animation" as animation;
+
+//
+@use "../components/buttons" as buttons;
+
+//
+@mixin button-interactions($transition: var(--transition-base, var(--duration-normal))) {
+    @include animation.transition(all, $transition);
+}
+
+//
+@mixin button-colors() {
+    @include buttons.button-structure();
+    @include colorize.text-color(0);
+    @include colorize.solid-colorize("&");
+}
+
+//
+@mixin button-base-variant() {
+    // Reuse unified structure with alternate sizing tokens
+    @include buttons.button-structure();
+    @include typography.font-style("&");
+
+    //
+    @include button-interactions();
+    @include button-colors();
+}
+
+//
+@mixin toolbar-button {
+    font-size: var(--font-size-sm);
+
+    //
+    @include layout.container-query("md") { span { display: none; } }
+}

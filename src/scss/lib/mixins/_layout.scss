@@ -5,7 +5,7 @@
 //
 @use "../core/constants" as *;
 
-
+//
 @mixin host-related($host, $child) {
     // outside web component
     #{$host} { & > #{$child} { @content; } }
@@ -13,6 +13,7 @@
     :host(#{$host}) { ::slotted(#{$child}) { @content; } }
 }
 
+//
 @mixin host-context($host) {
     // outside web component
     #{$host} { @content; }
@@ -465,6 +466,7 @@
     }
 }
 
+//
 @mixin media-down($breakpoint) {
     @if $breakpoint == sm {
         @media (max-width: #{$breakpoint-sm - 1px}) {

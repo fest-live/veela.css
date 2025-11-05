@@ -29,8 +29,5 @@
         gap: var(--space-sm);
         padding: calc(var(--space-sm) * 0.9) var(--space-md);
         border-radius: var(--radius-xl);
-
-        &.save { --current: var(--color-success); }
-        &.cancel { --current: var(--color-error); }
     }
 }

@@ -25,6 +25,9 @@
 @use "./layout/essentials" as *;
 
 //
+@use "./design/colors" as *;
+@use "./design/variants" as *;
+@use "./design/states" as *;
 @use "./design/shadows" as *;
 @use "./design/shapes" as *;
 

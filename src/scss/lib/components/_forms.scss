@@ -1,17 +1,6 @@
-@use "sass:map";
-@use "sass:meta";
-@use "sass:list";
 
-@use "../design/colorize" as colorize;
-@use "../design/typography" as typography;
+//
 @use "../mixins/layout" as layout;
-@use "../design/animation" as animation;
-
-// Internal helpers
-@function _merge-color-options($defaults, $overrides) {
-    @if $overrides == null or meta.type-of($overrides) != "map" or list.length($overrides) == 0 { @return $defaults; }
-    @return map.merge($defaults, $overrides);
-}
 
 // Forms
 @mixin input-base {
@@ -25,15 +14,9 @@
     inline-size: stretch;
     max-inline-size: stretch;
     field-sizing: content;
-
-    @include animation.transition(var(--transition-colors));
-    @include colorize.surface(var(--surface-opacity-muted));
-    @include colorize.text-color(0);
 }
 
-@mixin form-field-base($color-options: ()) {
-    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
-
+@mixin form-field-base() {
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--radius-md);
     outline: none;
@@ -43,25 +26,18 @@
     display: inline-block;
     inline-size: stretch;
     min-inline-size: fit-content;
+    border-width: 0px;
 
-    @include colorize.solid-colorize("&", $resolved-options);
-    @include typography.font-style("&");
-
-    & { border-width: 0px; }
-
+    //
     &:where(select) { user-select: none; }
 }
 
-@mixin option-style($color-options: ()) {
-    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
-
+@mixin option-style() {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
     user-select: none;
-
-    @include colorize.solid-colorize("&", $resolved-options);
 
     & {
         border-width: 0px;
@@ -85,10 +61,8 @@
     }
 }
 
-@mixin select-dropdown($color-options: ()) {
-    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
-
-    @include form-field-base($resolved-options);
+@mixin select-dropdown() {
+    @include form-field-base();
 
     & {
         appearance: none;
@@ -148,12 +122,10 @@
         overflow: hidden;
     }
 
-    option { @include option-style($resolved-options); }
+    option { @include option-style(); }
 }
 
-@mixin checkbox-radio-base($color-options: ()) {
-    $resolved-options: _merge-color-options(("shade": 0.0, "tint": 0.0), $color-options);
-
+@mixin checkbox-radio-base() {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -175,8 +147,6 @@
     transform: translateZ(0);
     transform-origin: 50% 50%;
     backface-visibility: hidden;
-
-    @include colorize.solid-colorize("&", $resolved-options);
 
     &::before {
         content: "";
@@ -201,7 +171,6 @@
         mask-position: center;
         mask-size: contain;
         mask-type: alpha;
-        transition: background-color var(--transition-normal);
         padding: 0;
         margin: 0;
     }

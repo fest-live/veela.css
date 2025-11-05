@@ -61,9 +61,6 @@
             user-select: none;
             cursor: pointer;
 
-            @include solid-colorize("&", ("shade": 0.0, "tint": 0.0));
-            @include font-style("&", ("size": "sm", "weight": 400));
-
             & {
                 border-width: 0px;
                 border-inline-start-width: 0.5px;

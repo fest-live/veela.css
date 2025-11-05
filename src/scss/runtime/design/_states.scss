@@ -1,0 +1,387 @@
+@use "../../lib/index" as *;
+
+//
+@layer ux-states {
+    // =============================================================================
+    // BUTTONS
+    // =============================================================================
+
+    :where(button) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-default) + 0.04);
+        }
+
+        &:active:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-default) + 0.06);
+        }
+
+        &:focus-visible:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-default) + 0.05);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            --color-shade: var(--surface-opacity-subtle);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    // =============================================================================
+    // CHECKBOX & RADIO INPUTS
+    // =============================================================================
+
+    :where(input:is([type="checkbox"], [type="radio"])) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:checked {
+            --current: var(--color-primary);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.04);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.06);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:active:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.08);
+        }
+
+        &:disabled {
+            --color-shade: var(--surface-opacity-subtle);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    // =============================================================================
+    // TEXT INPUTS (text, number, email, password, search, tel, url, date, time, datetime-local, month, week)
+    // =============================================================================
+
+    :where(input:is([type="text"], [type="number"], [type="email"], [type="password"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"])) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.02);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled),
+        &:focus-within:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.04);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:active:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.03);
+        }
+
+        &:disabled {
+            --color-shade: var(--surface-opacity-subtle);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        &:invalid:not(:disabled) {
+            --current: var(--color-error, var(--color-danger));
+            @include validation-error;
+        }
+
+        &:valid:not(:disabled) {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+
+        &:placeholder-shown {
+            --color-tint: var(--text-tint-muted);
+        }
+
+        &::placeholder {
+            color: oklch(from var(--current) l c h / calc(var(--text-tint-muted) + 0.1));
+            opacity: 0.7;
+        }
+    }
+
+    // =============================================================================
+    // TEXTAREA
+    // =============================================================================
+
+    :where(textarea) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.02);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled),
+        &:focus-within:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.04);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:active:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.03);
+        }
+
+        &:disabled {
+            --color-shade: var(--surface-opacity-subtle);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        &:invalid:not(:disabled) {
+            --current: var(--color-error, var(--color-danger));
+            @include validation-error;
+        }
+
+        &:valid:not(:disabled) {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+
+        &:placeholder-shown {
+            --color-tint: var(--text-tint-muted);
+        }
+
+        &::placeholder {
+            color: oklch(from var(--current) l c h / calc(var(--text-tint-muted) + 0.1));
+            opacity: 0.7;
+        }
+    }
+
+    // =============================================================================
+    // SELECT ELEMENT
+    // =============================================================================
+
+    :where(select) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.02);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.04);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:active:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.03);
+        }
+
+        &:disabled {
+            --color-shade: var(--surface-opacity-subtle);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        &:invalid:not(:disabled) {
+            --current: var(--color-error, var(--color-danger));
+            @include validation-error;
+        }
+
+        &:valid:not(:disabled) {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+    }
+
+    // =============================================================================
+    // RANGE INPUT
+    // =============================================================================
+
+    :where(input[type="range"]) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &::-webkit-slider-thumb {
+            --current: var(--color-primary);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &::-moz-range-thumb {
+            --current: var(--color-primary);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &:hover:not(:disabled) {
+            &::-webkit-slider-thumb {
+                --color-shade: calc(var(--surface-opacity-emphasis) + 0.04);
+            }
+
+            &::-moz-range-thumb {
+                --color-shade: calc(var(--surface-opacity-emphasis) + 0.04);
+            }
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    // =============================================================================
+    // FILE INPUT
+    // =============================================================================
+
+    :where(input[type="file"]) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.02);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.04);
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    // =============================================================================
+    // COLOR INPUT
+    // =============================================================================
+
+    :where(input[type="color"]) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &:hover:not(:disabled) {
+            --color-shade: calc(var(--surface-opacity-subtle) + 0.02);
+        }
+
+        &:focus:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            outline: 2px solid oklch(from var(--current) l c h / var(--outline-opacity));
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    // =============================================================================
+    // PROGRESS ELEMENT
+    // =============================================================================
+
+    :where(progress) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &::-webkit-progress-bar {
+            @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+        }
+
+        &::-webkit-progress-value {
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &::-moz-progress-bar {
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+    }
+
+    // =============================================================================
+    // METER ELEMENT
+    // =============================================================================
+
+    :where(meter) {
+        --current: var(--color-primary);
+        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+
+        &::-webkit-meter-bar {
+            @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+        }
+
+        &::-webkit-meter-optimum-value {
+            --current: var(--color-success);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &::-webkit-meter-suboptimum-value {
+            --current: var(--color-warning);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+
+        &::-webkit-meter-even-less-good-value {
+            --current: var(--color-danger);
+            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        }
+    }
+
+    // =============================================================================
+    // INPUT STATE VARIANTS
+    // =============================================================================
+
+    :where(input, textarea, select) {
+        // Success state
+        &.state-success,
+        &.is-success,
+        &[data-state="success"] {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+
+        // Warning state
+        &.state-warning,
+        &.is-warning,
+        &[data-state="warning"] {
+            --current: var(--color-warning);
+            @include validation-warning;
+        }
+
+        // Error state
+        &.state-error,
+        &.is-error,
+        &.state-invalid,
+        &.is-invalid,
+        &[data-state="error"],
+        &[data-state="invalid"] {
+            --current: var(--color-error, var(--color-danger));
+            @include validation-error;
+        }
+
+        // Valid state
+        &.state-valid,
+        &.is-valid,
+        &[data-state="valid"] {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+    }
+}

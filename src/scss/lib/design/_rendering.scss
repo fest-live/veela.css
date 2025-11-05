@@ -1,10 +1,26 @@
-@mixin HQRendering($importance: null) {}
+@mixin HQRendering($importance: null) {
+    image-rendering: high-quality;
+    image-rendering: optimizeQuality;
+    font-smooth: always;
+    text-rendering: optimizeLegibility;
+    text-rendering: geometricPrecision;
+    shape-rendering: geometricPrecision;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
 
-@mixin LQRendering($importance: null) {}
+@mixin LQRendering($importance: null) {
+    image-rendering: low-quality;
+    image-rendering: optimizeSpeed;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
+    shape-rendering: optimizeSpeed;
+    shape-rendering: crispEdges;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 @mixin hw-optimize() {
-    @include LQRendering();
-
     transform: translateZ(0);
     transform-origin: 50% 50%;
     backface-visibility: hidden;

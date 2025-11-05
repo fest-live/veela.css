@@ -1,27 +1,25 @@
-@use "../core/constants" as *;
+@use "../mixins/layout" as layout;
 
 @mixin table-base {
     inline-size: stretch;
     border-collapse: collapse;
-    background: $bg-primary;
-    border-radius: $border-radius-md;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: $shadow-md;
+    box-shadow: var(--shadow-md);
 }
 
 @mixin table-header {
-    background: $primary-gradient;
-    color: $text-light;
-    padding: $spacing-md $spacing-sm;
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    padding: var(--space-md) var(--space-sm);
     text-align: start;
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-sm;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
     white-space: nowrap;
 }
 
 @mixin table-cell {
-    padding: $spacing-sm;
-    border-block-end: 1px solid $bg-tertiary;
+    padding: var(--space-sm);
+    border-block-end: 1px solid var(--bg-tertiary);
     vertical-align: middle;
 }
-

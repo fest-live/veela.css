@@ -1,22 +1,4 @@
-//
-@use "./core/layers" as *;
-@use "./core/normalize" as *;
-
-//
-@use "./core/properties" as *;
-
-//
-@use "./layout/core-layout" as *;
-@use "./layout/states" as *;
-@use "./layout/gridbox" as *;
-@use "./layout/orientbox" as *;
-
-//
-@use "./layout/layout" as *;
-@use "./layout/essentials" as *;
-
-//
+@use "./core/index" as *;
+@use "./layout/index" as *;
 @use "./fonts/index" as *;
-
-//
 @use "./design/index" as *;

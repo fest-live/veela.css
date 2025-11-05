@@ -1,6 +1,57 @@
 // Core Design System Variables
 // Unified design tokens for consistent styling across components
 
+
+
+// =============================================================================
+// CONTAINER-SCOPED VARIABLE INITIALIZATION
+// - Preserves existing mixins and APIs
+// - Reworks variable system to be more consistent and adaptive
+// - Initializes custom properties primarily within @container
+// =============================================================================
+
+@supports (width: clamp(1rem, 1vw, 2rem)) {
+    :where(:root) {
+        // Base spacing system using consistent clamp functions
+        --space-xs: clamp(0.25rem, 0.5vw, 0.35rem);
+        --space-sm: clamp(0.35rem, 0.8vw, 0.6rem);
+        --space-md: clamp(0.45rem, 1vw, 0.8rem);
+        --space-lg: clamp(0.6rem, 1.2vw, 1rem);
+        --space-xl: clamp(0.75rem, 1.5vw, 1.25rem);
+        --space-2xl: clamp(1rem, 2vw, 1.6rem);
+
+        // Specific use-case spacing
+        --gap-xs: clamp(0.25rem, 0.6vw, 0.45rem);
+        --gap-sm: clamp(0.4rem, 0.8vw, 0.7rem);
+        --gap-md: clamp(0.6rem, 1vw, 0.9rem);
+        --gap-lg: clamp(0.75rem, 1.2vw, 1.25rem);
+        --gap-xl: clamp(1rem, 1.8vw, 1.6rem);
+
+        // Border radius system
+        --radius-xs: clamp(0.25rem, 0.5vw, 0.375rem);
+        --radius-sm: clamp(0.5rem, 0.8vw, 0.65rem);
+        --radius-md: clamp(0.75rem, 1vw, 1rem);
+        --radius-lg: clamp(0.85rem, 1.2vw, 1.2rem);
+        --radius-xl: clamp(1rem, 1.5vw, 1.4rem);
+        --radius-full: 9999px;
+
+        // Padding system
+        --padding-xs: clamp(0.25rem, 0.5vw, 0.375rem);
+        --padding-sm: clamp(0.35rem, 0.7vw, 0.55rem);
+        --padding-md: clamp(0.5rem, 0.9vw, 0.75rem);
+        --padding-lg: clamp(0.65rem, 1.1vw, 0.95rem);
+        --padding-xl: clamp(0.8rem, 1.3vw, 1.15rem);
+
+        // Avatar and icon sizes
+        --avatar-size: clamp(32px, 6vw, 48px);
+        --avatar-size-lg: clamp(40px, 8vw, 64px);
+        --icon-size-sm: clamp(0.9rem, 1.2cqi, 1.1rem);
+        --icon-size-md: clamp(1.1rem, 1.4cqi, 1.3rem);
+        --icon-size-lg: clamp(1.4rem, 1.8cqi, 1.7rem);
+    }
+}
+
+
 // =============================================================================
 // TYPOGRAPHY
 // =============================================================================
@@ -124,8 +175,7 @@
     --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     // Common transition combinations
-    --transition-colors: color var(--duration-normal) var(--ease-out),
-        background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out);
+    --transition-colors: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out);
     --transition-transform: transform var(--duration-fast) var(--ease-out);
     --transition-opacity: opacity var(--duration-normal) var(--ease-out);
     --transition-all: all var(--duration-normal) var(--ease-out);
@@ -240,55 +290,6 @@
     --focus-lift: 0.12;
 }
 
-
-// =============================================================================
-// CONTAINER-SCOPED VARIABLE INITIALIZATION
-// - Preserves existing mixins and APIs
-// - Reworks variable system to be more consistent and adaptive
-// - Initializes custom properties primarily within @container
-// =============================================================================
-
-@supports (width: clamp(1rem, 1vw, 2rem)) {
-    :root {
-        // Base spacing system using consistent clamp functions
-        --space-xs: clamp(0.25rem, 0.5vw, 0.35rem);
-        --space-sm: clamp(0.35rem, 0.8vw, 0.6rem);
-        --space-md: clamp(0.45rem, 1vw, 0.8rem);
-        --space-lg: clamp(0.6rem, 1.2vw, 1rem);
-        --space-xl: clamp(0.75rem, 1.5vw, 1.25rem);
-        --space-2xl: clamp(1rem, 2vw, 1.6rem);
-
-        // Specific use-case spacing
-        --gap-xs: clamp(0.25rem, 0.6vw, 0.45rem);
-        --gap-sm: clamp(0.4rem, 0.8vw, 0.7rem);
-        --gap-md: clamp(0.6rem, 1vw, 0.9rem);
-        --gap-lg: clamp(0.75rem, 1.2vw, 1.25rem);
-        --gap-xl: clamp(1rem, 1.8vw, 1.6rem);
-
-        // Border radius system
-        --radius-xs: clamp(0.25rem, 0.5vw, 0.375rem);
-        --radius-sm: clamp(0.5rem, 0.8vw, 0.65rem);
-        --radius-md: clamp(0.75rem, 1vw, 1rem);
-        --radius-lg: clamp(0.85rem, 1.2vw, 1.2rem);
-        --radius-xl: clamp(1rem, 1.5vw, 1.4rem);
-        --radius-full: 9999px;
-
-        // Padding system
-        --padding-xs: clamp(0.25rem, 0.5vw, 0.375rem);
-        --padding-sm: clamp(0.35rem, 0.7vw, 0.55rem);
-        --padding-md: clamp(0.5rem, 0.9vw, 0.75rem);
-        --padding-lg: clamp(0.65rem, 1.1vw, 0.95rem);
-        --padding-xl: clamp(0.8rem, 1.3vw, 1.15rem);
-
-        // Avatar and icon sizes
-        --avatar-size: clamp(32px, 6vw, 48px);
-        --avatar-size-lg: clamp(40px, 8vw, 64px);
-        --icon-size-sm: clamp(0.9rem, 1.2cqi, 1.1rem);
-        --icon-size-md: clamp(1.1rem, 1.4cqi, 1.3rem);
-        --icon-size-lg: clamp(1.4rem, 1.8cqi, 1.7rem);
-    }
-}
-
 // Establish a default inline-size container so container queries work broadly
 :root, body {
     container-type: inline-size;
@@ -383,4 +384,28 @@
     --icon-size-sm: clamp(0.9rem, 1.2cqi, 1.1rem);
     --icon-size-md: clamp(1.1rem, 1.4cqi, 1.3rem);
     --icon-size-lg: clamp(1.4rem, 1.8cqi, 1.7rem);
+}
+
+// =============================================================================
+// COLOR VARIABLES
+// =============================================================================
+
+:root {
+    --color-primary: #2c3e50;
+    --color-secondary: #34495e;
+    --color-accent: #3498db;
+    --color-success: #28a745;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-info: #17a2b8;
+}
+
+:host {
+    --color-primary: inherit;
+    --color-secondary: inherit;
+    --color-accent: inherit;
+    --color-success: inherit;
+    --color-warning: inherit;
+    --color-danger: inherit;
+    --color-info: inherit;
 }

@@ -17,6 +17,20 @@
         }
 
         //
+        :root, :scope, :host {
+            --scale: 1;
+            --translate-x: 0px;
+            --translate-y: 0px;
+
+            //
+            &, & :where(*) {
+                --scale: 1;
+                --translate-x: 0px;
+                --translate-y: 0px;
+            }
+        }
+
+        //
         :root, :where(html) {
             translate: 0px 0px !important;
             transform: none !important;
@@ -60,6 +74,7 @@
 
         //
         :where(body) {
+            @include fit-viewport();
 
             //
             & {
@@ -77,7 +92,8 @@
                 overflow: visible;
                 position: relative;
                 pointer-events: auto;
-                inset: 0px;
+                //inset: 0px;
+                inset: auto;
 
                 //
                 display: inline flex;
@@ -86,7 +102,7 @@
                 place-self: start;
 
                 //
-                background-color: var(--theme-base-color, transparent);
+                background-color: transparent;
 
                 // if needs viewport
                 container-name: body;
@@ -104,6 +120,9 @@
                 //
                 max-inline-size: var(--screen-width, 100dvi) !important;
                 max-block-size: var(--screen-height, 100dvb) !important;
+
+                //
+                inset-block-end: max(env(titlebar-area-height, 0px), 0px) !important;
             }
 
             //
@@ -119,53 +138,6 @@
                 overflow: auto;
             }
         }
-
-        //
-        ui-window-frame, ui-modal, .ui-grid-item {
-            & {
-                isolation: isolate;
-                content-visibility: auto;
-                transform-origin: 50% 50%;
-                transform-style: flat;
-                transform-box: fill-box;
-                translate: 0% 0% 0%;
-                opacity: var(--opacity, 1);
-                rotate: 0deg;
-                scale: 1;
-
-                //
-                --opacity: 1;
-                --scale: 1;
-                --rotate: 0deg;
-                --translate-x: 0%;
-                --translate-y: 0%;
-            };
-        };
-
-        //
-        :where(body) {
-            @include fit-viewport();
-
-            //
-            & {
-                overflow: visible;
-                position: relative !important;
-                background-color: transparent;
-                inset: auto !important;
-                inset-block-end: max(env(titlebar-area-height, 0px), 0px) !important;
-                container-type: normal;
-                place-content: start;
-                place-items: start;
-                place-self: start;
-                contain: none;
-            }
-        };
-
-        //
-        .native-portrait-optimized {
-            @include oriented(--in-swap-cond, 0, 1);
-        };
-
     };
 
 };

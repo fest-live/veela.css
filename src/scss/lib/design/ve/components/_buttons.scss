@@ -2,12 +2,17 @@
 
 // Unified, decomposed mixins
 @mixin button-structure() {
+    display: flex;
+    place-items: center;
+    place-content: center;
+    pointer-events: auto;
+    margin: 0px;
+    padding: 0px;
+    border: none 0px transparent;
+    outline: none 0px transparent;
     position: relative;
 
-    pointer-events: auto;
-    place-content: center;
-    place-items: center;
-
+    //
     font: inherit;
     font-weight: var(--font-weight-semibold);
     font-size: var(--text-base);
@@ -16,13 +21,13 @@
     white-space: nowrap;
     user-select: none;
 
+    //
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--gap-xs);
+    gap: var(--gap-md);
     padding: var(--button-padding-y) var(--button-padding-x);
-    border: none;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     cursor: pointer;
 
     block-size: fit-content;

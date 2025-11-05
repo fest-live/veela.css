@@ -148,8 +148,43 @@
         }
 
         //
+        & :where(select) {
+            border-color: var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
+
+        //
         &:where(select) option {
             border-color: var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
+
+        &::picker(select) {
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
         }
     }
 }

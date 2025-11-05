@@ -15,83 +15,15 @@
         border-radius: 9999px;
     }
 
-    // Enhanced select dropdown styling
-    select {
-        display: block;
-        block-size: fit-content;
-        cursor: pointer;
-        background: none;
-        padding: 0;
-        user-select: none;
-
-        text-indent: 0.01px;
-        text-overflow: '';
-        text-overflow: "";
-        color: transparent !important;
-
-        @include select-dropdown;
-
-        &,
-        &::picker(select) {
-            appearance: base-select;
-            outline: none;
-        }
-
-        &::picker(select) {
-            background: transparent;
-            background-color: transparent;
-            padding: 0;
-        }
-
-        &::-ms-expand {
-            display: none;
-        }
-
-        option {
-            appearance: none;
-            display: flex;
-            flex-direction: row;
-            place-content: center;
-            place-items: center;
-            justify-content: start;
-            block-size: fit-content;
-            gap: var(--space-xs);
-            min-inline-size: 0;
-            outline: none;
-            user-select: none;
-            cursor: pointer;
-
-            & {
-                border-width: 0px;
-                border-inline-start-width: 0.5px;
-                border-inline-end-width: 0.5px;
-            }
-
-            &:first-of-type {
-                border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-                border-block-start-width: 0.5px;
-            }
-
-            &:last-of-type {
-                border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-                border-block-end-width: 0.5px;
-            }
-
-            &:not(:last-of-type) {
-                border-block-end: none;
-                border-block-end-width: 0.5px;
-            }
-        }
+    //
+    :where(button, input[type="checkbox"]) {
+        @include button-base;
     }
 
-    ::picker(select) {
-        appearance: base-select;
-        border: none;
-        outline: none;
-        background: transparent;
-        background-color: transparent;
-        line-height: 0;
-        padding: 0;
+    // Enhanced select dropdown styling
+    select {
+        @include select-dropdown;
+        @include solid-colorize("&");
     }
 
     textarea {
@@ -105,18 +37,12 @@
             margin: 0;
         }
 
+        &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"], [type="datetime-local"], [type="date"], [type="time"], [type="text"], [type="number"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="month"], [type="week"]) {
+            @include form-field-base;
+        }
+
         &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"]) {
             font-variant-numeric: tabular-nums;
-        }
-
-        &:where([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
-            padding-inline-end: calc(var(--space-lg) * 2);
-
-            @include form-field-base;
-        }
-
-        &:where([type="datetime-local"], [type="date"], [type="time"], [type="text"], [type="number"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="month"], [type="week"]) {
-            @include form-field-base;
         }
 
         &:is([type="radio"]:checked) {
@@ -126,27 +52,6 @@
 
     :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
         @include checkbox-radio-base;
-
-        --icon-color: currentColor;
-        content: " ";
-
-        &::before {
-            --icon-color: inherit;
-            line-height: 0;
-            background-color: var(--icon-color, currentColor);
-        }
-    }
-
-    // able to select inputs when edit
-    :where(input[type="text"], input[type="number"]) {
-        user-select: text;
-        cursor: text;
-
-        &:disabled {
-            user-select: none;
-            cursor: default;
-            pointer-events: none;
-        }
     }
 
 }

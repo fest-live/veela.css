@@ -73,4 +73,9 @@
         .fixed { @include use-inset; position: fixed !important; }
         .absolute { @include use-inset; position: absolute !important; }
     }
+
+    //
+    .native-portrait-optimized {
+        @include oriented(--in-swap-cond, 0, 1);
+    };
 }

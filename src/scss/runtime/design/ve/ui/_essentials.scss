@@ -1,18 +1,4 @@
 @layer ux-classes {
-    :root, :scope {
-        --scale: 1;
-        --translate-x: 0px;
-        --translate-y: 0px;
-    }
-
-    //
-    :host {
-        &, & :where(*) {
-            --scale: 1;
-            --translate-x: 0px;
-            --translate-y: 0px;
-        }
-    }
 
     //
     .round-decor {
@@ -152,5 +138,27 @@
             cursor: grabbing;
         }
     }
+
+    //
+    ui-window-frame, ui-modal, .ui-grid-item {
+        & {
+            isolation: isolate;
+            content-visibility: auto;
+            transform-origin: 50% 50%;
+            transform-style: flat;
+            transform-box: fill-box;
+            translate: 0% 0% 0%;
+            opacity: var(--opacity, 1);
+            rotate: 0deg;
+            scale: 1;
+
+            //
+            --opacity: 1;
+            --scale: 1;
+            --rotate: 0deg;
+            --translate-x: 0%;
+            --translate-y: 0%;
+        };
+    };
 
 }

@@ -5,19 +5,22 @@
 // Forms
 @mixin input-base {
     display: inline-block;
-    padding: var(--form-padding);
+    padding: var(--padding-md);
+    padding-inline-start: var(--padding-lg, 1rem);
     border: 1px solid transparent;
     border-radius: var(--form-radius);
     font: inherit;
     outline: none;
-    min-inline-size: 0;
     inline-size: stretch;
+    min-inline-size: fit-content;
     max-inline-size: stretch;
     field-sizing: content;
 }
 
 @mixin form-field-base() {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--padding-md);
+    padding-inline-end: calc(var(--space-lg) * 2);
+    padding-inline-start: var(--padding-lg, 1rem);
     border-radius: var(--radius-md);
     outline: none;
     cursor: text;
@@ -26,10 +29,14 @@
     display: inline-block;
     inline-size: stretch;
     min-inline-size: fit-content;
+    max-inline-size: stretch;
     border-width: 0px;
 
-    //
-    &:where(select) { user-select: none; }
+    &:disabled {
+        user-select: none;
+        cursor: default;
+        pointer-events: none;
+    }
 }
 
 @mixin option-style() {
@@ -37,6 +44,17 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
+    padding: var(--padding-sm);
+
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+    place-items: center;
+    justify-content: start;
+    block-size: fit-content;
+    gap: var(--space-md);
+    min-inline-size: fit-content;
+    outline: none;
     user-select: none;
 
     & {
@@ -61,8 +79,8 @@
     }
 }
 
+//
 @mixin select-dropdown() {
-    @include form-field-base();
 
     & {
         appearance: none;
@@ -70,6 +88,24 @@
         -moz-appearance: none;
         cursor: pointer;
         padding-inline-end: calc(var(--space-lg) * 2);
+
+        //
+        display: block;
+        block-size: fit-content;
+        background: none;
+        padding: 0;
+        user-select: none;
+
+        text-indent: 0.01px;
+        text-overflow: '';
+        text-overflow: "";
+        color: transparent !important;
+    }
+
+    &,
+    &::picker(select) {
+        appearance: base-select;
+        outline: none;
     }
 
     &:where(select) {
@@ -77,10 +113,10 @@
         -moz-appearance: none;
         appearance: base-select;
         cursor: pointer;
-        padding-inline: 0;
+        padding: var(--padding-sm);
+        padding-inline-start: var(--padding-md);
         background: none;
         user-select: none;
-        padding: var(--space-sm);
         display: flex;
         place-content: center;
         place-items: center;
@@ -98,6 +134,15 @@
         background: transparent;
         background-color: transparent;
         padding: 0;
+
+        border: none;
+        outline: none;
+        background: transparent;
+        line-height: 0;
+    }
+
+    &::-ms-expand {
+        display: none;
     }
 
     &::after {
@@ -125,6 +170,7 @@
     option { @include option-style(); }
 }
 
+//
 @mixin checkbox-radio-base() {
     appearance: none;
     -webkit-appearance: none;
@@ -147,8 +193,14 @@
     transform: translateZ(0);
     transform-origin: 50% 50%;
     backface-visibility: hidden;
+    --icon-color: var(--on-surface-color, currentColor);
+    content: " ";
 
+    //
     &::before {
+        --icon-color: inherit;
+        line-height: 0;
+        background-color: var(--icon-color, var(--on-surface-color, currentColor));
         content: "";
         display: block;
         inline-size: stretch;
@@ -163,7 +215,6 @@
         contain: strict;
         object-fit: contain;
         object-position: center;
-        background-color: var(--on-surface-color);
         mask-image: var(--ui-icon-mask, linear-gradient(#0000, #0000));
         mask-repeat: no-repeat;
         mask-origin: content-box;

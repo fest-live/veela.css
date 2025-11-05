@@ -1,7 +1,4 @@
-@use "../mixins/layout" as l;
-@use "../core/constants" as c;
-@use "../design/typography" as t;
-@use "../design/animation" as animation;
+@use "../core/layout" as l;
 
 // default styles
 @mixin reset-styles {
@@ -197,8 +194,6 @@
 
 // resize handle
 @mixin resize-handle-styles {
-    @include animation.transition('opacity', var(--transition-base, #{c.$ui-duration-standard}));
-
     & {
         inline-size: 12px;
         block-size: 12px;
@@ -288,7 +283,7 @@
 
 // title text
 @mixin title-text-styles {
-    @include l.text(c.$ui-font-title-size, 500, var(--ui-window-frame-titlebar-color));
+    @include l.text(var(--font-size-lg), 500, var(--ui-window-frame-titlebar-color));
     @include l.flex(column, flex-start, center);
     @include l.text-ellipsis();
 
@@ -316,7 +311,7 @@
 @mixin subtitle-text-styles {
     @include l.flex(row, flex-start, center);
     @include l.text-ellipsis();
-    @include l.text(c.$ui-font-subtitle-size, 400, #{"--c2-on-surface(0.0, var(--current))"});
+    @include l.text(var(--font-size-sm), 400, #{"--c2-on-surface(0.0, var(--current))"});
 
     & {
         inline-size: fit-content;
@@ -444,8 +439,6 @@
 
 // control button base
 @mixin control-button-base {
-    @include animation.transition(background-color, var(--transition-base, #{c.$ui-duration-standard}));
-
     & {
         block-size: stretch;
         inline-size: auto;
@@ -467,8 +460,8 @@
     }
 
     & {
-        margin: c.$ui-spacing-xs;
-        padding: c.$ui-spacing-xs;
+        margin: 0.25rem;
+        padding: 0.25rem;
         gap: 0px;
     }
 

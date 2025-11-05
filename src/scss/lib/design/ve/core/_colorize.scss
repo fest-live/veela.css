@@ -1,0 +1,230 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:list";
+
+//
+@use "../../../core/logical" as lg;
+
+// Color system properties
+@property --color-shade {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-tint {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-opacity {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0.0;
+}
+
+@property --color-enable-blur {
+    syntax: "<boolean>";
+    inherits: false;
+    initial-value: false;
+}
+
+//
+@mixin tm-dep($property, $light, $dark) {
+    & {
+        #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
+        @supports(color: light-dark(white, black)) { #{$property}: light-dark(#{$light}, #{$dark}); }
+    }
+}
+
+@mixin inverse {
+    & {
+        @include tm-dep("--tm-cr", var(--tm-cr-dark), var(--tm-cr-light));
+        --tm-ac: #{tm-lo(var(--tm-origin, currentColor), 80%)};
+    }
+}
+
+@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
+
+@function tm-hi($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-hi, white)); }
+@function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); }
+
+@mixin surface($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+}
+
+@mixin surface-interactive($shade: var(--surface-opacity-default)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+
+    //
+    &:hover { --color-shade: calc(0.08 + var(--hover-lift)); }
+    &:active { --color-shade: calc(0.08 + var(--active-lift)); }
+    &:focus-visible { --color-shade: calc(0.08 + var(--focus-lift)); }
+}
+
+@mixin text-color($tint: var(--text-tint-primary)) {
+    color: --c2-on-surface($tint, var(--current, currentColor));
+}
+
+@mixin border-color($tint: var(--scrollbar-tint), $opacity: var(--border-opacity-default)) {
+    border-color: oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / $opacity);
+}
+
+// Internal helpers
+@function _merge-color-options($defaults, $overrides) {
+    @if $overrides == null or meta.type-of($overrides) != "map" or list.length($overrides) == 0 {
+        @return $defaults;
+    }
+
+    @return map.merge($defaults, $overrides);
+}
+
+// Enhanced colorize mixin with better organization
+@mixin solid-colorize($selector: "&", $options: ("shade": 0.0, "tint": 0.0)) {
+    #{$selector} {
+        // Base color properties
+        --color-shade: #{map.get($options, "shade") or 0.0};
+        --color-tint: #{map.get($options, "tint") or 0.0};
+
+        // Computed color values
+        --surface-color: --c2-surface(var(--color-shade), var(--current, currentColor));
+        --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor));
+        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.15);
+        --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.4);
+
+        // Apply colors
+        &, &:hover, &:active, &:focus-visible {
+            border-color: var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
+
+        //
+        &:where(button, input, select, textarea) {
+            border-style: solid;
+            border-width: 0.5px;
+        }
+
+        // Interactive states
+        &:where(button, input, select, textarea, a, li, option) {
+
+            transition:
+                border-color var(--transition-normal),
+                background var(--transition-normal),
+                box-shadow var(--transition-normal),
+                transform var(--transition-fast);
+
+            &:hover {
+                --color-shade: calc(#{map.get($options, "shade") or 0.0} + var(--hover-lift));
+            }
+
+            &:active {
+                --color-shade: calc(#{map.get($options, "shade") or 0.0} + var(--active-lift));
+            }
+
+            &:focus,
+            &:focus-visible {
+                --color-shade: calc(#{map.get($options, "shade") or 0.0} + var(--focus-lift));
+            }
+
+            &::placeholder {
+                --on-surface-color: oklch(from --c2-on-surface(0.0, var(--current, currentColor)) l c h / 0.2);
+            }
+        }
+
+        // Special states
+        &:checked,
+        &::selection {
+            --on-surface-color: --c2-surface(calc(var(--color-shade) - 0.04), var(--current, currentColor));
+            --surface-color: --c2-on-surface(calc(var(--color-tint) + 0.04), var(--current, currentColor));
+        }
+
+        //
+        &:where(select) option {
+            border-color: var(--border-color);
+        }
+    }
+}
+
+//
+@mixin overlay-colorize($selector: "&", $options: ("shade": 0.0, "tint": 0.0, "opacity": 0.04, "enable-blur": true)) {
+    #{$selector} {
+        --color-shade: #{map.get($options, "shade") or 0.0};
+        --color-tint: #{map.get($options, "tint") or 0.0};
+        --color-opacity: #{map.get($options, "opacity")};
+        --color-enable-blur: #{map.get($options, "enable-blur")};
+    }
+
+    //
+    #{$selector} {
+        @if map.get($options, "enable-blur") {
+            backdrop-filter: blur(16px);
+        }
+
+        //
+        --surface-color: oklch(from --c2-on-surface(var(--color-shade), var(--current, currentColor)) l c h / var(--color-opacity));
+        --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor));
+        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.1);
+        --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--current, currentColor)) l c h / 0.1);
+
+        //
+        &, &:hover, &:active, &:focus-visible {
+            border: solid 0.5px var(--border-color);
+            background: var(--surface-color);
+            background-color: var(--surface-color);
+            color: var(--on-surface-color);
+            accent-color: var(--on-surface-color);
+            caret-color: var(--on-surface-color);
+            text-decoration-color: var(--on-surface-color);
+            text-emphasis-color: var(--on-surface-color);
+            scrollbar-color: var(--scrollbar-color) transparent;
+            -webkit-text-fill-color: var(--on-surface-color);
+        }
+    }
+
+    //
+    #{$selector}:focus {
+        --color-opacity: calc(#{map.get($options, "opacity") or 0.04} + 0.05);
+    }
+
+    //
+    #{$selector}:hover {
+        --color-opacity: calc(#{map.get($options, "opacity") or 0.04} + 0.04);
+    }
+}
+
+@mixin backdrop-blur($strength: "default") {
+    @if $strength =="subtle" {
+        backdrop-filter: var(--backdrop-blur-subtle);
+    }
+
+    @else if $strength =="strong" {
+        backdrop-filter: var(--backdrop-blur-strong);
+    }
+
+    @else {
+        backdrop-filter: var(--backdrop-blur-default);
+    }
+}
+
+@mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
+    border-color: oklch(from $color l c h / $border-opacity);
+    background: oklch(from $color l c h / $bg-opacity);
+}
+
+@mixin validation-success { @include validation-state(var(--color-success)); }
+
+@mixin validation-error {
+    @include validation-state(var(--color-error));
+    box-shadow: 0 0 0 3px oklch(from var(--color-error) l c h / 0.12);
+}
+
+@mixin validation-warning { @include validation-state(var(--color-warning)); }

@@ -1,18 +1,9 @@
 //
-@use "./initials/layers" as *;
-@use "./initials/normalize" as *;
-
-//
-@use "./input/inputs" as *;
-@use "./input/buttons" as *;
+@use "./core/layers" as *;
+@use "./core/normalize" as *;
 
 //
 @use "./core/properties" as *;
-@use "./core/variables" as *;
-
-//
-@use "./core/wavy" as *;
-@use "./core/color-2" as *;
 
 //
 @use "./layout/core-layout" as *;
@@ -25,11 +16,7 @@
 @use "./layout/essentials" as *;
 
 //
-@use "./design/colors" as *;
-@use "./design/variants" as *;
-@use "./design/states" as *;
-@use "./design/shadows" as *;
-@use "./design/shapes" as *;
+@use "./fonts/index" as *;
 
 //
-@use "./fonts/index" as *;
+@use "./design/index" as *;

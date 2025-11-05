@@ -1,0 +1,87 @@
+@use "./colorize" as colorize;
+@use "./animation" as animation;
+@use "./constants" as c;
+
+// =============================================================================
+// VISUAL EFFECTS MIXINS (split from layout)
+// =============================================================================
+
+@mixin glass-morphism($opacity: 0.95, $blur: var(--backdrop-blur-md, #{c.$ui-backdrop-blur-md})) {
+    @include colorize.surface(var(--surface-opacity-subtle));
+    @include colorize.border-color(var(--border-opacity-subtle));
+}
+
+@mixin gradient-text($gradient: var(--primary-gradient)) {
+    color: var(--primary-gradient);
+}
+
+@mixin hover-lift($lift: -1px, $shadow: var(--shadow-md, #{c.$ui-shadow-md})) {
+    @include animation.transition(transform, var(--transition-base));
+    @include animation.transition(box-shadow, var(--transition-base));
+
+    &:hover {
+        transform: translateY($lift);
+        box-shadow: $shadow;
+    }
+}
+
+@mixin shimmer-effect($duration: var(--duration-slow)) {}
+
+@mixin button-shine($duration: var(--duration-fast)) {}
+
+//
+@mixin dynamic-shadow-drop() {
+    --relate-x: calc(var(--drag-x, 0) + var(--shift-x, 0) - (100cqi / 2px));
+    --relate-y: calc(var(--drag-y, 0) + var(--shift-y, 0) - (100cqb / 2px));
+
+    /* нормализованные relate -> [-1..1] */
+    --relNX: calc(clamp(-1, (var(--relate-x, 0) / var(--parallax-ref)), 1));
+    --relNY: calc(clamp(-1, (var(--relate-y, 0) / var(--parallax-ref)), 1));
+
+    /* итоговые углы света с «покачиванием» */
+    --light-az:  calc(var(--az-base)  + var(--relNX) * var(--az-span));
+    --light-alt: calc(var(--alt-base) + var(--relNY) * var(--alt-span));
+
+    /* высота (может быть отрицательной; единицы — px для наглядности) */
+    --elev: calc((var(--z-index, 0) + 2) * 2);
+
+    /* Можно анимировать: теперь это типизированное свойство */
+    //transition: --elev .3s ease, box-shadow .3s ease, transform .3s ease;
+
+    /* опционально: ощущение глубины той же переменной */
+    //transform: translateZ(var(--elev));
+
+    /* длина тени по плоскости: L = |elev| * cot(alt) */
+    --cotA: calc(1 / max(0.001, tan(var(--light-alt))));
+    --L: calc(abs(var(--elev)) * var(--cotA));
+
+    /* смещение тени по осям (учтём знак высоты через sign) */
+    --dx: calc(cos(var(--light-az)) * var(--L) * sign(var(--elev)));
+    --dy: calc(sin(var(--light-az)) * var(--L) * sign(var(--elev)));
+
+    /* */
+    --sx: calc((var(--dx) + var(--relate-x) * var(--parallax-k)) * 1px);
+    --sy: calc((var(--dy) + var(--relate-y) * var(--parallax-k)) * 1px);
+
+    /* мягкость: пропорциональна высоте и угловому размеру источника */
+    --blurC: calc(max(0.5, abs(var(--elev)) * tan(var(--soft-ang))));   /* контактная */
+    --blurU: calc(var(--blurC) * 1.6);                              /* умбра */
+    --blurP: calc(var(--blurC) * 2.8);                              /* пенумбра */
+
+    /* spread: с ростом высоты тень «расходится» (отрицательный spread) */
+    --spreadC: calc(abs(var(--elev)) * 0.04);
+    --spreadU: calc(abs(var(--elev)) * 0.10);
+    --spreadP: calc(var(--spreadU) * 1.2);
+
+    /* плотность убывает с высотой (гладкая, без ступенек) */
+    --alphaC: calc(clamp(0.08, (var(--umbra-density) * 0.9) / (1 + abs(var(--elev)) * 0.30), 0.40));
+    --alphaU: calc(clamp(0.06, var(--umbra-density) / sqrt(1 + abs(var(--elev)) * 0.15), 0.35));
+    --alphaP: calc(clamp(0.04, var(--penumbra-density) / sqrt(1 + abs(var(--elev)) * 0.08), 0.25));
+
+    /* стек слоёв: контактная + умбра + пенумбра */
+    filter:
+        drop-shadow(calc(var(--sx) * 0.15) calc(var(--sy) * 0.15) calc(var(--blurC) * 1px) #{"rgb(0 0 0 / var(--alphaC))"})
+        drop-shadow(var(--sx) var(--sy) calc(var(--blurU) * 1px) #{"rgb(0 0 0 / var(--alphaU))"})
+        drop-shadow(var(--sx) var(--sy) calc(var(--blurP) * 1px) #{"rgb(0 0 0 / var(--alphaP))"})
+        !important;
+}

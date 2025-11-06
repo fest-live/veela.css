@@ -23,11 +23,8 @@
         --cqi: 1cqi;
         --cqb: 1cqb;
 
-        --sidebar-width: clamp(16rem, 10vw, 20rem);
-        --sidebar-width-collapsed: clamp(10rem, 20vw, 12.5rem);
-        --sidebar-width-mobile: clamp(17.5rem, 35vw, 20rem);
-        --sidebar-width-mobile-small: clamp(18.75rem, 40vw, 21.25rem);
-
+        //
+        --sidebar-width: min(clamp(16rem, 10vw, 20rem), 100cqi);
         --container-max-width: min(100%, 110rem);
         --container-padding: clamp(1rem, 3vw, 2rem);
 
@@ -43,6 +40,11 @@
         --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md3-shadow) 60%);
         --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md3-shadow) 62%);
         --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md3-shadow) 58%);
+
+        //
+        @media (max-width: 720px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
+        @media (max-width: 480px) { --sidebar-width: min(clamp(18.75rem, 40vw, 21.25rem), 100cqi); }
+        @media (max-width: 320px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
     }
 }
 

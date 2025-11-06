@@ -603,3 +603,65 @@
         );
     }
 }
+
+//
+@mixin fit-content-inline {
+    interpolate-size: allow-keywords;
+    min-inline-size: min-content;
+    max-inline-size: stretch;
+    inline-size: fit-content;
+}
+
+//
+@mixin fit-content-block {
+    interpolate-size: allow-keywords;
+    min-block-size: min-content;
+    max-block-size: stretch;
+    block-size: fit-content;
+}
+
+//
+@mixin stretch-inline {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    inline-size: stretch;
+}
+
+//
+@mixin stretch-block {
+    interpolate-size: allow-keywords;
+    max-block-size: stretch;
+    block-size: stretch;
+}
+
+//
+@mixin stretch {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    max-block-size: stretch;
+    inline-size: stretch;
+    block-size: stretch;
+}
+
+//
+@mixin container-inline-clamped($inline: max-content) {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    inline-size: calc-size($inline, clamp(0px, size, min(100cqi, 100dvi)));
+    min-inline-size: min-content;
+}
+
+//
+@mixin container-block-clamped($block: max-content) {
+    interpolate-size: allow-keywords;
+    max-block-size: stretch;
+    block-size: calc-size($block, clamp(0px, size, min(100cqb, 100dvb)));
+    min-block-size: min-content;
+}
+
+//
+@mixin container-clamped($inline: max-content, $block: max-content) {
+    interpolate-size: allow-keywords;
+    @include container-inline-clamped($inline);
+    @include container-block-clamped($block);
+}

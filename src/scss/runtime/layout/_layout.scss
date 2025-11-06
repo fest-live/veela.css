@@ -1,4 +1,4 @@
-@use "../../lib/index" as *;
+@use "veela-lib" as *;
 
 //
 @property --value  { syntax: "<number>"; initial-value: 0; inherits: true; };

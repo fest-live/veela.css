@@ -1,0 +1,72 @@
+@use "../core/constants" as tokens;
+@use "sass:map";
+
+$material-role-map: (
+    primary: "--md-sys-color-primary",
+    on-primary: "--md-sys-color-on-primary",
+    primary-container: "--md-sys-color-primary-container",
+    on-primary-container: "--md-sys-color-on-primary-container",
+    secondary: "--md-sys-color-secondary",
+    on-secondary: "--md-sys-color-on-secondary",
+    secondary-container: "--md-sys-color-secondary-container",
+    on-secondary-container: "--md-sys-color-on-secondary-container",
+    tertiary: "--md-sys-color-tertiary",
+    on-tertiary: "--md-sys-color-on-tertiary",
+    tertiary-container: "--md-sys-color-tertiary-container",
+    on-tertiary-container: "--md-sys-color-on-tertiary-container",
+    error: "--md-sys-color-error",
+    on-error: "--md-sys-color-on-error",
+    error-container: "--md-sys-color-error-container",
+    on-error-container: "--md-sys-color-on-error-container",
+    surface: "--md-sys-color-surface",
+    on-surface: "--md-sys-color-on-surface",
+    surface-variant: "--md-sys-color-surface-variant",
+    on-surface-variant: "--md-sys-color-on-surface-variant",
+    outline: "--md-sys-color-outline",
+    outline-variant: "--md-sys-color-outline-variant",
+    background: "--md-sys-color-background",
+    on-background: "--md-sys-color-on-background",
+    inverse-surface: "--md-sys-color-inverse-surface",
+    inverse-on-surface: "--md-sys-color-inverse-on-surface",
+    inverse-primary: "--md-sys-color-inverse-primary",
+    surface-tint: "--md-sys-color-surface-tint",
+);
+
+$material-mode-suffix: (
+    light: "",
+    dark: "-dark",
+);
+
+@mixin material-color-utilities-theme($mode, $selector) {
+    $suffix: map.get($material-mode-suffix, $mode);
+
+    #{$selector} {
+        @each $role, $source in $material-role-map {
+            #{tokens.md3-var($role)}: var(#{$source}#{$suffix}, #{tokens.md3-color($role, $mode)});
+        }
+    }
+}
+
+@mixin material-color-utilities-remap(
+    $light-selector: ":where(:root, :host)",
+    $dark-selector: ":where([data-theme=\"dark\"], .theme-dark)",
+    $system-selector: ":where(:root):where(:not([data-theme]))"
+) {
+    @layer md3.mcu {
+        @include material-color-utilities-theme(light, $light-selector);
+        @include material-color-utilities-theme(dark, $dark-selector);
+
+        @media (prefers-color-scheme: dark) {
+            #{$system-selector} {
+                @include material-color-utilities-theme(dark, "&");
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            #{$system-selector} {
+                @include material-color-utilities-theme(light, "&");
+            }
+        }
+    }
+}
+

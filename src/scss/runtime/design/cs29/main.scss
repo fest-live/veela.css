@@ -1,11 +1,4 @@
-// =============================================================================
-// MAIN SCSS FILE
-// =============================================================================
-// This is the main entry point for all styles
-// Import order is important for proper cascade
-
-//
-@use "../../lib/index" as *;
+@use "veela-lib" as *;
 
 //
 @use "base" as *;

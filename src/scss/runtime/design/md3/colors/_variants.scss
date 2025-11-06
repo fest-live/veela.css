@@ -1,4 +1,5 @@
 @use "veela-lib" as *;
+//@use "../../../../lib/design/md3/components/buttons" as buttons;
 
 // Dedicated colorization utility classes
 // These classes apply semantic color variants and states to elements
@@ -177,55 +178,162 @@
     // =============================================================================
 
     :where(button) {
-        // Semantic action buttons
+        @include button-filled();
+
+        // Palette overrides -------------------------------------------------
+        &.btn-primary,
+        &[data-variant="primary"] {
+            --md3-button-bg: var(--md3-primary);
+            --md3-button-on: var(--md3-on-primary);
+            --md3-button-state-color: var(--md3-primary);
+            --md3-button-outline-color: var(--md3-primary);
+        }
+
+        &.btn-secondary,
+        &[data-variant="secondary"] {
+            --md3-button-bg: var(--md3-secondary);
+            --md3-button-on: var(--md3-on-secondary);
+            --md3-button-state-color: var(--md3-secondary);
+            --md3-button-outline-color: var(--md3-secondary);
+        }
+
+        &.btn-tertiary,
+        &.btn-accent,
+        &[data-variant="tertiary"] {
+            --md3-button-bg: var(--md3-tertiary);
+            --md3-button-on: var(--md3-on-tertiary);
+            --md3-button-state-color: var(--md3-tertiary);
+            --md3-button-outline-color: var(--md3-tertiary);
+        }
+
+        &.btn-surface,
+        &[data-variant="surface"] {
+            --md3-button-bg: var(--md3-surface);
+            --md3-button-on: var(--md3-on-surface);
+            --md3-button-state-color: var(--md3-primary);
+            --md3-button-outline-color: var(--md3-outline);
+        }
+
+        &.btn-success,
         &:is(.save, .submit, .confirm) {
-            --current: var(--color-success);
+            --md3-button-bg: var(--color-success);
+            --md3-button-on: var(--md3-on-surface);
+            --md3-button-state-color: var(--color-success);
+            --md3-button-outline-color: var(--color-success);
         }
 
+        &.btn-danger,
         &:is(.cancel, .delete, .remove) {
-            --current: var(--color-danger);
+            --md3-button-bg: var(--color-danger);
+            --md3-button-on: var(--md3-on-surface);
+            --md3-button-state-color: var(--color-danger);
+            --md3-button-outline-color: var(--color-danger);
         }
 
-        &:is(.info) {
-            --current: var(--color-info);
-        }
-
+        &.btn-warning,
         &:is(.warning) {
-            --current: var(--color-warning);
+            --md3-button-bg: var(--color-warning);
+            --md3-button-on: var(--md3-on-surface);
+            --md3-button-state-color: var(--color-warning);
+            --md3-button-outline-color: var(--color-warning);
         }
 
-        // Button variant classes
-        &:is(.btn-primary, [class*="btn-primary"]) {
-            --current: var(--color-primary);
+        &.btn-info,
+        &:is(.info) {
+            --md3-button-bg: var(--color-info);
+            --md3-button-on: var(--md3-on-surface);
+            --md3-button-state-color: var(--color-info);
+            --md3-button-outline-color: var(--color-info);
         }
 
-        &:is(.btn-secondary, [class*="btn-secondary"]) {
-            --current: var(--color-secondary);
+        // Variant mixins ----------------------------------------------------
+        &.btn-filled,
+        &.filled {
+            @include button-filled(primary, false);
         }
 
-        &:is(.btn-accent, [class*="btn-accent"]) {
-            --current: var(--color-accent);
+        &.btn-elevated,
+        &.elevated {
+            @include button-elevated(primary, false);
         }
 
-        &:is(.btn-success, [class*="btn-success"]) {
-            --current: var(--color-success);
+        &.btn-tonal,
+        &.tonal {
+            @include button-tonal(secondary-container, secondary, false);
         }
 
-        &:is(.btn-warning, [class*="btn-warning"]) {
-            --current: var(--color-warning);
+        &.btn-tonal.btn-primary,
+        &.btn-tonal-primary {
+            --md3-button-bg: var(--md3-primary-container);
+            --md3-button-on: var(--md3-on-primary-container);
+            --md3-button-state-color: var(--md3-primary);
+            @include button-tonal(primary-container, primary, false);
         }
 
-        &:is(.btn-danger, [class*="btn-danger"]) {
-            --current: var(--color-danger);
+        &.btn-tonal.btn-secondary,
+        &.btn-tonal-secondary {
+            --md3-button-bg: var(--md3-secondary-container);
+            --md3-button-on: var(--md3-on-secondary-container);
+            --md3-button-state-color: var(--md3-secondary);
+            @include button-tonal(secondary-container, secondary, false);
         }
 
-        &:is(.btn-info, [class*="btn-info"]) {
-            --current: var(--color-info);
+        &.btn-tonal.btn-tertiary,
+        &.btn-tonal-tertiary {
+            --md3-button-bg: var(--md3-tertiary-container);
+            --md3-button-on: var(--md3-on-tertiary-container);
+            --md3-button-state-color: var(--md3-tertiary);
+            @include button-tonal(tertiary-container, tertiary, false);
         }
 
-        // Button style variants
-        &:where(.btn, .save, .cancel, .submit, .delete, .confirm, .remove, [class*="btn-"]) {
-            @include solid-colorize("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
+        &.btn-outlined,
+        &.outlined {
+            --md3-button-on: var(--md3-button-on, var(--md3-primary));
+            --md3-button-outline-color: var(--md3-button-outline-color, var(--md3-primary));
+            --md3-button-state-color: var(--md3-button-state-color, var(--md3-primary));
+            @include button-outlined(primary, false);
+        }
+
+        &.btn-outlined.btn-secondary {
+            --md3-button-on: var(--md3-secondary);
+            --md3-button-outline-color: var(--md3-secondary);
+            --md3-button-state-color: var(--md3-secondary);
+            @include button-outlined(primary, false);
+        }
+
+        &.btn-outlined.btn-tertiary,
+        &.btn-outlined.btn-accent {
+            --md3-button-on: var(--md3-tertiary);
+            --md3-button-outline-color: var(--md3-tertiary);
+            --md3-button-state-color: var(--md3-tertiary);
+            @include button-outlined(primary, false);
+        }
+
+        &.btn-text,
+        &.btn-link,
+        &.btn-ghost,
+        &.text {
+            --md3-button-on: var(--md3-button-on, var(--md3-primary));
+            --md3-button-state-color: var(--md3-button-state-color, var(--md3-primary));
+            @include button-text(primary, false);
+        }
+
+        &.btn-text.btn-secondary {
+            --md3-button-on: var(--md3-secondary);
+            --md3-button-state-color: var(--md3-secondary);
+            @include button-text(primary, false);
+        }
+
+        &.btn-text.btn-tertiary,
+        &.btn-text.btn-accent {
+            --md3-button-on: var(--md3-tertiary);
+            --md3-button-state-color: var(--md3-tertiary);
+            @include button-text(primary, false);
+        }
+
+        &.btn-icon,
+        &.icon-only {
+            @include button-icon();
         }
     }
 

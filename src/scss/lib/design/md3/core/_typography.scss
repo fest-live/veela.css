@@ -1,0 +1,71 @@
+@use "sass:map";
+@use "./constants" as tokens;
+
+$def-ff: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
+
+@mixin font-family($stack: $def-ff) {
+    font-family: $stack;
+    font-synthesis: none;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+}
+
+@mixin type($token: "body-medium", $overrides: ()) {
+    @include tokens.md3-typography($token, $overrides);
+    @include font-family();
+}
+
+@mixin text-wrap {
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    hyphens: auto;
+    text-wrap: pretty;
+
+    @supports (text-wrap: balance) {
+        text-wrap: balance;
+    }
+}
+
+@mixin text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-inline-size: 100%;
+}
+
+@mixin text-clamp($lines: 2) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+
+    @supports (line-clamp: #{$lines}) {
+        display: block;
+        line-clamp: $lines;
+        max-lines: $lines;
+    }
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@mixin no-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    word-wrap: normal;
+    flex-wrap: nowrap;
+}

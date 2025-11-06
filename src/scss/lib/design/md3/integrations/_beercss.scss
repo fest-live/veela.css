@@ -1,0 +1,119 @@
+@use "../core/constants" as tokens;
+@use "../core/colorize" as colorize;
+
+$beer-background-map: (
+    "bg-primary": primary,
+    "bg-primary-container": primary-container,
+    "bg-secondary": secondary,
+    "bg-secondary-container": secondary-container,
+    "bg-tertiary": tertiary,
+    "bg-tertiary-container": tertiary-container,
+    "bg-surface": surface,
+    "bg-surface-container": surface-container,
+    "bg-surface-low": surface-container-low,
+    "bg-surface-high": surface-container-high,
+    "bg-surface-highest": surface-container-highest,
+    "bg-surface-variant": surface-variant,
+    "bg-inverse": inverse-surface,
+    "bg-error": error,
+    "bg-error-container": error-container,
+);
+
+$beer-text-role-map: (
+    "text-primary": on-surface,
+    "text-secondary": on-surface-variant,
+    "text-tertiary": on-tertiary,
+    "text-inverse": inverse-on-surface,
+    "text-on-primary": on-primary,
+    "text-on-primary-container": on-primary-container,
+    "text-on-secondary": on-secondary,
+    "text-on-secondary-container": on-secondary-container,
+    "text-on-tertiary": on-tertiary,
+    "text-on-tertiary-container": on-tertiary-container,
+    "text-outline": outline,
+);
+
+$beer-text-semantic-map: (
+    "text-success": "--color-success",
+    "text-warning": "--color-warning",
+    "text-error": "--color-danger",
+    "text-info": "--color-info",
+);
+
+$beer-border-map: (
+    "border-primary": primary,
+    "border-secondary": secondary,
+    "border-tertiary": tertiary,
+    "border-surface": outline,
+    "border-variant": outline-variant,
+    "border-error": error,
+);
+
+@mixin beercss-classes($scope: ":where(:root, :host)") {
+    @layer md3.beercss {
+        @each $class, $role in $beer-background-map {
+            #{$scope} :where(.#{$class}) {
+                @include tokens.md3-surface($role);
+            }
+        }
+
+        @each $class, $role in $beer-text-role-map {
+            #{$scope} :where(.#{$class}) {
+                color: var(#{tokens.md3-var($role)});
+            }
+        }
+
+        @each $class, $var in $beer-text-semantic-map {
+            #{$scope} :where(.#{$class}) {
+                color: var(#{$var});
+            }
+        }
+
+        @each $class, $role in $beer-border-map {
+            #{$scope} :where(.#{$class}) {
+                border-color: var(#{tokens.md3-var($role)});
+            }
+        }
+
+        #{$scope} :where(.border-contrast) {
+            border-color: color-mix(in oklch, var(--md3-outline) 60%, transparent);
+        }
+
+        #{$scope} :where(.bg-success) {
+            --current: var(--color-success);
+            @include colorize.solid-colorize("&", ("shade": var(--surface-opacity-default)));
+        }
+
+        #{$scope} :where(.bg-warning) {
+            --current: var(--color-warning);
+            @include colorize.solid-colorize("&", ("shade": var(--surface-opacity-default)));
+        }
+
+        #{$scope} :where(.bg-info) {
+            --current: var(--color-info);
+            @include colorize.solid-colorize("&", ("shade": var(--surface-opacity-default)));
+        }
+
+        #{$scope} :where(.bg-danger, .bg-error-strong) {
+            --current: var(--color-danger);
+            @include colorize.solid-colorize("&", ("shade": var(--surface-opacity-default)));
+        }
+
+        #{$scope} :where(.text-outline) {
+            text-decoration-color: var(--md3-outline);
+        }
+
+        #{$scope} :where(.outline) {
+            outline: 1px solid var(--md3-outline);
+            outline-offset: 0.125rem;
+        }
+
+        #{$scope} :where(.surface-interactive) {
+            position: relative;
+            isolation: isolate;
+            @include tokens.md3-surface(surface);
+            @include tokens.md3-state-layer(surface, hover);
+        }
+    }
+}
+

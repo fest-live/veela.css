@@ -1,0 +1,74 @@
+@use "veela-lib" as md3;
+
+
+
+@property --size-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --font-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@layer md3.runtime {
+    :where(:root, :host) {
+        --size-scale: 1;
+        --font-scale: 1;
+        --u: 1rem;
+        --pxu: 1px;
+        --cqi: 1cqi;
+        --cqb: 1cqb;
+
+        --sidebar-width: clamp(16rem, 10vw, 20rem);
+        --sidebar-width-collapsed: clamp(10rem, 20vw, 12.5rem);
+        --sidebar-width-mobile: clamp(17.5rem, 35vw, 20rem);
+        --sidebar-width-mobile-small: clamp(18.75rem, 40vw, 21.25rem);
+
+        --container-max-width: min(100%, 110rem);
+        --container-padding: clamp(1rem, 3vw, 2rem);
+
+        --breakpoint-sm: 40rem;
+        --breakpoint-md: 60rem;
+        --breakpoint-lg: 75rem;
+        --breakpoint-xl: 90rem;
+
+        --backdrop-blur-subtle: blur(6px) saturate(110%);
+        --backdrop-blur-default: blur(12px) saturate(120%);
+        --backdrop-blur-strong: blur(18px) saturate(140%);
+
+        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md3-shadow) 60%);
+        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md3-shadow) 62%);
+        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md3-shadow) 58%);
+    }
+}
+
+:root, body {
+    container-type: inline-size;
+}
+
+@layer md3.runtime {
+    @container (inline-size < 30rem) {
+        :root {
+            --size-scale: 0.92;
+            --font-scale: 0.96;
+        }
+    }
+
+    @container (30rem <= inline-size < 60rem) {
+        :root {
+            --size-scale: 1;
+            --font-scale: 1;
+        }
+    }
+
+    @container (inline-size >= 60rem) {
+        :root {
+            --size-scale: 1.05;
+            --font-scale: 1.04;
+        }
+    }
+}

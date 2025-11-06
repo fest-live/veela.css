@@ -178,9 +178,24 @@
 
     /* Legacy */
     :root, :scope, :host {
-        --primary: #469;
-        --secondary: oklch(from var(--primary) l c calc(h + 120));
-        --trinary: oklch(from var(--primary) l c calc(h + 240));
+        --primary-fallback: #469;
+        --secondary-fallback: oklch(from var(--primary-fallback) l calc(c * 0.88) calc(h + 120));
+        --tertiary-fallback: oklch(from var(--primary-fallback) l calc(c * 0.84) calc(h + 240));
+        --accent-fallback: var(--tertiary-fallback);
+        --surface-fallback: --c2-surface(0.2, var(--primary-fallback));
+        --surface-variant-fallback: --c2-surface(0.34, var(--primary-fallback));
+        --on-surface-fallback: --c2-on-surface(0.1, var(--primary-fallback));
+        --outline-fallback: color-mix(in oklch, --c2-on-surface(0.32, var(--primary-fallback)) 56%, transparent);
+        --outline-variant-fallback: color-mix(in oklch, --c2-on-surface(0.36, var(--primary-fallback)) 32%, --c2-surface(0.32, var(--primary-fallback)) 68%);
+        --inverse-surface-fallback: --c2-contrast(0.86, var(--surface-fallback));
+        --inverse-on-surface-fallback: --c2-on-contrast(0.08, var(--surface-fallback));
+        --inverse-primary-fallback: --c2-contrast(0.72, var(--primary-fallback));
+
+        --primary: var(--primary-fallback);
+        --secondary: var(--secondary-fallback);
+        --tertiary: var(--tertiary-fallback);
+        --trinary: var(--tertiary);
+        --accent: var(--accent-fallback);
         --current: var(--primary);
 
         //

@@ -47,25 +47,32 @@ $material-mode-suffix: (
     }
 }
 
+//
 @mixin material-color-utilities-remap(
-    $light-selector: ":where(:root, :host)",
+    $light-selector: ":where(:root, :host, :scope, body, div, section)",
     $dark-selector: ":where([data-theme=\"dark\"], .theme-dark)",
-    $system-selector: ":where(:root):where(:not([data-theme]))"
+    $system-selector: ":where(:root, :host, :scope, body, div, section)"
 ) {
     @layer md3.mcu {
-        @include material-color-utilities-theme(light, $light-selector);
-        @include material-color-utilities-theme(dark, $dark-selector);
+        #{$system-selector}:not([data-scheme]):not([data-theme]),
+        #{$system-selector}:where([data-scheme="auto"], [data-theme="auto"]),
+        #{$system-selector}:where([data-scheme="system"], [data-theme="system"])
+        {
+            @media (prefers-color-scheme: light) {
+                @include material-color-utilities-theme(light, "&");
+            }
 
-        @media (prefers-color-scheme: dark) {
-            #{$system-selector} {
+            @media (prefers-color-scheme: dark){
                 @include material-color-utilities-theme(dark, "&");
             }
         }
 
-        @media (prefers-color-scheme: light) {
-            #{$system-selector} {
-                @include material-color-utilities-theme(light, "&");
-            }
+        #{$system-selector}:where([data-theme="dark"], [data-scheme="dark"]) {
+            @include material-color-utilities-theme(dark, "&");
+        }
+
+        #{$system-selector}:where([data-theme="light"], [data-scheme="light"]) {
+            @include material-color-utilities-theme(light, "&");
         }
     }
 }

@@ -150,10 +150,10 @@
     };
 
     //
-    [data-scheme="dark"] { color-scheme: dark only; }
-    [data-scheme="light"] { color-scheme: light only; }
-    [data-scheme="system"] { color-scheme: light dark; }
-    [data-scheme="auto"] { color-scheme: light dark; }
+    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
+    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
+    [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
+    [data-scheme="auto"], [data-theme="auto"] { color-scheme: light dark; }
 
     //
     :where(canvas):is([is="ui-canvas"]), :host(canvas[is="ui-canvas"]) {

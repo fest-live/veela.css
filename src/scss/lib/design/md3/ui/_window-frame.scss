@@ -477,7 +477,7 @@
 
 // close button
 @mixin close-button-styles {
-    & { background-color: --c2-on-surface(-0.05, var(--primary)); color: --c2-surface(0.0, var(--primary)); ui-icon { --icon-color: --c2-surface(0.0, var(--primary)); } }
-    &:hover  { background-color: --c2-on-surface(-0.1, var(--primary)); color: --c2-surface(0.0, var(--primary)); ui-icon { --icon-color: --c2-surface(0.0, var(--primary)); } }
-    &:active { background-color: --c2-on-surface(-0.1, var(--primary)); color: --c2-surface(0.0, var(--primary)); ui-icon { --icon-color: --c2-surface(0.0, var(--primary)); } }
+    & { background-color: --c2-on-surface(-0.05, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
+    &:hover  { background-color: --c2-on-surface(-0.1, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
+    &:active { background-color: --c2-on-surface(-0.1, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
 }

@@ -165,3 +165,9 @@
 @property --alphaC { syntax: '<number>'; inherits: true; initial-value: 0; }
 @property --alphaU { syntax: '<number>'; inherits: true; initial-value: 0; }
 @property --alphaP { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+//
+@property --current { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --primary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --secondary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --trinary { syntax: "<color>"; initial-value: #469; inherits: true; }

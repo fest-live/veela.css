@@ -1,4 +1,4 @@
-@mixin material-color-backward-adapter($selector: ":where(:root, :host)") {
+@mixin material-color-backward-adapter($selector: ":where(:root, :host, :scope, body, div, section)") {
     @layer md3.c2-adapter {
         #{$selector} {
             --primary: var(--md-sys-color-primary, var(--primary-fallback, #469));
@@ -8,7 +8,7 @@
             --accent: var(--md-sys-color-tertiary, var(--accent-fallback, var(--tertiary)));
             --current: var(--primary);
 
-            --color-primary: var(--primary);
+            --color-primary: var(--current);
             --color-secondary: var(--secondary);
             --color-tertiary: var(--tertiary);
 
@@ -23,16 +23,16 @@
 
             --inverse-surface: var(--md-sys-color-inverse-surface, var(--inverse-surface-fallback, var(--surface-fallback)));
             --inverse-on-surface: var(--md-sys-color-inverse-on-surface, var(--inverse-on-surface-fallback, var(--on-surface-fallback)));
-            --inverse-primary: var(--md-sys-color-inverse-primary, var(--inverse-primary-fallback, var(--primary)));
+            --inverse-primary: var(--md-sys-color-inverse-primary, var(--inverse-primary-fallback, var(--current)));
         }
     }
 }
 
 //
-@mixin material-color-c2-adapter-remap($selector: ":where(:root, :host)") {
+@mixin material-color-c2-adapter-remap($selector: ":where(:root, :host, :scope, body, div, section)") {
     @layer md3.c2-adapter {
         #{$selector} {
-            --md-c2-primary: var(--primary, var(--primary-fallback, #469));
+            --md-c2-primary: var(--current, var(--primary-fallback, #469));
             --md-c2-secondary: var(--secondary, var(--secondary-fallback, var(--md-c2-primary)));
             --md-c2-tertiary: var(--tertiary, var(--tertiary-fallback, var(--md-c2-secondary)));
             --md-c2-error: var(--color-error, var(--color-danger, oklch(0.62 0.17 23 / 1)));

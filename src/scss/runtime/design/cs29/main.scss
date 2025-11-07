@@ -79,7 +79,9 @@
 // Optional dark theme implementation
 
 @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-scheme]):not([data-theme]),
+    :root:where([data-scheme="auto"], [data-theme="auto"]),
+    :root:where([data-scheme="system"], [data-theme="system"]) {
         // Override colors for dark theme
         --text-primary: #ffffff;
         --text-secondary: #e2e8f0;

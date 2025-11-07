@@ -49,7 +49,8 @@
 //
 @include make-func("@function --c2h-re-shading(\
 --c2h-color <color>, \
---c2h-factor: 1 \
+--c2h-factor <number>: 1, \
+--c2h-theme-type <number>: 2 \
 )") {
     /* chromatic neutralize (unused) ir chromatic, or make very chromatic if too gray */
     --c2h-chromatic-inverse-ls: oklch(from var(--c2h-color) l calc(1 - c) h);
@@ -67,9 +68,21 @@
     --c2h-lightness-inverse-ds: oklch(from var(--c2h-color) 0.99 calc(c * 0.1) h);  /* most dark (almost black) */
 
     /* */
-    --c2h-lightness-extract: light-dark(var(--c2h-lightness-extract-ls), var(--c2h-lightness-extract-ds));
-    --c2h-chromatic-extract: light-dark(var(--c2h-chromatic-extract-ls), var(--c2h-chromatic-extract-ds));
-    --c2h-lightness-inverse: light-dark(var(--c2h-lightness-inverse-ls), var(--c2h-lightness-inverse-ds));
+    --c2h-lightness-extract: if(
+        style(--c2h-theme-type: 1): var(--c2h-lightness-extract-ds);
+        style(--c2h-theme-type: 0): var(--c2h-lightness-extract-ls);
+        else: light-dark(var(--c2h-lightness-extract-ls), var(--c2h-lightness-extract-ds));
+    );
+    --c2h-chromatic-extract: if(
+        style(--c2h-theme-type: 1): var(--c2h-chromatic-extract-ds);
+        style(--c2h-theme-type: 0): var(--c2h-chromatic-extract-ls);
+        else: light-dark(var(--c2h-chromatic-extract-ls), var(--c2h-chromatic-extract-ds));
+    );
+    --c2h-lightness-inverse: if(
+        style(--c2h-theme-type: 1): var(--c2h-lightness-extract-ds);
+        style(--c2h-theme-type: 0): var(--c2h-lightness-extract-ls);
+        else: light-dark(var(--c2h-lightness-inverse-ls), var(--c2h-lightness-inverse-ds));
+    );
 
     /* */
     result: --c2h-triple-mix(
@@ -85,16 +98,18 @@
 /* */
 @include make-func("@function --c2-surface(\
 --c2-shift    <number>: 1, \
---c2-color     <color>: var(--current, inherit) \
+--c2-color     <color>: var(--current, inherit), \
+--c2-theme    <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.96 - var(--c2-shift, 1) * 0.8)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.96 - var(--c2-shift, 1) * 0.8), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-surface(\
 --c2-shift      <number>: 1, \
 --c2-color       <color>: var(--current, inherit) \
+--c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.02 + var(--c2-shift, 1) * 0.2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.02 + var(--c2-shift, 1) * 0.2), var(--c2-theme, 2)); };
 
 
 
@@ -102,15 +117,17 @@
 @include make-func("@function --c2-contrast(\
 --c2-shift    <number>: 1, \
 --c2-color     <color>: var(--current, inherit) \
+--c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(1 - var(--c2-shift, 1) * 0.9)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(1 - var(--c2-shift, 1) * 0.9), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-contrast(\
 --c2-shift      <number>: 1, \
 --c2-color       <color>: var(--current, inherit) \
+--c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.01 + var(--c2-shift, 1) * 0.1)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.01 + var(--c2-shift, 1) * 0.1), var(--c2-theme, 2)); };
 
 /* */
 @property --primary { syntax: "<color>"; initial-value: #fff; inherits: true; };

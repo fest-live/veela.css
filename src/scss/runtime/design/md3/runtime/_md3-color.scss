@@ -1,0 +1,26 @@
+@use "veela-lib" as md3;
+
+//
+@layer md3.tokens {
+    :where([data-theme="light"], [data-scheme="light"], .theme-light) {
+        @include md3.md3-export-color-vars(light);
+    }
+
+    //
+    :where([data-theme="dark"], [data-scheme="dark"], .theme-dark) {
+        @include md3.md3-export-color-vars(dark);
+    }
+
+    //
+    :where(:root, :host):not([data-theme]):not([data-scheme]),
+    :where(:root, :host):where([data-theme="auto"], [data-scheme="auto"]),
+    :where(:root, :host):where([data-theme="system"], [data-scheme="system"])
+    {
+        @media (prefers-color-scheme: light) {
+            @include md3.md3-export-color-vars(light);
+        }
+        @media (prefers-color-scheme: dark) {
+            @include md3.md3-export-color-vars(dark);
+        }
+    }
+}

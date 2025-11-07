@@ -712,52 +712,6 @@ $md3-elevation-levels: (
     --selection-opacity: 0.16;
 }
 
-@property --md3-state-layer-opacity {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0;
-}
-
-@property --md3-elevation-level {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 0;
-}
-
-@layer md3.tokens {
-    :where(:root, :host) {
-        @include md3-export-density-vars();
-        @include md3-export-component-vars();
-        @include md3-export-motion-vars();
-        @include md3-export-typography-vars();
-        @include md3-export-elevation-vars();
-        @include md3-export-state-vars();
-    }
-
-    //
-    :where([data-theme="light"], [data-scheme="light"], .theme-light) {
-        @include md3-export-color-vars(light);
-    }
-
-    //
-    :where([data-theme="dark"], [data-scheme="dark"], .theme-dark) {
-        @include md3-export-color-vars(dark);
-    }
-
-    //
-    :where(:root, :host):not([data-theme]):not([data-scheme]),
-    :where(:root, :host):where([data-theme="auto"], [data-scheme="auto"]),
-    :where(:root, :host):where([data-theme="system"], [data-scheme="system"])
-    {
-        @media (prefers-color-scheme: light) {
-            @include md3-export-color-vars(light);
-        }
-        @media (prefers-color-scheme: dark) {
-            @include md3-export-color-vars(dark);
-        }
-    }
-}
-
 // Legacy variable aliases (SCSS level)
 $color-primary: md3-color(primary);
 $color-secondary: md3-color(secondary);

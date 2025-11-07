@@ -1,7 +1,6 @@
 @use "veela-lib" as md3;
 
-
-
+//
 @property --size-scale {
     syntax: "<number>";
     inherits: true;
@@ -14,7 +13,28 @@
     initial-value: 1;
 }
 
+@property --md3-state-layer-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --md3-elevation-level {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 0;
+}
+
 @layer md3.runtime {
+    :where(:root, :host) {
+        @include md3.md3-export-density-vars();
+        @include md3.md3-export-component-vars();
+        @include md3.md3-export-motion-vars();
+        @include md3.md3-export-typography-vars();
+        @include md3.md3-export-elevation-vars();
+        @include md3.md3-export-state-vars();
+    }
+
     :where(:root, :host) {
         --size-scale: 1;
         --font-scale: 1;

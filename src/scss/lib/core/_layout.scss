@@ -404,7 +404,6 @@
 // Container query variants
 @mixin container($size) {
     max-inline-size: stretch;//$container-max-width;
-    margin: 0 auto;
 
     $map: (
         "sm": 480px,

@@ -188,55 +188,8 @@
     }
 }
 
-
-
-/* */
+/* legacy */
 @layer ux-ctm {
-
-    /* Legacy */
-    :root, :scope, :host {
-        --primary-fallback: #469;
-        --secondary-fallback: oklch(from var(--current) l calc(c * 0.88) calc(h + 120));
-        --tertiary-fallback: oklch(from var(--current) l calc(c * 0.84) calc(h + 240));
-        --accent-fallback: var(--tertiary-fallback);
-        --surface-fallback: --c2-surface(0.2, var(--current));
-        --surface-variant-fallback: --c2-surface(0.34, var(--current));
-        --on-surface-fallback: --c2-on-surface(0.1, var(--current));
-        --outline-fallback: color-mix(in oklch, --c2-on-surface(0.32, var(--current)) 56%, transparent);
-        --outline-variant-fallback: color-mix(in oklch, --c2-on-surface(0.36, var(--current)) 32%, --c2-surface(0.32, var(--current)) 68%);
-        --inverse-surface-fallback: --c2-contrast(0.86, var(--surface-fallback));
-        --inverse-on-surface-fallback: --c2-on-contrast(0.08, var(--surface-fallback));
-        --inverse-primary-fallback: --c2-contrast(0.72, var(--current));
-
-        --primary: var(--primary-fallback);
-        --secondary: var(--secondary-fallback);
-        --tertiary: var(--tertiary-fallback);
-        --trinary: var(--tertiary);
-        --accent: var(--accent-fallback);
-        --current: var(--primary-fallback, #469);
-
-        //
-        @media(prefers-color-scheme: dark) { color-scheme: dark; }
-        @media(prefers-color-scheme: light) { color-scheme: light; }
-
-        //
-        & { color-scheme: light; };
-        &:is([data-scheme="dark"], [data-theme="dark"]) { color-scheme: dark only; }
-        &:is([data-scheme="light"], [data-theme="light"]) { color-scheme: light only; }
-        &:is([data-scheme="system"], [data-theme="system"]) { color-scheme: light dark; }
-        &:is([data-scheme="auto"], [data-theme="auto"]) { color-scheme: light dark; }
-    }
-
-    //
-    :host {
-        --secondary: inherit;
-        --trinary: inherit;
-        --primary: inherit;
-        --current: var(--primary);
-        color-scheme: inherit;
-    }
-
-    //
     @include implement-theme("surface");
     @include implement-theme("contrast");
 
@@ -244,5 +197,4 @@
     .c2-transparent {
         background-color: transparent;
     }
-
 }

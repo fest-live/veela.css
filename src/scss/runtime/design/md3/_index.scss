@@ -1,12 +1,13 @@
 @use "./runtime/variables" as *;
-@use "./runtime/color-runtime" as *;
 @use "./runtime/wavy-runtime" as *;
-@use "./runtime/material-color-c2-adapter" as *;
-//@use "./runtime/material-color-utilities" as *;
 
 //
-@use "./colors/variants" as *;
-@use "./colors/states" as *;
+@use "./colors/veela-color-c2-runtime" as *;
+@use "./colors/material-color-c2-adapter" as *;
+
+//
+@use "./theme/variants" as *;
+@use "./theme/states" as *;
 
 //
 @use "./shapes/shapes" as *;

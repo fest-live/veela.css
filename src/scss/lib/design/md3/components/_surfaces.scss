@@ -1,5 +1,6 @@
 @use "../../../core/layout" as layout;
 
+//
 @mixin card-base {
     display: grid;
     gap: var(--card-gap);
@@ -8,6 +9,7 @@
     transition: var(--transition-colors), var(--transition-transform);
 }
 
+//
 @mixin panel-base {
     display: grid;
     gap: var(--gap-md);
@@ -16,6 +18,7 @@
     border: 1px solid;
 }
 
+//
 @mixin panel-header {
     background: var(--gradient-primary);
     color: var(--text-light);
@@ -28,13 +31,14 @@
 
     h2 {
         margin: 0;
-        font-size: $font-size-xl;
-        font-weight: $font-weight-bold;
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
         position: relative;
         z-index: 1;
     }
 }
 
+//
 @mixin accordion-base {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -57,6 +61,7 @@
     }
 }
 
+//
 @mixin empty-state {
     padding: var(--padding-2xl);
     border-radius: var(--radius-lg);
@@ -67,6 +72,7 @@
     @include layout.grid-center;
 }
 
+//
 @mixin nav-item {
     padding: var(--nav-padding);
     border-radius: var(--nav-radius);

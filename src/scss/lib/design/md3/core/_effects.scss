@@ -2,19 +2,26 @@
 @use "./animation" as animation;
 @use "./constants" as c;
 
+
+
 // =============================================================================
 // VISUAL EFFECTS MIXINS (split from layout)
 // =============================================================================
 
+//
 @mixin glass-morphism($opacity: 0.95, $blur: var(--backdrop-blur-md, #{c.$ui-backdrop-blur-md})) {
     @include colorize.surface(var(--surface-opacity-subtle));
     @include colorize.border-color(var(--border-opacity-subtle));
+    @include colorize.backdrop-blur(var(--backdrop-blur-md, #{c.$ui-backdrop-blur-md}));
 }
 
+//
 @mixin gradient-text($gradient: var(--primary-gradient)) {
-    color: var(--primary-gradient);
+    background-image: $gradient;
+    background-clip: text;
 }
 
+//
 @mixin hover-lift($lift: -1px, $shadow: var(--shadow-md, #{c.$ui-shadow-md})) {
     @include animation.transition(transform, var(--transition-base));
     @include animation.transition(box-shadow, var(--transition-base));
@@ -25,9 +32,11 @@
     }
 }
 
+//
 @mixin shimmer-effect($duration: var(--duration-slow)) {}
-
 @mixin button-shine($duration: var(--duration-fast)) {}
+
+
 
 //
 @mixin dynamic-shadow-drop() {

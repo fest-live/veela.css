@@ -1,6 +1,101 @@
 // Core Design System Variables
 // Unified design tokens for consistent styling across components
-@use "veela-lib" as *;
+@use "veela-lib" as md3;
+
+//
+@property --size-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --font-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --md3-state-layer-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --md3-elevation-level {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@layer md3.runtime {
+    :where(:root, :host) {
+        @include md3.md3-export-density-vars();
+        @include md3.md3-export-component-vars();
+        @include md3.md3-export-motion-vars();
+        @include md3.md3-export-typography-vars();
+        @include md3.md3-export-elevation-vars();
+        @include md3.md3-export-state-vars();
+    }
+
+    :where(:root, :host) {
+        --size-scale: 1;
+        --font-scale: 1;
+        --u: 1rem;
+        --pxu: 1px;
+        --cqi: 1cqi;
+        --cqb: 1cqb;
+
+        //
+        --sidebar-width: min(clamp(16rem, 10vw, 20rem), 100cqi);
+        --container-max-width: min(100%, 110rem);
+        --container-padding: clamp(1rem, 3vw, 2rem);
+
+        --breakpoint-sm: 40rem;
+        --breakpoint-md: 60rem;
+        --breakpoint-lg: 75rem;
+        --breakpoint-xl: 90rem;
+
+        --backdrop-blur-subtle: blur(6px) saturate(110%);
+        --backdrop-blur-default: blur(12px) saturate(120%);
+        --backdrop-blur-strong: blur(18px) saturate(140%);
+
+        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md3-shadow) 60%);
+        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md3-shadow) 62%);
+        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md3-shadow) 58%);
+
+        //
+        @media (max-width: 720px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
+        @media (max-width: 480px) { --sidebar-width: min(clamp(18.75rem, 40vw, 21.25rem), 100cqi); }
+        @media (max-width: 320px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
+    }
+}
+
+:root, body {
+    container-type: inline-size;
+}
+
+@layer md3.runtime {
+    @container (inline-size < 30rem) {
+        :root {
+            --size-scale: 0.92;
+            --font-scale: 0.96;
+        }
+    }
+
+    @container (30rem <= inline-size < 60rem) {
+        :root {
+            --size-scale: 1;
+            --font-scale: 1;
+        }
+    }
+
+    @container (inline-size >= 60rem) {
+        :root {
+            --size-scale: 1.05;
+            --font-scale: 1.04;
+        }
+    }
+}
 
 // =============================================================================
 // CONTAINER-SCOPED VARIABLE INITIALIZATION
@@ -57,13 +152,30 @@
 
 :root {
     // Font size scales
-    --font-xs: clamp(0.7rem, 0.35cqi + 0.65rem, 0.84rem);
-    --font-sm: clamp(0.78rem, 0.42cqi + 0.7rem, 0.9rem);
-    --font-base: clamp(0.85rem, 0.5cqi + 0.78rem, 0.98rem);
+    //--font-xs: clamp(0.7rem, 0.35cqi + 0.65rem, 0.84rem);
+    //--font-sm: clamp(0.78rem, 0.42cqi + 0.7rem, 0.9rem);
+    //--font-base: clamp(0.85rem, 0.5cqi + 0.78rem, 0.98rem);
     --font-md: clamp(0.92rem, 0.6cqi + 0.82rem, 1.05rem);
-    --font-lg: clamp(1.05rem, 0.8cqi + 0.9rem, 1.2rem);
-    --font-xl: clamp(1.2rem, 1cqi + 1rem, 1.45rem);
+    //--font-lg: clamp(1.05rem, 0.8cqi + 0.9rem, 1.2rem);
+    //--font-xl: clamp(1.2rem, 1cqi + 1rem, 1.45rem);
     --font-2xl: clamp(1.35rem, 1.3cqi + 1.1rem, 1.75rem);
+
+    // Font sizes
+    --font-xs: clamp(calc(0.7rem * var(--font-scale)), 0.3cqi + 0.6rem, calc(0.75rem * var(--font-scale)));
+    --font-sm: clamp(calc(0.75rem * var(--font-scale)), 0.4cqi + 0.65rem, calc(0.85rem * var(--font-scale)));
+    --font-base: clamp(calc(0.8rem * var(--font-scale)), 0.5cqi + 0.7rem, calc(0.95rem * var(--font-scale)));
+    --font-lg: clamp(calc(0.9rem * var(--font-scale)), 0.6cqi + 0.8rem, calc(1.1rem * var(--font-scale)));
+    --font-xl: clamp(calc(1rem * var(--font-scale)), 0.8cqi + 0.9rem, calc(1.3rem * var(--font-scale)));
+
+    // Font size scales
+    --font-size-xs: var(--font-xs);
+    --font-size-sm: var(--font-sm);
+    --font-size-base: var(--font-base);
+    --font-size-md: var(--font-md);
+    --font-size-lg: var(--font-lg);
+    --font-size-xl: var(--font-xl);
+    --font-size-2xl: var(--font-2xl);
+    --font-size: var(--font-base);
 
     // Line heights
     --leading-tight: 1.2;

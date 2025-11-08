@@ -186,7 +186,7 @@
 
         //
         --on-surface: var(--on-surface-color, currentColor); // alias
-        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--color-source, var(--current, currentColor))) l c h / 0.1);
+        --border-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.05), var(--color-source, var(--current, currentColor))) l c h / 0.1);
         --scrollbar-color: oklch(from --c2-on-surface(calc(var(--color-tint) + 0.1), var(--color-source, var(--current, currentColor))) l c h / 0.4);
 
         //

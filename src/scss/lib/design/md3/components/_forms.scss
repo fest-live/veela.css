@@ -1,15 +1,17 @@
 @use "../../../core/layout" as layout;
 @use "../core/typography" as type;
 
-// Forms
+//
 @mixin input-base {
     @include type.type("body-medium");
     @include type.text-wrap();
+
+    //
     display: inline-block;
-    padding: var(--padding-md);
-    padding-inline-start: var(--padding-lg, 1rem);
-    border: 1px solid transparent;
-    border-radius: var(--form-radius);
+    padding: var(--input-padding);
+    padding-inline-start: var(--input-padding-inline-start, 1rem);
+    border: 1px solid var(--input-border-color, transparent);
+    border-radius: var(--input-radius);
     outline: none;
     inline-size: stretch;
     min-inline-size: fit-content;
@@ -17,9 +19,12 @@
     field-sizing: content;
 }
 
+//
 @mixin form-field-base() {
     @include type.type("body-medium");
     @include type.text-wrap();
+
+    //
     padding: var(--padding-md);
     padding-inline-end: calc(var(--space-lg) * 2);
     padding-inline-start: var(--padding-lg, 1rem);
@@ -41,7 +46,12 @@
     }
 }
 
+//
 @mixin option-style() {
+    @include type.type("body-medium");
+    @include type.text-wrap();
+
+    //
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -82,8 +92,11 @@
 }
 
 //
-@mixin select-dropdown() {
+@mixin select-base() {
+    @include type.type("body-medium");
+    @include type.text-wrap();
 
+    //
     & {
         appearance: none;
         -webkit-appearance: none;
@@ -98,18 +111,21 @@
         padding: 0;
         user-select: none;
 
+        //
         text-indent: 0.01px;
         text-overflow: '';
         text-overflow: "";
         color: transparent !important;
     }
 
+    //
     &,
     &::picker(select) {
         appearance: base-select;
         outline: none;
     }
 
+    //
     &:where(select) {
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -130,6 +146,7 @@
         text-overflow: "";
     }
 
+    //
     &::picker(select) {
         appearance: base-select;
         cursor: pointer;
@@ -143,10 +160,12 @@
         line-height: 0;
     }
 
+    //
     &::-ms-expand {
         display: none;
     }
 
+    //
     &::after {
         mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3e%3cpath d='M4.2 6.4a.75.75 0 0 1 1.06-.05L8 8.68l2.74-2.33a.75.75 0 1 1 .98 1.14l-3.24 2.75a.75.75 0 0 1-.98 0L4.25 7.49a.75.75 0 0 1-.05-1.06z'/%3e%3c/svg%3e");
         mask-repeat: no-repeat;
@@ -169,11 +188,16 @@
         overflow: hidden;
     }
 
+    //
     option { @include option-style(); }
 }
 
 //
-@mixin checkbox-radio-base() {
+@mixin checkbox-base() {
+    @include type.type("body-medium");
+    @include type.text-wrap();
+
+    //
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;

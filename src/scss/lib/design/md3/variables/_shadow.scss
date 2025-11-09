@@ -1,0 +1,88 @@
+@use "utils" as _;
+
+@use "sass:map";
+@use "sass:string";
+
+//
+// Elevation levels
+$md3-elevation-levels: (
+    0: (),
+    1: (
+        0 1px 2px color-mix(in oklab, var(--md3-shadow, #000) 18%, transparent),
+        0 1px 3px 1px color-mix(in oklab, var(--md3-shadow, #000) 14%, transparent),
+    ),
+    2: (
+        0 1px 2px color-mix(in oklab, var(--md3-shadow, #000) 20%, transparent),
+        0 2px 6px 2px color-mix(in oklab, var(--md3-shadow, #000) 16%, transparent),
+    ),
+    3: (
+        0 2px 3px color-mix(in oklab, var(--md3-shadow, #000) 22%, transparent),
+        0 4px 8px 3px color-mix(in oklab, var(--md3-shadow, #000) 18%, transparent),
+    ),
+    4: (
+        0 3px 4px color-mix(in oklab, var(--md3-shadow, #000) 24%, transparent),
+        0 6px 12px 4px color-mix(in oklab, var(--md3-shadow, #000) 18%, transparent),
+    ),
+    5: (
+        0 5px 5px color-mix(in oklab, var(--md3-shadow, #000) 26%, transparent),
+        0 8px 16px 6px color-mix(in oklab, var(--md3-shadow, #000) 22%, transparent),
+    ),
+);
+
+//
+// Shadow to string function
+@function _shadow-to-string($layers) {
+    $result: "";
+
+    @each $layer in $layers {
+        $result: if($result == "", "#{$layer}", "#{$result}, #{$layer}");
+    }
+
+    @return if($result == "", none, string.unquote($result));
+}
+
+//
+// Elevation function
+@function md3-elevation($level: 0) {
+    @if not map.has-key($md3-elevation-levels, $level) {
+        @error "Unknown elevation level `#{$level}`. Available: #{map.keys($md3-elevation-levels)}";
+    }
+
+    $layers: map.get($md3-elevation-levels, $level);
+    @return _shadow-to-string($layers);
+}
+
+//
+// Export elevation vars mixin
+@mixin md3-export-elevation-vars() {
+    @each $level, $layers in $md3-elevation-levels {
+        --md3-elevation-#{$level}: #{_shadow-to-string($layers)};
+    }
+
+    --shadow-sm: var(--md3-elevation-1);
+    --shadow-md: var(--md3-elevation-2);
+    --shadow-lg: var(--md3-elevation-3);
+    --shadow-xl: var(--md3-elevation-4);
+    --shadow-2xl: var(--md3-elevation-5);
+    --shadow-inset: inset 0 1px 0 color-mix(in oklab, var(--md3-shadow, #000) 12%, transparent);
+    --shadow-inset-strong: inset 0 2px 6px color-mix(in oklab, var(--md3-shadow, #000) 18%, transparent);
+}
+
+//
+// Shadow variables
+$shadow-sm: md3-elevation(1);
+$shadow-md: md3-elevation(2);
+$shadow-lg: md3-elevation(3);
+$shadow-xl: md3-elevation(4);
+$shadow-2xl: md3-elevation(5);
+
+//
+// Shadow glow variables
+$shadow-glow-primary: 0 0 0 1px color-mix(in oklch, md3-color(primary) 24%, transparent);
+$shadow-glow-secondary: 0 0 0 1px color-mix(in oklch, md3-color(secondary) 24%, transparent);
+$shadow-glow-accent: 0 0 0 1px color-mix(in oklch, md3-color(tertiary) 28%, transparent);
+
+//
+// UI shadow variables
+$ui-shadow-soft: md3-elevation(2) !default;
+$ui-shadow-elevated: md3-elevation(3) !default;

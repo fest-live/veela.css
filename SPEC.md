@@ -99,3 +99,336 @@ Currently we used native CSS custom functions (and own implementations for veela
 .example {
     @include solid-colorize(selector = "&", options: ("shade": 0.0, "tint": 0.0, "scheme-id": 2, "role": null));
 }
+```
+
+---
+
+## Layout variables
+
+**Padding variables (in rem):**
+
+- `--padding-sm` - 0.25rem
+- `--padding-md` - 0.5rem
+- `--padding-lg` - 1rem
+- `--padding-xl` - 2rem
+- `--padding-2xl` - 4rem
+- `--padding-3xl` - 8rem
+- `--padding-4xl` - 16rem
+- `--padding-5xl` - 32rem
+- `--padding-6xl` - 64rem
+- `--padding-7xl` - 128rem
+- `--padding-8xl` - 256rem
+- `--padding-9xl` - 512rem
+
+**Spacing variables (in rem):**
+
+- `--space-xs` - 0.25rem
+- `--space-sm` - 0.5rem
+- `--space-md` - 0.75rem
+- `--space-lg` - 1rem
+- `--space-xl` - 1.25rem
+- `--space-2xl` - 1.6rem
+
+**Radius variables (in rem):**
+
+- `--radius-xs` - 0.25rem
+- `--radius-sm` - 0.5rem
+- `--radius-md` - 0.75rem
+- `--radius-lg` - 0.85rem
+- `--radius-xl` - 1rem
+- `--radius-2xl` - 1.25rem
+- `--radius-full` - min(50dvmin, 50cqmin)
+
+**Gap variables (in rem):**
+
+- `--gap-xs` - 0.25rem
+- `--gap-sm` - 0.5rem
+- `--gap-md` - 0.75rem
+- `--gap-lg` - 1rem
+- `--gap-xl` - 1.25rem
+- `--gap-2xl` - 1.6rem
+
+**Font size variables (in rem):**
+
+- `--text-xs` - 0.7rem
+- `--text-sm` - 0.8rem
+- `--text-base` - 0.9rem
+- `--text-lg` - 1rem
+- `--text-xl` - 1.25rem
+- `--text-2xl` - 1.6rem
+- `--text-3xl` - 2rem
+- `--text-4xl` - 2.5rem
+- `--text-5xl` - 3rem
+- `--text-6xl` - 4rem
+
+**Line height variables:**
+
+- `--leading-tight` - 1.2
+- `--leading-normal` - 1.5
+- `--leading-relaxed` - 1.8
+
+**Font weight variables:**
+
+- `--font-weight-normal` - 400
+- `--font-weight-medium` - 500
+- `--font-weight-semibold` - 600
+- `--font-weight-bold` - 700
+
+**Font family variables:**
+
+- `--font-family` - 'Roboto', sans-serif
+- `--font-family-mono` - 'Roboto Mono', monospace
+- `--font-family-display` - 'Roboto Display', sans-serif
+- `--font-family-serif` - 'Roboto Serif', serif
+- `--font-family-handwriting` - 'Roboto Handwriting', cursive
+- `--font-family-fantasy` - 'Roboto Fantasy', fantasy
+- `--font-family-cursive` - 'Roboto Cursive', cursive
+- `--font-family-system` - system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+
+**Transition variables:**
+
+- `--transition-fast` - 140ms ease
+- `--transition-normal` - 160ms ease
+- `--transition-slow` - 200ms ease
+
+**Interactive state variables:**
+
+- `--hover-lift` - 0.08
+- `--active-lift` - 0.1
+- `--focus-lift` - 0.12
+
+**Shadow variables:**
+
+- `--shadow-sm` - 0 1px 2px rgba(0, 0, 0, 0.05)
+- `--shadow-md` - 0 4px 6px rgba(0, 0, 0, 0.1)
+- `--shadow-lg` - 0 10px 15px rgba(0, 0, 0, 0.1)
+- `--shadow-xl` - 0 20px 25px rgba(0, 0, 0, 0.1)
+- `--shadow-2xl` - 0 25px 50px rgba(0, 0, 0, 0.1)
+- `--shadow-inset` - inset 0 1px 0 rgba(0, 0, 0, 0.05)
+- `--shadow-inset-strong` - inset 0 2px 6px rgba(0, 0, 0, 0.1)
+
+**Border width variables (in px):**
+
+- `--border-width-sm` - 0.5px
+- `--border-width-md` - 1px
+- `--border-width-lg` - 2px
+- `--border-width-xl` - 4px
+- `--border-width-2xl` - 8px
+- `--border-width-3xl` - 16px
+- `--border-width-4xl` - 32px
+- `--border-width-5xl` - 64px
+- `--border-width-6xl` - 128px
+- `--border-width-7xl` - 256px
+- `--border-width-8xl` - 512px
+- `--border-width-9xl` - 1024px
+
+## Avatar and icon sizes
+
+- `--avatar-size` - 48px
+- `--avatar-size-lg` - 64px
+- `--icon-size-sm` - 1rem
+- `--icon-size-md` - 1.25rem
+- `--icon-size-lg` - 1.5rem
+
+### Example
+
+```css
+.icon-size-sm {
+    inline-size: var(--icon-size-sm);
+    block-size: var(--icon-size-sm);
+}
+.icon-size-md {
+    inline-size: var(--icon-size-md);
+    block-size: var(--icon-size-md);
+}
+.icon-size-lg {
+    inline-size: var(--icon-size-lg);
+    block-size: var(--icon-size-lg);
+}
+```
+
+---
+
+## Atomic classes
+
+### Padding
+
+- `.p-xs` - padding: `var(--padding-xs)`
+- `.p-sm` - padding: `var(--padding-sm)`
+- `.p-md` - padding: `var(--padding-md)`
+- `.p-lg` - padding: `var(--padding-lg)`
+- `.p-xl` - padding: `var(--padding-xl)`
+- `.p-2xl` - padding: `var(--padding-2xl)`
+- `.p-3xl` - padding: `var(--padding-3xl)`
+- `.p-4xl` - padding: `var(--padding-4xl)`
+- `.p-5xl` - padding: `var(--padding-5xl)`
+- `.p-6xl` - padding: `var(--padding-6xl)`
+- `.p-7xl` - padding: `var(--padding-7xl)`
+- `.p-8xl` - padding: `var(--padding-8xl)`
+- `.p-9xl` - padding: `var(--padding-9xl)`
+
+### Margin
+
+- `.m-xs` - margin: `var(--space-xs)`
+- `.m-sm` - margin: `var(--space-sm)`
+- `.m-md` - margin: `var(--space-md)`
+- `.m-lg` - margin: `var(--space-lg)`
+- `.m-xl` - margin: `var(--space-xl)`
+- `.m-2xl` - margin: `var(--space-2xl)`
+- `.m-3xl` - margin: `var(--space-3xl)`
+- `.m-4xl` - margin: `var(--space-4xl)`
+- `.m-5xl` - margin: `var(--space-5xl)`
+- `.m-6xl` - margin: `var(--space-6xl)`
+
+### Gap
+
+- `.gap-xs` - gap: `var(--gap-xs)`
+- `.gap-sm` - gap: `var(--gap-sm)`
+- `.gap-md` - gap: `var(--gap-md)`
+- `.gap-lg` - gap: `var(--gap-lg)`
+- `.gap-xl` - gap: `var(--gap-xl)`
+
+### Text size
+
+- `.text-xs` - font-size: `var(--text-xs)`
+- `.text-sm` - font-size: `var(--text-sm)`
+- `.text-base` - font-size: `var(--text-base)`
+- `.text-lg` - font-size: `var(--text-lg)`
+- `.text-xl` - font-size: `var(--text-xl)`
+
+### Font weight
+
+- `.font-weight-normal` - font-weight: `var(--font-weight-normal)`
+- `.font-weight-medium` - font-weight: `var(--font-weight-medium)`
+- `.font-weight-semibold` - font-weight: `var(--font-weight-semibold)`
+- `.font-weight-bold` - font-weight: `var(--font-weight-bold)`
+
+### Font family
+
+- `.font-family-sans-serif` - font-family: `var(--font-family-sans-serif)`
+- `.font-family-serif` - font-family: `var(--font-family-serif)`
+- `.font-family-monospace` - font-family: `var(--font-family-monospace)`
+- `.font-family-display` - font-family: `var(--font-family-display)`
+- `.font-family-handwriting` - font-family: `var(--font-family-handwriting)`
+
+### Line height
+
+- `.leading-tight` - line-height: `var(--leading-tight)`
+- `.leading-normal` - line-height: `var(--leading-normal)`
+- `.leading-relaxed` - line-height: `var(--leading-relaxed)`
+
+### Transition
+
+- `.transition-fast` - transition: `var(--transition-fast)`
+- `.transition-normal` - transition: `var(--transition-normal)`
+- `.transition-slow` - transition: `var(--transition-slow)`
+
+### Interactive state
+
+- `.hover-lift` - transform: `translateY(var(--hover-lift))`
+- `.active-lift` - transform: `translateY(var(--active-lift))`
+- `.focus-lift` - transform: `translateY(var(--focus-lift))`
+
+### Display
+
+- `.d-grid` - display: `grid`
+- `.d-flex` - display: `flex`
+- `.d-block` - display: `block`
+- `.d-inline` - display: `inline`
+- `.d-inline-block` - display: `inline-block`
+- `.d-inline-flex` - display: `inline-flex`
+- `.d-inline-grid` - display: `inline-grid`
+- `.d-none` - display: `none`
+- `.d-flex-col` - display: `flex-column`
+- `.d-flex-row` - display: `flex-row`
+- `.d-flex-col-reverse` - display: `flex-column-reverse`
+- `.d-flex-row-reverse` - display: `flex-row-reverse`
+- `.d-flex-wrap` - display: `flex-wrap`
+- `.d-flex-wrap-reverse` - display: `flex-wrap-reverse`
+
+### Shadow
+
+- `.shadow-sm` - box-shadow: `var(--shadow-sm)`
+
+### Examples of classes usage
+
+Grid with padding, margin, gap and `display: grid;`
+```html
+<div class="p-md m-md gap-md d-grid">
+    <div class="p-md m-md gap-md d-grid">
+        <div class="p-md m-md gap-md d-grid">
+        </div>
+        <div class="p-md m-md gap-md d-grid">
+        </div>
+    </div>
+</div>
+```
+
+Flexbox with padding, margin, gap and `display: flex;`
+
+```html
+<div class="p-md m-md gap-md d-flex">
+    <div class="p-md m-md gap-md d-flex">
+    </div>
+    <div class="p-md m-md gap-md d-flex">
+    </div>
+</div>
+```
+
+---
+
+## MD3 color classes and variants
+
+### Color classes
+
+- `.color-primary` - color: `var(--color-primary)`
+- `.color-secondary` - color: `var(--color-secondary)`
+- `.color-accent` - color: `var(--color-accent)`
+- `.color-success` - color: `var(--color-success);`
+- `.color-warning` - color: `var(--color-warning);`
+- `.color-danger` - color: `var(--color-danger);`
+- `.color-info` - color: `var(--color-info);`
+
+### Surface classes
+
+- `.surface` - background-color: `var(--surface-color)`
+- `.surface-subtle` - background-color: `var(--surface-color-subtle)`
+- `.surface-muted` - background-color: `var(--surface-color-muted)`
+- `.surface-emphasis` - background-color: `var(--surface-color-emphasis)`
+- `.surface-strong` - background-color: `var(--surface-color-strong)`
+
+### Text classes
+
+- `.text-primary` - color: `var(--text-color-primary)`
+- `.text-secondary` - color: `var(--text-color-secondary)`
+- `.text-muted` - color: `var(--text-color-muted)`
+- `.text-disabled` - color: `var(--text-color-disabled)`
+
+### Validation state classes
+
+- `.state-success` - color: `var(--color-success)`
+- `.state-warning` - color: `var(--color-warning)`
+- `.state-danger` - color: `var(--color-danger)`
+
+### Examples of classes usage
+
+```html
+<div class="color-primary surface-subtle">
+    <div class="text-primary state-success">
+    </div>
+</div>
+```
+
+```html
+<div class="color-secondary surface-emphasis">
+    <div class="text-secondary state-warning">
+    </div>
+</div>
+```
+
+```html
+<div class="color-accent surface-strong">
+    <div class="text-accent state-danger">
+    </div>
+</div>
+```

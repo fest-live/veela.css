@@ -1,0 +1,90 @@
+@use "../variables/color" as color;
+@use "../variables/layout" as layout;
+
+//
+@mixin initial-properties() {
+    --input-radius: var(--radius-md);
+    --input-padding: var(--padding-md);
+    --input-padding-inline-start: var(--padding-lg, 1rem);
+    --input-border-color: transparent;
+    --accordion-radius: var(--radius-lg);
+    --accordion-open-color-shade: var(--surface-opacity-emphasis);
+    --accordion-open-border: 1px solid;
+    --accordion-transition: var(--transition-colors);
+    --empty-state-padding: var(--padding-2xl);
+    --empty-state-radius: var(--radius-lg);
+    --empty-state-border: 1px dashed color-mix(
+        in oklch,
+        var(
+            --c2-on-surface(
+                var(--scrollbar-tint),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            ),
+            #{color.md3-var(outline-variant)}
+        ) l c h / var(--border-opacity-dashed)
+    );
+    --empty-state-min-block-size: var(--space-2xl);
+    --nav-padding: var(--padding-md);
+    --nav-radius: var(--radius-md);
+    --nav-gap: var(--gap-md);
+    --icon-size-md: var(--icon-size-md);
+    --icon-color: currentColor;
+    --surface-border: 1px solid;
+    --surface-border-color: transparent;
+    --surface-border-width: 1px;
+    --surface-border-style: solid;
+    --surface-border-radius: var(--radius-md);
+    --surface-border-radius-top-left: var(--radius-md);
+    --surface-border-radius-top-right: var(--radius-md);
+    --surface-border-radius-bottom-left: var(--radius-md);
+    --surface-border-radius-bottom-right: var(--radius-md);
+    --card-gap: var(--gap-md);
+    --card-padding: var(--padding-md);
+    --card-radius: var(--radius-md);
+    --card-border: 1px solid;
+    --card-border-color: transparent;
+    --card-border-width: 1px;
+    --card-border-style: solid;
+    --card-border-radius: var(--radius-md);
+    --card-border-radius-top-left: var(--radius-md);
+    --card-border-radius-top-right: var(--radius-md);
+    --card-border-radius-bottom-left: var(--radius-md);
+    --card-border-radius-bottom-right: var(--radius-md);
+    --panel-gap: var(--gap-md);
+    --panel-padding: var(--padding-md);
+    --panel-radius: var(--radius-md);
+    --panel-border: 1px solid;
+    --panel-border-color: transparent;
+    --panel-border-width: 1px;
+    --panel-border-style: solid;
+    --panel-border-radius: var(--radius-md);
+    --panel-border-radius-top-left: var(--radius-md);
+    --panel-border-radius-top-right: var(--radius-md);
+    --panel-border-radius-bottom-left: var(--radius-md);
+    --panel-border-radius-bottom-right: var(--radius-md);
+    --accordion-radius: var(--radius-lg);
+    --accordion-open-color-shade: var(--surface-opacity-emphasis);
+    --accordion-open-border: 1px solid;
+    --accordion-transition: var(--transition-colors);
+    --empty-state-padding: var(--padding-2xl);
+    --empty-state-radius: var(--radius-lg);
+    --empty-state-border: 1px dashed color-mix(
+        in oklch,
+        var(
+            --c2-on-surface(
+                var(--scrollbar-tint),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            ),
+            #{color.md3-var(outline-variant)}
+        ) l c h / var(--border-opacity-dashed)
+    );
+    --empty-state-min-block-size: var(--space-2xl);
+    --nav-padding: var(--padding-md);
+    --nav-radius: var(--radius-md);
+    --nav-gap: var(--gap-md);
+    --icon-size-md: var(--icon-size-md);
+    --icon-color: currentColor;
+    --surface-border: 1px solid;
+    --surface-border-color: transparent;
+    --surface-border-width: 1px;
+}

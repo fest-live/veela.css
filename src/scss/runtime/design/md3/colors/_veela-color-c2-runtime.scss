@@ -170,8 +170,14 @@
     .c2-#{$name} {
         & {
             background-color: --c2-#{$name}(var(--background-tone-shift, 0.0), var(--current, inherit));
-            color: --c2-#{$on}(var(--color-tone-shift, 0.0), var(--current, currentColor));
-            --icon-color: --c2-#{$on}(var(--icon-tone-shift, 0.0), var(--current, currentColor));
+            color: --c2-#{$on}(
+                var(--color-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
+            --icon-color: --c2-#{$on}(
+                var(--icon-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
             scrollbar-color: --c2-#{$on}(var(--scrollbar-tone-shift, 0.0), var(--current, transparent)) transparent;
             accent-color: --c2-#{$on}(var(--accent-tone-shift, 0.0), var(--current, transparent));
             border-color: --c2-#{$on}(var(--border-tone-shift, 0.0), var(--current, transparent));
@@ -184,11 +190,17 @@
 
         button {
             background-color: --c2-#{$name}(var(--background-tone-shift, 0.0), var(--current, inherit));
-            color: --c2-#{$on}(var(--color-tone-shift, 0.0), var(--current, currentColor));
+            color: --c2-#{$on}(
+                var(--color-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
         }
 
         ui-icon {
-            --icon-color: --c2-#{$on}(var(--icon-tone-shift, 0.0), var(--current, currentColor));
+            --icon-color: --c2-#{$on}(
+                var(--icon-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
         }
 
         svg {
@@ -198,8 +210,14 @@
 
         &::selection {
             background-color: --c2-#{$on}(var(--selection-tone-shift, 0.0), var(--current, transparent));
-            color: --c2-#{$name}(var(--selection-tone-shift, 0.0), var(--current, currentColor));
-            --icon-color: --c2-#{$on}(var(--selection-tone-shift, 0.0), var(--current, currentColor));
+            color: --c2-#{$name}(
+                var(--selection-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
+            --icon-color: --c2-#{$on}(
+                var(--selection-tone-shift, 0.0),
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            );
         }
     }
 }

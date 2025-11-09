@@ -17,7 +17,12 @@
 
 @mixin focus-ring($tint: var(--outline-tint)) {
     &:focus-visible {
-        outline: 2px solid oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / var(--outline-opacity));
+        outline: 2px solid oklch(
+            from --c2-on-surface(
+                $tint,
+                var(--current, var(--color-on-surface, var(--color-primary, #469)))
+            ) l c h / var(--outline-opacity)
+        );
         outline-offset: 2px;
     }
 }

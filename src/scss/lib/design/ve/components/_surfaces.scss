@@ -60,7 +60,12 @@
 @mixin empty-state {
     padding: var(--padding-2xl);
     border-radius: var(--radius-lg);
-    border: 1px dashed oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--border-opacity-dashed));
+    border: 1px dashed oklch(
+        from --c2-on-surface(
+            var(--scrollbar-tint),
+            var(--current, var(--color-on-surface, var(--color-primary, #469)))
+        ) l c h / var(--border-opacity-dashed)
+    );
     text-align: center;
     min-block-size: var(--space-2xl);
 

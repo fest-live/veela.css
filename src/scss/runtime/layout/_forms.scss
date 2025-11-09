@@ -21,7 +21,7 @@
 
     // Enhanced select dropdown styling
     select {
-        @include select-dropdown;
+        @include select-base;
         @include solid-colorize("&");
     }
 
@@ -50,7 +50,7 @@
     }
 
     :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
-        @include checkbox-radio-base;
+        @include checkbox-base;
     }
 
 }

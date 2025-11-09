@@ -1,0 +1,141 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
+//
+@use "utils" as _;
+
+//
+// Motion durations
+$md3-motion-durations: (
+    fast: 120ms,
+    normal: 160ms,
+    slow: 220ms,
+    long: 320ms,
+    extra-long: 420ms,
+);
+
+
+//
+// Motion easing
+$md3-motion-easing: (
+    standard: cubic-bezier(0.4, 0, 0.2, 1),
+    emphasized: cubic-bezier(0.2, 0, 0, 1),
+    decelerate: cubic-bezier(0, 0, 0.2, 1),
+    accelerate: cubic-bezier(0.4, 0, 1, 1),
+    bounce: cubic-bezier(0.34, 1.56, 0.64, 1),
+);
+
+
+//
+// Easing function
+@function md3-easing($token: standard) {
+    @return _.md3-fetch($md3-motion-easing, $token, "easing token");
+}
+
+
+//
+// Duration function
+@function md3-duration($token: normal) {
+    @return _.md3-fetch($md3-motion-durations, $token, "duration token");
+}
+
+//
+// Transition variables
+$transition-fast: md3-duration(fast);
+$transition-base: md3-duration(normal);
+$transition-slow: md3-duration(slow);
+$transition-bounce: md3-easing(bounce);
+
+//
+// UI duration variables
+$ui-duration-fast: md3-duration(fast) !default;
+$ui-duration-standard: md3-duration(normal) !default;
+$ui-ease-standard: md3-easing(standard) !default;
+
+//
+// Export motion vars mixin
+@mixin md3-export-motion-vars() {
+    --duration-fast: #{md3-duration(fast)};
+    --duration-normal: #{md3-duration(normal)};
+    --duration-slow: #{md3-duration(slow)};
+    --duration-long: #{md3-duration(long)};
+    --duration-extra-long: #{md3-duration(extra-long)};
+
+    --ease-out: #{md3-easing(standard)};
+    --ease-in-out: #{md3-easing(decelerate)};
+    --ease-in: #{md3-easing(accelerate)};
+    --ease-emphasized: #{md3-easing(emphasized)};
+    --ease-bounce: #{md3-easing(bounce)};
+
+    --transition-fast: opacity var(--duration-fast) var(--ease-out);
+    --transition-normal: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out);
+    --transition-slow: transform var(--duration-slow) var(--ease-in-out);
+    --transition-all: all var(--duration-normal) var(--ease-out);
+}
+
+
+//
+// Fade in mixin
+@mixin fade-in($duration: var(--duration-normal)) {
+    animation: fade-in $duration var(--ease-out);
+}
+
+//
+// Slide up mixin
+@mixin slide-up($duration: var(--duration-normal)) {
+    animation: slide-up $duration var(--ease-out);
+}
+
+//
+// Scale in mixin
+@mixin scale-in($duration: var(--duration-fast)) {
+    animation: scale-in $duration var(--ease-bounce);
+}
+
+//
+// Focus ring mixin
+@mixin focus-ring($tint: var(--outline-tint)) {
+    &:focus-visible {
+        outline: 2px solid oklch(
+            from --c2-on-surface(
+                $tint,
+                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            ) l c h / var(--outline-opacity)
+        );
+        outline-offset: 2px;
+    }
+}
+
+//
+// Reduced motion mixin
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+//
+// High contrast mixin
+@mixin high-contrast {
+    @media (prefers-contrast: high) {
+        @content;
+    }
+}
+
+//
+// Transition mixin
+@mixin transition($properties: all, $duration: null, $timing: null) {
+    & {
+        $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+        --transition-props: #{$prop-list};
+        @if $duration != null { --transition-duration: #{$duration}; }
+        @if $timing != null { --transition-timing: #{$timing}; }
+        transition:
+            var(--transition-props)
+            var(--transition-duration, var(--transition-normal, #{$ui-duration-standard}))
+            var(--transition-timing, var(--ease-out, #{$ui-ease-standard}));
+    }
+}

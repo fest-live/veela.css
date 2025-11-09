@@ -1,6 +1,6 @@
 @use "./colorize" as colorize;
-@use "./animation" as animation;
-@use "./constants" as c;
+@use "../variables/motion" as motion;
+@use "../variables/layout" as layout;
 
 
 
@@ -9,10 +9,10 @@
 // =============================================================================
 
 //
-@mixin glass-morphism($opacity: 0.95, $blur: var(--backdrop-blur-md, #{c.$ui-backdrop-blur-md})) {
+@mixin glass-morphism($opacity: 0.95, $blur: var(--backdrop-blur-md, #{layout.$ui-backdrop-blur-md})) {
     @include colorize.surface(var(--surface-opacity-subtle));
     @include colorize.border-color(var(--border-opacity-subtle));
-    @include colorize.backdrop-blur(var(--backdrop-blur-md, #{c.$ui-backdrop-blur-md}));
+    @include colorize.backdrop-blur(var(--backdrop-blur-md, #{layout.$ui-backdrop-blur-md}));
 }
 
 //
@@ -22,9 +22,9 @@
 }
 
 //
-@mixin hover-lift($lift: -1px, $shadow: var(--shadow-md, #{c.$ui-shadow-md})) {
-    @include animation.transition(transform, var(--transition-base));
-    @include animation.transition(box-shadow, var(--transition-base));
+@mixin hover-lift($lift: -1px, $shadow: var(--shadow-md, #{layout.$ui-shadow-md})) {
+    @include motion.transition(transform, var(--transition-base));
+    @include motion.transition(box-shadow, var(--transition-base));
 
     &:hover {
         transform: translateY($lift);
@@ -33,8 +33,26 @@
 }
 
 //
-@mixin shimmer-effect($duration: var(--duration-slow)) {}
-@mixin button-shine($duration: var(--duration-fast)) {}
+@mixin shimmer-effect($duration: var(--duration-slow)) {
+    @include motion.transition(transform, var(--transition-base));
+    @include motion.transition(box-shadow, var(--transition-base));
+
+    &:hover {
+        transform: translateY($lift);
+        box-shadow: $shadow;
+    }
+}
+
+//
+@mixin button-shine($duration: var(--duration-fast)) {
+    @include motion.transition(transform, var(--transition-base));
+    @include motion.transition(box-shadow, var(--transition-base));
+
+    &:hover {
+        transform: translateY($lift);
+        box-shadow: $shadow;
+    }
+}
 
 
 

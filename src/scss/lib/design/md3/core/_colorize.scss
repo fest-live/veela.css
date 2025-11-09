@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "sass:meta";
 @use "sass:list";
-@use "./constants" as tokens;
+@use "../variables/color" as color;
 
 //
 @use "../../../core/logical" as lg;
@@ -152,19 +152,19 @@
         //
         @if map.has-key($options, "role") {
             $role: map.get($options, "role");
-            --color-role: var(#{tokens.md3-var($role)}, currentColor);
-            --color-source: var(--current, var(--color-role, currentColor));
+            --color-role: var(#{color.md3-var($role)}, #{color.md3-color($role)});
+            --color-source: var(--current, var(--color-role));
         } @else {
-            --color-source: var(--current, currentColor);
+            --color-source: var(--current, var(--color-surface, var(--md3-surface, #ffffff)));
         }
 
         //
-        --surface-color: --c2-surface(var(--color-shade), var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2});
-        --border-color: oklch(from --c2-surface(calc(var(--color-shade, 0) + var(--color-tint, 0) + 0.05), var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2}) l c h / 0.1);
+        --surface-color: --c2-surface(var(--color-shade), var(--color-source), #{map.get($options, "scheme-id") or 2});
+        --border-color: oklch(from --c2-surface(calc(var(--color-shade, 0) + var(--color-tint, 0) + 0.05), var(--color-source), #{map.get($options, "scheme-id") or 2}) l c h / 0.1);
 
         // make contrast color based on surface color (shade)
         --on-surface: var(--on-surface-color, currentColor); // alias
-        --on-surface-color: --c2-on-surface(var(--color-shade, 0), var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2});
+        --on-surface-color: --c2-on-surface(var(--color-shade, 0), var(--color-source), #{map.get($options, "scheme-id") or 2});
         --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
 
         //
@@ -214,15 +214,15 @@
             }
 
             &::placeholder {
-                --on-surface-color: oklch(from --c2-on-surface(0.0, var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2}) l c h / 0.2);
+                --on-surface-color: oklch(from --c2-on-surface(0.0, var(--color-source), #{map.get($options, "scheme-id") or 2}) l c h / 0.2);
             }
         }
 
         // Special states
         &:checked,
         &::selection {
-            --on-surface-color: --c2-surface(calc(var(--color-shade) - 0.04), var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2});
-            --surface-color: --c2-on-surface(calc(var(--color-tint) + 0.04), var(--color-source, var(--current, currentColor)), #{map.get($options, "scheme-id") or 2});
+            --on-surface-color: --c2-surface(calc(var(--color-shade) - 0.04), var(--color-source), #{map.get($options, "scheme-id") or 2});
+            --surface-color: --c2-on-surface(calc(var(--color-tint) + 0.04), var(--color-source), #{map.get($options, "scheme-id") or 2});
         }
 
         //
@@ -289,11 +289,27 @@
         }
 
         //
-        --surface-color: oklch(from --c2-surface(var(--color-shade), var(--current, currentColor), #{map.get($options, "scheme-id") or 2}) l c h / var(--color-opacity));
-        --on-surface-color: --c2-on-surface(var(--color-tint), var(--current, currentColor), #{map.get($options, "scheme-id") or 2});
+        --surface-color: oklch(
+            from --c2-surface(
+                var(--color-shade),
+                var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+                #{map.get($options, "scheme-id") or 2}
+            ) l c h / var(--color-opacity)
+        );
+        --on-surface-color: --c2-on-surface(
+            var(--color-tint),
+            var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+            #{map.get($options, "scheme-id") or 2}
+        );
         --on-surface: var(--on-surface-color, currentColor); // alias
         --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
-        --border-color: oklch(from --c2-surface(calc(var(--color-shade) + var(--color-tint) + 0.05), var(--current, currentColor), #{map.get($options, "scheme-id") or 2}) l c h / 0.1);
+        --border-color: oklch(
+            from --c2-surface(
+                calc(var(--color-shade) + var(--color-tint) + 0.05),
+                var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+                #{map.get($options, "scheme-id") or 2}
+            ) l c h / 0.1
+        );
 
         //
         &, &:hover, &:active, &:focus-visible {
@@ -351,12 +367,17 @@
 
 //
 @mixin text-color($tint: var(--text-tint-primary)) {
-    color: --c2-on-surface($tint, var(--current, currentColor));
+    color: --c2-on-surface($tint, var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f))));
 }
 
 //
 @mixin border-color($tint: var(--scrollbar-tint), $opacity: var(--border-opacity-default)) {
-    border-color: oklch(from --c2-on-surface($tint, var(--current, currentColor)) l c h / $opacity);
+    border-color: oklch(
+        from --c2-on-surface(
+            $tint,
+            var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+        ) l c h / $opacity
+    );
 }
 
 //

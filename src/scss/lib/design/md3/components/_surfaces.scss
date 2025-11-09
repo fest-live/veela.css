@@ -1,12 +1,22 @@
 @use "../../../core/layout" as layout;
+@use "../core/colorize" as colorize;
+@use "../variables/index" as vars;
 
-//
-@mixin card-base {
+@mixin card-base() {
     display: grid;
     gap: var(--card-gap);
     padding: var(--card-padding);
     border-radius: var(--card-radius);
     transition: var(--transition-colors), var(--transition-transform);
+}
+
+//
+@mixin surface-base() {
+    display: grid;
+    gap: var(--surface-gap);
+    padding: var(--surface-padding);
+    border-radius: var(--surface-radius);
+    border: var(--surface-border);
 }
 
 //
@@ -20,54 +30,32 @@
 
 //
 @mixin panel-header {
-    background: var(--gradient-primary);
-    color: var(--text-light);
-    padding: var(--space-xl);
-    flex-wrap: wrap;
-    gap: var(--space-lg);
-    position: relative;
-
-    @include layout.flex-between;
-
-    h2 {
-        margin: 0;
-        font-size: var(--font-size-xl);
-        font-weight: var(--font-weight-bold);
-        position: relative;
-        z-index: 1;
-    }
+    background: var(--panel-background);
+    color: var(--panel-text-color);
+    padding: var(--panel-padding);
+    border-radius: var(--panel-radius);
+    border: var(--panel-border);
 }
 
 //
 @mixin accordion-base {
-    border-radius: var(--radius-lg);
+    border-radius: var(--accordion-radius);
     overflow: hidden;
-    transition: var(--transition-colors);
+    transition: var(--accordion-transition);
 
     &[open] {
-        --color-shade: var(--surface-opacity-emphasis);
-        border: 1px solid;
-    }
-
-    summary {
-        padding: var(--padding-lg);
-        cursor: pointer;
-        list-style: none;
-        font-weight: var(--font-weight-semibold);
-
-        @include layout.flex-between;
-
-        &::-webkit-details-marker { display: none; }
+        --color-shade: var(--accordion-open-color-shade);
+        border: var(--accordion-open-border);
     }
 }
 
 //
 @mixin empty-state {
-    padding: var(--padding-2xl);
-    border-radius: var(--radius-lg);
-    border: 1px dashed oklch(from --c2-on-surface(var(--scrollbar-tint), var(--current, currentColor)) l c h / var(--border-opacity-dashed));
+    padding: var(--empty-state-padding);
+    border-radius: var(--empty-state-radius);
+    border: var(--empty-state-border);
     text-align: center;
-    min-block-size: var(--space-2xl);
+    min-block-size: var(--empty-state-min-block-size);
 
     @include layout.grid-center;
 }

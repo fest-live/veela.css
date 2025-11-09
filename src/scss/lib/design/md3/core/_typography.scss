@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "./constants" as tokens;
+@use "../variables/text" as type;
 
 $def-ff: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
 
@@ -11,7 +11,7 @@ $def-ff: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova
 }
 
 @mixin type($token: "body-medium", $overrides: ()) {
-    @include tokens.md3-typography($token, $overrides);
+    @include type.md3-typography($token, $overrides);
     @include font-family();
 }
 

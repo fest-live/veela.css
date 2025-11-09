@@ -1,0 +1,183 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
+@use "utils" as _;
+
+
+
+
+//
+// Type scale
+$md3-type-scale: (
+    "display-large": (
+        size: clamp(3.375rem, 2.5cqi + 3rem, 4rem),
+        line-height: 1.12,
+        weight: 400,
+        tracking: -0.015em,
+    ),
+    "display-medium": (
+        size: clamp(2.875rem, 1.8cqi + 2.6rem, 3.5rem),
+        line-height: 1.16,
+        weight: 400,
+        tracking: 0,
+    ),
+    "display-small": (
+        size: clamp(2.25rem, 1.2cqi + 2rem, 2.875rem),
+        line-height: 1.22,
+        weight: 400,
+        tracking: 0,
+    ),
+    "headline-large": (
+        size: clamp(2rem, 1cqi + 1.75rem, 2.5rem),
+        line-height: 1.24,
+        weight: 400,
+        tracking: 0,
+    ),
+    "headline-medium": (
+        size: clamp(1.75rem, 0.8cqi + 1.55rem, 2.25rem),
+        line-height: 1.28,
+        weight: 400,
+        tracking: 0,
+    ),
+    "headline-small": (
+        size: clamp(1.5rem, 0.7cqi + 1.35rem, 2rem),
+        line-height: 1.33,
+        weight: 400,
+        tracking: 0,
+    ),
+    "title-large": (
+        size: clamp(1.375rem, 0.6cqi + 1.2rem, 1.75rem),
+        line-height: 1.27,
+        weight: 400,
+        tracking: 0,
+    ),
+    "title-medium": (
+        size: clamp(1rem, 0.5cqi + 0.9rem, 1.25rem),
+        line-height: 1.5,
+        weight: 500,
+        tracking: 0.015em,
+    ),
+    "title-small": (
+        size: clamp(0.875rem, 0.4cqi + 0.8rem, 1rem),
+        line-height: 1.43,
+        weight: 500,
+        tracking: 0.01em,
+    ),
+    "label-large": (
+        size: clamp(0.875rem, 0.3cqi + 0.8rem, 0.95rem),
+        line-height: 1.43,
+        weight: 500,
+        tracking: 0.01em,
+    ),
+    "label-medium": (
+        size: clamp(0.75rem, 0.3cqi + 0.7rem, 0.85rem),
+        line-height: 1.33,
+        weight: 500,
+        tracking: 0.04em,
+    ),
+    "label-small": (
+        size: clamp(0.6875rem, 0.3cqi + 0.65rem, 0.8rem),
+        line-height: 1.45,
+        weight: 500,
+        tracking: 0.05em,
+    ),
+    "body-large": (
+        size: clamp(1rem, 0.4cqi + 0.92rem, 1.125rem),
+        line-height: 1.5,
+        weight: 400,
+        tracking: 0.015em,
+    ),
+    "body-medium": (
+        size: clamp(0.875rem, 0.35cqi + 0.8rem, 1rem),
+        line-height: 1.45,
+        weight: 400,
+        tracking: 0.01em,
+    ),
+    "body-small": (
+        size: clamp(0.75rem, 0.3cqi + 0.7rem, 0.9rem),
+        line-height: 1.4,
+        weight: 400,
+        tracking: 0.01em,
+    ),
+);
+
+//
+// Type function
+@function md3-type($token, $prop: null) {
+    $definition: _.md3-fetch($md3-type-scale, $token, "type token");
+
+    @if $prop == null {
+        @return $definition;
+    }
+
+    @if not map.has-key($definition, $prop) {
+        @error "Unknown typography property `#{$prop}` for token `#{$token}`. Available: #{map.keys($definition)}";
+    }
+
+    @return map.get($definition, $prop);
+}
+
+
+
+
+//
+$font-family-base: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
+$font-size-base: md3-type("body-large", size);
+$font-size-sm: md3-type("body-medium", size);
+$font-size-xs: md3-type("label-small", size);
+$font-size-lg: md3-type("title-medium", size);
+$font-size-xl: md3-type("headline-small", size);
+$font-size-2xl: md3-type("headline-medium", size);
+$font-size-3xl: md3-type("display-small", size);
+$font-size-4xl: md3-type("display-medium", size);
+
+//
+$font-weight-normal: md3-type("body-large", weight);
+$font-weight-medium: md3-type("title-medium", weight);
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+
+
+//
+// Typography mixin
+@mixin md3-typography($token, $overrides: ()) {
+    $configuration: md3-type($token);
+
+    @if $overrides != () {
+        $configuration: map.merge($configuration, $overrides);
+    }
+
+    font-size: map.get($configuration, size);
+    line-height: map.get($configuration, line-height);
+    font-weight: map.get($configuration, weight);
+    letter-spacing: map.get($configuration, tracking);
+    font-optical-sizing: auto;
+    font-variation-settings: "wght" map.get($configuration, weight);
+}
+
+//
+// Export typography vars mixin
+@mixin md3-export-typography-vars() {
+    --font-xs: #{md3-type("label-small", size)};
+    --font-sm: #{md3-type("body-small", size)};
+    --font-base: #{md3-type("body-medium", size)};
+    --font-md: #{md3-type("body-large", size)};
+    --font-lg: #{md3-type("title-medium", size)};
+    --font-xl: #{md3-type("title-large", size)};
+    --font-2xl: #{md3-type("headline-small", size)};
+
+    --font-weight-normal: #{md3-type("body-large", weight)};
+    --font-weight-medium: #{md3-type("title-medium", weight)};
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    --font-family-base: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
+    --font-family-mono: "Fragment Mono", "Fira Code", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+

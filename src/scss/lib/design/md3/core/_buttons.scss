@@ -4,10 +4,13 @@
 @use "../../../core/layout" as layout;
 
 //
-@use "./typography" as type;
-@use "./constants" as tokens;
-@use "./colorize" as colorize;
-@use "./animation" as animation;
+@use "../variables/text" as text;
+@use "../variables/color" as color;
+@use "../core/colorize" as colorize;
+@use "../variables/motion" as motion;
+@use "../variables/shadow" as shadow;
+//@use "../variables/layout" as layout;
+@use "../variables/utils" as utils;
 
 // -----------------------------------------------------------------------------
 // Shared base styles
@@ -37,7 +40,11 @@
     position: relative;
     isolation: isolate;
 
-    @include type.type("label-large");
+    font-size: text.md3-type("label-large", size);
+
+    //@include text.md3-type("label-large");
+
+
     letter-spacing: 0.01em;
     text-decoration: none;
     text-overflow: ellipsis;
@@ -131,12 +138,12 @@
 @mixin button-filled($role: primary, $include-base: true) {
     @if $include-base { @include button-structure(); }
 
-    $bg-var: tokens.md3-var($role);
-    $on-var: tokens.md3-var(tokens.md3-on($role));
+    $bg-var: color.md3-var($role);
+    $on-var: color.md3-var(color.md3-on($role));
 
     --md3-button-bg: var(--md3-button-bg, var(#{$bg-var}));
     --md3-button-on: var(--md3-button-on, var(#{$on-var}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{tokens.md3-var(outline)}));
+    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
     @include button-shadow(none);
 
     background-color: var(--md3-button-bg);
@@ -150,12 +157,12 @@
 @mixin button-elevated($role: primary, $include-base: true) {
     @if $include-base { @include button-structure(); }
 
-    $state-var: tokens.md3-var($role);
+    $state-var: color.md3-var($role);
 
-    --md3-button-bg: var(--md3-button-bg, var(#{tokens.md3-var(surface)}));
-    --md3-button-on: var(--md3-button-on, var(#{tokens.md3-var(on-surface)}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{tokens.md3-var(outline-variant)}));
-    @include button-shadow(tokens.md3-elevation(2));
+    --md3-button-bg: var(--md3-button-bg, var(#{color.md3-var(surface)}));
+    --md3-button-on: var(--md3-button-on, var(#{color.md3-var(on-surface)}));
+    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline-variant)}));
+    @include button-shadow(shadow.md3-elevation(2));
 
     background-color: var(--md3-button-bg);
     color: var(--md3-button-on);
@@ -168,9 +175,9 @@
 @mixin button-tonal($container-role: secondary-container, $state-role: secondary, $include-base: true) {
     @if $include-base { @include button-structure(); }
 
-    $container-var: tokens.md3-var($container-role);
-    $on-var: tokens.md3-var(tokens.md3-on($container-role));
-    $state-var: tokens.md3-var($state-role);
+    $container-var: color.md3-var($container-role);
+    $on-var: color.md3-var(color.md3-on($container-role));
+    $state-var: color.md3-var($state-role);
 
     --md3-button-bg: var(--md3-button-bg, var(#{$container-var}));
     --md3-button-on: var(--md3-button-on, var(#{$on-var}));
@@ -188,16 +195,16 @@
 @mixin button-outlined($role: primary, $include-base: true) {
     @if $include-base { @include button-structure(); }
 
-    $state-var: tokens.md3-var($role);
+    $state-var: color.md3-var($role);
 
     --md3-button-bg: var(--md3-button-bg, transparent);
-    --md3-button-on: var(--md3-button-on, var(#{tokens.md3-var(on-surface)}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{tokens.md3-var(outline)}));
+    --md3-button-on: var(--md3-button-on, var(#{color.md3-var(on-surface)}));
+    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
     @include button-shadow(none);
 
     background-color: transparent;
     color: var(--md3-button-on);
-    border: 1px solid var(--md3-button-outline-color, var(#{tokens.md3-var(outline)}));
+    border: 1px solid var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
 
     @include button-overlays(var(#{$state-var}));
     @include button-focus-ring();
@@ -206,7 +213,7 @@
 @mixin button-text($role: primary, $include-base: true) {
     @if $include-base { @include button-structure(); }
 
-    $color-var: tokens.md3-var($role);
+    $color-var: color.md3-var($role);
 
     --md3-button-bg: var(--md3-button-bg, transparent);
     --md3-button-on: var(--md3-button-on, var(#{$color-var}));
@@ -243,7 +250,7 @@
 
 //
 @mixin button-interactions($transition: var(--transition-base, var(--duration-normal))) {
-    @include animation.transition(all, $transition);
+    @include motion.transition(all, $transition);
 }
 
 //
@@ -257,9 +264,6 @@
 @mixin button-base-variant() {
     // Reuse unified structure with alternate sizing tokens
     @include button-structure();
-    @include layout.font-style("&");
-
-    //
     @include button-interactions();
     @include button-colors();
 }

@@ -15,8 +15,24 @@
     }
 
     //
-    :where(button, input[type="checkbox"]) {
-        @include button-base;
+    :where(button, input[type="button"], input[type="submit"], input[type="reset"]):not([data-variant]):not([data-icon-only]) {
+        @include button-elevated(primary);
+    }
+
+    :where(button[data-variant="filled"], input[data-variant="filled"]) {
+        @include button-filled(primary, false);
+    }
+
+    :where(button[data-variant="tonal"], input[data-variant="tonal"]) {
+        @include button-tonal(secondary-container, secondary, false);
+    }
+
+    :where(button[data-variant="outlined"], input[data-variant="outlined"]) {
+        @include button-outlined(primary, false);
+    }
+
+    :where(button[data-variant="text"], input[data-variant="text"]) {
+        @include button-text(primary, false);
     }
 
     // Enhanced select dropdown styling
@@ -27,6 +43,7 @@
 
     textarea {
         @include form-field-base;
+        @include solid-colorize("&");
     }
 
     input {
@@ -36,11 +53,25 @@
             margin: 0;
         }
 
-        &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"], [type="datetime-local"], [type="date"], [type="time"], [type="text"], [type="number"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="month"], [type="week"]) {
-            @include form-field-base;
+        &:where(
+            [type="text"],
+            [type="email"],
+            [type="url"],
+            [type="tel"],
+            [type="password"],
+            [type="search"],
+            [type="number"],
+            [type="date"],
+            [type="time"],
+            [type="datetime-local"],
+            [type="month"],
+            [type="week"]
+        ) {
+            @include input-base;
+            @include solid-colorize("&");
         }
 
-        &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"]) {
+        &:where([type="number"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
             font-variant-numeric: tabular-nums;
         }
 
@@ -51,6 +82,7 @@
 
     :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
         @include checkbox-base;
+        @include solid-colorize("&");
     }
 
 }

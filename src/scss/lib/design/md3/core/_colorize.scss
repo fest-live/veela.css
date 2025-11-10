@@ -160,16 +160,8 @@ $md3-color-properties: (
             &:selected,
             &:checked
             {
-                --on-surface-color: --c2-surface(
-                    calc(var(--color-shade) - 0.04),
-                    var(--color-source, var(--current, var(--primary, transparent))),
-                    #{$scheme-id}
-                );
-                --surface-color: --c2-on-surface(
-                    calc(var(--color-tint) + 0.04),
-                    var(--color-source, var(--current, var(--primary, transparent))),
-                    #{$scheme-id}
-                );
+                background-color: var(--on-surface-color, currentColor);
+                color: var(--surface-color, transparent);
             }
         }
 
@@ -178,16 +170,17 @@ $md3-color-properties: (
         @include _apply-surface-palette("&::picker(select)", var(--on-surface-color, currentColor));
 
         //
-        &.ui-icon,
-        ui-icon {
+        &.ui-icon, ui-icon {
+            background-color: transparent;
             --icon-color: var(--on-surface-color, currentColor);
         }
 
         a, span, ui-icon {
             @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
+            background-color: transparent;
         }
 
-        a, span {
+        a, span, ui-icon {
             background-color: transparent;
         }
     }

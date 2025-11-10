@@ -170,7 +170,7 @@ $md3-color-properties: (
         @include _apply-surface-palette("&::picker(select)", var(--on-surface-color, currentColor));
 
         //
-        &.ui-icon, ui-icon {
+        &:is(ui-icon), ui-icon {
             background-color: transparent;
             --icon-color: var(--on-surface-color, currentColor);
         }

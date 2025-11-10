@@ -454,8 +454,11 @@
 
     & {
         color: var(--ui-window-frame-on-surface);
-        --icon-color: var(--ui-window-frame-on-surface);
-        background-color: --c2-surface(0.1, var(--current));
+        --window-frame-control-fg: var(--ui-window-frame-on-surface);
+        --window-frame-control-bg: --c2-surface(0.1, var(--current));
+        --icon-color: var(--window-frame-control-fg);
+        background: var(--window-frame-control-bg);
+        background-color: var(--window-frame-control-bg);
         outline: none;
     }
 
@@ -471,13 +474,23 @@
     }
 
     & { pointer-events: auto; }
-    &:hover { background-color: --c2-surface(0.15, var(--current)); }
-    &:active { background-color: --c2-surface(0.15, var(--current)); }
+    &:hover { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
+    &:active { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
 }
 
 // close button
 @mixin close-button-styles {
-    & { background-color: --c2-on-surface(-0.05, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
-    &:hover  { background-color: --c2-on-surface(-0.1, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
-    &:active { background-color: --c2-on-surface(-0.1, var(--current)); color: --c2-surface(0.0, var(--current)); ui-icon { --icon-color: --c2-surface(0.0, var(--current)); } }
+    & {
+        --window-frame-close-bg: --c2-on-surface(-0.05, var(--current));
+        --window-frame-close-fg: --c2-surface(0.0, var(--current));
+
+        background: var(--window-frame-close-bg);
+        background-color: var(--window-frame-close-bg);
+        color: var(--window-frame-close-fg);
+
+        ui-icon { --icon-color: var(--window-frame-close-fg); }
+    }
+
+    &:hover  { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
+    &:active { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
 }

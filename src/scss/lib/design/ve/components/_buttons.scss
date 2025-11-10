@@ -41,7 +41,7 @@
     flex-wrap: nowrap;
 
     &:disabled {
-        opacity: var(--text-opacity-disabled);
+        opacity: var(--text-opacity-disabled, 1);
         pointer-events: none;
     }
 

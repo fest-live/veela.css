@@ -4,23 +4,26 @@
 
 //
 @layer ux-states {
+    :where(:root, :host, :scope, body) {
+        --ux-tone-direction: var(--interaction-tone-direction, 1);
+    }
+
     // =============================================================================
     // BUTTONS
     // =============================================================================
 
     :where(button) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-default);
+        --ux-state-base: calc(var(--surface-opacity-default) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.04,
             $focus: 0.06,
             $active: 0.08,
-            $disabled-shade: var(--surface-opacity-subtle),
+            $disabled-shade: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible")
-        );
+        );*/
     }
 
     // =============================================================================
@@ -28,22 +31,20 @@
     // =============================================================================
 
     :where(input:is([type="checkbox"], [type="radio"])) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.04,
             $focus: 0.06,
             $active: 0.08,
-            $disabled-shade: var(--surface-opacity-subtle),
+            $disabled-shade: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible")
-        );
+        );*/
 
         &:checked {
-            //--current: var(--color-primary);
-            --ux-state-base: var(--surface-opacity-emphasis);
+            --ux-state-base: calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1));
             @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
         }
     }
@@ -53,10 +54,9 @@
     // =============================================================================
 
     :where(input:is([type="text"], [type="number"], [type="email"], [type="password"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"])) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
@@ -64,7 +64,7 @@
             $disabled-shade: var(--ux-state-base),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible", ":focus-within")
-        );
+        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -85,10 +85,9 @@
     // =============================================================================
 
     :where(textarea) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
@@ -96,7 +95,7 @@
             $disabled-shade: var(--ux-state-base),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible", ":focus-within")
-        );
+        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -117,10 +116,9 @@
     // =============================================================================
 
     :where(select) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
@@ -128,7 +126,7 @@
             $disabled-shade: var(--ux-state-base),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible")
-        );
+        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -145,35 +143,33 @@
     // =============================================================================
 
     :where(input[type="range"]) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
-        --ux-thumb-base: var(--surface-opacity-emphasis);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
+        --ux-thumb-base: calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
             $active: 0.05,
             $disabled-opacity: 0.6
-        );
+        );*/
 
         &::-webkit-slider-thumb,
         &::-moz-range-thumb {
-            //--current: var(--color-primary);
             @include solid-colorize("&", ("shade": var(--ux-thumb-base), "tint": 0.0));
         }
 
         &:where(:hover, :focus, :focus-visible, :active):not(:disabled) {
             &::-webkit-slider-thumb,
             &::-moz-range-thumb {
-                --color-shade: veela-state-shade(var(--ux-thumb-base), 0.05);
+                --color-shade: veela-state-shade(var(--ux-thumb-base, 0), 0.05);
             }
         }
 
         &:disabled {
             &::-webkit-slider-thumb,
             &::-moz-range-thumb {
-                --color-shade: var(--ux-thumb-base);
+                --color-shade: var(--ux-thumb-base, 0);
             }
         }
     }
@@ -183,10 +179,9 @@
     // =============================================================================
 
     :where(input[type="file"]) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
@@ -194,7 +189,7 @@
             $disabled-shade: var(--ux-state-base),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible")
-        );
+        );*/
     }
 
     // =============================================================================
@@ -202,10 +197,9 @@
     // =============================================================================
 
     :where(input[type="color"]) {
-        //--current: var(--color-primary);
-        --ux-state-base: var(--surface-opacity-subtle);
+        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        @include veela-interactive(
+        /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.03,
             $focus: 0.06,
@@ -213,7 +207,7 @@
             $disabled-shade: var(--ux-state-base),
             $disabled-opacity: 0.6,
             $focus-selectors: (":focus", ":focus-visible")
-        );
+        );*/
     }
 
     :where(button, input, textarea, select):disabled {
@@ -225,22 +219,21 @@
     // =============================================================================
 
     :where(progress) {
-        //--current: var(--color-primary);
-        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+        @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
 
         //
         &::-webkit-progress-bar {
-            @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
 
         //
         &::-webkit-progress-value {
-            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
 
         //
         &::-moz-progress-bar {
-            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
     }
 
@@ -249,30 +242,29 @@
     // =============================================================================
 
     :where(meter) {
-        //--current: var(--color-primary);
-        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+        @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
 
         //
         &::-webkit-meter-bar {
-            @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
 
         //
         &::-webkit-meter-optimum-value {
             --current: var(--color-success);
-            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
 
         //
         &::-webkit-meter-suboptimum-value {
             --current: var(--color-warning);
-            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
 
         //
         &::-webkit-meter-even-less-good-value {
             --current: var(--color-danger);
-            @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
         }
     }
 

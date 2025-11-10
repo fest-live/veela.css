@@ -230,10 +230,10 @@
 
     //
     :host {
-        --secondary: inherit;
-        --trinary: inherit;
-        --primary: inherit;
-        --current: inherit;
+        //--secondary: inherit;
+        //--trinary: inherit;
+        //--primary: inherit;
+        --current: var(--primary, inherit);
         color-scheme: inherit;
     }
 

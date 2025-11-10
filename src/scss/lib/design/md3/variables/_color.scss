@@ -175,6 +175,12 @@ $md3-state-opacity: (
 );
 
 //
+// State function
+@function md3-state($state) {
+    @return _.md3-fetch($md3-state-opacity, $state, "state");
+}
+
+//
 // Color scheme functions
 @function md3-color-scheme($mode: light) {
     @return _.md3-fetch($md3-color-schemes, $mode, "color mode");
@@ -351,31 +357,6 @@ $material-mode-suffix: (
 //
 // Export state vars mixin
 @mixin md3-export-state-vars() {
-    --surface-opacity-subtle: 0.02;
-    --surface-opacity-muted: 0.04;
-    --surface-opacity-default: 0.08;
-    --surface-opacity-emphasis: 0.12;
-    --surface-opacity-strong: 0.16;
-
-    --contrast-opacity-subtle: 0.04;
-    --contrast-opacity-muted: 0.08;
-    --contrast-opacity-default: 0.12;
-    --contrast-opacity-emphasis: 0.16;
-    --contrast-opacity-strong: 0.24;
-
-    --text-tint-primary: 0;
-    --text-tint-secondary: 0.04;
-    --text-tint-muted: 0.08;
-    --text-tint-disabled: #{md3-state(disabled)};
-
-    --border-opacity-subtle: 0.14;
-    --border-opacity-default: 0.2;
-    --border-opacity-emphasis: 0.24;
-    --border-opacity-strong: 0.4;
-    --border-opacity-dashed: 0.18;
-
-    --outline-opacity: 0.4;
-    --outline-tint: 0;
     --state-opacity-hover: #{md3-state(hover)};
     --state-opacity-focus: #{md3-state(focus)};
     --state-opacity-press: #{md3-state(press)};
@@ -384,13 +365,40 @@ $material-mode-suffix: (
     --state-opacity-disabled: #{md3-state(disabled)};
     --state-opacity-icon: #{md3-state(icon)};
 
+    --surface-opacity-subtle: 0.02;
+    --surface-opacity-muted: 0.04;
+    --surface-opacity-default: 0.06;
+    --surface-opacity-emphasis: 0.08;
+    --surface-opacity-strong: 0.10;
+
+    --contrast-opacity-subtle: 0.02;
+    --contrast-opacity-muted: 0.04;
+    --contrast-opacity-default: 0.06;
+    --contrast-opacity-emphasis: 0.08;
+    --contrast-opacity-strong: 0.10;
+
+    --text-tint-primary: 0;
+    --text-tint-secondary: 0.04;
+    --text-tint-muted: 0.08;
+    --text-tint-disabled: 0.1;//#{md3-state(disabled)};
+
+    --border-opacity-subtle: 0.04;
+    --border-opacity-default: 0.06;
+    --border-opacity-emphasis: 0.08;
+    --border-opacity-strong: 0.10;
+    --border-opacity-dashed: 0.12;
+
+    --outline-opacity: 0.4;
+    --outline-tint: 0;
+
     --scrollbar-opacity: 0.4;
     --scrollbar-tint: 0.1;
 
-    --hover-lift: 0.08;
-    --active-lift: 0.12;
-    --focus-lift: 0.1;
-    --selection-opacity: 0.16;
+    --interaction-tone-direction: 1;
+    --hover-lift: calc(0.04 * var(--interaction-tone-direction, 1));
+    --active-lift: calc(0.05 * var(--interaction-tone-direction, 1));
+    --focus-lift: calc(0.06 * var(--interaction-tone-direction, 1));
+    --selection-opacity: 0.1;
 }
 
 //
@@ -400,7 +408,7 @@ $material-mode-suffix: (
 
     #{$selector} {
         @each $role, $source in $material-role-map {
-            #{tokens.md3-var($role)}: var(#{$source}#{$suffix}, #{tokens.md3-color($role, $mode)});
+            #{md3-var($role)}: var(#{$source}#{$suffix}, #{md3-color($role, $mode)});
         }
     }
 }
@@ -415,11 +423,11 @@ $material-mode-suffix: (
             --tertiary: var(--md-sys-color-tertiary, var(--tertiary-fallback, var(--secondary)));
             --trinary: var(--tertiary);
             --accent: var(--md-sys-color-tertiary, var(--accent-fallback, var(--tertiary)));
-            --current: var(--primary);
+            --current: var(--primary, inherit);
 
-            --color-primary: var(--current);
-            --color-secondary: var(--secondary);
-            --color-tertiary: var(--tertiary);
+            --color-primary: var(--current, var(--primary, inherit));
+            --color-secondary: var(--secondary, inherit);
+            --color-tertiary: var(--tertiary, inherit);
 
             --color-surface: var(--md-sys-color-surface, var(--surface-fallback));
             --color-surface-variant: var(--md-sys-color-surface-variant, var(--surface-variant-fallback, var(--surface-fallback)));
@@ -439,57 +447,57 @@ $material-mode-suffix: (
 
 //
 // Material color utilities remap mixin
-@mixin material-color-utilities-remap(
-    $light-selector: ":where(:root, :host, :scope, body, div, section)",
-    $dark-selector: ":where([data-theme=\"dark\"], .theme-dark)",
-    $system-selector: ":where(:root, :host, :scope, body, div, section)"
-) {
-    //
-    @layer md3.tokens {
-        :where([data-theme="light"], [data-scheme="light"], .theme-light) {
-            @include md3.md3-export-color-vars(light);
+@mixin material-color-utilities-remap($system-selector: ":where(:root, :host, :scope, body, div, section, html)") {
+    @at-root {
+
+        //
+        @layer md3.tokens {
+            #{$system-selector}:where([data-theme="light"], [data-scheme="light"], .theme-light) {
+                @include md3-export-color-vars(light);
+            }
+
+            //
+            #{$system-selector}:where([data-theme="dark"], [data-scheme="dark"], .theme-dark) {
+                @include md3-export-color-vars(dark);
+            }
+
+            //
+            #{$system-selector}:not([data-theme]):not([data-scheme]),
+            #{$system-selector}:where([data-theme="auto"], [data-scheme="auto"]),
+            #{$system-selector}:where([data-theme="system"], [data-scheme="system"])
+            {
+                @media (prefers-color-scheme: light) {
+                    @include md3-export-color-vars(light);
+                }
+                @media (prefers-color-scheme: dark) {
+                    @include md3-export-color-vars(dark);
+                }
+            }
         }
 
         //
-        :where([data-theme="dark"], [data-scheme="dark"], .theme-dark) {
-            @include md3.md3-export-color-vars(dark);
-        }
+        @layer md3.mcu {
+            #{$system-selector}:not([data-scheme]):not([data-theme]),
+            #{$system-selector}:where([data-scheme="auto"], [data-theme="auto"]),
+            #{$system-selector}:where([data-scheme="system"], [data-theme="system"])
+            {
+                @media (prefers-color-scheme: light) {
+                    @include material-color-utilities-theme(light, "&");
+                }
 
-        //
-        :where(:root, :host):not([data-theme]):not([data-scheme]),
-        :where(:root, :host):where([data-theme="auto"], [data-scheme="auto"]),
-        :where(:root, :host):where([data-theme="system"], [data-scheme="system"])
-        {
-            @media (prefers-color-scheme: light) {
-                @include md3.md3-export-color-vars(light);
-            }
-            @media (prefers-color-scheme: dark) {
-                @include md3.md3-export-color-vars(dark);
-            }
-        }
-    }
-
-    //
-    @layer md3.mcu {
-        #{$system-selector}:not([data-scheme]):not([data-theme]),
-        #{$system-selector}:where([data-scheme="auto"], [data-theme="auto"]),
-        #{$system-selector}:where([data-scheme="system"], [data-theme="system"])
-        {
-            @media (prefers-color-scheme: light) {
-                @include material-color-utilities-theme(light, "&");
+                @media (prefers-color-scheme: dark){
+                    @include material-color-utilities-theme(dark, "&");
+                }
             }
 
-            @media (prefers-color-scheme: dark){
+            #{$system-selector}:where([data-theme="dark"], [data-scheme="dark"]) {
                 @include material-color-utilities-theme(dark, "&");
             }
+
+            #{$system-selector}:where([data-theme="light"], [data-scheme="light"]) {
+                @include material-color-utilities-theme(light, "&");
+            }
         }
 
-        #{$system-selector}:where([data-theme="dark"], [data-scheme="dark"]) {
-            @include material-color-utilities-theme(dark, "&");
-        }
-
-        #{$system-selector}:where([data-theme="light"], [data-scheme="light"]) {
-            @include material-color-utilities-theme(light, "&");
-        }
     }
 }

@@ -107,7 +107,7 @@
 --c2-color     <color>: var(--current, inherit), \
 --c2-theme    <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.02 + var(--c2-shift, 1) * 0.8), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.02 + var(--c2-shift, 1) * 0.8), 1), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-surface(\
@@ -115,7 +115,7 @@
 --c2-color       <color>: var(--current, inherit) \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.96 - var(--c2-shift, 1) * 0.8), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.96 - var(--c2-shift, 1) * 0.8), 1), var(--c2-theme, 2)); };
 
 
 
@@ -125,7 +125,7 @@
 --c2-color     <color>: var(--current, inherit) \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.01 + var(--c2-shift, 1) * 0.6), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.01 + var(--c2-shift, 1) * 0.6), 1), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-contrast(\
@@ -133,7 +133,7 @@
 --c2-color       <color>: var(--current, inherit) \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(1 - var(--c2-shift, 1) * 0.6), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(1 - var(--c2-shift, 1) * 0.6), 1), var(--c2-theme, 2)); };
 
 
 
@@ -146,6 +146,8 @@
 @property --neutral { syntax: "<color>"; initial-value: #fff; inherits: true; };
 @property --surface { syntax: "<color>"; initial-value: #fff; inherits: true; };
 @property --on-surface { syntax: "<color>"; initial-value: #fff; inherits: true; };
+@property --surface-color { syntax: "<color>"; initial-value: #fff; inherits: true; };
+@property --on-surface-color { syntax: "<color>"; initial-value: #fff; inherits: true; };
 @property --outline { syntax: "<color>"; initial-value: #fff; inherits: true; };
 @property --contrast { syntax: "<color>"; initial-value: #fff; inherits: true; };
 @property --current { syntax: "<color>"; initial-value: #fff; inherits: true; };
@@ -224,11 +226,11 @@
 
 /* legacy */
 @layer ux-ctm {
-    @include implement-theme("surface");
-    @include implement-theme("contrast");
+    //@include implement-theme("surface");
+    //@include implement-theme("contrast");
 
     //
-    .c2-transparent {
-        background-color: transparent;
-    }
+    //.c2-transparent {
+        //background-color: transparent;
+    //}
 }

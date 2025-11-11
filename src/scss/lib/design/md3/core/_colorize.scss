@@ -29,8 +29,6 @@ $md3-color-properties: (
     --text-emphasis-color: ("syntax": "<color>", "inherits": true, "initial": #eee)
 );
 
-@include prop.register-properties($md3-color-properties);
-
 @function _option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
     @return if($value == null, $fallback, $value);
@@ -58,6 +56,7 @@ $md3-color-properties: (
 }
 
 //
+@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
 @mixin tm-dep($property, $light, $dark) {
     & {
         #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
@@ -65,6 +64,7 @@ $md3-color-properties: (
     }
 }
 
+//
 @mixin inverse {
     & {
         @include tm-dep("--tm-cr", var(--tm-cr-dark), var(--tm-cr-light));
@@ -72,12 +72,9 @@ $md3-color-properties: (
     }
 }
 
-@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
 
 @function tm-hi($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-hi, white)); }
 @function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); }
-
-
 
 // Internal helpers
 @function _merge-color-options($defaults, $overrides) {
@@ -95,11 +92,17 @@ $md3-color-properties: (
     $scheme-id: _option-or($options, "scheme-id", 2);
     $role: map.get($options, "role");
 
+    //
     #{$selector} {
         --color-shade: #{$base-shade};
         --color-tint: #{$base-tint};
         --color-source: var(--current, var(--primary, transparent));
         --surface-color: --c2-surface(var(--color-shade), var(--color-source, var(--current, var(--primary, transparent))), #{$scheme-id});
+        --on-surface: var(--on-surface-color, currentColor); // alias
+        --on-surface-color: --c2-on-surface(var(--color-shade, 0), var(--color-source, var(--current, var(--primary, transparent))), #{$scheme-id});
+        --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
+
+        //
         --border-color: oklch(
             from --c2-surface(
                 calc(var(--color-shade, 0) + var(--color-tint, 0) + 0.05),
@@ -108,18 +111,10 @@ $md3-color-properties: (
             ) l c h / 0.1
         );
 
-        --on-surface: var(--on-surface-color, currentColor); // alias
-        --on-surface-color: --c2-on-surface(var(--color-shade, 0), var(--color-source, var(--current, var(--primary, transparent))), #{$scheme-id});
-        --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
-
         //
         @if $role != null {
             --color-role: var(#{color.md3-var($role)}, #{color.md3-color($role)});
         }
-
-        //
-        border-style: none;
-        border-width: 0.5px;
 
         //
         @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
@@ -140,8 +135,6 @@ $md3-color-properties: (
 
             //
             &:hover { --color-shade: calc(#{$base-shade} + var(--hover-lift, 0.06)); }
-
-            //
             &:active { --color-shade: calc(#{$base-shade} + var(--active-lift, 0.08)); }
             &:is(:focus, :focus-visible) { --color-shade: calc(#{$base-shade} + var(--focus-lift, 0.09)); }
 
@@ -170,17 +163,20 @@ $md3-color-properties: (
         @include _apply-surface-palette("&::picker(select)", var(--on-surface-color, currentColor));
 
         //
+        &::picker(select), ::picker(select) {
+            background-color: transparent;
+        }
+
+        //
         &:is(ui-icon), ui-icon {
             background-color: transparent;
             --icon-color: var(--on-surface-color, currentColor);
         }
 
+        //
+        &:is(a, span, ui-icon),
         a, span, ui-icon {
             @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
-            background-color: transparent;
-        }
-
-        a, span, ui-icon {
             background-color: transparent;
         }
     }

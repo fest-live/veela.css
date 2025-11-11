@@ -1,36 +1,16 @@
 @use "veela-lib" as md3;
 
 //
-@property --size-scale {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 1;
-}
+@property --size-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --font-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
 
-@property --font-scale {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 1;
-}
+//
+@property --md3-state-layer-opacity    { syntax: "<number>" ; inherits: true; initial-value: 0; }
+@property --md3-elevation-level        { syntax: "<integer>"; inherits: true; initial-value: 0; }
+@property --interaction-tone-direction { syntax: "<number>" ; inherits: true; initial-value: 1; }
 
-@property --md3-state-layer-opacity {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0;
-}
-
-@property --md3-elevation-level {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 0;
-}
-
-@property --interaction-tone-direction {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 1;
-}
-
+//
+@include md3.register-properties(md3.$md3-color-properties);
 
 //
 @layer md3.runtime {
@@ -64,7 +44,7 @@
             --radius-md: clamp(0.75rem, 3vw, 1rem);
             --radius-lg: clamp(0.85rem, 3.6vw, 1.2rem);
             --radius-xl: clamp(1rem, 4.8vw, 1.4rem);
-            --radius-full: 9999px;
+            --radius-full: min(9999px, 50cqmin);
 
             // Card system
             --border-radius-xs: var(--radius-xs);
@@ -334,7 +314,7 @@
         --card-avatar-size: var(--avatar-size);
 
         // Forms
-        --form-radius: var(--radius-sm);
+        --form-radius: var(--radius-full);
         --form-padding: var(--padding-md);
         --form-gap: var(--gap-sm);
 

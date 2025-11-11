@@ -15,6 +15,7 @@
     :where(button) {
         --ux-state-base: calc(var(--surface-opacity-default) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+        @include button-filled();
         /*@include veela-interactive(
             var(--ux-state-base),
             $hover: 0.04,
@@ -55,16 +56,9 @@
 
     :where(input:is([type="text"], [type="number"], [type="email"], [type="password"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"])) {
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
+
+        @include input-base();
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-shade: var(--ux-state-base),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible", ":focus-within")
-        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -87,15 +81,6 @@
     :where(textarea) {
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-shade: var(--ux-state-base),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible", ":focus-within")
-        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -118,15 +103,6 @@
     :where(select) {
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-shade: var(--ux-state-base),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible")
-        );*/
 
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
@@ -146,13 +122,6 @@
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         --ux-thumb-base: calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-opacity: 0.6
-        );*/
 
         &::-webkit-slider-thumb,
         &::-moz-range-thumb {
@@ -181,15 +150,6 @@
     :where(input[type="file"]) {
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-shade: var(--ux-state-base),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible")
-        );*/
     }
 
     // =============================================================================
@@ -199,15 +159,6 @@
     :where(input[type="color"]) {
         --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
         @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.03,
-            $focus: 0.06,
-            $active: 0.05,
-            $disabled-shade: var(--ux-state-base),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible")
-        );*/
     }
 
     :where(button, input, textarea, select):disabled {

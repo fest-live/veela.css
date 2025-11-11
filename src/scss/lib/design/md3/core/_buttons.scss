@@ -12,6 +12,8 @@
 //@use "../variables/layout" as layout;
 @use "../variables/utils" as utils;
 
+
+
 // -----------------------------------------------------------------------------
 // Shared base styles
 // -----------------------------------------------------------------------------
@@ -33,18 +35,18 @@
         var(--transition-colors, color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out)),
         var(--transition-opacity, opacity var(--duration-normal) var(--ease-out));
 
+    //
     pointer-events: auto;
     margin: 0;
     border: none;
     outline: none;
+
+    //
     position: relative;
     isolation: isolate;
-
     font-size: text.md3-type("label-large", size);
 
-    //@include text.md3-type("label-large");
-
-
+    //
     letter-spacing: 0.01em;
     text-decoration: none;
     text-overflow: ellipsis;
@@ -52,19 +54,23 @@
     overflow: hidden;
     user-select: none;
 
+    //
     block-size: fit-content;
     inline-size: fit-content;
     max-block-size: stretch;
     max-inline-size: stretch;
     flex-wrap: nowrap;
 
+    //
     &:disabled {
         opacity: var(--state-opacity-disabled, 0.38);
         pointer-events: none;
     }
 
+    //
     & > * { max-inline-size: stretch; }
 
+    //
     & :where(span, a) {
         display: inline;
         text-overflow: ellipsis;
@@ -74,6 +80,7 @@
     }
 }
 
+//
 @mixin button-overlays($fallback-color) {
     --md3-button-state-color: var(--md3-button-state-color, #{$fallback-color});
     position: relative;
@@ -111,7 +118,6 @@
 
     &:hover::after,
     &:focus-visible::after { opacity: 1; }
-
     &:active::before { opacity: 1; }
 }
 
@@ -131,38 +137,42 @@
     box-shadow: var(--md3-button-shadow, none);
 }
 
+
+
 // -----------------------------------------------------------------------------
 // Variant mixins
 // -----------------------------------------------------------------------------
 
 @mixin button-filled($role: primary, $include-base: true) {
+    @include colorize.solid-colorize("&");
     @if $include-base { @include button-structure(); }
 
     $bg-var: color.md3-var($role);
     $on-var: color.md3-var(color.md3-on($role));
 
-    --md3-button-bg: var(--md3-button-bg, var(#{$bg-var}));
-    --md3-button-on: var(--md3-button-on, var(#{$on-var}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
-    @include button-shadow(none);
+    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md3-button-on: var(--on-surface-color, currentColor);
+    --md3-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md3-button-bg);
-    color: var(--md3-button-on);
+    background-color: var(--md3-button-bg, var(--surface-color));
+    color: var(--md3-button-on, var(--on-surface-color));
     border: none;
 
+    @include button-shadow(none);
     @include button-overlays(var(#{$bg-var}));
     @include button-focus-ring();
 }
 
+//
 @mixin button-elevated($role: primary, $include-base: true) {
+    @include colorize.solid-colorize("&");
     @if $include-base { @include button-structure(); }
 
     $state-var: color.md3-var($role);
 
-    --md3-button-bg: var(--md3-button-bg, var(#{color.md3-var(surface)}));
-    --md3-button-on: var(--md3-button-on, var(#{color.md3-var(on-surface)}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline-variant)}));
-    @include button-shadow(shadow.md3-elevation(2));
+    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md3-button-on: var(--on-surface-color, currentColor);
+    --md3-button-outline-color: var(--border-color, transparent);
 
     background-color: var(--md3-button-bg);
     color: var(--md3-button-on);
@@ -170,19 +180,20 @@
 
     @include button-overlays(var(#{$state-var}));
     @include button-focus-ring();
+    @include button-shadow(shadow.md3-elevation(2));
 }
 
 @mixin button-tonal($container-role: secondary-container, $state-role: secondary, $include-base: true) {
+    @include colorize.solid-colorize("&");
     @if $include-base { @include button-structure(); }
 
     $container-var: color.md3-var($container-role);
     $on-var: color.md3-var(color.md3-on($container-role));
     $state-var: color.md3-var($state-role);
 
-    --md3-button-bg: var(--md3-button-bg, var(#{$container-var}));
-    --md3-button-on: var(--md3-button-on, var(#{$on-var}));
-    --md3-button-outline-color: var(--md3-button-outline-color, transparent);
-    @include button-shadow(none);
+    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md3-button-on: var(--on-surface-color, currentColor);
+    --md3-button-outline-color: var(--border-color, transparent);
 
     background-color: var(--md3-button-bg);
     color: var(--md3-button-on);
@@ -190,41 +201,44 @@
 
     @include button-overlays(var(#{$state-var}));
     @include button-focus-ring();
+    @include button-shadow(none);
 }
 
 @mixin button-outlined($role: primary, $include-base: true) {
+    @include colorize.solid-colorize("&");
     @if $include-base { @include button-structure(); }
 
     $state-var: color.md3-var($role);
 
-    --md3-button-bg: var(--md3-button-bg, transparent);
-    --md3-button-on: var(--md3-button-on, var(#{color.md3-var(on-surface)}));
-    --md3-button-outline-color: var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
-    @include button-shadow(none);
+    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md3-button-on: var(--on-surface-color, currentColor);
+    --md3-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
     color: var(--md3-button-on);
     border: 1px solid var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
 
+    @include button-shadow(none);
     @include button-overlays(var(#{$state-var}));
     @include button-focus-ring();
 }
 
 @mixin button-text($role: primary, $include-base: true) {
+    @include colorize.solid-colorize("&");
     @if $include-base { @include button-structure(); }
 
     $color-var: color.md3-var($role);
 
-    --md3-button-bg: var(--md3-button-bg, transparent);
-    --md3-button-on: var(--md3-button-on, var(#{$color-var}));
-    --md3-button-outline-color: var(--md3-button-outline-color, transparent);
-    @include button-shadow(none);
+    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md3-button-on: var(--on-surface-color, currentColor);
+    --md3-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
     color: var(--md3-button-on);
     border: none;
     padding-inline: var(--padding-sm);
 
+    @include button-shadow(none);
     @include button-overlays(var(#{$color-var}));
     @include button-focus-ring();
 }
@@ -246,6 +260,7 @@
 
 @mixin button-base {
     @include button-structure();
+    @include button-filled();
 }
 
 //
@@ -256,8 +271,7 @@
 //
 @mixin button-colors() {
     @include button-structure();
-    @include colorize.text-color(0);
-    @include colorize.solid-colorize("&");
+    @include button-filled();
 }
 
 //

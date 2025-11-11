@@ -8,6 +8,7 @@
 @mixin input-base {
     @include type.type("body-medium");
     @include type.text-wrap();
+    @include colorize.solid-colorize("&");
 
     --_input-border-current: var(--input-border-color, transparent);
     --_input-surface-current: var(--input-surface, transparent);
@@ -33,8 +34,6 @@
     border-style: solid;
     border-color: var(--_input-border-current);
     background-clip: padding-box;
-    background-color: var(--_input-surface-current);
-    color: var(--_input-text-current);
     font-weight: var(--input-font-weight, inherit);
     line-height: var(--input-line-height, 1.4);
     letter-spacing: var(--input-letter-spacing, 0.01em);
@@ -53,39 +52,45 @@
         transform var(--transition-fast, 120ms ease);
     z-index: 0;
 
+    //
+    & {
+        background-color: var(--_input-surface-current, transparent);
+        color: var(--_input-text-current, currentColor);
+    }
+
     &::placeholder {
         color: var(--input-placeholder-color, color-mix(in oklch, var(--_input-text-current) 32%, transparent));
         opacity: 1;
     }
 
     &::selection {
-        background-color: var(--input-selection-color, color-mix(in oklch, var(--input-surface-focus, var(--_input-surface-current)) 40%, transparent));
-        color: var(--input-selection-on-color, var(--_input-text-current));
+        background-color: var(--input-selection-color, color-mix(in oklch, var(--input-surface-focus, var(--_input-surface-current, transparent)) 40%, transparent));
+        color: var(--input-selection-on-color, var(--_input-text-current, currentColor));
     }
 
     &:hover:not(:disabled):not([aria-disabled="true"]) {
-        --_input-border-current: var(--input-border-hover, var(--_input-border-current));
-        --_input-surface-current: var(--input-surface-hover, var(--_input-surface-current));
-        --_input-shadow-current: var(--input-shadow-hover, var(--_input-shadow-current));
+        --_input-border-current: var(--input-border-hover, var(--border-color, transparent));
+        --_input-surface-current: var(--input-surface-hover, var(--surface-color, transparent));
+        --_input-shadow-current: var(--input-shadow-hover, var(--shadow-color, transparent));
     }
 
     &:is(:focus, :focus-visible) {
-        --_input-border-current: var(--input-border-focus, var(--_input-border-current));
-        --_input-surface-current: var(--input-surface-focus, var(--_input-surface-current));
-        --_input-shadow-current: var(--input-shadow-focus, var(--_input-shadow-current));
+        --_input-border-current: var(--input-border-focus, var(--border-color, transparent));
+        --_input-surface-current: var(--input-surface-focus, var(--surface-color, transparent));
+        --_input-shadow-current: var(--input-shadow-focus, var(--shadow-color, transparent));
     }
 
     &:invalid,
     &[aria-invalid="true"] {
-        --_input-border-current: var(--input-border-error, var(--_input-border-current));
-        --_input-surface-current: var(--input-surface-error, var(--_input-surface-current));
-        --_input-shadow-current: var(--input-shadow-error, var(--_input-shadow-current));
+        --_input-border-current: var(--input-border-error, var(--border-color, transparent));
+        --_input-surface-current: var(--input-surface-error, var(--surface-color, transparent));
+        --_input-shadow-current: var(--input-shadow-error, var(--shadow-color, transparent));
     }
 
     &:disabled,
     &[aria-disabled="true"] {
-        --_input-border-current: var(--input-border-disabled, var(--_input-border-current));
-        --_input-surface-current: var(--input-surface-disabled, var(--_input-surface-current));
+        --_input-border-current: var(--input-border-disabled, var(--border-color, transparent));
+        --_input-surface-current: var(--input-surface-disabled, var(--surface-color, transparent));
         --_input-shadow-current: none;
         --_input-text-current: var(--input-text-disabled, color-mix(in oklch, var(--input-text-color, currentColor) 55%, transparent));
         cursor: not-allowed;
@@ -93,16 +98,16 @@
     }
 
     &[readonly] {
-        --_input-border-current: var(--input-border-readonly, var(--_input-border-current));
-        --_input-surface-current: var(--input-surface-readonly, var(--_input-surface-current));
-        --_input-text-current: var(--input-text-readonly, var(--_input-text-current));
+        --_input-border-current: var(--input-border-readonly, var(--border-color, transparent));
+        --_input-surface-current: var(--input-surface-readonly, var(--surface-color, transparent));
+        --_input-text-current: var(--input-text-readonly, var(--on-surface-color, currentColor));
         border-style: dashed;
         cursor: text;
     }
 
     &:-webkit-autofill {
-        --_input-surface-current: var(--input-surface-autofill, var(--_input-surface-current));
-        --_input-text-current: var(--input-text-autofill, var(--_input-text-current));
+        --_input-surface-current: var(--input-surface-autofill, var(--surface-color, transparent));
+        --_input-text-current: var(--input-text-autofill, var(--on-surface-color, currentColor));
         -webkit-text-fill-color: var(--_input-text-current);
         transition: background-color 9999s ease-in-out 0s;
         box-shadow: inset 0 0 0 1000px var(--_input-surface-current);
@@ -149,7 +154,7 @@
 
     //
     --_option-border-radius: 0px;
-    --_option-surface-current: var(--option-surface-color, var(--input-surface, var(--surface-color, currentColor)));
+    --_option-surface-current: var(--option-surface-color, var(--input-surface, var(--surface-color, transparent)));
     --_option-border-current: var(--option-border-color, color-mix(in oklch, var(--input-border-color, currentColor) 70%, transparent));
     --_option-text-current: var(--option-text-color, var(--input-text-color, var(--on-surface-color, currentColor)));
     --_option-border-block-start-size: 0px;
@@ -171,9 +176,12 @@
     border-style: solid;
     border-color: var(--_option-border-current);
     border-radius: var(--_option-border-radius);
-    background-color: var(--_option-surface-current);
-    color: var(--_option-text-current, var(--select-color, var(--input-text-color, currentColor)));
 
+    //
+    background-color: var(--_option-surface-current, var(--surface-color, transparent));
+    color: var(--_option-text-current, var(--input-text-color, var(--on-surface-color, currentColor)));
+
+    //
     outline: none;
     transition:
         background-color var(--transition-normal, 160ms ease),
@@ -191,6 +199,8 @@
         --_option-border-block-start-size: 0.5px;
         --_option-border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     }
+
+    //
     &:last-of-type {
         --_option-border-block-end-size: 0.5px;
         --_option-border-radius: 0 0 var(--radius-sm) var(--radius-sm);
@@ -198,29 +208,27 @@
 
     //
     &:hover {
-        --_option-surface-current: var(--option-surface-hover, var(--_option-surface-current));
-        --_option-border-current: var(--option-border-hover, var(--_option-border-current));
-        --_option-text-current: var(--option-text-hover, var(--_option-text-current));
+        --_option-surface-current: var(--option-surface-hover, transparent);
+        --_option-border-current: var(--option-border-hover, transparent);
+        --_option-text-current: var(--option-text-hover, currentColor);
     }
 
     //
     &:active {
-        --_option-surface-current: var(--option-surface-active, var(--_option-surface-current));
-        --_option-text-current: var(--option-text-active, var(--_option-text-current));
+        --_option-surface-current: var(--option-surface-active, transparent);
+        --_option-text-current: var(--option-text-active, currentColor);
     }
 
     //
     &:is(:checked, :selected, [aria-selected="true"]) {
-        --_option-surface-current: var(--option-surface-checked, var(--_option-surface-current));
-        --_option-border-current: var(--option-border-checked, var(--_option-border-current));
-        --_option-text-current: var(--option-text-checked, var(--_option-text-current));
+        --_option-surface-current: var(--option-surface-checked, transparent);
+        --_option-border-current: var(--option-border-checked, transparent);
+        --_option-text-current: var(--option-text-checked, currentColor);
     }
 
     //
     &:focus-visible {
-        --_option-border-current: var(--option-border-focus, var(--_option-border-current));
-        outline: var(--option-outline-width, 2px) solid var(--option-outline-color, var(--_option-border-current));
-        outline-offset: var(--option-outline-offset, -2px);
+        --_option-border-current: var(--option-border-focus, transparent);
     }
 
     //
@@ -239,9 +247,9 @@
 
 //
 @mixin select-base() {
-    @include colorize.solid-colorize("&");
     @include type.type("body-medium");
     @include type.text-wrap();
+    @include colorize.solid-colorize("&");
 
     //
     & {
@@ -252,8 +260,13 @@
         position: relative;
     }
 
+    //
     &:where(select) {
-        @include button.button-base();
+        @include button.button-filled();
+
+        //
+        --_select-surface-current: var(--select-surface-color, transparent);
+        --_select-text-current: var(--select-text-color, currentColor);
 
         //
         display: inline-flex;
@@ -270,11 +283,26 @@
         appearance: base-select;
         padding-inline: var(--option-padding-inline);
         padding-block: var(--option-padding-block);
-    }
 
-    //
-    & :where(span, a) {
-        color: var(--option-text-color, var(--input-text-color, currentColor));
+        //
+        background-color: var(--_select-surface-current, var(--surface-color, transparent));
+
+        //
+        &:hover {
+            --_select-surface-current: var(--select-surface-hover, transparent);
+            --_select-text-current: var(--select-text-hover, currentColor);
+        }
+
+        //
+        &:active {
+            --_select-surface-current: var(--select-surface-active, transparent);
+            --_select-text-current: var(--select-text-active, currentColor);
+        }
+
+        //
+        & :where(span, a) {
+            color: var(--_select-text-current, var(--select-text-color, currentColor));
+        }
     }
 
     //
@@ -312,7 +340,7 @@
         mask-size: contain;
         mask-type: alpha;
 
-        background-color: var(--select-indicator-color, var(--input-icon-color, var(--input-text-color, currentColor)));
+        background-color: var(--select-indicator-color, var(--on-surface-color, currentColor));
         content: "";
         display: flex;
         inline-size: var(--select-indicator-size, var(--space-lg));
@@ -329,7 +357,6 @@
     &:where(select):disabled,
     &:where(select)[aria-disabled="true"] {
         cursor: not-allowed;
-        color: color-mix(in oklch, var(--select-color, var(--input-text-color, currentColor)) 55%, transparent);
     }
 
     //
@@ -349,6 +376,7 @@
     --_checkbox-shadow-current: var(--checkbox-shadow, var(--input-shadow, 0 1px 2px color-mix(in oklch, var(--shadow-color, currentColor) 12%, transparent)));
     --_checkbox-icon-current: var(--checkbox-icon-color, var(--input-icon-color, var(--on-surface-color, currentColor)));
 
+    //
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -364,7 +392,7 @@
     border-width: var(--checkbox-border-width, 1px);
     border-style: solid;
     border-color: var(--_checkbox-border-current);
-    background-color: var(--_checkbox-surface-current);
+    background-color: var(--_checkbox-surface-current, transparent);
     box-shadow: var(--_checkbox-shadow-current);
     contain: strict;
     line-height: 0;
@@ -376,37 +404,37 @@
     transform: translateZ(0);
     transform-origin: 50% 50%;
     backface-visibility: hidden;
-    --icon-color: var(--_checkbox-icon-current);
+    --icon-color: var(--_checkbox-icon-current, currentColor);
     content: " ";
 
     &:hover:not(:disabled):not([aria-disabled="true"]) {
-        --_checkbox-border-current: var(--checkbox-border-hover, var(--_checkbox-border-current));
-        --_checkbox-surface-current: var(--checkbox-surface-hover, var(--_checkbox-surface-current));
-        --_checkbox-shadow-current: var(--checkbox-shadow-hover, var(--_checkbox-shadow-current));
+        --_checkbox-border-current: var(--checkbox-border-hover, var(--border-color, transparent));
+        --_checkbox-surface-current: var(--checkbox-surface-hover, var(--surface-color, transparent));
+        --_checkbox-shadow-current: var(--checkbox-shadow-hover, var(--shadow-color, transparent));
     }
 
     &:is(:focus, :focus-visible) {
-        --_checkbox-border-current: var(--checkbox-border-focus, var(--_checkbox-border-current));
-        --_checkbox-shadow-current: var(--checkbox-shadow-focus, var(--_checkbox-shadow-current));
+        --_checkbox-border-current: var(--checkbox-border-focus, var(--border-color, transparent));
+        --_checkbox-shadow-current: var(--checkbox-shadow-focus, var(--shadow-color, transparent));
     }
 
     &:checked {
-        --_checkbox-border-current: var(--checkbox-border-checked, var(--_checkbox-border-current));
-        --_checkbox-surface-current: var(--checkbox-surface-checked, var(--_checkbox-surface-current));
+        --_checkbox-border-current: var(--checkbox-border-checked, var(--border-color, transparent));
+        --_checkbox-surface-current: var(--checkbox-surface-checked, var(--surface-color, transparent));
         --_checkbox-icon-current: var(--checkbox-icon-checked, var(--input-selection-on-color, currentColor));
     }
 
     &:disabled,
     &[aria-disabled="true"] {
-        --_checkbox-border-current: var(--checkbox-border-disabled, var(--_checkbox-border-current));
-        --_checkbox-surface-current: var(--checkbox-surface-disabled, var(--_checkbox-surface-current));
+        --_checkbox-border-current: var(--checkbox-border-disabled, var(--border-color, transparent));
+        --_checkbox-surface-current: var(--checkbox-surface-disabled, var(--surface-color, transparent));
         --_checkbox-shadow-current: none;
         cursor: not-allowed;
     }
 
     &::before {
         --icon-color: inherit;
-        background-color: var(--icon-color, var(--_checkbox-icon-current));
+        background-color: var(--icon-color, var(--_checkbox-icon-current, currentColor));
         content: "";
         display: block;
         inline-size: stretch;

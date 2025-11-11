@@ -9,18 +9,21 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
 }
 
 @mixin ux-solid-state($surface-token, $property: --ux-state-base, $tint: 0.0) {
-    @include solid-colorize("&", ("shade": var(#{$property}), "tint": $tint));
+    @include solid-colorize-selector-only("&", ("shade": var(#{$property}), "tint": $tint));
     @include ux-define-surface($property, $surface-token);
 }
 
-
+//
 @mixin ux-textual-interaction {
     @include ux-solid-state(var(--surface-opacity-subtle));
     @include input-base();
     @include button-base();
 
     & {
-        justify-items: start;
+        display: inline-block;
+        flex-direction: row;
+        justify-items: stretch;
+        justify-content: space-between;
         text-align: start;
     }
 
@@ -137,8 +140,57 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
     //
     :where(input:is(#{$ux-textual-input-types}), textarea) {
         @include ux-textual-interaction;
+
+        & {
+            inline-size: stretch;
+            min-inline-size: fit-content;
+            justify-content: space-between;
+            justify-items: stretch;
+            display: inline-block;
+        }
+
+        &:is(input[type="datetime-local"]) {
+            font-variant-numeric: tabular-nums;
+            padding-inline-end: calc(var(--space-lg) * 2);
+            border-width: 0.5px;
+
+            // Enhanced calendar icon styling
+            &::-webkit-calendar-picker-indicator {
+                cursor: pointer;
+                filter: opacity(0.6);
+                transition: filter var(--transition-normal);
+                float: right; justify-self: end;
+
+                &:where(:hover, :focus-visible, :active) {
+                    filter: opacity(1);
+                }
+            }
+
+            &::-webkit-datetime-edit {
+                @include solid-colorize-selector-only("&");
+                & { background: transparent; float: right; justify-self: end; }
+            }
+        }
     }
 
+    //
+    input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"] {
+        &::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: opacity(0.6);
+            transition: filter var(--transition-normal);
+            float: right; justify-self: end;
+
+            &:where(:hover, :focus-visible, :active) {
+                filter: opacity(1);
+            }
+        }
+
+        &::-webkit-datetime-edit {
+            @include solid-colorize-selector-only("&");
+            & { background: transparent; float: right; justify-self: end; }
+        }
+    }
 
 
     // =============================================================================
@@ -165,7 +217,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
 
         &::-webkit-slider-thumb,
         &::-moz-range-thumb {
-            @include solid-colorize("&", ("shade": var(--ux-thumb-base), "tint": 0.0));
+            @include solid-colorize-selector-only("&", ("shade": var(--ux-thumb-base), "tint": 0.0));
         }
 
         &:where(:hover, :focus, :focus-visible, :active):not(:disabled) {

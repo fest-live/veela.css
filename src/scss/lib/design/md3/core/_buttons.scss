@@ -9,7 +9,6 @@
 @use "../core/colorize" as colorize;
 @use "../variables/motion" as motion;
 @use "../variables/shadow" as shadow;
-//@use "../variables/layout" as layout;
 @use "../variables/utils" as utils;
 
 
@@ -154,8 +153,8 @@
     --md-button-on: var(--on-surface-color, currentColor);
     --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md-button-bg, var(--surface-color));
-    color: var(--md-button-on, var(--on-surface-color));
+    background-color: var(--md-button-bg, var(--surface-color, transparent));
+    color: var(--md-button-on, var(--on-surface-color, currentColor));
     border: none;
 
     @include button-shadow(none);
@@ -174,8 +173,8 @@
     --md-button-on: var(--on-surface-color, currentColor);
     --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md-button-bg);
-    color: var(--md-button-on);
+    background-color: var(--md-button-bg, var(--surface-color, transparent));
+    color: var(--md-button-on, var(--on-surface-color, currentColor));
     border: none;
 
     @include button-overlays(var(#{$state-var}));
@@ -195,8 +194,8 @@
     --md-button-on: var(--on-surface-color, currentColor);
     --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md-button-bg);
-    color: var(--md-button-on);
+    background-color: var(--md-button-bg, var(--surface-color, transparent));
+    color: var(--md-button-on, var(--on-surface-color, currentColor));
     border: none;
 
     @include button-overlays(var(#{$state-var}));
@@ -215,7 +214,7 @@
     --md-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
-    color: var(--md-button-on);
+    color: var(--md-button-on, var(--on-surface-color, currentColor));
     border: 1px solid var(--md-button-outline-color, var(#{color.md3-var(outline)}));
 
     @include button-shadow(none);
@@ -234,7 +233,7 @@
     --md-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
-    color: var(--md-button-on);
+    color: var(--md-button-on, var(--on-surface-color, currentColor));
     border: none;
     padding-inline: var(--padding-sm);
 

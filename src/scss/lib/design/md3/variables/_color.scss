@@ -299,17 +299,17 @@ $color-danger: oklch(0.62 0.17 23 / 1);
 $color-info: oklch(0.7 0.1 220 / 1);
 
 $text-primary: md3-color(on-surface);
-$text-secondary: color-mix(in oklch, md3-color(on-surface) 75%, md3-color(on-surface-variant) 25%);
-$text-muted: color-mix(in oklch, md3-color(on-surface-variant) 70%, md3-color(surface) 30%);
+$text-secondary: color-mix(in oklch, #{md3-color(on-surface)} 75%, #{md3-color(on-surface-variant)} 25%);
+$text-muted: color-mix(in oklch, #{md3-color(on-surface-variant)} 70%, #{md3-color(surface)} 30%);
 $text-light: #ffffff;
 
 $bg-primary: md3-color(background);
 $bg-secondary: md3-color(surface-container-low);
 $bg-tertiary: md3-color(surface-container);
-$bg-overlay: color-mix(in oklch, md3-color(surface) 88%, transparent);
+$bg-overlay: color-mix(in oklch, #{md3-color(surface)} 88%, transparent);
 
-$border-light: color-mix(in oklch, md3-color(on-surface-variant) 14%, transparent);
-$border-medium: color-mix(in oklch, md3-color(on-surface-variant) 24%, transparent);
+$border-light: color-mix(in oklch, #{md3-color(on-surface-variant)} 14%, transparent);
+$border-medium: color-mix(in oklch, #{md3-color(on-surface-variant)} 24%, transparent);
 $border-strong: md3-color(outline);
 
 

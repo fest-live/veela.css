@@ -77,11 +77,11 @@ $ve-color-properties: (
 @function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); }
 
 @mixin surface($shade: var(--surface-opacity-default)) {
-    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+    @include solid-colorize-selector-only("&", ("shade": $shade, "tint": 0.0));
 }
 
 @mixin surface-interactive($shade: var(--surface-opacity-default)) {
-    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+    @include solid-colorize-selector-only("&", ("shade": $shade, "tint": 0.0));
 }
 
 @mixin text-color($tint: var(--text-tint-primary)) {

@@ -84,37 +84,42 @@
 
 /* */
 @include make-func("@function --c2-surface(\
---c2-shift    <number>: 1, \
+--c2-shift    <number>: 0, \
 --c2-color     <color>: var(--current, inherit) \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.96 - var(--c2-shift, 1) * 0.8)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.96 - var(--c2-shift, 0) * 0.8)); };
 
 /* */
 @include make-func("@function --c2-on-surface(\
---c2-shift      <number>: 1, \
+--c2-shift      <number>: 0, \
 --c2-color       <color>: var(--current, inherit) \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.02 + var(--c2-shift, 1) * 0.2)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.02 + var(--c2-shift, 0) * 0.2)); };
 
 
 
 /* */
 @include make-func("@function --c2-contrast(\
---c2-shift    <number>: 1, \
+--c2-shift    <number>: 0, \
 --c2-color     <color>: var(--current, inherit) \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(1 - var(--c2-shift, 1) * 0.9)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(1 - var(--c2-shift, 0) * 0.9)); };
 
 /* */
 @include make-func("@function --c2-on-contrast(\
---c2-shift      <number>: 1, \
+--c2-shift      <number>: 0, \
 --c2-color       <color>: var(--current, inherit) \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.01 + var(--c2-shift, 1) * 0.1)); };
+    { result: --c2h-re-shading(var(--c2-color, inherit), calc(0.01 + var(--c2-shift, 0) * 0.1)); };
 
 /* */
-@property --primary { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --current { syntax: "<color>"; initial-value: #fff; inherits: true; };
+//
+@property --current { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --primary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --secondary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --trinary { syntax: "<color>"; initial-value: #469; inherits: true; }
+
+//
 @property --current-is-light { syntax: "<number>"; initial-value: 1; inherits: true; };
 
 /* */

@@ -14,7 +14,7 @@
 @mixin button-colors() {
     @include buttons.button-structure();
     @include colorize.text-color(0);
-    @include colorize.solid-colorize("&");
+    @include colorize.solid-colorize-selector-only("&");
 }
 
 //

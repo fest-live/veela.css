@@ -3,19 +3,22 @@
 
 
 /* */
-@property --primary { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --secondary { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --tertiary { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --accent { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --error { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --neutral { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --surface { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --on-surface { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --surface-color { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --on-surface-color { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --outline { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --contrast { syntax: "<color>"; initial-value: #fff; inherits: true; };
-@property --current { syntax: "<color>"; initial-value: #fff; inherits: true; };
+//
+@property --current { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --primary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --secondary { syntax: "<color>"; initial-value: #469; inherits: true; }
+@property --trinary { syntax: "<color>"; initial-value: #469; inherits: true; }
+
+//
+@property --accent { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --error { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --neutral { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --surface { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --on-surface { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --surface-color { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --on-surface-color { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --outline { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --contrast { syntax: "<color>"; initial-value: #0000; inherits: true; };
 @property --current-is-light { syntax: "<number>"; initial-value: 1; inherits: true; };
 
 /* */
@@ -76,7 +79,7 @@
 //
 @include make-func("@function --c2h-re-shading(\
 --c2h-color <color>, \
---c2h-factor <number>: 1, \
+--c2h-factor <number>: 0, \
 --c2h-theme-type <number>: 2 \
 )") {
     /* chromatic neutralize (unused) ir chromatic, or make very chromatic if too gray */
@@ -130,37 +133,37 @@
 
 /* */
 @include make-func("@function --c2-surface(\
---c2-shift    <number>: 1, \
---c2-color     <color>: var(--current, inherit), \
+--c2-shift    <number>: 0, \
+--c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme    <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.02 + var(--c2-shift, 1) * 0.8), 1), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(0.02 + var(--c2-shift, 0) * 0.8), 1), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-surface(\
---c2-shift      <number>: 1, \
---c2-color       <color>: var(--current, inherit) \
+--c2-shift      <number>: 0, \
+--c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.96 - var(--c2-shift, 1) * 0.8), 1), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(0.96 - var(--c2-shift, 0) * 0.8), 1), var(--c2-theme, 2)); };
 
 
 
 /* */
 @include make-func("@function --c2-contrast(\
---c2-shift    <number>: 1, \
---c2-color     <color>: var(--current, inherit) \
+--c2-shift    <number>: 0, \
+--c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(0.01 + var(--c2-shift, 1) * 0.6), 1), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(0.01 + var(--c2-shift, 0) * 0.6), 1), var(--c2-theme, 2)); };
 
 /* */
 @include make-func("@function --c2-on-contrast(\
---c2-shift      <number>: 1, \
---c2-color       <color>: var(--current, inherit) \
+--c2-shift      <number>: 0, \
+--c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")
-    { result: --c2h-re-shading(var(--c2-color, inherit), clamp(0, calc(1 - var(--c2-shift, 1) * 0.6), 1), var(--c2-theme, 2)); };
+    { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(1 - var(--c2-shift, 0) * 0.6), 1), var(--c2-theme, 2)); };
 
 
 

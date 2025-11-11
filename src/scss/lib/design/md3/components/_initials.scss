@@ -33,14 +33,15 @@
     --input-border-autofill: color-mix(in oklch, var(--input-border-color) 80%, transparent);
 
     //
-    --input-surface: color-mix(in oklch, var(--surface-color, currentColor) 90%, var(--on-surface-color, currentColor));  //var(#{color.md3-var(surface-container-high)}, #{color.md3-color(surface-container-high)});
-    --input-surface-color: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 90%, var(--on-surface-color, currentColor)));
-    --input-surface-hover: color-mix(in oklch, var(--input-surface) 90%, var(--input-border-focus) 10%);
-    --input-surface-focus: color-mix(in oklch, var(--input-surface) 88%, var(--input-border-focus) 12%);
-    --input-surface-error: color-mix(in oklch, var(--input-surface) 88%, var(--input-border-error) 12%);
-    --input-surface-disabled: color-mix(in oklch, var(--input-surface) 96%, transparent 4%);
-    --input-surface-readonly: color-mix(in oklch, var(--input-surface) 96%, transparent 4%);
-    --input-surface-autofill: color-mix(in oklch, var(--input-surface) 94%, transparent 6%);
+    --input-surface-color: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --input-surface-hover: color-mix(in oklch, var(--input-surface-color) 90%, var(--input-border-focus) 10%);
+    --input-surface-focus: color-mix(in oklch, var(--input-surface-color) 88%, var(--input-border-focus) 12%);
+    --input-surface-error: color-mix(in oklch, var(--input-surface-color) 88%, var(--input-border-error) 12%);
+    --input-surface-disabled: color-mix(in oklch, var(--input-surface-color) 96%, transparent 4%);
+    --input-surface-readonly: color-mix(in oklch, var(--input-surface-color) 96%, transparent 4%);
+    --input-surface-autofill: color-mix(in oklch, var(--input-surface-color) 94%, transparent 6%);
+    --input-surface: var(--input-surface-color, var(--surface-color, currentColor));
+    --input-color: var(--input-surface-color, var(--surface-color, currentColor));
 
     //
     --input-shadow: 0 1px 2px color-mix(in oklch, var(--md-shadow, #000) 12%, transparent);
@@ -77,16 +78,7 @@
     --input-text-autofill: color-mix(in oklch, var(--input-text-color) 65%, transparent);
 
     //
-    --select-gap: var(--gap-sm);
-    --select-indicator-size: var(--icon-size-sm, 1.125rem);
-    --select-indicator-color: var(--option-text-color, var(--input-text-color, currentColor));
-    --select-text-color: var(--option-text-color, var(--input-text-color, currentColor));
-    --select-color: var(--option-color, var(--input-color, currentColor));
-
-    //
     --option-border-inline-size: 1px;
-
-    //
     --option-padding-block: var(--padding-sm);
     --option-padding-inline: calc(var(--padding-lg, 1rem) * 0.75);
 
@@ -97,37 +89,69 @@
     --option-border-checked: var(--input-border-focus);
 
     //
-    --option-text-color: color-mix(in oklch, var(--input-text-color) 90%, transparent);
-    --option-text-hover: color-mix(in oklch, var(--option-text-color) 90%, var(--input-border-focus) 10%);
-    --option-text-active: color-mix(in oklch, var(--option-text-color) 86%, var(--input-border-focus) 14%);
-    --option-text-checked: var(--input-selection-on-color);
+    --option-text-color: var(--input-text-color, var(--on-surface-color, currentColor));
+    --option-text-hover: var(--option-text-color);
+    --option-text-active: var(--option-text-color);
+    --option-text-checked: var(--input-selection-on-color, var(--surface-color, currentColor));
     --option-text-focus: var(--input-border-focus);
 
     //
-    --option-surface-color: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 84%, var(--on-surface-color, currentColor)));
+    --option-surface-color: var(--input-surface-color, var(--surface-color, currentColor));
     --option-surface-hover: color-mix(in oklch, var(--option-surface-color) 88%, var(--on-surface-color, currentColor) 12%);
     --option-surface-active: color-mix(in oklch, var(--option-surface-color) 84%, var(--on-surface-color, currentColor) 16%);
     --option-surface-checked: color-mix(in oklch, var(--option-surface-color) 10%, var(--on-surface-color, currentColor));
+
+    //
     --option-outline-width: 2px;
     --option-outline-offset: -2px;
     --option-outline-color: color-mix(in oklch, var(--on-surface-color, currentColor) 80%, transparent);
 
     //
+    --option-color: var(--option-surface-color);
+    --option-hover-color: var(--option-surface-hover);
+    --option-active-color: var(--option-surface-active);
+    --option-checked-color: var(--option-surface-checked);
+
+    //
+    --select-gap: var(--gap-sm);
+    --select-indicator-size: var(--icon-size-sm, 1.125rem);
+
+    //
+    --select-indicator-color: var(--input-text-color, var(--option-text-color, currentColor));
+    --select-text-color: var(--input-text-color, var(--option-text-color, currentColor));
+
+    //
+    --select-color:       var(--input-surface-color, var(--option-color, currentColor));
+    --select-hover-color: var(--input-hover-color, var(--option-hover-color, currentColor));
+
+    //
+    --select-surface-color: var(--input-surface-color, var(--option-color, currentColor));
+    --select-surface-hover: var(--input-hover-color, var(--option-hover-color, currentColor));
+
+    //
     --checkbox-size: 1.25rem;
     --checkbox-radius: var(--radius-sm);
     --checkbox-border-width: 1px;
+
+    //
     --checkbox-surface: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 84%, var(--on-surface-color, currentColor)));
     --checkbox-surface-hover: color-mix(in oklch, var(--checkbox-surface) 88%, var(--on-surface-color, currentColor) 12%);
     --checkbox-surface-checked: color-mix(in oklch, var(--checkbox-surface) 10%, var(--on-surface-color, currentColor) 12%);
     --checkbox-surface-disabled: color-mix(in oklch, var(--checkbox-surface) 96%, transparent 4%);
+
+    //
     --checkbox-border-color: var(--input-border-color);
     --checkbox-border-hover: var(--input-border-hover);
     --checkbox-border-focus: var(--input-border-focus);
     --checkbox-border-checked: var(--input-border-focus);
     --checkbox-border-disabled: var(--input-border-disabled);
+
+    //
     --checkbox-shadow: var(--input-shadow);
     --checkbox-shadow-hover: var(--input-shadow-hover);
     --checkbox-shadow-focus: var(--input-shadow-focus);
+
+    //
     --checkbox-icon-color: var(--input-icon-color);
     --checkbox-icon-checked: var(--input-selection-on-color);
 
@@ -139,6 +163,7 @@
     --accordion-open-border: 1px solid;
     --accordion-transition: var(--transition-colors);
 
+    //
     --empty-state-padding: var(--padding-2xl);
     --empty-state-radius: var(--radius-lg);
     --empty-state-border: 1px dashed color-mix(

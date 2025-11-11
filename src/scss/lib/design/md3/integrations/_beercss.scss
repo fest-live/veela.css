@@ -114,7 +114,7 @@ $beer-border-map: (
             position: relative;
             isolation: isolate;
             @include color.md3-surface(surface);
-            @include colorize.solid-colorize("&", ("shade": var(--surface-opacity-default)));
+            @include colorize.solid-colorize-selector-only("&", ("shade": var(--surface-opacity-default)));
         }
     }
 }

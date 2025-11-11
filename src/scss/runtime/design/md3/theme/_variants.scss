@@ -64,23 +64,23 @@
     // =============================================================================
 
     .surface {
-        @include solid-colorize("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
+        @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
     }
 
     .surface-subtle {
-        @include solid-colorize("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
+        @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-subtle), "tint": 0.0));
     }
 
     .surface-muted {
-        @include solid-colorize("&", ("shade": var(--surface-opacity-muted), "tint": 0.0));
+        @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-muted), "tint": 0.0));
     }
 
     .surface-emphasis {
-        @include solid-colorize("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
+        @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-emphasis), "tint": 0.0));
     }
 
     .surface-strong {
-        @include solid-colorize("&", ("shade": var(--surface-opacity-strong), "tint": 0.0));
+        @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-strong), "tint": 0.0));
     }
 
     // =============================================================================
@@ -114,19 +114,19 @@
     // =============================================================================
 
     .overlay {
-        @include overlay-colorize("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-muted), "enable-blur": true));
+        @include overlay-colorize-selector-only("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-muted), "enable-blur": true));
     }
 
     .overlay-subtle {
-        @include overlay-colorize("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-subtle), "enable-blur": true));
+        @include overlay-colorize-selector-only("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-subtle), "enable-blur": true));
     }
 
     .overlay-strong {
-        @include overlay-colorize("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-strong), "enable-blur": true));
+        @include overlay-colorize-selector-only("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-strong), "enable-blur": true));
     }
 
     .overlay-solid {
-        @include overlay-colorize("&", ("shade": 0.0, "tint": 0.0, "opacity": 0.95, "enable-blur": false));
+        @include overlay-colorize-selector-only("&", ("shade": 0.0, "tint": 0.0, "opacity": 0.95, "enable-blur": false));
     }
 
     // =============================================================================
@@ -195,7 +195,7 @@
     ) {
         .#{$color-name}-surface {
             --current: #{$color-var};
-            @include solid-colorize("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
+            @include solid-colorize-selector-only("&", ("shade": var(--surface-opacity-default), "tint": 0.0));
         }
 
         .#{$color-name}-surface-interactive {
@@ -209,7 +209,7 @@
 
         .#{$color-name}-overlay {
             --current: #{$color-var};
-            @include overlay-colorize("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-muted), "enable-blur": true));
+            @include overlay-colorize-selector-only("&", ("shade": 0.0, "tint": 0.0, "opacity": var(--surface-opacity-muted), "enable-blur": true));
         }
     }
 

@@ -1,6 +1,42 @@
 @use "veela-lib" as *;
-@use "sass:list";
-@use "sass:meta";
+
+$ux-input-button-types: '[type="button"], [type="submit"], [type="reset"]';
+$ux-textual-input-types: '[type="text"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="search"], [type="number"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]';
+$ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]';
+
+@mixin ux-define-surface($property, $surface-token) {
+    #{$property}: calc(#{$surface-token} * var(--ux-tone-direction, 1));
+}
+
+@mixin ux-solid-state($surface-token, $property: --ux-state-base, $tint: 0.0) {
+    @include solid-colorize("&", ("shade": var(#{$property}), "tint": $tint));
+    @include ux-define-surface($property, $surface-token);
+}
+
+
+@mixin ux-textual-interaction {
+    @include ux-solid-state(var(--surface-opacity-subtle));
+    @include input-base();
+    @include button-base();
+
+    & {
+        justify-items: start;
+        text-align: start;
+    }
+
+    &:invalid:not(:disabled) {
+        --current: var(--color-error, var(--color-danger));
+    }
+
+    &:placeholder-shown {
+        --color-tint: var(--text-tint-muted);
+    }
+
+    &::placeholder {
+        color: oklch(from var(--current) l c h / calc(var(--text-tint-muted) + 0.1));
+        opacity: 0.7;
+    }
+}
 
 //
 @layer ux-states {
@@ -8,109 +44,114 @@
         --ux-tone-direction: var(--interaction-tone-direction, 1);
     }
 
+
+
+    ui-longtext {
+        --thumb-size: 1.25rem;
+        --track-height: 0.25rem;
+        display: inline-block;
+    }
+
+    ui-slider[variant="slider"] {
+        block-size: 1rem;
+        border-radius: 9999px;
+    }
+
+    //
+    :where(button, input:is(#{$ux-input-button-types})) {
+        &:not([data-variant]):not([data-icon-only]) {
+            @include button-elevated(primary);
+        }
+
+        &[data-variant="filled"] {
+            @include button-filled(primary, false);
+        }
+
+        &[data-variant="tonal"] {
+            @include button-tonal(secondary-container, secondary, false);
+        }
+
+        &[data-variant="outlined"] {
+            @include button-outlined(primary, false);
+        }
+
+        &[data-variant="text"] {
+            @include button-text(primary, false);
+        }
+    }
+
+    // Enhanced select dropdown styling
+    :where(textarea) { @include form-field-base; }
+
+
+
     // =============================================================================
     // BUTTONS
     // =============================================================================
 
     :where(button) {
-        --ux-state-base: calc(var(--surface-opacity-default) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+        @include ux-solid-state(var(--surface-opacity-default));
         @include button-filled();
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.04,
-            $focus: 0.06,
-            $active: 0.08,
-            $disabled-shade: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible")
-        );*/
+
+        & {
+            display: flex-inline;
+            place-content: center;
+            place-items: center;
+            text-align: center;
+        }
     }
+
 
     // =============================================================================
     // CHECKBOX & RADIO INPUTS
     // =============================================================================
 
-    :where(input:is([type="checkbox"], [type="radio"])) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-        /*@include veela-interactive(
-            var(--ux-state-base),
-            $hover: 0.04,
-            $focus: 0.06,
-            $active: 0.08,
-            $disabled-shade: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)),
-            $disabled-opacity: 0.6,
-            $focus-selectors: (":focus", ":focus-visible")
-        );*/
+    :where(input:is([type="checkbox"], [type="radio"]), button[data-icon-only]) {
+        @include ux-solid-state(var(--surface-opacity-subtle));
+        @include checkbox-base();
 
-        &:checked {
-            --ux-state-base: calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1));
-            @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+        //
+        &:is([type="radio"]) {
+            border-radius: var(--radius-full);
         }
     }
+
 
     // =============================================================================
     // TEXT INPUTS (text, number, email, password, search, tel, url, date, time, datetime-local, month, week)
     // =============================================================================
 
-    :where(input:is([type="text"], [type="number"], [type="email"], [type="password"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"])) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-
-        @include input-base();
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-
-        &:invalid:not(:disabled) {
-            --current: var(--color-error, var(--color-danger));
+    //
+    :where(input) {
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
-        &:placeholder-shown {
-            --color-tint: var(--text-tint-muted);
-        }
-
-        &::placeholder {
-            color: oklch(from var(--current) l c h / calc(var(--text-tint-muted) + 0.1));
-            opacity: 0.7;
+        &:where(#{$ux-numeric-temporal-types}) {
+            font-variant-numeric: tabular-nums;
         }
     }
 
-    // =============================================================================
-    // TEXTAREA
-    // =============================================================================
-
-    :where(textarea) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-
-        &:invalid:not(:disabled) {
-            --current: var(--color-error, var(--color-danger));
-        }
-
-        &:placeholder-shown {
-            --color-tint: var(--text-tint-muted);
-        }
-
-        &::placeholder {
-            color: oklch(from var(--current) l c h / calc(var(--text-tint-muted) + 0.1));
-            opacity: 0.7;
-        }
+    //
+    :where(input:is(#{$ux-textual-input-types}), textarea) {
+        @include ux-textual-interaction;
     }
+
+
 
     // =============================================================================
     // SELECT ELEMENT
     // =============================================================================
 
     :where(select) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+        @include ux-solid-state(var(--surface-opacity-subtle));
+        @include select-base;
 
+        //
         &:invalid:not(:disabled) {
             --current: var(--color-error, var(--color-danger));
-        }
-
-        &::picker(select),
-        & :where(option) {
-            @include veela-select-surface();
         }
     }
 
@@ -119,9 +160,8 @@
     // =============================================================================
 
     :where(input[type="range"]) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        --ux-thumb-base: calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+        @include ux-solid-state(var(--surface-opacity-subtle));
+        @include ux-define-surface(--ux-thumb-base, var(--surface-opacity-emphasis));
 
         &::-webkit-slider-thumb,
         &::-moz-range-thumb {
@@ -143,120 +183,69 @@
         }
     }
 
-    // =============================================================================
-    // FILE INPUT
-    // =============================================================================
-
-    :where(input[type="file"]) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
-    }
 
     // =============================================================================
-    // COLOR INPUT
+    // FILE & COLOR INPUTS
     // =============================================================================
 
-    :where(input[type="color"]) {
-        --ux-state-base: calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1));
-        @include solid-colorize("&", ("shade": var(--ux-state-base), "tint": 0.0));
+    :where(input:is([type="file"], [type="color"])) {
+        @include ux-solid-state(var(--surface-opacity-subtle));
     }
 
     :where(button, input, textarea, select):disabled {
         cursor: not-allowed;
     }
 
+
     // =============================================================================
     // PROGRESS ELEMENT
     // =============================================================================
 
     :where(progress) {
-        @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
+        @include ux-solid-state(var(--surface-opacity-subtle));
 
         //
         &::-webkit-progress-bar {
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-subtle));
         }
 
         //
-        &::-webkit-progress-value {
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
-        }
-
-        //
+        &::-webkit-progress-value,
         &::-moz-progress-bar {
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-emphasis));
         }
     }
+
 
     // =============================================================================
     // METER ELEMENT
     // =============================================================================
 
     :where(meter) {
-        @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
+        @include ux-solid-state(var(--surface-opacity-subtle));
 
         //
         &::-webkit-meter-bar {
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-subtle) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-subtle));
         }
 
         //
         &::-webkit-meter-optimum-value {
             --current: var(--color-success);
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-emphasis));
         }
 
         //
         &::-webkit-meter-suboptimum-value {
             --current: var(--color-warning);
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-emphasis));
         }
 
         //
         &::-webkit-meter-even-less-good-value {
             --current: var(--color-danger);
-            @include solid-colorize("&", ("shade": calc(var(--surface-opacity-emphasis) * var(--ux-tone-direction, 1)), "tint": 0.0));
+            @include ux-solid-state(var(--surface-opacity-emphasis));
         }
     }
 
-    // =============================================================================
-    // INPUT STATE VARIANTS
-    // =============================================================================
-
-    :where(input, textarea, select) {
-        // Success state
-        &.state-success,
-        &.is-success,
-        &[data-state="success"] {
-            --current: var(--color-success);
-            @include validation-success;
-        }
-
-        // Warning state
-        &.state-warning,
-        &.is-warning,
-        &[data-state="warning"] {
-            --current: var(--color-warning);
-            @include validation-warning;
-        }
-
-        // Error state
-        &.state-error,
-        &.is-error,
-        &.state-invalid,
-        &.is-invalid,
-        &[data-state="error"],
-        &[data-state="invalid"] {
-            --current: var(--color-error, var(--color-danger));
-            @include validation-error;
-        }
-
-        // Valid state
-        &.state-valid,
-        &.is-valid,
-        &[data-state="valid"] {
-            --current: var(--color-success);
-            @include validation-success;
-        }
-    }
 }

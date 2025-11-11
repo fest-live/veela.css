@@ -296,7 +296,7 @@
     scrollbar-color: oklch(
         from --c2-on-surface(
             var(--scrollbar-tint),
-            var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
         ) l c h / var(--scrollbar-opacity)
     ) transparent;
     -webkit-overflow-scrolling: touch;
@@ -310,7 +310,7 @@
         background: oklch(
             from --c2-on-surface(
                 var(--scrollbar-tint),
-                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+                var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
             ) l c h / var(--scrollbar-opacity)
         );
         border-radius: var(--radius-full);

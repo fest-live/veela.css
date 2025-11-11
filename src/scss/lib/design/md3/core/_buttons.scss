@@ -82,7 +82,7 @@
 
 //
 @mixin button-overlays($fallback-color) {
-    --md3-button-state-color: var(--md3-button-state-color, #{$fallback-color});
+    --md-button-state-color: var(--md-button-state-color, #{$fallback-color});
     position: relative;
     overflow: hidden;
 
@@ -101,7 +101,7 @@
         transition: opacity var(--duration-normal) var(--ease-out);
         background: color-mix(
             in oklch,
-            var(--md3-button-state-color, #{$fallback-color}) calc(var(--state-opacity-hover, 0.08) * 100%),
+            var(--md-button-state-color, #{$fallback-color}) calc(var(--state-opacity-hover, 0.08) * 100%),
             transparent
         );
     }
@@ -111,7 +111,7 @@
         transition: opacity var(--duration-fast) var(--ease-out);
         background: color-mix(
             in oklch,
-            var(--md3-button-state-color, #{$fallback-color}) calc(var(--state-opacity-press, 0.12) * 100%),
+            var(--md-button-state-color, #{$fallback-color}) calc(var(--state-opacity-press, 0.12) * 100%),
             transparent
         );
     }
@@ -125,7 +125,7 @@
     &:focus-visible {
         outline: 2px solid color-mix(
             in oklch,
-            var(--md3-button-state-color, var(--md3-primary)) calc(var(--state-opacity-focus, 0.12) * 100%),
+            var(--md-button-state-color, var(--md-primary)) calc(var(--state-opacity-focus, 0.12) * 100%),
             transparent
         );
         outline-offset: 3px;
@@ -133,8 +133,8 @@
 }
 
 @mixin button-shadow($shadow) {
-    --md3-button-shadow: #{$shadow};
-    box-shadow: var(--md3-button-shadow, none);
+    --md-button-shadow: #{$shadow};
+    box-shadow: var(--md-button-shadow, none);
 }
 
 
@@ -150,12 +150,12 @@
     $bg-var: color.md3-var($role);
     $on-var: color.md3-var(color.md3-on($role));
 
-    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
-    --md3-button-on: var(--on-surface-color, currentColor);
-    --md3-button-outline-color: var(--border-color, transparent);
+    --md-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md-button-on: var(--on-surface-color, currentColor);
+    --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md3-button-bg, var(--surface-color));
-    color: var(--md3-button-on, var(--on-surface-color));
+    background-color: var(--md-button-bg, var(--surface-color));
+    color: var(--md-button-on, var(--on-surface-color));
     border: none;
 
     @include button-shadow(none);
@@ -170,12 +170,12 @@
 
     $state-var: color.md3-var($role);
 
-    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
-    --md3-button-on: var(--on-surface-color, currentColor);
-    --md3-button-outline-color: var(--border-color, transparent);
+    --md-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md-button-on: var(--on-surface-color, currentColor);
+    --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md3-button-bg);
-    color: var(--md3-button-on);
+    background-color: var(--md-button-bg);
+    color: var(--md-button-on);
     border: none;
 
     @include button-overlays(var(#{$state-var}));
@@ -191,12 +191,12 @@
     $on-var: color.md3-var(color.md3-on($container-role));
     $state-var: color.md3-var($state-role);
 
-    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
-    --md3-button-on: var(--on-surface-color, currentColor);
-    --md3-button-outline-color: var(--border-color, transparent);
+    --md-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md-button-on: var(--on-surface-color, currentColor);
+    --md-button-outline-color: var(--border-color, transparent);
 
-    background-color: var(--md3-button-bg);
-    color: var(--md3-button-on);
+    background-color: var(--md-button-bg);
+    color: var(--md-button-on);
     border: none;
 
     @include button-overlays(var(#{$state-var}));
@@ -210,13 +210,13 @@
 
     $state-var: color.md3-var($role);
 
-    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
-    --md3-button-on: var(--on-surface-color, currentColor);
-    --md3-button-outline-color: var(--border-color, transparent);
+    --md-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md-button-on: var(--on-surface-color, currentColor);
+    --md-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
-    color: var(--md3-button-on);
-    border: 1px solid var(--md3-button-outline-color, var(#{color.md3-var(outline)}));
+    color: var(--md-button-on);
+    border: 1px solid var(--md-button-outline-color, var(#{color.md3-var(outline)}));
 
     @include button-shadow(none);
     @include button-overlays(var(#{$state-var}));
@@ -229,12 +229,12 @@
 
     $color-var: color.md3-var($role);
 
-    --md3-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
-    --md3-button-on: var(--on-surface-color, currentColor);
-    --md3-button-outline-color: var(--border-color, transparent);
+    --md-button-bg: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --md-button-on: var(--on-surface-color, currentColor);
+    --md-button-outline-color: var(--border-color, transparent);
 
     background-color: transparent;
-    color: var(--md3-button-on);
+    color: var(--md-button-on);
     border: none;
     padding-inline: var(--padding-sm);
 

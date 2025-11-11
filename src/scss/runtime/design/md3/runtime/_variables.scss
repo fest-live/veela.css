@@ -5,8 +5,8 @@
 @property --font-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
 
 //
-@property --md3-state-layer-opacity    { syntax: "<number>" ; inherits: true; initial-value: 0; }
-@property --md3-elevation-level        { syntax: "<integer>"; inherits: true; initial-value: 0; }
+@property --md-state-layer-opacity    { syntax: "<number>" ; inherits: true; initial-value: 0; }
+@property --md-elevation-level        { syntax: "<integer>"; inherits: true; initial-value: 0; }
 @property --interaction-tone-direction { syntax: "<number>" ; inherits: true; initial-value: 1; }
 
 //
@@ -96,9 +96,9 @@
         --backdrop-blur-default: blur(12px) saturate(120%);
         --backdrop-blur-strong: blur(18px) saturate(140%);
 
-        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md3-shadow) 60%);
-        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md3-shadow) 62%);
-        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md3-shadow) 58%);
+        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md-shadow) 60%);
+        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md-shadow) 62%);
+        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md-shadow) 58%);
 
         //
         @media (max-width: 720px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
@@ -296,7 +296,7 @@
         // Inset shadows for depth
         --shadow-inset: inset 0 1px 0 color-mix(
             in oklab,
-            var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f))) 12%,
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f))) 12%,
             transparent
         );
         --shadow-inset-strong: inset 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -516,19 +516,21 @@
 
     //
     :root, :host, :scope {
-        @include md3.initial-properties();
-        @include md3.md3-export-density-vars();
-        @include md3.md3-export-layout-vars();
-        @include md3.md3-export-motion-vars();
-        @include md3.md3-export-typography-vars();
-        @include md3.md3-export-elevation-vars();
-        @include md3.md3-export-state-vars();
-
         :where(*) {
             --color-shade: 0.0;
             --color-tint: 0.0;
             --color-opacity: 0.0;
             --color-enable-blur: 0;
+        }
+
+        :where(&) {
+            @include md3.md3-export-density-vars();
+            @include md3.md3-export-layout-vars();
+            @include md3.md3-export-motion-vars();
+            @include md3.md3-export-typography-vars();
+            @include md3.md3-export-elevation-vars();
+            @include md3.md3-export-state-vars();
+            @include md3.initial-properties();
         }
     }
 

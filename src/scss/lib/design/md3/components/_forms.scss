@@ -109,6 +109,11 @@
     }
 
     &::-moz-focus-inner { border: 0; }
+
+    //
+    &:is(textarea) {
+        border-radius: var(--radius-md);
+    }
 }
 
 //
@@ -140,11 +145,11 @@
 @mixin option-style() {
     @include type.type("body-medium");
     @include type.text-wrap();
-    @include colorize.solid-colorize(&);
+    @include colorize.solid-colorize("&");
 
     //
     --_option-border-radius: 0px;
-    --_option-surface-current: var(--option-surface-color, var(--input-surface, var(--surface-color, transparent)));
+    --_option-surface-current: var(--option-surface-color, var(--input-surface, var(--surface-color, currentColor)));
     --_option-border-current: var(--option-border-color, color-mix(in oklch, var(--input-border-color, currentColor) 70%, transparent));
     --_option-text-current: var(--option-text-color, var(--input-text-color, var(--on-surface-color, currentColor)));
     --_option-border-block-start-size: 0px;
@@ -167,7 +172,8 @@
     border-color: var(--_option-border-current);
     border-radius: var(--_option-border-radius);
     background-color: var(--_option-surface-current);
-    color: var(--_option-text-current);
+    color: var(--_option-text-current, var(--select-color, var(--input-text-color, currentColor)));
+
     outline: none;
     transition:
         background-color var(--transition-normal, 160ms ease),
@@ -233,7 +239,7 @@
 
 //
 @mixin select-base() {
-    @include colorize.solid-colorize(&);
+    @include colorize.solid-colorize("&");
     @include type.type("body-medium");
     @include type.text-wrap();
 
@@ -249,17 +255,26 @@
     &:where(select) {
         @include button.button-base();
 
+        //
         display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
+        place-content: center;
+        place-items: center;
+        justify-content: space-between;
         gap: var(--select-gap, var(--input-gap, var(--space-sm)));
-        color: var(--select-color, var(--input-text-color, currentColor));
+        color: transparent;
         text-indent: 0;
         text-overflow: ellipsis;
         white-space: nowrap;
         inline-size: stretch;
         min-inline-size: fit-content;
         appearance: base-select;
+        padding-inline: var(--option-padding-inline);
+        padding-block: var(--option-padding-block);
+    }
+
+    //
+    & :where(span, a) {
+        color: var(--option-text-color, var(--input-text-color, currentColor));
     }
 
     //
@@ -268,12 +283,12 @@
         cursor: pointer;
         background: transparent;
         background-color: transparent;
+        color: transparent;
         padding: 0;
 
         border: none;
         outline: none;
         line-height: 0;
-        color: var(--select-color, var(--input-text-color, currentColor));
         z-index: 9999;
 
         visibility: visible;

@@ -102,7 +102,7 @@ $ui-ease-standard: md3-easing(standard) !default;
         outline: 2px solid oklch(
             from --c2-on-surface(
                 $tint,
-                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+                var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
             ) l c h / var(--outline-opacity)
         );
         outline-offset: 2px;

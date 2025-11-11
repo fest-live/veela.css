@@ -6,6 +6,48 @@
 @layer ux-colors {
 
     // =============================================================================
+    // INPUT STATE VARIANTS
+    // =============================================================================
+
+    :where(input, textarea, select) {
+        // Success state
+        &.state-success,
+        &.is-success,
+        &[data-state="success"] {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+
+        // Warning state
+        &.state-warning,
+        &.is-warning,
+        &[data-state="warning"] {
+            --current: var(--color-warning);
+            @include validation-warning;
+        }
+
+        // Error state
+        &.state-error,
+        &.is-error,
+        &.state-invalid,
+        &.is-invalid,
+        &[data-state="error"],
+        &[data-state="invalid"] {
+            --current: var(--color-error, var(--color-danger));
+            @include validation-error;
+        }
+
+        // Valid state
+        &.state-valid,
+        &.is-valid,
+        &[data-state="valid"] {
+            --current: var(--color-success);
+            @include validation-success;
+        }
+    }
+
+
+    // =============================================================================
     // COLOR VARIANT CLASSES
     // =============================================================================
 
@@ -183,67 +225,67 @@
         // Palette overrides -------------------------------------------------
         &.btn-primary,
         &[data-variant="primary"] {
-            --md3-button-bg: var(--md3-primary);
-            --md3-button-on: var(--md3-on-primary);
-            --md3-button-state-color: var(--md3-primary);
-            --md3-button-outline-color: var(--md3-primary);
+            --md-button-bg: var(--md-primary);
+            --md-button-on: var(--md-on-primary);
+            --md-button-state-color: var(--md-primary);
+            --md-button-outline-color: var(--md-primary);
         }
 
         &.btn-secondary,
         &[data-variant="secondary"] {
-            --md3-button-bg: var(--md3-secondary);
-            --md3-button-on: var(--md3-on-secondary);
-            --md3-button-state-color: var(--md3-secondary);
-            --md3-button-outline-color: var(--md3-secondary);
+            --md-button-bg: var(--md-secondary);
+            --md-button-on: var(--md-on-secondary);
+            --md-button-state-color: var(--md-secondary);
+            --md-button-outline-color: var(--md-secondary);
         }
 
         &.btn-tertiary,
         &.btn-accent,
         &[data-variant="tertiary"] {
-            --md3-button-bg: var(--md3-tertiary);
-            --md3-button-on: var(--md3-on-tertiary);
-            --md3-button-state-color: var(--md3-tertiary);
-            --md3-button-outline-color: var(--md3-tertiary);
+            --md-button-bg: var(--md-tertiary);
+            --md-button-on: var(--md-on-tertiary);
+            --md-button-state-color: var(--md-tertiary);
+            --md-button-outline-color: var(--md-tertiary);
         }
 
         &.btn-surface,
         &[data-variant="surface"] {
-            --md3-button-bg: var(--md3-surface);
-            --md3-button-on: var(--md3-on-surface);
-            --md3-button-state-color: var(--md3-primary);
-            --md3-button-outline-color: var(--md3-outline);
+            --md-button-bg: var(--md-surface);
+            --md-button-on: var(--md-on-surface);
+            --md-button-state-color: var(--md-primary);
+            --md-button-outline-color: var(--md-outline);
         }
 
         &.btn-success,
         &:is(.save, .submit, .confirm) {
-            --md3-button-bg: var(--color-success);
-            --md3-button-on: var(--md3-on-surface);
-            --md3-button-state-color: var(--color-success);
-            --md3-button-outline-color: var(--color-success);
+            --md-button-bg: var(--color-success);
+            --md-button-on: var(--md-on-surface);
+            --md-button-state-color: var(--color-success);
+            --md-button-outline-color: var(--color-success);
         }
 
         &.btn-danger,
         &:is(.cancel, .delete, .remove) {
-            --md3-button-bg: var(--color-danger);
-            --md3-button-on: var(--md3-on-surface);
-            --md3-button-state-color: var(--color-danger);
-            --md3-button-outline-color: var(--color-danger);
+            --md-button-bg: var(--color-danger);
+            --md-button-on: var(--md-on-surface);
+            --md-button-state-color: var(--color-danger);
+            --md-button-outline-color: var(--color-danger);
         }
 
         &.btn-warning,
         &:is(.warning) {
-            --md3-button-bg: var(--color-warning);
-            --md3-button-on: var(--md3-on-surface);
-            --md3-button-state-color: var(--color-warning);
-            --md3-button-outline-color: var(--color-warning);
+            --md-button-bg: var(--color-warning);
+            --md-button-on: var(--md-on-surface);
+            --md-button-state-color: var(--color-warning);
+            --md-button-outline-color: var(--color-warning);
         }
 
         &.btn-info,
         &:is(.info) {
-            --md3-button-bg: var(--color-info);
-            --md3-button-on: var(--md3-on-surface);
-            --md3-button-state-color: var(--color-info);
-            --md3-button-outline-color: var(--color-info);
+            --md-button-bg: var(--color-info);
+            --md-button-on: var(--md-on-surface);
+            --md-button-state-color: var(--color-info);
+            --md-button-outline-color: var(--color-info);
         }
 
         // Variant mixins ----------------------------------------------------
@@ -264,48 +306,48 @@
 
         &.btn-tonal.btn-primary,
         &.btn-tonal-primary {
-            --md3-button-bg: var(--md3-primary-container);
-            --md3-button-on: var(--md3-on-primary-container);
-            --md3-button-state-color: var(--md3-primary);
+            --md-button-bg: var(--md-primary-container);
+            --md-button-on: var(--md-on-primary-container);
+            --md-button-state-color: var(--md-primary);
             @include button-tonal(primary-container, primary, false);
         }
 
         &.btn-tonal.btn-secondary,
         &.btn-tonal-secondary {
-            --md3-button-bg: var(--md3-secondary-container);
-            --md3-button-on: var(--md3-on-secondary-container);
-            --md3-button-state-color: var(--md3-secondary);
+            --md-button-bg: var(--md-secondary-container);
+            --md-button-on: var(--md-on-secondary-container);
+            --md-button-state-color: var(--md-secondary);
             @include button-tonal(secondary-container, secondary, false);
         }
 
         &.btn-tonal.btn-tertiary,
         &.btn-tonal-tertiary {
-            --md3-button-bg: var(--md3-tertiary-container);
-            --md3-button-on: var(--md3-on-tertiary-container);
-            --md3-button-state-color: var(--md3-tertiary);
+            --md-button-bg: var(--md-tertiary-container);
+            --md-button-on: var(--md-on-tertiary-container);
+            --md-button-state-color: var(--md-tertiary);
             @include button-tonal(tertiary-container, tertiary, false);
         }
 
         &.btn-outlined,
         &.outlined {
-            --md3-button-on: var(--md3-button-on, var(--md3-primary));
-            --md3-button-outline-color: var(--md3-button-outline-color, var(--md3-primary));
-            --md3-button-state-color: var(--md3-button-state-color, var(--md3-primary));
+            --md-button-on: var(--md-button-on, var(--md-primary));
+            --md-button-outline-color: var(--md-button-outline-color, var(--md-primary));
+            --md-button-state-color: var(--md-button-state-color, var(--md-primary));
             @include button-outlined(primary, false);
         }
 
         &.btn-outlined.btn-secondary {
-            --md3-button-on: var(--md3-secondary);
-            --md3-button-outline-color: var(--md3-secondary);
-            --md3-button-state-color: var(--md3-secondary);
+            --md-button-on: var(--md-secondary);
+            --md-button-outline-color: var(--md-secondary);
+            --md-button-state-color: var(--md-secondary);
             @include button-outlined(primary, false);
         }
 
         &.btn-outlined.btn-tertiary,
         &.btn-outlined.btn-accent {
-            --md3-button-on: var(--md3-tertiary);
-            --md3-button-outline-color: var(--md3-tertiary);
-            --md3-button-state-color: var(--md3-tertiary);
+            --md-button-on: var(--md-tertiary);
+            --md-button-outline-color: var(--md-tertiary);
+            --md-button-state-color: var(--md-tertiary);
             @include button-outlined(primary, false);
         }
 
@@ -313,21 +355,21 @@
         &.btn-link,
         &.btn-ghost,
         &.text {
-            --md3-button-on: var(--md3-button-on, var(--md3-primary));
-            --md3-button-state-color: var(--md3-button-state-color, var(--md3-primary));
+            --md-button-on: var(--md-button-on, var(--md-primary));
+            --md-button-state-color: var(--md-button-state-color, var(--md-primary));
             @include button-text(primary, false);
         }
 
         &.btn-text.btn-secondary {
-            --md3-button-on: var(--md3-secondary);
-            --md3-button-state-color: var(--md3-secondary);
+            --md-button-on: var(--md-secondary);
+            --md-button-state-color: var(--md-secondary);
             @include button-text(primary, false);
         }
 
         &.btn-text.btn-tertiary,
         &.btn-text.btn-accent {
-            --md3-button-on: var(--md3-tertiary);
-            --md3-button-state-color: var(--md3-tertiary);
+            --md-button-on: var(--md-tertiary);
+            --md-button-state-color: var(--md-tertiary);
             @include button-text(primary, false);
         }
 

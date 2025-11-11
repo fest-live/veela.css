@@ -205,13 +205,13 @@ $md3-color-properties: (
         --surface-color: oklch(
             from --c2-surface(
                 var(--color-shade),
-                var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
                 #{$scheme-id}
             ) l c h / var(--color-opacity)
         );
         --on-surface-color: --c2-on-surface(
             var(--color-tint),
-            var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+            var(--current, var(--color-surface, var(--md-surface, #ffffff))),
             #{$scheme-id}
         );
         --on-surface: var(--on-surface-color, currentColor); // alias
@@ -219,7 +219,7 @@ $md3-color-properties: (
         --border-color: oklch(
             from --c2-surface(
                 calc(var(--color-shade) + var(--color-tint) + 0.05),
-                var(--current, var(--color-surface, var(--md3-surface, #ffffff))),
+                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
                 #{$scheme-id}
             ) l c h / 0.1
         );
@@ -260,7 +260,7 @@ $md3-color-properties: (
 
 //
 @mixin text-color($tint: var(--text-tint-primary)) {
-    color: --c2-on-surface($tint, var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f))));
+    color: --c2-on-surface($tint, var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f))));
 }
 
 //
@@ -268,7 +268,7 @@ $md3-color-properties: (
     border-color: oklch(
         from --c2-on-surface(
             $tint,
-            var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
         ) l c h / $opacity
     );
 }

@@ -15,13 +15,13 @@
     initial-value: 1;
 }
 
-@property --md3-state-layer-opacity {
+@property --md-state-layer-opacity {
     syntax: "<number>";
     inherits: true;
     initial-value: 0;
 }
 
-@property --md3-elevation-level {
+@property --md-elevation-level {
     syntax: "<integer>";
     inherits: true;
     initial-value: 0;
@@ -63,9 +63,9 @@
         --backdrop-blur-default: blur(12px) saturate(120%);
         --backdrop-blur-strong: blur(18px) saturate(140%);
 
-        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md3-shadow) 60%);
-        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md3-shadow) 62%);
-        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md3-shadow) 58%);
+        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md-shadow) 60%);
+        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md-shadow) 62%);
+        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md-shadow) 58%);
 
         //
         @media (max-width: 720px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }

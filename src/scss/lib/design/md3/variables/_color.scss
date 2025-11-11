@@ -199,7 +199,7 @@ $md3-state-opacity: (
 //
 // Variable function
 @function md3-var($role) {
-    @return "--md3-#{$role}";
+    @return "--md-#{$role}";
 }
 
 //
@@ -247,8 +247,8 @@ $md3-state-opacity: (
     }
 
     @if $elevation != null {
-        --md3-elevation-level: #{$elevation};
-        box-shadow: var(--md3-elevation-#{$elevation}, #{md3-elevation($elevation)});
+        --md-elevation-level: #{$elevation};
+        box-shadow: var(--md-elevation-#{$elevation}, #{md3-elevation($elevation)});
     }
 }
 
@@ -263,24 +263,24 @@ $md3-state-opacity: (
         #{md3-var($role)}: #{$value};
     }
 
-    --md3-shadow: #{map.get($scheme, shadow)};
-    --md3-scrim: #{map.get($scheme, scrim)};
+    --md-shadow: #{map.get($scheme, shadow)};
+    --md-scrim: #{map.get($scheme, scrim)};
 
-    --color-primary: var(--md3-primary);
-    --color-secondary: var(--md3-secondary);
-    --color-tertiary: var(--md3-tertiary);
-    --color-accent: var(--md3-tertiary);
-    --color-surface: var(--md3-surface);
-    --color-surface-variant: var(--md3-surface-variant);
-    --color-outline: var(--md3-outline);
-    --color-outline-variant: var(--md3-outline-variant);
-    --color-on-surface: var(--md3-on-surface);
-    --color-on-background: var(--md3-on-background);
-    --color-background: var(--md3-background);
-    --color-inverse-surface: var(--md3-inverse-surface);
-    --color-inverse-on-surface: var(--md3-inverse-on-surface);
-    --surface-tint-color: var(--md3-surface-tint);
-    --color-error: var(--md3-error);
+    --color-primary: var(--md-primary);
+    --color-secondary: var(--md-secondary);
+    --color-tertiary: var(--md-tertiary);
+    --color-accent: var(--md-tertiary);
+    --color-surface: var(--md-surface);
+    --color-surface-variant: var(--md-surface-variant);
+    --color-outline: var(--md-outline);
+    --color-outline-variant: var(--md-outline-variant);
+    --color-on-surface: var(--md-on-surface);
+    --color-on-background: var(--md-on-background);
+    --color-background: var(--md-background);
+    --color-inverse-surface: var(--md-inverse-surface);
+    --color-inverse-on-surface: var(--md-inverse-on-surface);
+    --surface-tint-color: var(--md-surface-tint);
+    --color-error: var(--md-error);
     --color-danger: var(--color-error);
     --color-success: oklch(0.72 0.13 150 / 1);
     --color-warning: oklch(0.82 0.12 80 / 1);

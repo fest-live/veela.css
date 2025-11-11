@@ -34,6 +34,7 @@
 
     //
     --input-surface: color-mix(in oklch, var(--surface-color, currentColor) 90%, var(--on-surface-color, currentColor));  //var(#{color.md3-var(surface-container-high)}, #{color.md3-color(surface-container-high)});
+    --input-surface-color: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 90%, var(--on-surface-color, currentColor)));
     --input-surface-hover: color-mix(in oklch, var(--input-surface) 90%, var(--input-border-focus) 10%);
     --input-surface-focus: color-mix(in oklch, var(--input-surface) 88%, var(--input-border-focus) 12%);
     --input-surface-error: color-mix(in oklch, var(--input-surface) 88%, var(--input-border-error) 12%);
@@ -42,8 +43,8 @@
     --input-surface-autofill: color-mix(in oklch, var(--input-surface) 94%, transparent 6%);
 
     //
-    --input-shadow: 0 1px 2px color-mix(in oklch, var(--md3-shadow, #000) 12%, transparent);
-    --input-shadow-hover: 0 1px 3px color-mix(in oklch, var(--md3-shadow, #000) 18%, transparent);
+    --input-shadow: 0 1px 2px color-mix(in oklch, var(--md-shadow, #000) 12%, transparent);
+    --input-shadow-hover: 0 1px 3px color-mix(in oklch, var(--md-shadow, #000) 18%, transparent);
     --input-shadow-focus: 0 0 0 1px color-mix(in oklch, var(--input-border-focus) 32%, transparent), 0 0 0 4px color-mix(in oklch, var(--input-border-focus) 12%, transparent);
     --input-shadow-error: 0 0 0 1px color-mix(in oklch, var(--input-border-error) 32%, transparent), 0 0 0 4px color-mix(in oklch, var(--input-border-error) 12%, transparent);
 
@@ -78,8 +79,9 @@
     //
     --select-gap: var(--gap-sm);
     --select-indicator-size: var(--icon-size-sm, 1.125rem);
-    --select-indicator-color: color-mix(in oklch, var(--input-icon-color) 88%, transparent);
-    --select-color: var(--input-text-color);
+    --select-indicator-color: var(--option-text-color, var(--input-text-color, currentColor));
+    --select-text-color: var(--option-text-color, var(--input-text-color, currentColor));
+    --select-color: var(--option-color, var(--input-color, currentColor));
 
     //
     --option-border-inline-size: 1px;
@@ -144,7 +146,7 @@
         var(
             --c2-on-surface(
                 var(--scrollbar-tint),
-                var(--current, var(--color-on-surface, var(--md3-on-surface, #1c1b1f)))
+                var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
             ),
             #{color.md3-var(outline-variant)}
         ) l c h / var(--border-opacity-dashed)

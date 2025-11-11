@@ -1,7 +1,4 @@
-@use "./colors/veela-color-c2-runtime" as *;
-@use "./colors/material-color-c2-adapter" as *;
-
-//
+@use "./runtime/material-color" as *;
 @use "./runtime/variables" as *;
 @use "./runtime/wavy-runtime" as *;
 

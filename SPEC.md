@@ -92,6 +92,12 @@ Currently we used native CSS custom functions (and own implementations for veela
 - `role` - the role of the color, default is null
     - MD3 specific, such as `primary`, `secondary`, `tertiary`, `error`, `surface`, `on-surface`, etc.
     - null - no role, default to current color
+- `scope` - propagation mode, default is `"component"`
+    - `"component"` - applies the palette to the selector, supporting descendant form controls and global helpers (previous `solid-colorize` behaviour)
+    - `"selector"` - limits the palette to the selector itself without propagating to descendants (previous `solid-colorize-selector-only` behaviour)
+- `propagate` - optional boolean override for descendant propagation (defaults to the value implied by `scope`)
+- `forms-background` - controls whether interactive descendants receive the blended background colour (defaults to the value of `propagate`)
+- `global-targets` - toggles the additional global helpers (`::picker`, `ui-icon`, inline text tags) (defaults to the value of `propagate`)
 
 ### Example
 

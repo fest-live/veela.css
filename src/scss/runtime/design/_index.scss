@@ -1,2 +1,18 @@
-// you can enable MD3 design system
-@use "./md3/index" as *;
+@use "./runtime/properties" as *;
+@use "./runtime/wavy-runtime" as *;
+@use "./runtime/variables" as *;
+@use "./runtime/material-color" as *;
+
+//
+@use "./effects/animations" as *;
+
+//
+@use "./theme/variants" as *;
+@use "./theme/states" as *;
+
+//
+@use "./shapes/shapes" as *;
+
+//
+@use "./layout/index" as *;
+@use "./ui/essentials" as *;

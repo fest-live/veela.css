@@ -165,6 +165,7 @@ $md3-color-properties: (
                 @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
             }
 
+            //
             @if $forms-background {
                 background-color: color-mix(
                     in oklch,
@@ -173,6 +174,7 @@ $md3-color-properties: (
                 );
             }
 
+            //
             transition:
                 border-color var(--transition-normal),
                 background var(--transition-normal),
@@ -180,9 +182,9 @@ $md3-color-properties: (
                 transform var(--transition-fast);
 
             //
-            &:hover { --color-shade: calc(#{$base-shade} + var(--hover-lift, 0.06)); }
-            &:active { --color-shade: calc(#{$base-shade} + var(--active-lift, 0.08)); }
-            &:is(:focus, :focus-visible) { --color-shade: calc(#{$base-shade} + var(--focus-lift, 0.09)); }
+            &:hover { --color-shade: calc(#{$base-shade} + var(--hover-lift, 0.04)); }
+            &:active { --color-shade: calc(#{$base-shade} + var(--active-lift, 0.06)); }
+            &:is(:focus, :focus-visible) { --color-shade: calc(#{$base-shade} + var(--focus-lift, 0.02)); }
 
             //
             &::placeholder {
@@ -237,120 +239,6 @@ $md3-color-properties: (
         }
     }
 }
-
-
-
-
-//
-@mixin overlay-colorize($selector: "&", $options: ("shade": 0.0, "tint": 0.0, "opacity": 0.04, "enable-blur": true, "scheme-id": 2)) {
-    $base-shade: _option-or($options, "shade", 0.0);
-    $base-tint: _option-or($options, "tint", 0.0);
-    $base-opacity: _option-or($options, "opacity", 0.04);
-    $enable-blur: _option-or($options, "enable-blur", true);
-    $scheme-id: _option-or($options, "scheme-id", 2);
-
-    #{$selector} {
-        --color-shade: #{$base-shade};
-        --color-tint: #{$base-tint};
-        --color-opacity: #{$base-opacity};
-        --color-enable-blur: #{$enable-blur};
-    }
-
-    #{$selector} {
-        @if $enable-blur {
-            backdrop-filter: blur(16px);
-        }
-
-        --surface-color: oklch(
-            from --c2-surface(
-                var(--color-shade, 0),
-                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-                #{$scheme-id}
-            ) l c h / var(--color-opacity)
-        );
-        --on-surface-color: --c2-on-surface(
-            var(--color-tint, 0),
-            var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-            #{$scheme-id}
-        );
-        --on-surface: var(--on-surface-color, currentColor); // alias
-        --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
-        --border-color: oklch(
-            from --c2-surface(
-                calc(var(--color-shade, 0) + var(--color-tint, 0) + 0.05),
-                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-                #{$scheme-id}
-            ) l c h / 0.1
-        );
-
-        @include _apply-surface-palette("&", var(--on-surface-color));
-
-        &, &:is(:hover, :active, :focus-visible) {
-            border: solid 0.5px var(--border-color);
-        }
-    }
-
-    #{$selector}:focus { --color-opacity: calc(#{$base-opacity} + 0.05); }
-    #{$selector}:hover { --color-opacity: calc(#{$base-opacity} + 0.04); }
-}
-
-
-//
-@mixin overlay-colorize-selector-only($selector: "&", $options: ("shade": 0.0, "tint": 0.0, "opacity": 0.04, "enable-blur": true, "scheme-id": 2)) {
-    $base-shade: _option-or($options, "shade", 0.0);
-    $base-tint: _option-or($options, "tint", 0.0);
-    $base-opacity: _option-or($options, "opacity", 0.04);
-    $enable-blur: _option-or($options, "enable-blur", true);
-    $scheme-id: _option-or($options, "scheme-id", 2);
-
-    #{$selector} {
-        --color-shade: #{$base-shade};
-        --color-tint: #{$base-tint};
-        --color-opacity: #{$base-opacity};
-        --color-enable-blur: #{$enable-blur};
-    }
-
-    #{$selector} {
-        @if $enable-blur {
-            backdrop-filter: blur(16px);
-        }
-
-        --surface-color: oklch(
-            from --c2-surface(
-                var(--color-shade, 0),
-                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-                #{$scheme-id}
-            ) l c h / var(--color-opacity)
-        );
-        --on-surface-color: --c2-on-surface(
-            var(--color-tint, 0),
-            var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-            #{$scheme-id}
-        );
-        --on-surface: var(--on-surface-color, currentColor); // alias
-        --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
-        --border-color: oklch(
-            from --c2-surface(
-                calc(var(--color-shade, 0) + var(--color-tint, 0) + 0.05),
-                var(--current, var(--color-surface, var(--md-surface, #ffffff))),
-                #{$scheme-id}
-            ) l c h / 0.1
-        );
-
-        @include _apply-surface-palette("&", var(--on-surface-color));
-
-        &, &:is(:hover, :active, :focus-visible) {
-            border: solid 0.5px var(--border-color);
-        }
-    }
-
-    #{$selector}:focus { --color-opacity: calc(#{$base-opacity} + 0.05); }
-    #{$selector}:hover { --color-opacity: calc(#{$base-opacity} + 0.04); }
-}
-
-
-
-
 
 
 

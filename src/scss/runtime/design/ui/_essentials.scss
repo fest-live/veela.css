@@ -59,10 +59,24 @@
 
     //
     .ctx-menu {
+        //
+        &, * {
+            visibility: visible;
+            content-visibility: visible;
+            max-inline-size: stretch;
+            inline-size: fit-content;
+        }
+
+        //
         & {
+            @include solid-colorize("&");
+
+            --color-shade: 0.04;
+
             position: fixed;
             min-inline-size: 100px;
             inline-size: fit-content;
+            max-inline-size: min(200px, 100%);
             block-size: fit-content;
             z-index: calc(99999 + var(--z-index, 0)) !important;
             opacity: var(--opacity, 1);
@@ -76,19 +90,19 @@
         }
 
         //
-        &, * {
-            visibility: visible;
-            content-visibility: visible;
-        }
-
-        //
         & > * {
+            @include solid-colorize("&");
+
+            //
             transition-behavior: allow-discrete;
-            transition: --background-tone-shift 0.2s ease-in-out;
             pointer-events: auto;
             place-content: center;
             place-items: center;
             cursor: pointer;
+            inline-size: stretch;
+
+            //
+            --color-shade: 0.04;
 
             /* */
             &:not(.ctx-menu-separator) {

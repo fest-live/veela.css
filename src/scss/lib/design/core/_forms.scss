@@ -489,7 +489,7 @@
     }
 
     &::before {
-        --icon-color: inherit;
+        --icon-color: currentColor;
         background-color: var(--icon-color, var(--_checkbox-icon-current, var(--on-surface-color, currentColor)));
         content: "";
         display: block;

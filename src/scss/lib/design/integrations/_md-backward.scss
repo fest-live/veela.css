@@ -256,11 +256,11 @@ $border-strong: md3-color(outline);
             --tertiary: var(--md-sys-color-tertiary, var(--tertiary-fallback, var(--secondary)));
             --trinary: var(--tertiary);
             --accent: var(--md-sys-color-tertiary, var(--accent-fallback, var(--tertiary)));
-            --current: var(--primary, inherit);
+            --current: var(--primary, transparent);
 
-            --color-primary: var(--current, var(--primary, inherit));
-            --color-secondary: var(--secondary, inherit);
-            --color-tertiary: var(--tertiary, inherit);
+            --color-primary: var(--current, var(--primary, transparent));
+            --color-secondary: var(--secondary, transparent);
+            --color-tertiary: var(--tertiary, transparent);
 
             --color-surface: var(--md-sys-color-surface, var(--surface-fallback));
             --color-surface-variant: var(--md-sys-color-surface-variant, var(--surface-variant-fallback, var(--surface-fallback)));

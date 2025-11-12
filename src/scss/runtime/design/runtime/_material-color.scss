@@ -284,7 +284,7 @@
 
     //
     :host {
-        --current: var(--primary, inherit);
+        --current: var(--primary, transparent);
         color-scheme: inherit;
     }
 

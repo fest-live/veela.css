@@ -389,9 +389,9 @@
         --transition-slow: 200ms ease;
 
         // Interactive states
-        --hover-lift: calc(0.06 * var(--interaction-tone-direction, 1));
-        --active-lift: calc(0.08 * var(--interaction-tone-direction, 1));
-        --focus-lift: calc(0.09 * var(--interaction-tone-direction, 1));
+        --hover-lift: calc(0.04 * var(--interaction-tone-direction, 1));
+        --active-lift: calc(0.06 * var(--interaction-tone-direction, 1));
+        --focus-lift: calc(0.02 * var(--interaction-tone-direction, 1));
     }
 
     // Establish a default inline-size container so container queries work broadly
@@ -502,16 +502,6 @@
         --color-warning: #ffc107;
         --color-danger: #dc3545;
         --color-info: #17a2b8;
-    }
-
-    :host {
-        --color-primary: inherit;
-        --color-secondary: inherit;
-        --color-accent: inherit;
-        --color-success: inherit;
-        --color-warning: inherit;
-        --color-danger: inherit;
-        --color-info: inherit;
     }
 
     //

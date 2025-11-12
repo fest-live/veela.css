@@ -151,7 +151,7 @@ $material-mode-suffix: (
     --interaction-tone-direction: 1;
     --hover-lift: calc(0.04 * var(--interaction-tone-direction, 1));
     --active-lift: calc(0.05 * var(--interaction-tone-direction, 1));
-    --focus-lift: calc(0.06 * var(--interaction-tone-direction, 1));
+    --focus-lift: calc(0.02 * var(--interaction-tone-direction, 1));
     --selection-opacity: 0.1;
 }
 

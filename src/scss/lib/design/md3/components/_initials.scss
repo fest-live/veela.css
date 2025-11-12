@@ -64,9 +64,9 @@
     --input-helper-spacing: var(--space-xs, 0.5rem);
     --input-label-color: color-mix(in oklch, var(--input-text-color) 92%, transparent);
     --input-min-block-size: 2.75rem;
-    --input-min-inline-size: 18ch;
-    --input-max-inline-size: stretch;
-    --input-inline-size: stretch;
+    --input-min-inline-size: 0px;
+    --input-max-inline-size: 100%;
+    --input-inline-size: fit-content;
     --input-line-height: 1.4;
     --input-font-weight: inherit;
     --input-letter-spacing: 0.01em;

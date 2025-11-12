@@ -21,9 +21,9 @@
     //display: inline-flex;
     align-items: center;
     gap: var(--input-gap, var(--space-sm));
-    inline-size: var(--input-inline-size, stretch);
-    min-inline-size: var(--input-min-inline-size, fit-content);
-    max-inline-size: var(--input-max-inline-size, stretch);
+    inline-size: var(--input-inline-size, fit-content);
+    min-inline-size: var(--input-min-inline-size, 0px);
+    max-inline-size: var(--input-max-inline-size, 100%);
     block-size: fit-content;
     min-block-size: var(--input-min-block-size, 2.75rem);
     box-sizing: border-box;
@@ -52,7 +52,10 @@
         color var(--transition-normal, 160ms ease),
         box-shadow var(--transition-normal, 160ms ease),
         transform var(--transition-fast, 120ms ease);
+
+    //
     z-index: 0;
+    display: inline-block;
 
     //
     & {
@@ -120,6 +123,7 @@
     //
     &:is(textarea) {
         border-radius: var(--radius-md);
+        cursor: text;
     }
 
     //
@@ -127,6 +131,7 @@
         @include button.button-filled;
 
         & {
+            display: inline-flex;
             aspect-ratio: 1 / 1;
         }
     }

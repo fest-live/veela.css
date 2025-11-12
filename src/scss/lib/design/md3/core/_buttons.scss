@@ -54,6 +54,7 @@
     user-select: none;
 
     //
+    min-inline-size: 0px;
     block-size: fit-content;
     inline-size: fit-content;
     max-block-size: stretch;
@@ -76,6 +77,11 @@
         overflow: hidden;
         white-space: nowrap;
         flex-wrap: nowrap;
+    }
+
+    //
+    &:is(input) {
+        display: inline-block;
     }
 }
 

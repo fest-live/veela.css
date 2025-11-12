@@ -147,6 +147,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
             justify-content: space-between;
             justify-items: stretch;
             display: inline-block;
+            cursor: text;
         }
 
         &:is(input[type="datetime-local"]) {

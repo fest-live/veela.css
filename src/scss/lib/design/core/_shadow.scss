@@ -53,36 +53,307 @@ $md3-elevation-levels: (
 }
 
 //
+// Shadow registries & defaults
+$md3-shadow-aliases: (
+    xs: (level: 0),
+    sm: (level: 1),
+    md: (level: 2),
+    lg: (level: 3),
+    xl: (level: 4),
+    "2xl": (level: 5),
+) !default;
+
+$md3-shadow-static-props: (
+    inset: inset 0 1px 0 color-mix(
+        in oklab,
+        var(
+            --md-shadow,
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
+        ) 12%,
+        transparent
+    ),
+    inset-strong: inset 0 2px 6px color-mix(in oklab, var(--md-shadow, #000) 18%, transparent),
+) !default;
+
+$md3-shadow-glow-map: (
+    primary: 0 0 0 1px color-mix(in oklch, #{md3-color(primary)} 24%, transparent),
+    secondary: 0 0 0 1px color-mix(in oklch, #{md3-color(secondary)} 24%, transparent),
+    accent: 0 0 0 1px color-mix(in oklch, #{md3-color(tertiary)} 28%, transparent),
+) !default;
+
+$dynamic-shadow-defaults: (
+    parallax-ref: 600px,
+    parallax-k: 0.01,
+    az-base: 225deg,
+    az-span: 12deg,
+    alt-base: 55deg,
+    alt-span: 6deg,
+    soft-ang: 18deg,
+    umbra-density: 0.32,
+    penumbra-density: 0.18,
+    z-offset: 2,
+    elevation-scale: 2,
+    important: false,
+) !default;
+
+//
+// Shadow helpers
+@function _shadow-remove-prefix($value, $prefix) {
+    $normalized-value: string.to-lower-case(string.unquote("#{$value}"));
+    $normalized-prefix: string.to-lower-case($prefix);
+    $prefix-length: string.length($normalized-prefix);
+
+    @if $prefix-length > 0 and string.slice($normalized-value, 1, $prefix-length) == $normalized-prefix {
+        @return string.slice($normalized-value, $prefix-length + 1);
+    }
+
+    @return $normalized-value;
+}
+
+@function _shadow-token-key($token) {
+    $key: string.to-lower-case(string.unquote("#{$token}"));
+    $key: _shadow-remove-prefix($key, "--");
+    $key: _shadow-remove-prefix($key, "shadow-");
+    @return $key;
+}
+
+@function md3-shadow-fallback($token, $default: null) {
+    $key: _shadow-token-key($token);
+
+    @if map.has-key($md3-shadow-aliases, $key) {
+        $entry: map.get($md3-shadow-aliases, $key);
+
+        @if map.has-key($entry, fallback) {
+            $fallback: map.get($entry, fallback);
+
+            @if $fallback != null {
+                @return $fallback;
+            }
+        }
+
+        @if map.has-key($entry, level) {
+            @return md3-elevation(map.get($entry, level));
+        }
+
+        @if map.has-key($entry, value) {
+            @return map.get($entry, value);
+        }
+    }
+
+    @if map.has-key($md3-shadow-static-props, $key) {
+        @return map.get($md3-shadow-static-props, $key);
+    }
+
+    $glow-key: _shadow-remove-prefix($key, "glow-");
+
+    @if $glow-key != $key and map.has-key($md3-shadow-glow-map, $glow-key) {
+        @return map.get($md3-shadow-glow-map, $glow-key);
+    }
+
+    @if map.has-key($md3-shadow-glow-map, $key) {
+        @return map.get($md3-shadow-glow-map, $key);
+    }
+
+    @if type-of($token) == number {
+        @return md3-elevation($token);
+    }
+
+    @if $default != null {
+        @return $default;
+    }
+
+    @return null;
+}
+
+@function md3-shadow($token, $fallback: null) {
+    $key: _shadow-token-key($token);
+
+    @if map.has-key($md3-shadow-aliases, $key) {
+        $entry: map.get($md3-shadow-aliases, $key);
+
+        @if map.has-key($entry, value) and map.get($entry, value) != null {
+            @return map.get($entry, value);
+        }
+
+        @if map.has-key($entry, level) {
+            @return md3-elevation(map.get($entry, level));
+        }
+    }
+
+    @if map.has-key($md3-shadow-static-props, $key) {
+        @return map.get($md3-shadow-static-props, $key);
+    }
+
+    $glow-key: _shadow-remove-prefix($key, "glow-");
+
+    @if $glow-key != $key and map.has-key($md3-shadow-glow-map, $glow-key) {
+        @return map.get($md3-shadow-glow-map, $glow-key);
+    }
+
+    @if map.has-key($md3-shadow-glow-map, $key) {
+        @return map.get($md3-shadow-glow-map, $key);
+    }
+
+    @if type-of($token) == number {
+        @return md3-elevation($token);
+    }
+
+    @if $fallback != null {
+        @return $fallback;
+    }
+
+    @error "Unknown shadow token `#{$token}`. Available aliases: #{map.keys($md3-shadow-aliases)}; statics: #{map.keys($md3-shadow-static-props)}; glows: #{map.keys($md3-shadow-glow-map)}";
+}
+
+@function md3-shadow-var($token, $fallback: null) {
+    $key: _shadow-token-key($token);
+    $fallback-value: if($fallback == null, md3-shadow-fallback($token), $fallback);
+
+    @if $fallback-value == null {
+        $fallback-value: md3-shadow($token);
+    }
+
+    @return string.unquote("var(--shadow-#{$key}, #{$fallback-value})");
+}
+
+@function _shadow-config($overrides) {
+    $overrides-map: if(type-of($overrides) == "map", $overrides, ());
+    @return map.merge($dynamic-shadow-defaults, $overrides-map);
+}
+
+@function _shadow-config-var($config, $name) {
+    $value: map.get($config, $name);
+
+    @if $value == null {
+        @return string.unquote("var(--#{$name})");
+    }
+
+    @return string.unquote("var(--#{$name}, #{$value})");
+}
+
+//
 // Export elevation vars mixin
-@mixin md3-export-elevation-vars() {
+@mixin md3-export-elevation-vars(
+    $aliases: $md3-shadow-aliases,
+    $static-props: $md3-shadow-static-props,
+    $glows: $md3-shadow-glow-map
+) {
     @each $level, $layers in $md3-elevation-levels {
         --md-elevation-#{$level}: #{_shadow-to-string($layers)};
     }
 
-    --shadow-sm: var(--md-elevation-1);
-    --shadow-md: var(--md-elevation-2);
-    --shadow-lg: var(--md-elevation-3);
-    --shadow-xl: var(--md-elevation-4);
-    --shadow-2xl: var(--md-elevation-5);
-    --shadow-inset: inset 0 1px 0 color-mix(in oklab, var(--md-shadow, #000) 12%, transparent);
-    --shadow-inset-strong: inset 0 2px 6px color-mix(in oklab, var(--md-shadow, #000) 18%, transparent);
+    @each $alias, $entry in $aliases {
+        $value: null;
+
+        @if map.has-key($entry, value) {
+            $value: map.get($entry, value);
+        }
+
+        @if $value == null and map.has-key($entry, level) {
+            $fallback: md3-shadow-fallback($alias);
+            $value: string.unquote("var(--md-elevation-#{map.get($entry, level)}, #{$fallback})");
+        }
+
+        @if $value != null {
+            --shadow-#{$alias}: #{$value};
+        }
+    }
+
+    @each $name, $value in $static-props {
+        --shadow-#{$name}: #{$value};
+    }
+
+    @if $glows != null {
+        @each $name, $value in $glows {
+            --shadow-glow-#{$name}: #{$value};
+        }
+    }
+}
+
+//
+// Shadow application mixins
+@mixin md3-shadow-apply($token, $property: box-shadow, $important: false) {
+    $value: md3-shadow-var($token);
+
+    #{$property}: #{$value}#{if($important, " !important", "")};
+}
+
+@mixin md3-shadow-layer($token) {
+    @include md3-shadow-apply($token);
 }
 
 //
 // Shadow variables
-$shadow-sm: md3-elevation(1);
-$shadow-md: md3-elevation(2);
-$shadow-lg: md3-elevation(3);
-$shadow-xl: md3-elevation(4);
-$shadow-2xl: md3-elevation(5);
+$shadow-xs: md3-shadow(xs);
+$shadow-sm: md3-shadow(sm);
+$shadow-md: md3-shadow(md);
+$shadow-lg: md3-shadow(lg);
+$shadow-xl: md3-shadow(xl);
+$shadow-2xl: md3-shadow("2xl");
 
 //
 // Shadow glow variables
-$shadow-glow-primary: 0 0 0 1px color-mix(in oklch, #{md3-color(primary)} 24%, transparent);
-$shadow-glow-secondary: 0 0 0 1px color-mix(in oklch, #{md3-color(secondary)} 24%, transparent);
-$shadow-glow-accent: 0 0 0 1px color-mix(in oklch, #{md3-color(tertiary)} 28%, transparent);
+$shadow-glow-primary: md3-shadow(glow-primary);
+$shadow-glow-secondary: md3-shadow(glow-secondary);
+$shadow-glow-accent: md3-shadow(glow-accent);
 
 //
 // UI shadow variables
-$ui-shadow-soft: md3-elevation(2) !default;
-$ui-shadow-elevated: md3-elevation(3) !default;
+$ui-shadow-soft: md3-shadow(md) !default;
+$ui-shadow-elevated: md3-shadow(lg) !default;
+
+//
+// Dynamic drop-shadow mixin
+@mixin dynamic-shadow-drop($overrides: ()) {
+    $config: _shadow-config($overrides);
+
+    $parallax-ref: _shadow-config-var($config, parallax-ref);
+    $parallax-k: _shadow-config-var($config, parallax-k);
+    $az-base: _shadow-config-var($config, az-base);
+    $az-span: _shadow-config-var($config, az-span);
+    $alt-base: _shadow-config-var($config, alt-base);
+    $alt-span: _shadow-config-var($config, alt-span);
+    $soft-ang: _shadow-config-var($config, soft-ang);
+    $umbra-density: _shadow-config-var($config, umbra-density);
+    $penumbra-density: _shadow-config-var($config, penumbra-density);
+    $z-offset: map.get($config, z-offset);
+    $elevation-scale: map.get($config, elevation-scale);
+    $important-flag: map.get($config, important);
+
+    --relate-x: calc(var(--drag-x, 0) + var(--shift-x, 0) - (100cqi / 2));
+    --relate-y: calc(var(--drag-y, 0) + var(--shift-y, 0) - (100cqb / 2));
+
+    --relNX: calc(clamp(-1, (var(--relate-x, 0) / #{$parallax-ref}), 1));
+    --relNY: calc(clamp(-1, (var(--relate-y, 0) / #{$parallax-ref}), 1));
+
+    --light-az:  calc(#{$az-base} + var(--relNX) * #{$az-span});
+    --light-alt: calc(#{$alt-base} + var(--relNY) * #{$alt-span});
+
+    --elev: calc((var(--z-index, 0) + #{$z-offset}) * #{$elevation-scale});
+
+    --cotA: calc(1 / max(0.001, tan(var(--light-alt))));
+    --L: calc(abs(var(--elev)) * var(--cotA));
+
+    --dx: calc(cos(var(--light-az)) * var(--L) * sign(var(--elev)));
+    --dy: calc(sin(var(--light-az)) * var(--L) * sign(var(--elev)));
+
+    --sx: calc((var(--dx) + var(--relate-x) * #{$parallax-k}) * 1px);
+    --sy: calc((var(--dy) + var(--relate-y) * #{$parallax-k}) * 1px);
+
+    --blurC: calc(max(0.5, abs(var(--elev)) * tan(#{$soft-ang})));
+    --blurU: calc(var(--blurC) * 1.6);
+    --blurP: calc(var(--blurC) * 2.8);
+
+    --spreadC: calc(abs(var(--elev)) * 0.04);
+    --spreadU: calc(abs(var(--elev)) * 0.10);
+    --spreadP: calc(var(--spreadU) * 1.2);
+
+    --alphaC: calc(clamp(0.08, (#{$umbra-density} * 0.9) / (1 + abs(var(--elev)) * 0.30), 0.40));
+    --alphaU: calc(clamp(0.06, #{$umbra-density} / sqrt(1 + abs(var(--elev)) * 0.15), 0.35));
+    --alphaP: calc(clamp(0.04, #{$penumbra-density} / sqrt(1 + abs(var(--elev)) * 0.08), 0.25));
+
+    filter:
+        drop-shadow(calc(var(--sx) * 0.15) calc(var(--sy) * 0.15) calc(var(--blurC) * 1px) #{"rgb(0 0 0 / var(--alphaC))"})
+        drop-shadow(var(--sx) var(--sy) calc(var(--blurU) * 1px) #{"rgb(0 0 0 / var(--alphaU))"})
+        drop-shadow(var(--sx) var(--sy) calc(var(--blurP) * 1px) #{"rgb(0 0 0 / var(--alphaP))"})#{if($important-flag, " !important", "")};
+}

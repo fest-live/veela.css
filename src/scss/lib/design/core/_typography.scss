@@ -120,112 +120,432 @@ $md3-type-scale: (
     @return map.get($definition, $prop);
 }
 
+//
+// Typography alias maps
+$md3-font-size-aliases: (
+    "xs": (
+        token: "label-small",
+        value: clamp(calc(0.7rem * var(--font-scale)), 0.3cqi + 0.6rem, calc(0.75rem * var(--font-scale)))
+    ),
+    "sm": (
+        token: "body-small",
+        value: clamp(calc(0.75rem * var(--font-scale)), 0.4cqi + 0.65rem, calc(0.85rem * var(--font-scale)))
+    ),
+    "body-sm": (
+        token: "body-small",
+        value: md3-type("body-small", size)
+    ),
+    "base": (
+        token: "body-medium",
+        value: clamp(calc(0.8rem * var(--font-scale)), 0.5cqi + 0.7rem, calc(0.95rem * var(--font-scale)))
+    ),
+    "body-md": (
+        token: "body-medium",
+        value: md3-type("body-medium", size)
+    ),
+    "md": (
+        token: "body-large",
+        value: clamp(0.92rem, 0.6cqi + 0.82rem, 1.05rem)
+    ),
+    "body-lg": (
+        token: "body-large",
+        value: md3-type("body-large", size)
+    ),
+    "lg": (
+        token: "title-medium",
+        value: clamp(calc(0.9rem * var(--font-scale)), 0.6cqi + 0.8rem, calc(1.1rem * var(--font-scale)))
+    ),
+    "xl": (
+        token: "title-large",
+        value: clamp(calc(1rem * var(--font-scale)), 0.8cqi + 0.9rem, calc(1.3rem * var(--font-scale)))
+    ),
+    "2xl": (
+        token: "headline-small",
+        value: clamp(1.35rem, 1.3cqi + 1.1rem, 1.75rem)
+    ),
+    "3xl": (
+        token: "headline-medium",
+        value: md3-type("headline-medium", size)
+    ),
+    "4xl": (
+        token: "display-small",
+        value: md3-type("display-small", size)
+    ),
+    "5xl": (
+        token: "display-medium",
+        value: md3-type("display-medium", size)
+    ),
+    "6xl": (
+        token: "display-large",
+        value: md3-type("display-large", size)
+    ),
+);
+
+$md3-font-weight-aliases: (
+    "normal": (token: "body-large"),
+    "medium": (token: "title-medium"),
+    "semibold": 600,
+    "bold": 700,
+    "extrabold": 800,
+);
+
+$md3-font-family-stacks: (
+    "base": ("InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif),
+    "mono": ("Fragment Mono", "Fira Code", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace),
+);
+
+$md3-line-height-scale: (
+    "tight": 1.2,
+    "normal": 1.5,
+    "relaxed": 1.8,
+);
+
+//
+// Internal helpers
+@function md3-map-merge($base, $override) {
+    @if $override == null {
+        @return $base;
+    }
+
+    @if meta.type-of($override) != "map" {
+        @error "Expected map override, received #{meta.type-of($override)}.";
+    }
+
+    @return map.merge($base, $override);
+}
+
+@function md3-resolve-type-value($definition, $prop) {
+    @if $definition == null {
+        @return null;
+    }
+
+    @if meta.type-of($definition) == "string" and map.has-key($md3-type-scale, $definition) {
+        @return md3-type($definition, $prop);
+    }
+
+    @if meta.type-of($definition) == "map" {
+        @if map.has-key($definition, $prop) {
+            @return map.get($definition, $prop);
+        }
+
+        @if map.has-key($definition, "token") {
+            @return md3-type(map.get($definition, "token"), $prop);
+        }
+
+        @if map.has-key($definition, "value") {
+            @return map.get($definition, "value");
+        }
+    }
+
+    @return $definition;
+}
+
+@function md3-font-size-token($alias, $aliases: $md3-font-size-aliases) {
+    @if map.has-key($aliases, $alias) {
+        $definition: map.get($aliases, $alias);
+
+        @if meta.type-of($definition) == "map" and map.has-key($definition, "token") {
+            @return map.get($definition, "token");
+        }
+
+        @if meta.type-of($definition) == "string" and map.has-key($md3-type-scale, $definition) {
+            @return $definition;
+        }
+    }
+
+    @if map.has-key($md3-type-scale, $alias) {
+        @return $alias;
+    }
+
+    @return null;
+}
+
+@function md3-font-size($alias, $aliases: $md3-font-size-aliases) {
+    @if map.has-key($aliases, $alias) {
+        @return md3-resolve-type-value(map.get($aliases, $alias), size);
+    }
+
+    @if map.has-key($md3-type-scale, $alias) {
+        @return md3-type($alias, size);
+    }
+
+    @error "Unknown font size alias `#{$alias}`. Available: #{map.keys($aliases)}";
+}
+
+@function md3-font-size-var($alias, $aliases: $md3-font-size-aliases) {
+    $token: md3-font-size-token($alias, $aliases);
+    $source: if(map.has-key($aliases, $alias), map.get($aliases, $alias), $token);
+    $fallback: md3-resolve-type-value($source, size);
+
+    @if $token != null {
+        @return var(--font-size-#{$alias}, var(--text-#{$alias}, #{$fallback}));
+    }
+
+    @return var(--font-size-#{$alias}, var(--text-#{$alias}, #{$fallback}));
+}
+
+@function md3-font-weight-value($input) {
+    @if $input == null {
+        @return md3-font-weight-value(map.get($md3-font-weight-aliases, "normal"));
+    }
+
+    @if meta.type-of($input) == "number" {
+        @return $input;
+    }
+
+    @if meta.type-of($input) == "string" and map.has-key($md3-font-weight-aliases, $input) {
+        @return md3-font-weight-value(map.get($md3-font-weight-aliases, $input));
+    }
+
+    @if meta.type-of($input) == "string" and map.has-key($md3-type-scale, $input) {
+        @return md3-type($input, weight);
+    }
+
+    @if meta.type-of($input) == "map" {
+        @if map.has-key($input, "weight") {
+            @return map.get($input, "weight");
+        }
+
+        @if map.has-key($input, "token") {
+            @return md3-type(map.get($input, "token"), weight);
+        }
+
+        @if map.has-key($input, "value") {
+            @return map.get($input, "value");
+        }
+    }
+
+    @return $input;
+}
+
+@function md3-font-family-value($input) {
+    @if $input == null {
+        @return map.get($md3-font-family-stacks, "base");
+    }
+
+    @if $input == inherit or $input == "inherit" {
+        @return inherit;
+    }
+
+    @if meta.type-of($input) == "string" and map.has-key($md3-font-family-stacks, $input) {
+        @return map.get($md3-font-family-stacks, $input);
+    }
+
+    @if meta.type-of($input) == "map" and map.has-key($input, "value") {
+        @return map.get($input, "value");
+    }
+
+    @return $input;
+}
+
 
 
 
 //
-$font-family-base: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
-$font-size-base: md3-type("body-large", size);
-$font-size-sm: md3-type("body-medium", size);
-$font-size-xs: md3-type("label-small", size);
-$font-size-lg: md3-type("title-medium", size);
-$font-size-xl: md3-type("headline-small", size);
-$font-size-2xl: md3-type("headline-medium", size);
-$font-size-3xl: md3-type("display-small", size);
-$font-size-4xl: md3-type("display-medium", size);
+$font-family-base: md3-font-family-value("base");
+$font-family-mono: md3-font-family-value("mono");
+$font-size-xs: md3-font-size("xs");
+$font-size-sm: md3-font-size("body-md");
+$font-size-base: md3-font-size("body-lg");
+$font-size-lg: md3-font-size("lg");
+$font-size-xl: md3-font-size("xl");
+$font-size-2xl: md3-font-size("2xl");
+$font-size-3xl: md3-font-size("3xl");
+$font-size-4xl: md3-font-size("4xl");
+$font-size-5xl: md3-font-size("5xl");
+$font-size-6xl: md3-font-size("6xl");
 
 //
-$font-weight-normal: md3-type("body-large", weight);
-$font-weight-medium: md3-type("title-medium", weight);
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-$font-weight-extrabold: 800;
+$font-weight-normal: md3-font-weight-value("normal");
+$font-weight-medium: md3-font-weight-value("medium");
+$font-weight-semibold: md3-font-weight-value("semibold");
+$font-weight-bold: md3-font-weight-value("bold");
+$font-weight-extrabold: md3-font-weight-value("extrabold");
 
 
+
+//
+// Typography configuration helpers
+@function md3-typography-config($token, $overrides: ()) {
+    $configuration: md3-type($token);
+    $normalized-overrides: if(meta.type-of($overrides) == "map", $overrides, ());
+
+    @if $normalized-overrides != () {
+        $configuration: map.merge($configuration, $normalized-overrides);
+    }
+
+    @return $configuration;
+}
+
+@mixin md3-apply-typography($configuration, $ensure-family: false, $family-fallback: "base") {
+    $size: map.get($configuration, size);
+    $line-height: map.get($configuration, line-height);
+    $weight: map.get($configuration, weight);
+    $tracking: map.get($configuration, tracking);
+    $family: map.get($configuration, family);
+
+    @if $size != null { font-size: $size; }
+    @if $line-height != null { line-height: $line-height; }
+    @if $weight != null { font-weight: $weight; }
+    @if $tracking != null { letter-spacing: $tracking; }
+
+    @if $weight != null {
+        font-optical-sizing: auto;
+        font-variation-settings: "wght" $weight;
+    }
+
+    $should-apply-family: $family != null or $ensure-family;
+
+    @if $should-apply-family {
+        $resolved-family: if(
+            $family != null,
+            md3-font-family-value($family),
+            md3-font-family-value($family-fallback)
+        );
+
+        @include font-family($resolved-family);
+    }
+}
 
 //
 // Typography mixin
 @mixin md3-typography($token, $overrides: ()) {
-    $configuration: md3-type($token);
-
-    @if $overrides != () {
-        $configuration: map.merge($configuration, $overrides);
-    }
-
-    font-size: map.get($configuration, size);
-    line-height: map.get($configuration, line-height);
-    font-weight: map.get($configuration, weight);
-    letter-spacing: map.get($configuration, tracking);
-    font-optical-sizing: auto;
-    font-variation-settings: "wght" map.get($configuration, weight);
+    $configuration: md3-typography-config($token, $overrides);
+    @include md3-apply-typography($configuration);
 }
 
 //
 // Export typography vars mixin
-@mixin md3-export-typography-vars() {
-    --font-xs: #{md3-type("label-small", size)};
-    --font-sm: #{md3-type("body-small", size)};
-    --font-base: #{md3-type("body-medium", size)};
-    --font-md: #{md3-type("body-large", size)};
-    --font-lg: #{md3-type("title-medium", size)};
-    --font-xl: #{md3-type("title-large", size)};
-    --font-2xl: #{md3-type("headline-small", size)};
+@mixin md3-export-typography-vars($overrides: ()) {
+    $size-overrides: map.get($overrides, "sizes");
+    $weight-overrides: map.get($overrides, "weights");
+    $family-overrides: map.get($overrides, "families");
+    $leading-overrides: map.get($overrides, "line-heights");
+    $extra-overrides: map.get($overrides, "extra");
 
-    --font-weight-normal: #{md3-type("body-large", weight)};
-    --font-weight-medium: #{md3-type("title-medium", weight)};
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    --font-weight-extrabold: 800;
+    $sizes: md3-map-merge($md3-font-size-aliases, $size-overrides);
+    $weights: md3-map-merge($md3-font-weight-aliases, $weight-overrides);
+    $families: md3-map-merge($md3-font-family-stacks, $family-overrides);
+    $leadings: md3-map-merge($md3-line-height-scale, $leading-overrides);
 
-    --font-family-base: "InterVariable", "Inter", "Open Sans", "Source Sans 3", "Gill Sans Nova", Ubuntu, "DejaVu Sans", Candara, Segoe, "Segoe UI", Optima, "Source Sans Pro", sans-serif;
-    --font-family-mono: "Fragment Mono", "Fira Code", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    @each $alias, $definition in $sizes {
+        $value: md3-resolve-type-value($definition, size);
+        --font-size-#{$alias}: #{$value};
+    }
+
+    --font-size: var(--font-size-base);
+
+    @each $alias in map.keys($sizes) {
+        --font-#{$alias}: var(--font-size-#{$alias});
+    }
+
+    @each $alias, $definition in $weights {
+        $value: md3-font-weight-value($definition);
+        --font-weight-#{$alias}: #{$value};
+    }
+
+    --font-weight: var(--font-weight-normal);
+
+    @each $alias, $stack in $families {
+        --font-family-#{$alias}: #{md3-font-family-value($stack)};
+    }
+
+    --font-family-base: #{md3-font-family-value("base")};
+    --font-family-mono: #{md3-font-family-value("mono")};
+    --font-family: var(--font-family-base);
+
+    @each $alias, $value in $leadings {
+        --leading-#{$alias}: #{$value};
+    }
+
+    @if meta.type-of($extra-overrides) == "map" {
+        @each $name, $value in $extra-overrides {
+            --#{$name}: #{$value};
+        }
+    }
 }
 
 
 
 //
-@mixin typography($fs, $ff: $def-ff, $weight: 400) {
+@mixin typography($size, $family: "inherit", $weight: 400) {
     & {
-        font-size: $fs;
-        font-family: $ff;
+        font-size: $size;
         font-weight: $weight;
+        @include font-family($family);
     }
 }
 
 //
-@mixin font-style($selector: "&", $options: (
-    "size": "base",
-    "weight": 400,
-    "family": "inherit"
-)) {
-    #{$selector} {
-        $size: map.get($options, "size") or "base";
-        $family: map.get($options, "family") or "inherit";
-        $weight: map.get($options, "weight") or 400;
+@mixin font-style($selector: "&", $options: ()) {
+    $size-key: if(map.has-key($options, "size"), map.get($options, "size"), "base");
+    $token-option: map.get($options, "token");
+    $family-option: if(map.has-key($options, "family"), map.get($options, "family"), "inherit");
+    $line-height-option: map.get($options, "line-height");
+    $tracking-option: map.get($options, "tracking");
+    $weight-has-key: map.has-key($options, "weight");
+    $weight-option: if($weight-has-key, map.get($options, "weight"), null);
 
-        //
-        @include typography(
-            var(--text-#{$size}),
-            #{$family},
-            #{$weight}
+    $token: if($token-option != null, $token-option, md3-font-size-token($size-key));
+    @if $token == null {
+        $token: "body-medium";
+    }
+
+    $overrides: ();
+
+    @if $weight-has-key {
+        @if $weight-option != null and $weight-option != false {
+            $resolved-weight: md3-font-weight-value($weight-option);
+            $overrides: map.merge($overrides, (weight: $resolved-weight));
+        }
+    } @else {
+        $overrides: map.merge($overrides, (weight: md3-font-weight-value(400)));
+    }
+
+    @if $line-height-option != null {
+        $overrides: map.merge($overrides, (line-height: $line-height-option));
+    }
+
+    @if $tracking-option != null {
+        $overrides: map.merge($overrides, (tracking: $tracking-option));
+    }
+
+    #{$selector} {
+        @include type(
+            $token,
+            $overrides,
+            $family-option
         );
+
+        font-size: md3-font-size-var($size-key);
     }
 }
-
-
 
 //
 @mixin font-family($stack: $def-ff) {
-    font-family: $stack;
+    $resolved-stack: md3-font-family-value($stack);
+
+    font-family: $resolved-stack;
     font-synthesis: none;
     font-kerning: normal;
     font-optical-sizing: auto;
 }
 
 //
-@mixin type($token: "body-medium", $overrides: ()) {
-    @include md3-typography($token, $overrides);
-    @include font-family();
+@mixin type($token: "body-medium", $overrides: (), $family: null) {
+    $normalized-overrides: if(meta.type-of($overrides) == "map", $overrides, ());
+    $configuration: md3-typography-config($token, $normalized-overrides);
+    $apply-family: $family != false;
+
+    @if $family != null and $family != false {
+        $configuration: map.merge($configuration, (family: $family));
+    }
+
+    @include md3-apply-typography(
+        $configuration,
+        $apply-family,
+        if($family != null and $family != false, $family, "base")
+    );
 }
 
 //
@@ -268,7 +588,6 @@ $font-weight-extrabold: 800;
 //
 @mixin visually-hidden {
     position: absolute;
-    inline-size: 1px;
     inline-size: 1px;
     padding: 0;
     margin: -1px;

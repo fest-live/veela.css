@@ -1,114 +1,263 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+
 @use "./colorize" as colorize;
 @use "./motion" as motion;
-@use "./layout" as layout;
-
-
+@use "./shadow" as shadow;
 
 // =============================================================================
 // VISUAL EFFECTS MIXINS (split from layout)
 // =============================================================================
 
-//
-@mixin glass-morphism($opacity: 0.95, $blur: var(--backdrop-blur-md, #{layout.$ui-backdrop-blur-md})) {
-    @include colorize.surface(var(--surface-opacity-subtle));
-    @include colorize.border-color(var(--border-opacity-subtle));
-    @include colorize.backdrop-blur(var(--backdrop-blur-md, #{layout.$ui-backdrop-blur-md}));
+$effect-defaults: (
+    transition-duration: var(--duration-fast, #{motion.$ui-duration-fast}),
+    transition-timing: var(--ease-out, #{motion.$ui-ease-standard}),
+    lift: -2px,
+    scale: 1,
+    hover-shadow: var(--shadow-md, #{shadow.$shadow-md}),
+    glass-surface-opacity: var(--surface-opacity-muted, 0.06),
+    glass-border-opacity: var(--border-opacity-subtle, 0.14),
+    glass-blur: default,
+    shimmer-angle: 112deg,
+    shimmer-width: 28%,
+    shimmer-opacity: 0.32,
+    shimmer-duration: var(--duration-long, #{motion.$ui-duration-standard}),
+    shimmer-color: color-mix(in oklch, var(--color-primary, #ffffff) 36%, transparent),
+    shine-duration: var(--duration-normal, #{motion.$ui-duration-standard}),
+    shine-angle: 95deg,
+    shine-width: 22%,
+    shine-opacity: 0.28
+);
+
+$__effects-shimmer-keyframes-declared: false !default;
+$shimmer-keyframes-name: veela-shimmer-glide;
+
+@function _effect-token($token) {
+    @if map.has-key($effect-defaults, $token) {
+        @return map.get($effect-defaults, $token);
+    }
+
+    @error "Unknown visual effect token `#{$token}`.";
 }
 
-//
-@mixin gradient-text($gradient: var(--primary-gradient)) {
+@mixin _ensure-shimmer-keyframes($name: $shimmer-keyframes-name) {
+    @if not $__effects-shimmer-keyframes-declared {
+        $__effects-shimmer-keyframes-declared: true !global;
+
+        @at-root {
+            @keyframes #{$name} {
+                0% { transform: translate3d(-120%, 0, 0); }
+                50% { transform: translate3d(0, 0, 0); }
+                100% { transform: translate3d(120%, 0, 0); }
+            }
+        }
+    }
+}
+
+@mixin effect-transition($properties: (transform, box-shadow), $duration: null, $timing: null) {
+    $prop-list: if(meta.type-of($properties) == "list", $properties, ($properties,));
+    $resolved-duration: if($duration == null, _effect-token(transition-duration), $duration);
+    $resolved-timing: if($timing == null, _effect-token(transition-timing), $timing);
+
+    @include motion.transition($prop-list, $resolved-duration, $resolved-timing);
+    will-change: #{list.join($prop-list, ", ")};
+}
+
+@mixin interactive-effect(
+    $hover-transform: null,
+    $hover-shadow: null,
+    $rest-shadow: null,
+    $properties: (transform, box-shadow),
+    $duration: null,
+    $timing: null
+) {
+    $prop-list: if(meta.type-of($properties) == "list", $properties, ($properties,));
+
+    @include effect-transition($prop-list, $duration, $timing);
+
+    @if $rest-shadow != null {
+        box-shadow: $rest-shadow;
+    }
+
+    &:hover {
+        @if $hover-transform != null {
+            transform: $hover-transform;
+        }
+
+        @if $hover-shadow != null {
+            box-shadow: $hover-shadow;
+        }
+    }
+}
+
+@mixin glass-morphism(
+    $surface-opacity: null,
+    $border-opacity: null,
+    $blur: null
+) {
+    $surface-opacity: if($surface-opacity == null, _effect-token(glass-surface-opacity), $surface-opacity);
+    $border-opacity: if($border-opacity == null, _effect-token(glass-border-opacity), $border-opacity);
+    $blur-value: if($blur == null, _effect-token(glass-blur), $blur);
+
+    @include colorize.surface($surface-opacity);
+    @include colorize.border-color(var(--scrollbar-tint), $border-opacity);
+
+    @if meta.type-of($blur-value) == "string" {
+        @include colorize.backdrop-blur($blur-value);
+    } @else {
+        backdrop-filter: $blur-value;
+    }
+
+    background-color:
+        color-mix(
+            in oklch,
+            var(--surface-color, var(--md-sys-color-surface, #0f131a)) calc(#{$surface-opacity} * 100%),
+            transparent
+        );
+}
+
+@mixin gradient-text($gradient: var(--primary-gradient, linear-gradient(120deg, var(--color-primary, #6b8cff), var(--color-tertiary, #f86ed4)))) {
     background-image: $gradient;
+    background-size: 200% 200%;
+    background-position: 0% 50%;
     background-clip: text;
-}
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 
-//
-@mixin hover-lift($lift: -1px, $shadow: var(--shadow-md, #{layout.$ui-shadow-md})) {
-    @include motion.transition(transform, var(--transition-base));
-    @include motion.transition(box-shadow, var(--transition-base));
+    @include effect-transition(background-position);
 
     &:hover {
-        transform: translateY($lift);
-        box-shadow: $shadow;
+        background-position: 100% 50%;
     }
 }
 
-//
-@mixin shimmer-effect($duration: var(--duration-slow)) {
-    @include motion.transition(transform, var(--transition-base));
-    @include motion.transition(box-shadow, var(--transition-base));
+@mixin hover-lift(
+    $lift: null,
+    $shadow: null,
+    $scale: null,
+    $rest-shadow: null,
+    $duration: null,
+    $timing: null
+) {
+    $resolved-lift: if($lift == null, _effect-token(lift), $lift);
+    $resolved-shadow: if($shadow == null, _effect-token(hover-shadow), $shadow);
+    $resolved-scale: if($scale == null, _effect-token(scale), $scale);
 
-    &:hover {
-        transform: translateY($lift);
-        box-shadow: $shadow;
+    $hover-transform: translate3d(0, $resolved-lift, 0);
+
+    @if $resolved-scale != 1 {
+        $hover-transform: #{$hover-transform} scale(#{$resolved-scale});
+    }
+
+    @include interactive-effect(
+        $hover-transform: $hover-transform,
+        $hover-shadow: $resolved-shadow,
+        $rest-shadow: $rest-shadow,
+        $properties: (transform, box-shadow),
+        $duration: $duration,
+        $timing: $timing
+    );
+}
+
+@mixin shimmer-effect(
+    $duration: null,
+    $angle: null,
+    $width: null,
+    $opacity: null,
+    $color: null
+) {
+    $resolved-duration: if($duration == null, _effect-token(shimmer-duration), $duration);
+    $resolved-angle: if($angle == null, _effect-token(shimmer-angle), $angle);
+    $resolved-width: if($width == null, _effect-token(shimmer-width), $width);
+    $resolved-opacity: if($opacity == null, _effect-token(shimmer-opacity), $opacity);
+    $resolved-color: if($color == null, _effect-token(shimmer-color), $color);
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    @include effect-transition(filter);
+
+    @include _ensure-shimmer-keyframes();
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: -150%;
+        background: linear-gradient(
+            $resolved-angle,
+            transparent 0%,
+            color-mix(in oklch, #{$resolved-color} 0%, transparent) calc((100% - #{$resolved-width}) / 2),
+            #{$resolved-color} 50%,
+            color-mix(in oklch, #{$resolved-color} 0%, transparent) calc((100% + #{$resolved-width}) / 2),
+            transparent 100%
+        );
+        opacity: $resolved-opacity;
+        animation: #{$shimmer-keyframes-name} #{$resolved-duration} linear infinite;
+        pointer-events: none;
+        mix-blend-mode: screen;
+    }
+
+    @include motion.reduced-motion {
+        &::after {
+            animation-play-state: paused;
+            opacity: calc(#{$resolved-opacity} * 0.7);
+        }
     }
 }
 
-//
-@mixin button-shine($duration: var(--duration-fast)) {
-    @include motion.transition(transform, var(--transition-base));
-    @include motion.transition(box-shadow, var(--transition-base));
+@mixin button-shine(
+    $duration: null,
+    $angle: null,
+    $width: null,
+    $opacity: null,
+    $shadow: null
+) {
+    $resolved-duration: if($duration == null, _effect-token(shine-duration), $duration);
+    $resolved-angle: if($angle == null, _effect-token(shine-angle), $angle);
+    $resolved-width: if($width == null, _effect-token(shine-width), $width);
+    $resolved-opacity: if($opacity == null, _effect-token(shine-opacity), $opacity);
+    $resolved-shadow: if($shadow == null, _effect-token(hover-shadow), $shadow);
 
-    &:hover {
-        transform: translateY($lift);
-        box-shadow: $shadow;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    @include hover-lift(
+        $shadow: $resolved-shadow,
+        $rest-shadow: var(--shadow-sm, #{shadow.$shadow-sm})
+    );
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset-block: -30%;
+        inset-inline: calc(-1 * #{$resolved-width});
+        background: linear-gradient(
+            $resolved-angle,
+            transparent 0%,
+            rgb(255 255 255 / 0) calc((100% - #{$resolved-width}) / 2),
+            rgb(255 255 255 / #{$resolved-opacity}) 50%,
+            rgb(255 255 255 / 0) calc((100% + #{$resolved-width}) / 2),
+            transparent 100%
+        );
+        transform: translate3d(-120%, 0, 0);
+        transition: transform #{$resolved-duration} var(--ease-in-out, #{motion.md3-easing(standard)});
+        pointer-events: none;
+        mix-blend-mode: soft-light;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+        transform: translate3d(120%, 0, 0);
+    }
+
+    @include motion.reduced-motion {
+        &::before {
+            transition-duration: calc(#{$resolved-duration} * 1.5);
+        }
     }
 }
 
-
-
-//
-@mixin dynamic-shadow-drop() {
-    --relate-x: calc(var(--drag-x, 0) + var(--shift-x, 0) - (100cqi / 2px));
-    --relate-y: calc(var(--drag-y, 0) + var(--shift-y, 0) - (100cqb / 2px));
-
-    /* нормализованные relate -> [-1..1] */
-    --relNX: calc(clamp(-1, (var(--relate-x, 0) / var(--parallax-ref)), 1));
-    --relNY: calc(clamp(-1, (var(--relate-y, 0) / var(--parallax-ref)), 1));
-
-    /* итоговые углы света с «покачиванием» */
-    --light-az:  calc(var(--az-base)  + var(--relNX) * var(--az-span));
-    --light-alt: calc(var(--alt-base) + var(--relNY) * var(--alt-span));
-
-    /* высота (может быть отрицательной; единицы — px для наглядности) */
-    --elev: calc((var(--z-index, 0) + 2) * 2);
-
-    /* Можно анимировать: теперь это типизированное свойство */
-    //transition: --elev .3s ease, box-shadow .3s ease, transform .3s ease;
-
-    /* опционально: ощущение глубины той же переменной */
-    //transform: translateZ(var(--elev));
-
-    /* длина тени по плоскости: L = |elev| * cot(alt) */
-    --cotA: calc(1 / max(0.001, tan(var(--light-alt))));
-    --L: calc(abs(var(--elev)) * var(--cotA));
-
-    /* смещение тени по осям (учтём знак высоты через sign) */
-    --dx: calc(cos(var(--light-az)) * var(--L) * sign(var(--elev)));
-    --dy: calc(sin(var(--light-az)) * var(--L) * sign(var(--elev)));
-
-    /* */
-    --sx: calc((var(--dx) + var(--relate-x) * var(--parallax-k)) * 1px);
-    --sy: calc((var(--dy) + var(--relate-y) * var(--parallax-k)) * 1px);
-
-    /* мягкость: пропорциональна высоте и угловому размеру источника */
-    --blurC: calc(max(0.5, abs(var(--elev)) * tan(var(--soft-ang))));   /* контактная */
-    --blurU: calc(var(--blurC) * 1.6);                              /* умбра */
-    --blurP: calc(var(--blurC) * 2.8);                              /* пенумбра */
-
-    /* spread: с ростом высоты тень «расходится» (отрицательный spread) */
-    --spreadC: calc(abs(var(--elev)) * 0.04);
-    --spreadU: calc(abs(var(--elev)) * 0.10);
-    --spreadP: calc(var(--spreadU) * 1.2);
-
-    /* плотность убывает с высотой (гладкая, без ступенек) */
-    --alphaC: calc(clamp(0.08, (var(--umbra-density) * 0.9) / (1 + abs(var(--elev)) * 0.30), 0.40));
-    --alphaU: calc(clamp(0.06, var(--umbra-density) / sqrt(1 + abs(var(--elev)) * 0.15), 0.35));
-    --alphaP: calc(clamp(0.04, var(--penumbra-density) / sqrt(1 + abs(var(--elev)) * 0.08), 0.25));
-
-    /* стек слоёв: контактная + умбра + пенумбра */
-    filter:
-        drop-shadow(calc(var(--sx) * 0.15) calc(var(--sy) * 0.15) calc(var(--blurC) * 1px) #{"rgb(0 0 0 / var(--alphaC))"})
-        drop-shadow(var(--sx) var(--sy) calc(var(--blurU) * 1px) #{"rgb(0 0 0 / var(--alphaU))"})
-        drop-shadow(var(--sx) var(--sy) calc(var(--blurP) * 1px) #{"rgb(0 0 0 / var(--alphaP))"})
-        !important;
-}

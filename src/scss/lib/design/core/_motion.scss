@@ -28,6 +28,41 @@ $md3-motion-easing: (
     bounce: cubic-bezier(0.34, 1.56, 0.64, 1),
 );
 
+$md3-easing-aliases: (
+    out: standard,
+    "in-out": decelerate,
+    "in": accelerate,
+);
+
+$md3-transition-definitions: (
+    colors: (
+        properties: (color, background-color, border-color),
+        duration: normal,
+        easing: out,
+    ),
+    transform: (
+        properties: transform,
+        duration: slow,
+        easing: "in-out",
+    ),
+    opacity: (
+        properties: opacity,
+        duration: fast,
+        easing: out,
+    ),
+    all: (
+        properties: all,
+        duration: normal,
+        easing: out,
+    ),
+);
+
+$md3-transition-aliases: (
+    fast: opacity,
+    normal: colors,
+    slow: transform,
+);
+
 
 //
 // Easing function
@@ -40,6 +75,92 @@ $md3-motion-easing: (
 // Duration function
 @function md3-duration($token: normal) {
     @return _.md3-fetch($md3-motion-durations, $token, "duration token");
+}
+
+//
+// Motion helper functions
+@function duration-var($token: normal) {
+    $value: _.md3-fetch($md3-motion-durations, $token, "duration token");
+    @return var(--duration-#{$token}, #{$value});
+}
+
+@function easing-var($token: standard) {
+    @if map.has-key($md3-motion-easing, $token) {
+        $value: _.md3-fetch($md3-motion-easing, $token, "easing token");
+        @return var(--ease-#{$token}, #{$value});
+    }
+
+    @if map.has-key($md3-easing-aliases, $token) {
+        $resolved: map.get($md3-easing-aliases, $token);
+        $value: _.md3-fetch($md3-motion-easing, $resolved, "easing token");
+        @return var(--ease-#{$token}, var(--ease-#{$resolved}, #{$value}));
+    }
+
+    @error "Unknown easing token `#{$token}`.";
+}
+
+@function _transition-props($properties) {
+    @return if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+}
+
+@function _transition-definition($config) {
+    $properties: map.get($config, properties);
+    $duration-token: map.get($config, duration);
+    $easing-token: map.get($config, easing);
+    $delay: map.get($config, delay);
+
+    @if $properties == null {
+        $properties: all;
+    }
+
+    @if $duration-token == null {
+        $duration-token: normal;
+    }
+
+    @if $easing-token == null {
+        $easing-token: standard;
+    }
+
+    $sequence: ();
+    $sequence: list.append($sequence, _transition-props($properties), "space");
+    $sequence: list.append($sequence, duration-var($duration-token), "space");
+    $sequence: list.append($sequence, easing-var($easing-token), "space");
+
+    @if $delay != null {
+        $sequence: list.append($sequence, $delay, "space");
+    }
+
+    @return list.join($sequence, " ");
+}
+
+@mixin _export-duration-vars($durations) {
+    @each $token, $value in $durations {
+        --duration-#{$token}: #{$value};
+    }
+}
+
+@mixin _export-easing-vars($easing, $aliases) {
+    @each $token, $value in $easing {
+        --ease-#{$token}: #{$value};
+    }
+
+    @each $alias, $target in $aliases {
+        @if map.has-key($easing, $target) {
+            --ease-#{$alias}: var(--ease-#{$target});
+        }
+    }
+}
+
+@mixin _export-transition-vars($definitions, $aliases) {
+    @each $name, $config in $definitions {
+        --transition-#{$name}: #{_transition-definition($config)};
+    }
+
+    @each $alias, $target in $aliases {
+        @if map.has-key($definitions, $target) {
+            --transition-#{$alias}: var(--transition-#{$target});
+        }
+    }
 }
 
 //
@@ -57,84 +178,140 @@ $ui-ease-standard: md3-easing(standard) !default;
 
 //
 // Export motion vars mixin
-@mixin md3-export-motion-vars() {
-    --duration-fast: #{md3-duration(fast)};
-    --duration-normal: #{md3-duration(normal)};
-    --duration-slow: #{md3-duration(slow)};
-    --duration-long: #{md3-duration(long)};
-    --duration-extra-long: #{md3-duration(extra-long)};
+@mixin md3-export-motion-vars(
+    $durations: $md3-motion-durations,
+    $easing: $md3-motion-easing,
+    $easing-aliases: $md3-easing-aliases,
+    $transition-definitions: $md3-transition-definitions,
+    $transition-aliases: $md3-transition-aliases
+) {
+    // =============================================================================
+    // ANIMATIONS & TRANSITIONS
+    // =============================================================================
 
-    --ease-out: #{md3-easing(standard)};
-    --ease-in-out: #{md3-easing(decelerate)};
-    --ease-in: #{md3-easing(accelerate)};
-    --ease-emphasized: #{md3-easing(emphasized)};
-    --ease-bounce: #{md3-easing(bounce)};
+    @include _export-duration-vars($durations);
+    @include _export-easing-vars($easing, $easing-aliases);
+    @include _export-transition-vars($transition-definitions, $transition-aliases);
 
-    --transition-fast: opacity var(--duration-fast) var(--ease-out);
-    --transition-normal: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out);
-    --transition-slow: transform var(--duration-slow) var(--ease-in-out);
-    --transition-all: all var(--duration-normal) var(--ease-out);
+    --transition-delay: 0s;
+}
+
+//
+// Motion animation mixin
+@mixin motion-animation(
+    $name,
+    $duration: duration-var(normal),
+    $timing: easing-var(out),
+    $delay: null,
+    $fill: null,
+    $iteration: null,
+    $direction: null,
+    $state: null
+) {
+    $sequence: ($name, $duration, $timing);
+
+    @if $delay != null {
+        $sequence: list.append($sequence, $delay, "space");
+    }
+
+    @if $iteration != null {
+        $sequence: list.append($sequence, $iteration, "space");
+    }
+
+    @if $direction != null {
+        $sequence: list.append($sequence, $direction, "space");
+    }
+
+    @if $fill != null {
+        $sequence: list.append($sequence, $fill, "space");
+    }
+
+    @if $state != null {
+        $sequence: list.append($sequence, $state, "space");
+    }
+
+    animation: $sequence;
 }
 
 //
 // Fade in mixin
-@mixin fade-in($duration: var(--duration-normal)) {
-    animation: fade-in $duration var(--ease-out);
+@mixin fade-in($duration: duration-var(normal), $timing: easing-var(out), $delay: null, $fill: null, $iteration: null, $direction: null, $state: null) {
+    @include motion-animation(fade-in, $duration, $timing, $delay, $fill, $iteration, $direction, $state);
 }
 
 //
 // Slide up mixin
-@mixin slide-up($duration: var(--duration-normal)) {
-    animation: slide-up $duration var(--ease-out);
+@mixin slide-up($duration: duration-var(normal), $timing: easing-var(out), $delay: null, $fill: null, $iteration: null, $direction: null, $state: null) {
+    @include motion-animation(slide-up, $duration, $timing, $delay, $fill, $iteration, $direction, $state);
 }
 
 //
 // Scale in mixin
-@mixin scale-in($duration: var(--duration-fast)) {
-    animation: scale-in $duration var(--ease-bounce);
+@mixin scale-in($duration: duration-var(fast), $timing: easing-var(bounce), $delay: null, $fill: null, $iteration: null, $direction: null, $state: null) {
+    @include motion-animation(scale-in, $duration, $timing, $delay, $fill, $iteration, $direction, $state);
 }
 
 //
 // Focus ring mixin
-@mixin focus-ring($tint: var(--outline-tint)) {
+@mixin focus-ring($tint: var(--outline-tint), $thickness: 2px, $offset: 2px) {
     &:focus-visible {
-        outline: 2px solid oklch(
+        outline: $thickness solid oklch(
             from --c2-on-surface(
                 $tint,
                 var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
             ) l c h / var(--outline-opacity)
         );
-        outline-offset: 2px;
+        outline-offset: $offset;
     }
 }
 
 //
 // Reduced motion mixin
-@mixin reduced-motion {
-    @media (prefers-reduced-motion: reduce) {
+@mixin reduced-motion($preference: reduce) {
+    @media (prefers-reduced-motion: #{$preference}) {
         @content;
     }
 }
 
 //
 // High contrast mixin
-@mixin high-contrast {
-    @media (prefers-contrast: high) {
+@mixin high-contrast($preference: more) {
+    @media (prefers-contrast: #{$preference}) {
         @content;
     }
 }
 
 //
 // Transition mixin
-@mixin transition($properties: all, $duration: null, $timing: null) {
+@mixin transition($properties: all, $duration: null, $timing: null, $delay: null) {
     & {
-        $prop-list: if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+        $prop-list: _transition-props($properties);
         --transition-props: #{$prop-list};
-        @if $duration != null { --transition-duration: #{$duration}; }
-        @if $timing != null { --transition-timing: #{$timing}; }
+
+        @if $duration != null {
+            @if map.has-key($md3-motion-durations, $duration) {
+                --transition-duration: #{duration-var($duration)};
+            } @else {
+                --transition-duration: #{$duration};
+            }
+        }
+
+        @if $timing != null {
+            @if map.has-key($md3-motion-easing, $timing) or map.has-key($md3-easing-aliases, $timing) {
+                --transition-timing: #{easing-var($timing)};
+            } @else {
+                --transition-timing: #{$timing};
+            }
+        }
+
+        @if $delay != null {
+            --transition-delay: #{$delay};
+        }
+
         transition:
             var(--transition-props)
-            var(--transition-duration, var(--transition-normal, #{$ui-duration-standard}))
-            var(--transition-timing, var(--ease-out, #{$ui-ease-standard}));
+            var(--transition-duration, #{duration-var(normal)})
+            var(--transition-timing, #{easing-var(out)})
+            var(--transition-delay, 0s);
     }
 }

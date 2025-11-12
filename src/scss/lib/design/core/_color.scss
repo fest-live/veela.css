@@ -106,53 +106,193 @@ $material-mode-suffix: (
     dark: "-dark",
 );
 
+//
+// Helpers
+@function md3-tone-scale($factor, $direction: "--interaction-tone-direction") {
+    @return calc(#{$factor} * var(#{$direction}, 1));
+}
 
+@function md3-shadow-mix($base-property, $weight, $shadow-property: "--md-shadow") {
+    $base-weight: math.percentage($weight);
+    $shadow-weight: math.percentage(1 - $weight);
+
+    @return color-mix(in oklch, var(#{$base-property}) #{$base-weight}, var(#{$shadow-property}) #{$shadow-weight});
+}
+
+@function md3-resolve($overrides, $property, $fallback) {
+    @if meta.type-of($overrides) == "map" and map.has-key($overrides, $property) {
+        @return map.get($overrides, $property);
+    }
+
+    @return $fallback;
+}
+
+@mixin md3-emit-properties($properties, $overrides) {
+    @each $property, $value in $properties {
+        #{$property}: #{md3-resolve($overrides, $property, $value)};
+    }
+}
+
+//
+// Layer variables
+$md3-backdrop-filters: (
+    "--backdrop-blur-subtle": blur(6px) saturate(110%),
+    "--backdrop-blur-default": blur(12px) saturate(120%),
+    "--backdrop-blur-strong": blur(18px) saturate(140%),
+);
+
+$md3-surface-opacity-levels: (
+    "--surface-opacity-subtle": 0.02,
+    "--surface-opacity-muted": 0.04,
+    "--surface-opacity-default": 0.08,
+    "--surface-opacity-emphasis": 0.12,
+    "--surface-opacity-strong": 0.16,
+);
+
+$md3-contrast-opacity-levels: (
+    "--contrast-opacity-subtle": 0.04,
+    "--contrast-opacity-muted": 0.08,
+    "--contrast-opacity-default": 0.12,
+    "--contrast-opacity-emphasis": 0.16,
+    "--contrast-opacity-strong": 0.24,
+);
+
+$md3-text-tint-levels: (
+    "--text-tint-primary": 0,
+    "--text-tint-secondary": 0.04,
+    "--text-tint-muted": 0.06,
+    "--text-tint-disabled": 0.12,
+);
+
+$md3-border-opacity-levels: (
+    "--border-opacity-subtle": 0.14,
+    "--border-opacity-default": 0.2,
+    "--border-opacity-emphasis": 0.24,
+    "--border-opacity-strong": 0.4,
+    "--border-opacity-dashed": 0.18,
+);
+
+$md3-outline-properties: (
+    "--outline-opacity": 0.4,
+    "--outline-tint": 0,
+);
+
+$md3-scrollbar-properties: (
+    "--scrollbar-opacity": 0.4,
+    "--scrollbar-tint": 0.1,
+);
+
+//
+// Interaction variables
+$md3-interaction-lift-factors: (
+    "--hover-lift": 0.04,
+    "--active-lift": 0.06,
+    "--focus-lift": 0.02,
+);
+
+$md3-interaction-properties: (
+    "--selection-opacity": 0.1,
+);
+
+//
+// State opacity custom properties
+$md3-state-opacity-properties: (
+    "--state-opacity-hover": hover,
+    "--state-opacity-focus": focus,
+    "--state-opacity-focus-visible": focus-visible,
+    "--state-opacity-focus-ring": focus-ring,
+    "--state-opacity-press": press,
+    "--state-opacity-drag": drag,
+    "--state-opacity-selected": selected,
+    "--state-opacity-disabled": disabled,
+    "--state-opacity-icon": icon,
+);
+
+//
+// Semantic palettes
+$md3-spectrum-colors: (
+    "--color-red": oklch(0.5 0.2 30 / 1),
+    "--color-orange": oklch(0.5 0.2 80 / 1),
+    "--color-yellow": oklch(0.7 0.2 100 / 1),
+    "--color-green": oklch(0.5 0.2 140 / 1),
+    "--color-blue": oklch(0.5 0.2 260 / 1),
+    "--color-purple": oklch(0.5 0.2 320 / 1),
+);
+
+$md3-semantic-base-colors: (
+    "--color-primary": #2c3e50,
+    "--color-secondary": #34495e,
+    "--color-accent": #3498db,
+    "--color-success": #2cda9d,
+    "--color-warning": #ffb347,
+    "--color-danger": #ff6b6b,
+    "--color-info": #17a2b8,
+);
+
+$md3-semantic-aliases: (
+    "--color-error": var(--color-danger),
+);
+
+$md3-semantic-tones: (
+    "--color-success-dark": (base: "--color-success", weight: 0.4),
+    "--color-warning-dark": (base: "--color-warning", weight: 0.38),
+    "--color-danger-dark": (base: "--color-danger", weight: 0.42),
+    "--color-error-dark": (base: "--color-danger", weight: 0.42),
+);
+
+//
+// Layer mixins
+@mixin md3-export-backdrop-filters($overrides) {
+    @include md3-emit-properties($md3-backdrop-filters, $overrides);
+}
+
+@mixin md3-export-layer-opacities($overrides) {
+    @include md3-emit-properties($md3-surface-opacity-levels, $overrides);
+    @include md3-emit-properties($md3-contrast-opacity-levels, $overrides);
+    @include md3-emit-properties($md3-text-tint-levels, $overrides);
+    @include md3-emit-properties($md3-border-opacity-levels, $overrides);
+    @include md3-emit-properties($md3-outline-properties, $overrides);
+    @include md3-emit-properties($md3-scrollbar-properties, $overrides);
+}
+
+@mixin md3-export-state-opacities($overrides) {
+    @each $property, $state in $md3-state-opacity-properties {
+        #{$property}: #{md3-resolve($overrides, $property, md3-state($state))};
+    }
+}
+
+@mixin md3-export-interaction-tuning($overrides) {
+    --interaction-tone-direction: #{md3-resolve($overrides, "--interaction-tone-direction", 1)};
+
+    @each $property, $factor in $md3-interaction-lift-factors {
+        #{$property}: #{md3-resolve($overrides, $property, md3-tone-scale($factor))};
+    }
+
+    @include md3-emit-properties($md3-interaction-properties, $overrides);
+}
+
+@mixin md3-export-semantic-colors($overrides) {
+    @include md3-emit-properties($md3-spectrum-colors, $overrides);
+    @include md3-emit-properties($md3-semantic-base-colors, $overrides);
+    @include md3-emit-properties($md3-semantic-aliases, $overrides);
+
+    @each $property, $config in $md3-semantic-tones {
+        $base: map.get($config, base);
+        $weight: map.get($config, weight);
+        #{$property}: #{md3-resolve($overrides, $property, md3-shadow-mix($base, $weight))};
+    }
+}
 
 //
 // Export state vars mixin
-@mixin md3-export-state-vars() {
-    --state-opacity-hover: #{md3-state(hover)};
-    --state-opacity-focus: #{md3-state(focus)};
-    --state-opacity-press: #{md3-state(press)};
-    --state-opacity-drag: #{md3-state(drag)};
-    --state-opacity-selected: #{md3-state(selected)};
-    --state-opacity-disabled: #{md3-state(disabled)};
-    --state-opacity-icon: #{md3-state(icon)};
+@mixin md3-export-state-vars($overrides: ()) {
+    $config: if(meta.type-of($overrides) == "map", $overrides, ());
 
-    --surface-opacity-subtle: 0.02;
-    --surface-opacity-muted: 0.04;
-    --surface-opacity-default: 0.06;
-    --surface-opacity-emphasis: 0.08;
-    --surface-opacity-strong: 0.10;
-
-    --contrast-opacity-subtle: 0.02;
-    --contrast-opacity-muted: 0.04;
-    --contrast-opacity-default: 0.06;
-    --contrast-opacity-emphasis: 0.08;
-    --contrast-opacity-strong: 0.10;
-
-    --text-tint-primary: 0;
-    --text-tint-secondary: 0.04;
-    --text-tint-muted: 0.08;
-    --text-tint-disabled: 0.1;//#{md3-state(disabled)};
-
-    --border-opacity-subtle: 0.04;
-    --border-opacity-default: 0.06;
-    --border-opacity-emphasis: 0.08;
-    --border-opacity-strong: 0.10;
-    --border-opacity-dashed: 0.12;
-
-    --outline-opacity: 0.4;
-    --outline-tint: 0;
-
-    --scrollbar-opacity: 0.4;
-    --scrollbar-tint: 0.1;
-
-    --interaction-tone-direction: 1;
-    --hover-lift: calc(0.04 * var(--interaction-tone-direction, 1));
-    --active-lift: calc(0.05 * var(--interaction-tone-direction, 1));
-    --focus-lift: calc(0.02 * var(--interaction-tone-direction, 1));
-    --selection-opacity: 0.1;
+    @include md3-export-backdrop-filters($config);
+    @include md3-export-layer-opacities($config);
+    @include md3-export-state-opacities($config);
+    @include md3-export-interaction-tuning($config);
+    @include md3-export-semantic-colors($config);
 }
 
 //

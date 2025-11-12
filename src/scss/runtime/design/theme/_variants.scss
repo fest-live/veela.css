@@ -194,8 +194,8 @@
             @include surface-interactive(var(--surface-opacity-default));
 
             &:hover { --color-shade: calc(var(--surface-opacity-default) + var(--hover-lift, 0.04)); }
-            &:active { --color-shade: calc(var(--surface-opacity-default) + var(--active-lift, 0.02)); }
-            &:focus-visible { --color-shade: calc(var(--surface-opacity-default) + var(--focus-lift, 0.06)); }
+            &:active { --color-shade: calc(var(--surface-opacity-default) + var(--active-lift, 0.06)); }
+            &:focus-visible { --color-shade: calc(var(--surface-opacity-default) + var(--focus-lift, 0.02)); }
         }
     }
 

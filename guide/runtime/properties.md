@@ -22,7 +22,7 @@ This lists the `@property` registrations from `src/scss/runtime/core/_properties
 | --drag-y | <number> | 0 | false |
 | --orient | <number> | 0 | true |
 | --zoom | <number> | 1 | true |
-| --secondary | <integer> | 0 | true |
+| --orientation-secondary | <integer> | 0 | true |
 | --avi | <length-percentage> | 0px | true |
 | --avb | <length-percentage> | 0px | true |
 | --vp-i-size | <length-percentage> | 0px | true |

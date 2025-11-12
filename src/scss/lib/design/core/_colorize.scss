@@ -8,27 +8,6 @@
 @use "./logical" as lg;
 @use "./utils" as prop;
 
-// Color system properties
-$md3-color-properties: (
-    --color-shade: ("syntax": "<number>", "inherits": true, "initial": 0.0),
-    --color-tint: ("syntax": "<number>", "inherits": true, "initial": 0.0),
-    --color-opacity: ("syntax": "<number>", "inherits": true, "initial": 0.0),
-    --color-enable-blur: ("syntax": "<boolean>", "inherits": true, "initial": false),
-    --on-surface: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --on-surface-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --color-on-surface: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --surface-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --border-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --scrollbar-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --contrast-color: ("syntax": "<color>", "inherits": true, "initial": #000),
-    --on-contrast-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --on-contrast: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --outline-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --accent-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --text-decoration-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --fill-color: ("syntax": "<color>", "inherits": true, "initial": #0000),
-    --text-emphasis-color: ("syntax": "<color>", "inherits": true, "initial": #0000)
-);
 
 @function _option-or($options, $key, $fallback) {
     $value: map.get($options, $key);

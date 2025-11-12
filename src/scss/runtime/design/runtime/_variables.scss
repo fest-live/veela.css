@@ -1,507 +1,113 @@
 @use "veela-lib" as md3;
 
 //
-@property --size-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
-@property --font-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
+@mixin make-md-theme($suffix: "", $theme-type: 2) {
+    --md-c2-primary#{$suffix}: var(--current, var(--primary-fallback, #469));
+    --md-c2-secondary#{$suffix}: var(--secondary, var(--secondary-fallback, var(--md-c2-primary#{$suffix})));
+    --md-c2-tertiary#{$suffix}: var(--tertiary, var(--tertiary-fallback, var(--md-c2-secondary#{$suffix})));
+    --md-c2-error#{$suffix}: var(--color-error, var(--color-danger, oklch(0.62 0.17 23 / 1)));
+    --md-c2-neutral#{$suffix}: var(--surface-fallback, --c2-surface(0.2, var(--md-c2-primary#{$suffix}), #{$theme-type}));
+
+    --md-c2-surface-shift#{$suffix}: clamp(0, calc(var(--background-tone-shift, 0.0) + 0.16), 1);
+    --md-c2-on-surface-shift#{$suffix}: clamp(0, calc(var(--color-tone-shift, 0.0) + 0.06), 1);
+    --md-c2-surface-variant-shift#{$suffix}: clamp(0, calc(var(--background-tone-shift, 0.0) + 0.34), 1);
+    --md-c2-outline-shift#{$suffix}: clamp(0, calc(var(--color-tone-shift, 0.0) + 0.28), 1);
+    --md-c2-contrast-shift#{$suffix}: clamp(0, calc(0.88 - var(--background-tone-shift, 0.0) * 0.3), 1);
+    --md-c2-inverse-primary-shift#{$suffix}: clamp(0, calc(0.7 - var(--background-tone-shift, 0.0) * 0.2), 1);
+
+    --md-sys-color-primary#{$suffix}: var(--md-c2-primary#{$suffix});
+    --md-sys-color-on-primary#{$suffix}: --c2-on-contrast(0.02, var(--md-c2-primary#{$suffix}), #{$theme-type});
+    --md-sys-color-primary-container#{$suffix}: --c2-surface(0.74, var(--md-c2-primary#{$suffix}), #{$theme-type});
+    --md-sys-color-on-primary-container#{$suffix}: --c2-on-surface(0.26, var(--md-c2-primary#{$suffix}), #{$theme-type});
+
+    --md-sys-color-secondary#{$suffix}: var(--md-c2-secondary#{$suffix});
+    --md-sys-color-on-secondary#{$suffix}: --c2-on-contrast(0.02, var(--md-c2-secondary#{$suffix}), #{$theme-type});
+    --md-sys-color-secondary-container#{$suffix}: --c2-surface(0.68, var(--md-c2-secondary#{$suffix}), #{$theme-type});
+    --md-sys-color-on-secondary-container#{$suffix}: --c2-on-surface(0.24, var(--md-c2-secondary#{$suffix}), #{$theme-type});
+
+    --md-sys-color-tertiary#{$suffix}: var(--md-c2-tertiary#{$suffix});
+    --md-sys-color-on-tertiary#{$suffix}: --c2-on-contrast(0.02, var(--md-c2-tertiary#{$suffix}), #{$theme-type});
+    --md-sys-color-tertiary-container#{$suffix}: --c2-surface(0.64, var(--md-c2-tertiary#{$suffix}), #{$theme-type});
+    --md-sys-color-on-tertiary-container#{$suffix}: --c2-on-surface(0.22, var(--md-c2-tertiary#{$suffix}), #{$theme-type});
+
+    --md-sys-color-error#{$suffix}: var(--md-c2-error#{$suffix});
+    --md-sys-color-on-error#{$suffix}: --c2-on-contrast(0.02, var(--md-c2-error#{$suffix}), #{$theme-type});
+    --md-sys-color-error-container#{$suffix}: --c2-surface(0.72, var(--md-c2-error#{$suffix}), #{$theme-type});
+    --md-sys-color-on-error-container#{$suffix}: --c2-on-surface(0.24, var(--md-c2-error#{$suffix}), #{$theme-type});
+
+    --md-sys-color-surface#{$suffix}: --c2-surface(var(--md-c2-surface-shift#{$suffix}), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-on-surface#{$suffix}: --c2-on-surface(var(--md-c2-on-surface-shift#{$suffix}), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-surface-variant#{$suffix}: --c2-surface(var(--md-c2-surface-variant-shift#{$suffix}), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-on-surface-variant#{$suffix}: --c2-on-surface(clamp(0, calc(var(--md-c2-on-surface-shift#{$suffix}) + 0.14), 1), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+
+    --md-sys-color-outline#{$suffix}: color-mix(in oklch, --c2-on-surface(var(--md-c2-outline-shift), var(--md-c2-neutral#{$suffix}), #{$theme-type}) 58%, transparent);
+    --md-sys-color-outline-variant#{$suffix}: color-mix(
+        in oklch,
+        --c2-on-surface(clamp(0, calc(var(--md-c2-outline-shift#{$suffix}) + 0.1), 1), var(--md-c2-neutral#{$suffix}), #{$theme-type}) 34%,
+        --c2-surface(var(--md-c2-surface-variant-shift#{$suffix}), var(--md-c2-neutral#{$suffix}), #{$theme-type}) 66%
+    );
+
+    --md-sys-color-background#{$suffix}: --c2-surface(var(--background-tone-shift, 0.0), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-on-background#{$suffix}: --c2-on-surface(var(--color-tone-shift, 0.0), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+
+    --md-sys-color-inverse-surface#{$suffix}: --c2-contrast(var(--md-c2-contrast-shift#{$suffix}), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-inverse-on-surface#{$suffix}: --c2-on-contrast(clamp(0, calc(var(--md-c2-on-surface-shift#{$suffix}) + 0.06), 1), var(--md-c2-neutral#{$suffix}), #{$theme-type});
+    --md-sys-color-inverse-primary#{$suffix}: --c2-contrast(var(--md-c2-inverse-primary-shift#{$suffix}), var(--md-c2-primary#{$suffix}), #{$theme-type});
+
+    --md-sys-color-surface-tint#{$suffix}: var(--md-c2-primary#{$suffix});
+    --md-sys-color-shadow#{$suffix}: color-mix(in oklch, var(--md-c2-neutral#{$suffix}) 24%, transparent);
+    --md-sys-color-scrim#{$suffix}: color-mix(in oklch, var(--md-c2-neutral#{$suffix}) 70%, transparent);
+}
 
 //
-@property --md-state-layer-opacity    { syntax: "<number>" ; inherits: true; initial-value: 0; }
-@property --md-elevation-level        { syntax: "<integer>"; inherits: true; initial-value: 0; }
-@property --interaction-tone-direction { syntax: "<number>" ; inherits: true; initial-value: 1; }
-
-//
-@include md3.register-properties(md3.$md3-color-properties);
+@mixin material-color-c2-adapter-remap($selector: ":where(:root, :host, :scope, body, div, section)") {
+    @at-root {
+        @layer md3.c2-adapter {
+            #{$selector} {
+                @include make-md-theme("", 2);
+                @include make-md-theme("-dark", 1);
+                @include make-md-theme("-light", 0);
+            }
+        }
+    }
+}
 
 //
 @layer md3.runtime {
-    // =============================================================================
-    // CONTAINER-SCOPED VARIABLE INITIALIZATION
-    // - Preserves existing mixins and APIs
-    // - Reworks variable system to be more consistent and adaptive
-    // - Initializes custom properties primarily within @container
-    // =============================================================================
 
-    @supports (width: clamp(1rem, 1vw, 2rem)) {
-        :where(:root) {
-            // Base spacing system using consistent clamp functions
-            --space-xs: clamp(0.25rem, 0.5vw, 0.35rem);
-            --space-sm: clamp(0.35rem, 0.8vw, 0.6rem);
-            --space-md: clamp(0.45rem, 1vw, 0.8rem);
-            --space-lg: clamp(0.6rem, 1.2vw, 1rem);
-            --space-xl: clamp(0.75rem, 1.5vw, 1.25rem);
-            --space-2xl: clamp(1rem, 2vw, 1.6rem);
-
-            // Specific use-case spacing
-            --gap-xs: clamp(0.25rem, 0.6vw, 0.45rem);
-            --gap-sm: clamp(0.4rem, 0.8vw, 0.7rem);
-            --gap-md: clamp(0.6rem, 1vw, 0.9rem);
-            --gap-lg: clamp(0.75rem, 1.2vw, 1.25rem);
-            --gap-xl: clamp(1rem, 1.8vw, 1.6rem);
-
-            // Border radius system
-            --radius-xs: clamp(0.25rem, 2vw, 0.375rem);
-            --radius-sm: clamp(0.5rem, 2.4vw, 0.65rem);
-            --radius-md: clamp(0.75rem, 3vw, 1rem);
-            --radius-lg: clamp(0.85rem, 3.6vw, 1.2rem);
-            --radius-xl: clamp(1rem, 4.8vw, 1.4rem);
-            --radius-full: min(9999px, 50cqmin);
-
-            // Card system
-            --border-radius-xs: var(--radius-xs);
-            --border-radius-sm: var(--radius-sm);
-            --border-radius-md: var(--radius-md);
-            --border-radius-lg: var(--radius-lg);
-            --border-radius-xl: var(--radius-xl);
-            --border-radius-full: var(--radius-full);
-
-            // Padding system
-            --padding-xs: clamp(0.25rem, 0.5vw, 0.375rem);
-            --padding-sm: clamp(0.35rem, 0.7vw, 0.55rem);
-            --padding-md: clamp(0.5rem, 0.9vw, 0.75rem);
-            --padding-lg: clamp(0.65rem, 1.1vw, 0.95rem);
-            --padding-xl: clamp(0.8rem, 1.3vw, 1.15rem);
-
-            // Avatar and icon sizes
-            --avatar-size: clamp(32px, 6vw, 48px);
-            --avatar-size-lg: clamp(40px, 8vw, 64px);
-            --icon-size-sm: clamp(0.9rem, 1.2cqi, 1.1rem);
-            --icon-size-md: clamp(1.1rem, 1.4cqi, 1.3rem);
-            --icon-size-lg: clamp(1.4rem, 1.8cqi, 1.7rem);
-        }
-    }
-
-    :root, body {
-        container-type: inline-size;
-    }
-
-    :where(:root, :host) {
-        --size-scale: 1;
-        --font-scale: 1;
-        --u: 1rem;
-        --pxu: 1px;
-        --cqi: 1cqi;
-        --cqb: 1cqb;
+    /* Legacy */
+    :where(:root, :scope) {
+        --primary-fallback: #469;
+        --secondary-fallback: oklch(from var(--current) l calc(c * 0.88) calc(h + 120));
+        --tertiary-fallback: oklch(from var(--current) l calc(c * 0.84) calc(h + 240));
+        --accent-fallback: var(--tertiary-fallback);
+        --surface-fallback: --c2-surface(0.2, var(--current));
+        --surface-variant-fallback: --c2-surface(0.34, var(--current));
+        --on-surface-fallback: --c2-on-surface(0.1, var(--current));
+        --outline-fallback: color-mix(in oklch, --c2-on-surface(0.32, var(--current)) 56%, transparent);
+        --outline-variant-fallback: color-mix(in oklch, --c2-on-surface(0.36, var(--current)) 32%, --c2-surface(0.32, var(--current)) 68%);
+        --inverse-surface-fallback: --c2-contrast(0.86, var(--surface-fallback));
+        --inverse-on-surface-fallback: --c2-on-contrast(0.08, var(--surface-fallback));
+        --inverse-primary-fallback: --c2-contrast(0.72, var(--current));
 
         //
-        --sidebar-width: min(clamp(16rem, 10vw, 20rem), 100cqi);
-        --container-max-width: min(100%, 110rem);
-        --container-padding: clamp(1rem, 3vw, 2rem);
-
-        --breakpoint-sm: 40rem;
-        --breakpoint-md: 60rem;
-        --breakpoint-lg: 75rem;
-        --breakpoint-xl: 90rem;
-
-        --backdrop-blur-subtle: blur(6px) saturate(110%);
-        --backdrop-blur-default: blur(12px) saturate(120%);
-        --backdrop-blur-strong: blur(18px) saturate(140%);
-
-        --color-success-dark: color-mix(in oklch, var(--color-success) 40%, var(--md-shadow) 60%);
-        --color-warning-dark: color-mix(in oklch, var(--color-warning) 38%, var(--md-shadow) 62%);
-        --color-error-dark: color-mix(in oklch, var(--color-danger) 42%, var(--md-shadow) 58%);
+        --primary: var(--primary-fallback);
+        --secondary: var(--secondary-fallback);
+        --tertiary: var(--tertiary-fallback);
+        --trinary: var(--tertiary);
+        --accent: var(--accent-fallback);
+        --current: var(--primary-fallback, #469);
 
         //
-        @media (max-width: 720px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
-        @media (max-width: 480px) { --sidebar-width: min(clamp(18.75rem, 40vw, 21.25rem), 100cqi); }
-        @media (max-width: 320px) { --sidebar-width: min(clamp(17.5rem, 35vw, 20rem), 100cqi); }
-    }
+        @media(prefers-color-scheme: dark) { color-scheme: dark; }
+        @media(prefers-color-scheme: light) { color-scheme: light; }
 
-    :where(:root, :host, :scope, body) {
-        --interaction-tone-direction: 1;
-    }
-
-    @container (inline-size < 30rem) {
-        :root {
-            --size-scale: 0.92;
-            --font-scale: 0.96;
-        }
-    }
-
-    @container (30rem <= inline-size < 60rem) {
-        :root {
-            --size-scale: 1;
-            --font-scale: 1;
-        }
-    }
-
-    @container (inline-size >= 60rem) {
-        :root {
-            --size-scale: 1.05;
-            --font-scale: 1.04;
-        }
-    }
-
-    // =============================================================================
-    // TYPOGRAPHY
-    // =============================================================================
-
-    :root {
-        // Font size scales
-        //--font-xs: clamp(0.7rem, 0.35cqi + 0.65rem, 0.84rem);
-        //--font-sm: clamp(0.78rem, 0.42cqi + 0.7rem, 0.9rem);
-        //--font-base: clamp(0.85rem, 0.5cqi + 0.78rem, 0.98rem);
-        --font-md: clamp(0.92rem, 0.6cqi + 0.82rem, 1.05rem);
-        //--font-lg: clamp(1.05rem, 0.8cqi + 0.9rem, 1.2rem);
-        //--font-xl: clamp(1.2rem, 1cqi + 1rem, 1.45rem);
-        --font-2xl: clamp(1.35rem, 1.3cqi + 1.1rem, 1.75rem);
-
-        // Font sizes
-        --font-xs: clamp(calc(0.7rem * var(--font-scale)), 0.3cqi + 0.6rem, calc(0.75rem * var(--font-scale)));
-        --font-sm: clamp(calc(0.75rem * var(--font-scale)), 0.4cqi + 0.65rem, calc(0.85rem * var(--font-scale)));
-        --font-base: clamp(calc(0.8rem * var(--font-scale)), 0.5cqi + 0.7rem, calc(0.95rem * var(--font-scale)));
-        --font-lg: clamp(calc(0.9rem * var(--font-scale)), 0.6cqi + 0.8rem, calc(1.1rem * var(--font-scale)));
-        --font-xl: clamp(calc(1rem * var(--font-scale)), 0.8cqi + 0.9rem, calc(1.3rem * var(--font-scale)));
-
-        // Font size scales
-        --font-size-xs: var(--font-xs);
-        --font-size-sm: var(--font-sm);
-        --font-size-base: var(--font-base);
-        --font-size-md: var(--font-md);
-        --font-size-lg: var(--font-lg);
-        --font-size-xl: var(--font-xl);
-        --font-size-2xl: var(--font-2xl);
-        --font-size: var(--font-base);
-
-        // Line heights
-        --leading-tight: 1.2;
-        --leading-normal: 1.5;
-        --leading-relaxed: 1.8;
-
-        // Font weights
-        --font-weight-normal: 400;
-        --font-weight-medium: 500;
-        --font-weight-semibold: 600;
-        --font-weight-bold: 700;
-    }
-
-    // =============================================================================
-    // COLORS & OPACITY
-    // =============================================================================
-
-    :root {
-        // Surface opacity levels for consistent layering
-        --surface-opacity-subtle: 0.02;
-        --surface-opacity-muted: 0.04;
-        --surface-opacity-default: 0.08;
-        --surface-opacity-emphasis: 0.12;
-        --surface-opacity-strong: 0.16;
-
-        // Contrast opacity levels
-        --contrast-opacity-subtle: 0.04;
-        --contrast-opacity-muted: 0.08;
-        --contrast-opacity-default: 0.12;
-        --contrast-opacity-emphasis: 0.16;
-        --contrast-opacity-strong: 0.24;
-
-        // Text tint levels for colorize
-        --text-tint-primary: 0;
-        --text-tint-secondary: 0.04;
-        --text-tint-muted: 0.06;
-        --text-tint-disabled: 0.12;
-
-        // Border and outline opacity
-        --border-opacity-subtle: 0.14;
-        --border-opacity-default: 0.2;
-        --border-opacity-emphasis: 0.24;
-        --border-opacity-strong: 0.4;
-        --border-opacity-dashed: 0.18;
-
-        // Scrollbar opacity
-        --scrollbar-opacity: 0.4;
-        --scrollbar-tint: 0.1;
-
-        // Outline and focus opacity
-        --outline-opacity: 0.4;
-        --outline-tint: 0;
-
-        // Semantic color variants
-        --color-red: oklch(0.5 0.2 30 / 1);
-        --color-orange: oklch(0.5 0.2 80 / 1);
-        --color-yellow: oklch(0.7 0.2 100 / 1);
-        --color-green: oklch(0.5 0.2 140 / 1);
-        --color-blue: oklch(0.5 0.2 260 / 1);
-        --color-purple: oklch(0.5 0.2 320 / 1);
-
-        // Validation colors
-        --color-success: #2cda9d;
-        --color-warning: #ffb347;
-        --color-error: #ff6b6b;
-
-        --color-success-dark: oklch(from rgba(11, 52, 36, 0.92));
-        --color-warning-dark: oklch(from rgba(64, 38, 8, 0.92) l c h / 1);
-        --color-error-dark: oklch(from rgba(56, 12, 20, 0.9) l c h / 1);
-    }
-
-    // =============================================================================
-    // LAYOUT & BREAKPOINTS
-    // =============================================================================
-
-    :root {
-        // Sidebar dimensions
-        --sidebar-width: clamp(260px, 28vw, 360px);
-        --sidebar-width-collapsed: clamp(160px, 20vw, 200px);
-        // Mobile sidebar dimensions (larger for better touch targets)
-        --sidebar-width-mobile: clamp(280px, 35vw, 320px);
-        --sidebar-width-mobile-small: clamp(300px, 40vw, 340px);
-
-        // Container dimensions
-        --container-max-width: 1200px;
-        --container-padding: clamp(1rem, 3vw, 2rem);
-
-        // Grid breakpoints (for use in container queries and media queries)
-        --breakpoint-sm: 480px;
-        --breakpoint-md: 720px;
-        --breakpoint-lg: 960px;
-        --breakpoint-xl: 1200px;
-    }
-
-    // =============================================================================
-    // ANIMATIONS & TRANSITIONS
-    // =============================================================================
-
-    :root {
-        // Transition durations
-        --duration-fast: 120ms;
-        --duration-normal: 160ms;
-        --duration-slow: 220ms;
-
-        // Easing functions
-        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-        --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-        --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-        // Common transition combinations
-        --transition-colors: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out);
-        --transition-transform: transform var(--duration-fast) var(--ease-out);
-        --transition-opacity: opacity var(--duration-normal) var(--ease-out);
-        --transition-all: all var(--duration-normal) var(--ease-out);
-    }
-
-    // =============================================================================
-    // EFFECTS & SHADOWS
-    // =============================================================================
-
-    :root {
-        // Backdrop filters
-        --backdrop-blur-subtle: blur(6px) saturate(110%);
-        --backdrop-blur-default: blur(12px) saturate(120%);
-        --backdrop-blur-strong: blur(18px) saturate(140%);
-
-        // Box shadows
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-        --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.16);
-
-        // Inset shadows for depth
-        --shadow-inset: inset 0 1px 0 color-mix(
-            in oklab,
-            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f))) 12%,
-            transparent
-        );
-        --shadow-inset-strong: inset 0 2px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    // =============================================================================
-    // COMPONENT-SPECIFIC VARIABLES
-    // =============================================================================
-
-    :root {
-        // Cards
-        --card-padding: var(--padding-lg);
-        --card-radius: var(--radius-md);
-        --card-gap: var(--gap-sm);
-        --card-avatar-size: var(--avatar-size);
-
-        // Forms
-        --form-radius: var(--radius-full);
-        --form-padding: var(--padding-md);
-        --form-gap: var(--gap-sm);
-
-        // Buttons
-        --button-radius: var(--radius-full);
-        --button-padding-x: var(--padding-lg);
-        --button-padding-y: var(--padding-sm);
-
-        // Navigation
-        --nav-gap: var(--gap-xs);
-        --nav-padding: var(--padding-sm);
-        --nav-radius: var(--radius-sm);
-    }
-
-    // =============================================================================
-    // SPACING & SIZING
-    // =============================================================================
-
-    // Design system variables
-    :root {
-        // Spacing scale
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 0.75rem;
-        --space-lg: 1rem;
-        --space-xl: 1.25rem;
-        --space-2xl: 1.6rem;
-
-        // Gap scale
-        --gap-xs: 0.35rem;
-        --gap-sm: 0.5rem;
-        --gap-md: 0.8rem;
-        --gap-lg: 1rem;
-        --gap-xl: 1.4rem;
-
-        // Border radius scale
-        --radius-xs: 0.3rem;
-        --radius-sm: 0.5rem;
-        --radius-md: 0.75rem;
-        --radius-lg: 0.9rem;
-        --radius-xl: 1.1rem;
-        --radius-full: min(50%, 9999px);
-
-        @supports (width: 1cqmin) {
-            --radius-full: min(50%, 50cqmin);
-        }
-
-        // Padding scale
-        --padding-xs: 0.35rem;
-        --padding-sm: 0.5rem;
-        --padding-md: 0.75rem;
-        --padding-lg: 1rem;
-        --padding-xl: 1.25rem;
-
-        // Avatar and icon sizes
-        --avatar-size: 48px;
-        --avatar-size-lg: 64px;
-        --icon-size-sm: 1rem;
-        --icon-size-md: 1.25rem;
-        --icon-size-lg: 1.5rem;
-
-        // Font sizes
-        --text-xs: clamp(0.7rem, 0.3cqi + 0.6rem, 0.75rem);
-        --text-sm: clamp(0.75rem, 0.4cqi + 0.65rem, 0.85rem);
-        --text-base: clamp(0.8rem, 0.5cqi + 0.7rem, 0.95rem);
-        --text-lg: clamp(0.9rem, 0.6cqi + 0.8rem, 1.1rem);
-        --text-xl: clamp(1rem, 0.8cqi + 0.9rem, 1.3rem);
-
-        // Transitions
-        --transition-fast: 140ms ease;
-        --transition-normal: 160ms ease;
-        --transition-slow: 200ms ease;
-
-        // Interactive states
-        --hover-lift: calc(0.04 * var(--interaction-tone-direction, 1));
-        --active-lift: calc(0.06 * var(--interaction-tone-direction, 1));
-        --focus-lift: calc(0.02 * var(--interaction-tone-direction, 1));
-    }
-
-    // Establish a default inline-size container so container queries work broadly
-    :root, body {
-        container-type: inline-size;
-    }
-
-    // Base scaling knobs
-    :root {
-        --size-scale: 1;
-        --font-scale: 1;
-    }
-
-    // Adaptive scales via container queries
-    // Small containers (phones, narrow panes)
-    @container (inline-size < 30rem) {
-        :root {
-            --size-scale: 0.92;
-            --font-scale: 0.96;
-        }
-    }
-
-    // Medium containers (tablets, typical panes)
-    @container (30rem <= inline-size < 60rem) {
-        :root {
-            --size-scale: 1;
-            --font-scale: 1;
-        }
-    }
-
-    // Large containers (desktops, wide panes)
-    @container (inline-size >= 60rem) {
-        :root {
-            --size-scale: 1.06;
-            --font-scale: 1.04;
-        }
-    }
-
-    // Flexible unit helpers
-    // Consumers can override --u to switch design unit (e.g., to cqi/cqb)
-    :root {
-        --u: 1rem;             // design unit
-        --pxu: 1px;            // pixel unit
-        --cqi: 1cqi;           // inline container unit
-        --cqb: 1cqb;           // block container unit
-    }
-
-    // Redefine key tokens with scale-aware values
-    // These override values from core/_variables.scss to apply container-driven scaling
-    :root {
-        // Spacing
-        --space-xs: calc(0.25rem * var(--size-scale));
-        --space-sm: calc(0.5rem * var(--size-scale));
-        --space-md: calc(0.75rem * var(--size-scale));
-        --space-lg: calc(1rem * var(--size-scale));
-        --space-xl: calc(1.25rem * var(--size-scale));
-        --space-2xl: calc(1.6rem * var(--size-scale));
-
-        // Gaps
-        --gap-xs: calc(0.35rem * var(--size-scale));
-        --gap-sm: calc(0.5rem * var(--size-scale));
-        --gap-md: calc(0.8rem * var(--size-scale));
-        --gap-lg: calc(1rem * var(--size-scale));
-        --gap-xl: calc(1.4rem * var(--size-scale));
-
-        // Radius
-        --radius-xs: clamp(0.25rem, 0.5cqi, calc(0.375rem * var(--size-scale)));
-        --radius-sm: clamp(0.5rem, 0.8cqi, calc(0.65rem * var(--size-scale)));
-        --radius-md: clamp(0.75rem, 1cqi, calc(1rem * var(--size-scale)));
-        --radius-lg: clamp(0.85rem, 1.2cqi, calc(1.2rem * var(--size-scale)));
-        --radius-xl: clamp(1rem, 1.5cqi, calc(1.4rem * var(--size-scale)));
-        --radius-full: 9999px;
-
-        // Padding
-        --padding-xs: calc(0.35rem * var(--size-scale));
-        --padding-sm: calc(0.5rem * var(--size-scale));
-        --padding-md: calc(0.75rem * var(--size-scale));
-        --padding-lg: calc(1rem * var(--size-scale));
-        --padding-xl: calc(1.25rem * var(--size-scale));
-
-        // Font sizes
-        --text-xs: clamp(calc(0.7rem * var(--font-scale)), 0.3cqi + 0.6rem, calc(0.75rem * var(--font-scale)));
-        --text-sm: clamp(calc(0.75rem * var(--font-scale)), 0.4cqi + 0.65rem, calc(0.85rem * var(--font-scale)));
-        --text-base: clamp(calc(0.8rem * var(--font-scale)), 0.5cqi + 0.7rem, calc(0.95rem * var(--font-scale)));
-        --text-lg: clamp(calc(0.9rem * var(--font-scale)), 0.6cqi + 0.8rem, calc(1.1rem * var(--font-scale)));
-        --text-xl: clamp(calc(1rem * var(--font-scale)), 0.8cqi + 0.9rem, calc(1.3rem * var(--font-scale)));
-
-        // Component tokens
-        --card-padding: var(--padding-lg);
-        --card-radius: var(--radius-md);
-        --card-gap: var(--gap-sm);
-        --avatar-size: clamp(32px, 6cqi, 48px);
-        --avatar-size-lg: clamp(40px, 8cqi, 64px);
-        --icon-size-sm: clamp(0.9rem, 1.2cqi, 1.1rem);
-        --icon-size-md: clamp(1.1rem, 1.4cqi, 1.3rem);
-        --icon-size-lg: clamp(1.4rem, 1.8cqi, 1.7rem);
-    }
-
-    // =============================================================================
-    // COLOR VARIABLES
-    // =============================================================================
-
-    :root {
-        --color-primary: #2c3e50;
-        --color-secondary: #34495e;
-        --color-accent: #3498db;
-        --color-success: #28a745;
-        --color-warning: #ffc107;
-        --color-danger: #dc3545;
-        --color-info: #17a2b8;
+        //
+        & { color-scheme: light; };
+        &:is([data-scheme="dark"], [data-theme="dark"]) { color-scheme: dark only; }
+        &:is([data-scheme="light"], [data-theme="light"]) { color-scheme: light only; }
+        &:is([data-scheme="system"], [data-theme="system"]) { color-scheme: light dark; }
+        &:is([data-scheme="auto"], [data-theme="auto"]) { color-scheme: light dark; }
     }
 
     //
@@ -513,7 +119,15 @@
     }
 
     //
+    :host {
+        --current: var(--primary, transparent);
+        color-scheme: inherit;
+    }
+
+    //
     :where(:root, :host, :scope) {
+        @include material-color-c2-adapter-remap();
+        @include md3.md3-export-scale-vars();
         @include md3.md3-export-density-vars();
         @include md3.md3-export-layout-vars();
         @include md3.md3-export-motion-vars();
@@ -521,6 +135,4 @@
         @include md3.md3-export-elevation-vars();
         @include md3.md3-export-state-vars();
     }
-
 }
-

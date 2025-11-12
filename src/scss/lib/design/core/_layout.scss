@@ -4,8 +4,16 @@
 @use "sass:meta";
 @use "sass:string";
 
+//
 @use "utils" as _;
 @use "shadow" as _shadow;
+
+
+// =============================================================================
+// LAYOUT & BREAKPOINTS
+// =============================================================================
+
+
 
 //
 // Space scale
@@ -33,17 +41,6 @@ $md3-radius-scale: (
 );
 
 //
-// Radius aliases
-$md3-radius-aliases: (
-    xs: extra-small,
-    sm: small,
-    md: medium,
-    lg: large,
-    xl: extra-large,
-    full: full,
-);
-
-//
 // Shape scale
 $md3-shape-scale: (
     corner-none: 0,
@@ -65,18 +62,59 @@ $md3-shape-scale: (
 //
 // Radius aliases
 $md3-radius-aliases: (
+    3xs: xs,
+    2xs: xs,
+    xs: xs,
+    extra-small: xs,
+    sm: sm,
+    small: sm,
+    md: md,
+    medium: md,
+    lg: lg,
+    large: lg,
+    xl: xl,
+    extra-large: xl,
+    2xl: xl,
+    3xl: xl,
+    4xl: xl,
+    full: full,
+);
+
+//
+// Shape aliases
+$md3-shape-aliases: (
     3xs: extra-small,
     2xs: extra-small,
     xs: extra-small,
+    extra-small: extra-small,
     sm: small,
+    small: small,
     md: medium,
+    medium: medium,
     lg: large,
+    large: large,
     xl: extra-large,
+    extra-large: extra-large,
     2xl: extra-large,
-    3xl: extra-large,
-    4xl: extra-large,
+    3xl: extra-extra-large,
+    4xl: extra-extra-large,
     full: full,
 );
+
+//
+// Breakpoint scale
+$md3-breakpoints: (
+    sm: 40rem,
+    md: 60rem,
+    lg: 75rem,
+    xl: 90rem,
+    2xl: 105rem,
+);
+
+//
+// Container query thresholds
+$md3-container-compact-max: 30rem;
+$md3-container-cozy-max: 60rem;
 
 
 //
@@ -123,14 +161,16 @@ $md3-avatar-sizes: (
 //
 // Radius function
 @function md3-radius($token) {
+    @if map.has-key($md3-radius-scale, $token) {
+        @return map.get($md3-radius-scale, $token);
+    }
+
     @if map.has-key($md3-radius-aliases, $token) {
         $alias: map.get($md3-radius-aliases, $token);
         @return map.get($md3-radius-scale, $alias);
     }
 
     @return _.md3-fetch($md3-radius-scale, $token, "radius token");
-
-    @error "Unknown MD3 radius token `#{$token}`. Available: #{map.keys($md3-radius-scale)}";
 }
 
 //
@@ -164,12 +204,12 @@ $md3-avatar-sizes: (
         @return map.get($md3-shape-scale, $token);
     }
 
-    @if map.has-key($md3-radius-aliases, $token) {
-        $alias: map.get($md3-radius-aliases, $token);
+    @if map.has-key($md3-shape-aliases, $token) {
+        $alias: map.get($md3-shape-aliases, $token);
         @return map.get($md3-shape-scale, $alias);
     }
 
-    @error "Unknown MD3 radius token `#{$token}`. Available: #{map.keys($md3-shape-scale)}";
+    @error "Unknown MD3 shape token `#{$token}`. Available: #{map.keys($md3-shape-scale)}";
 }
 
 //
@@ -204,35 +244,116 @@ $md3-avatar-sizes: (
     }
 }
 
+
+
+@mixin md3-export-scale-vars() {
+    --u: 1rem;
+    --pxu: 1px;
+    --cqi: 1cqi;
+    --cqb: 1cqb;
+
+    --size-scale: 1;
+    --font-scale: 1;
+
+    --container-max-width: min(100%, 110rem);
+    --container-padding: clamp(1rem, 3vw, 2rem);
+
+    @each $name, $value in $md3-breakpoints {
+        --breakpoint-#{$name}: #{$value};
+    }
+
+    @container (inline-size < $md3-container-compact-max) {
+        --size-scale: 0.92;
+        --font-scale: 0.96;
+    }
+
+    @container ($md3-container-compact-max <= inline-size < $md3-container-cozy-max) {
+        --size-scale: 1;
+        --font-scale: 1;
+    }
+
+    @container (inline-size >= $md3-container-cozy-max) {
+        --size-scale: 1.05;
+        --font-scale: 1.04;
+    }
+
+    --sidebar-width: min(clamp(16.25rem, 28vw, 22.5rem), 100cqi);
+    --sidebar-width-collapsed: min(clamp(10rem, 20vw, 12.5rem), 100cqi);
+    --sidebar-width-mobile: min(clamp(17.5rem, 35vw, 20rem), 100cqi);
+    --sidebar-width-mobile-small: min(clamp(18.75rem, 40vw, 21.25rem), 100cqi);
+
+    @media (max-width: #{map.get($md3-breakpoints, md)}) {
+        --sidebar-width: var(--sidebar-width-mobile);
+    }
+
+    @media (max-width: #{map.get($md3-breakpoints, sm)}) {
+        --sidebar-width: var(--sidebar-width-mobile-small);
+    }
+}
+
+
+
+
 //
 // Export layout vars mixin
 @mixin md3-export-layout-vars() {
-    --card-padding: var(--padding-lg);
-    --card-gap: var(--gap-md);
-    --card-radius: #{md3-radius(lg)};
-    --card-avatar-size: #{md3-avatar-size(md)};
+    // Spacing tokens
+    @each $token, $value in $md3-space-scale {
+        --space-#{$token}-base: #{$value};
+        --space-#{$token}: var(--space-#{$token}-base);
+        --gap-#{$token}: var(--space-#{$token});
+        --padding-#{$token}: var(--space-#{$token});
+    }
 
-    --form-radius: #{md3-radius(md)};
-    --form-padding: var(--padding-md);
-    --form-gap: var(--gap-sm);
 
-    --button-radius: #{md3-radius(full)};
-    --button-padding-x: var(--padding-lg);
-    --button-padding-y: var(--padding-sm);
+    //
+    @each $alias, $token in $md3-radius-aliases {
+        --radius-#{$alias}: var(--radius-#{$token}, #{md3-radius($token)});
+    }
 
-    --nav-gap: var(--gap-sm);
-    --nav-padding: var(--padding-sm);
-    --nav-radius: #{md3-radius(sm)};
+    // Radius tokens
+    @each $token, $value in $md3-radius-scale {
+        --radius-#{$token}: #{$value};
+    }
 
+    --radius-full: #{md3-radius(full)};
+
+
+    //
+    @each $alias, $token in $md3-shape-aliases {
+        --shape-#{$alias}: var(--shape-#{$token}, #{md3-shape($token)});
+    }
+
+    // Shape tokens
+    @each $token, $value in $md3-shape-scale {
+        --shape-#{$token}: #{$value};
+    }
+
+
+
+    // Icon & avatar sizes
     --icon-size-xs: #{md3-icon-size(xs)};
     --icon-size-sm: #{md3-icon-size(sm)};
     --icon-size-md: #{md3-icon-size(md)};
     --icon-size-lg: #{md3-icon-size(lg)};
     --icon-size-xl: #{md3-icon-size(xl)};
+    --icon-size-2xl: #{md3-icon-size(2xl)};
 
     --avatar-size-sm: #{md3-avatar-size(sm)};
     --avatar-size: #{md3-avatar-size(md)};
     --avatar-size-lg: #{md3-avatar-size(lg)};
+
+    // Typography scale
+    --text-xs: clamp(calc(0.7rem * var(--font-scale)), 0.3cqi + 0.6rem, calc(0.75rem * var(--font-scale)));
+    --text-sm: clamp(calc(0.75rem * var(--font-scale)), 0.4cqi + 0.65rem, calc(0.85rem * var(--font-scale)));
+    --text-base: clamp(calc(0.8rem * var(--font-scale)), 0.5cqi + 0.7rem, calc(0.95rem * var(--font-scale)));
+    --text-lg: clamp(calc(0.9rem * var(--font-scale)), 0.6cqi + 0.8rem, calc(1.1rem * var(--font-scale)));
+    --text-xl: clamp(calc(1rem * var(--font-scale)), 0.8cqi + 0.9rem, calc(1.3rem * var(--font-scale)));
+
+    // Motion tokens
+    --transition-fast: 140ms ease;
+    --transition-normal: 160ms ease;
+    --transition-slow: 200ms ease;
 
     --text-opacity-disabled: #{md3-state(disabled)};
 }
@@ -272,11 +393,11 @@ $z-tooltip: 1070;
 
 //
 // Breakpoint variables
-$breakpoint-sm: 40rem;
-$breakpoint-md: 60rem;
-$breakpoint-lg: 75rem;
-$breakpoint-xl: 90rem;
-$breakpoint-2xl: 105rem;
+$breakpoint-sm: map.get($md3-breakpoints, sm);
+$breakpoint-md: map.get($md3-breakpoints, md);
+$breakpoint-lg: map.get($md3-breakpoints, lg);
+$breakpoint-xl: map.get($md3-breakpoints, xl);
+$breakpoint-2xl: map.get($md3-breakpoints, 2xl);
 
 //
 // Container max width
@@ -329,36 +450,6 @@ $is-not-wide: "(width < #{$mobile-width})";
 $is-desktop: "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobile-width}) or (orientation: landscape)))";
 $is-mobile: "not #{$is-desktop}";
 $is-windowed: "@container u2-windowed #{$is-not-wide}";
-
-
-
-//
-// Export layout vars mixin
-@mixin md3-export-layout-vars() {
-    @each $token, $value in $md3-space-scale {
-        --space-#{$token}: #{$value};
-        --gap-#{$token}: #{$value};
-        --padding-#{$token}: #{$value};
-    }
-
-    @each $token, $value in $md3-space-scale {
-        --radius-#{$token}: #{md3-radius($token)};
-    }
-
-    @each $token, $value in $md3-space-scale {
-        --radius-#{$token}: #{$value};
-    }
-
-    @each $alias, $token in $md3-radius-aliases {
-        --shape-#{$alias}: #{md3-shape($token)};
-    }
-
-    @each $token, $value in $md3-shape-scale {
-        --shape-#{$token}: #{$value};
-    }
-
-    --radius-full: #{md3-radius(full)};
-}
 
 
 
@@ -866,28 +957,6 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 // =============================================================================
 // LAYOUT MIXINS
 // =============================================================================
-
-@mixin flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@mixin flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-@mixin flex-column {
-    display: flex;
-    flex-direction: column;
-}
-
-@mixin grid-center {
-    display: grid;
-    place-items: center;
-}
 
 @mixin grid-auto-fit($min-width: 250px) {
     display: grid;

@@ -107,7 +107,7 @@
 
 // Focused task colors parameterized by scheme
 @mixin taskbar-focus-colors($bg: var(--c2-surface(0.0, var(--current))), $fg: var(--c2-on-surface(0.0, var(--current)))) {
-    & > ::slotted(ui-task[data-focus]) { background: $bg; color: $fg; }
+    & > ::slotted(ui-task[data-focus]) { background-color: $bg; color: $fg; }
 }
 
 // Task base styles shared by any task-like button
@@ -153,7 +153,7 @@
     & {
         color: var(--task-fg);
         --icon-color: var(--task-fg);
-        background: var(--task-bg);
+        background-color: var(--task-bg);
         backdrop-filter: blur(6px) saturate(120%);
         -webkit-backdrop-filter: blur(6px) saturate(120%);
     }

@@ -11,23 +11,23 @@
     @include button-base;
 
     &.btn-primary {
-        background: $color-primary;
+        background-color: $color-primary;
         color: $text-light;
         box-shadow: $shadow-glow-primary;
 
         &:hover {
-            background: color.adjust($color-primary, $lightness: -5%);
+            background-color: color.adjust($color-primary, $lightness: -5%);
             box-shadow: $shadow-md;
         }
     }
 
     &.btn-secondary {
-        background: $color-accent;
+        background-color: $color-accent;
         color: $text-light;
         box-shadow: $shadow-glow-accent;
 
         &:hover {
-            background: color.adjust($color-accent, $lightness: -5%);
+            background-color: color.adjust($color-accent, $lightness: -5%);
             box-shadow: $shadow-md;
         }
     }
@@ -126,32 +126,32 @@
     letter-spacing: 0.05em;
 
     &.badge-primary {
-        background: $color-primary;
+        background-color: $color-primary;
         color: $text-light;
     }
 
     &.badge-secondary {
-        background: $color-secondary;
+        background-color: $color-secondary;
         color: $text-light;
     }
 
     &.badge-success {
-        background: $color-success;
+        background-color: $color-success;
         color: $text-light;
     }
 
     &.badge-warning {
-        background: $color-warning;
+        background-color: $color-warning;
         color: $text-primary;
     }
 
     &.badge-danger {
-        background: $color-danger;
+        background-color: $color-danger;
         color: $text-light;
     }
 
     &.badge-info {
-        background: $color-info;
+        background-color: $color-info;
         color: $text-light;
     }
 }
@@ -168,25 +168,25 @@
     position: relative;
 
     &.alert-success {
-        background: #d4edda;
+        background-color: #d4edda;
         border-color: #c3e6cb;
         color: #155724;
     }
 
     &.alert-warning {
-        background: #fff3cd;
+        background-color: #fff3cd;
         border-color: #ffeaa7;
         color: #856404;
     }
 
     &.alert-danger {
-        background: #f8d7da;
+        background-color: #f8d7da;
         border-color: #f5c6cb;
         color: #721c24;
     }
 
     &.alert-info {
-        background: #d1ecf1;
+        background-color: #d1ecf1;
         border-color: #bee5eb;
         color: #0c5460;
     }
@@ -202,7 +202,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: $backdrop-blur-sm;
     display: flex;
     align-items: center;
@@ -218,7 +218,7 @@
     }
 
     .modal-content {
-        background: $bg-primary;
+        background-color: $bg-primary;
         border-radius: $border-radius-xl;
         box-shadow: $shadow-2xl;
         max-width: 90vw;
@@ -243,7 +243,7 @@
         }
 
         .modal-close {
-            background: none;
+            background-color: none;
             border: none;
             font-size: $font-size-xl;
             cursor: pointer;
@@ -313,7 +313,7 @@
         bottom: 125%;
         left: 50%;
         transform: translateX(-50%);
-        background: $text-primary;
+        background-color: $text-primary;
         color: $text-light;
         padding: $spacing-sm $spacing-md;
         border-radius: $border-radius-sm;
@@ -348,13 +348,13 @@
 .progress {
     width: 100%;
     height: 8px;
-    background: $bg-tertiary;
+    background-color: $bg-tertiary;
     border-radius: $border-radius-full;
     overflow: hidden;
 
     .progress-bar {
         height: 100%;
-        background: $color-primary;
+        background-color: $color-primary;
         transition: width $transition-base;
     }
 }
@@ -371,7 +371,7 @@
 
         .tab {
             padding: $spacing-md $spacing-lg;
-            background: none;
+            background-color: none;
             border: none;
             cursor: pointer;
             color: $text-muted;
@@ -381,13 +381,13 @@
 
             &:hover {
                 color: $text-primary;
-                background: $bg-secondary;
+                background-color: $bg-secondary;
             }
 
             &.tab-active {
                 color: $color-primary;
                 border-bottom-color: $color-primary;
-                background: $bg-secondary;
+                background-color: $bg-secondary;
             }
         }
     }

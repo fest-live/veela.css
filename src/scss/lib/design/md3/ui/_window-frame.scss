@@ -457,7 +457,6 @@
         --window-frame-control-fg: var(--ui-window-frame-on-surface);
         --window-frame-control-bg: --c2-surface(0.1, var(--current));
         --icon-color: var(--window-frame-control-fg);
-        background: var(--window-frame-control-bg);
         background-color: var(--window-frame-control-bg);
         outline: none;
     }
@@ -484,7 +483,6 @@
         --window-frame-close-bg: --c2-on-surface(-0.05, var(--current));
         --window-frame-close-fg: --c2-surface(0.0, var(--current));
 
-        background: var(--window-frame-close-bg);
         background-color: var(--window-frame-close-bg);
         color: var(--window-frame-close-fg);
 

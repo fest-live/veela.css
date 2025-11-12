@@ -37,7 +37,6 @@ $md3-color-properties: (
 @mixin _apply-surface-palette($selectors, $color: var(--on-surface-color, currentColor), $set-icon: false) {
     #{$selectors} {
         border-color: var(--border-color, transparent);
-        background: var(--surface-color, transparent);
         background-color: var(--surface-color, transparent);
         color: #{$color};
         accent-color: #{$color};
@@ -408,7 +407,7 @@ $md3-color-properties: (
 
 //
 @mixin veela-select-surface() {
-    background: var(--surface-color);
+    background-color: var(--surface-color);
     border-color: var(--border-color);
     color: var(--on-surface-color);
     accent-color: currentColor;
@@ -549,7 +548,7 @@ $md3-color-properties: (
 //
 @mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
     border-color: oklch(from $color l c h / $border-opacity);
-    background: oklch(from $color l c h / $bg-opacity);
+    background-color: oklch(from $color l c h / $bg-opacity);
 }
 
 @mixin validation-success { @include validation-state(var(--color-success)); }

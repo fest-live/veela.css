@@ -11,7 +11,7 @@
 
 //
 @mixin table-header {
-    background: var(--gradient-primary);
+    background-color: var(--gradient-primary);
     color: var(--text-light);
     padding: var(--space-md) var(--space-sm);
     text-align: start;

@@ -8,7 +8,6 @@
 @mixin input-base {
     @include type.type("body-medium");
     @include type.text-wrap();
-    @include colorize.solid-colorize("&");
 
     //
     --_input-border-current: var(--input-border-color, var(--border-color, transparent));
@@ -170,7 +169,6 @@
 @mixin option-style() {
     @include type.type("body-medium");
     @include type.text-wrap();
-    @include colorize.solid-colorize("&");
 
     //
     --_option-border-radius: 0px;
@@ -269,7 +267,6 @@
 @mixin select-base() {
     @include type.type("body-medium");
     @include type.text-wrap();
-    @include colorize.solid-colorize("&");
 
     //
     & {
@@ -329,7 +326,6 @@
     &::picker(select) {
         appearance: base-select;
         cursor: pointer;
-        background: transparent;
         background-color: transparent;
         color: transparent;
         padding: 0;

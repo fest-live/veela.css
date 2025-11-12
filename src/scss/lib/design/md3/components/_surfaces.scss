@@ -30,7 +30,7 @@
 
 //
 @mixin panel-header {
-    background: var(--panel-background);
+    background-color: var(--panel-background);
     color: var(--panel-text-color);
     padding: var(--panel-padding);
     border-radius: var(--panel-radius);

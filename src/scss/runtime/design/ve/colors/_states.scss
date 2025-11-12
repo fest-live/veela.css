@@ -188,7 +188,6 @@
 
         //
         &::picker(select) {
-            background: var(--surface-color);
             background-color: var(--surface-color);
             color: var(--on-surface-color);
             accent-color: var(--on-surface-color);
@@ -202,7 +201,6 @@
         //
         & :where(option) {
             border-color: var(--border-color);
-            background: var(--surface-color);
             background-color: var(--surface-color);
             color: var(--on-surface-color);
             accent-color: var(--on-surface-color);

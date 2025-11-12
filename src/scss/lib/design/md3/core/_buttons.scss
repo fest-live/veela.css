@@ -104,7 +104,7 @@
     &::after {
         opacity: 0;
         transition: opacity var(--duration-normal) var(--ease-out);
-        background: color-mix(
+        background-color: color-mix(
             in oklch,
             var(--md-button-state-color, #{$fallback-color}) calc(var(--state-opacity-hover, 0.08) * 100%),
             transparent
@@ -114,7 +114,7 @@
     &::before {
         opacity: 0;
         transition: opacity var(--duration-fast) var(--ease-out);
-        background: color-mix(
+        background-color: color-mix(
             in oklch,
             var(--md-button-state-color, #{$fallback-color}) calc(var(--state-opacity-press, 0.12) * 100%),
             transparent

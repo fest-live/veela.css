@@ -9,7 +9,7 @@
     padding: $spacing-lg;
     min-height: 100vh;
     position: relative;
-    background: #f8f9fa; // Clean background
+    background-color: #f8f9fa; // Clean background
 
     @include media-down(md) {
         padding: $spacing-md;
@@ -20,7 +20,7 @@
     text-align: center;
     margin-bottom: $spacing-2xl;
     padding: $spacing-2xl;
-    background: $bg-primary;
+    background-color: $bg-primary;
     border-radius: $border-radius-lg;
     box-shadow: $shadow-md;
     border: 1px solid $border-light;
@@ -100,14 +100,14 @@
     align-items: center;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: $bg-secondary;
+    background-color: $bg-secondary;
     border-radius: $border-radius-md;
     border: 2px solid transparent;
     transition: all $transition-base;
 
     &:hover {
         border-color: $color-primary;
-        background: $bg-primary;
+        background-color: $bg-primary;
         box-shadow: $shadow-sm;
     }
 
@@ -123,7 +123,7 @@
 }
 
 .section-index {
-    background: $color-primary;
+    background-color: $color-primary;
     color: $text-light;
     padding: $spacing-sm $spacing-md;
     border-radius: $border-radius-full;
@@ -221,18 +221,18 @@
         padding: $spacing-sm $spacing-md;
         border: 2px solid rgba(255, 255, 255, 0.3);
         border-radius: $border-radius-sm;
-        background: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
         color: $text-light;
         font-size: $font-size-sm;
 
         &:focus {
             outline: none;
             border-color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         option {
-            background: $color-primary;
+            background-color: $color-primary;
             color: $text-light;
         }
     }
@@ -243,7 +243,7 @@
     text-align: center;
     color: $text-muted;
     font-style: italic;
-    background: $bg-secondary;
+    background-color: $bg-secondary;
     border-radius: $border-radius-lg;
     margin: $spacing-lg;
     border: 2px dashed $border-light;
@@ -275,7 +275,7 @@
 }
 
 .diameter-analysis-item {
-    background: $bg-secondary;
+    background-color: $bg-secondary;
     padding: $spacing-lg;
     border-radius: $border-radius-md;
     border-left: 4px solid $color-primary;
@@ -295,7 +295,7 @@
 .max-section,
 .min-section {
     padding: $spacing-md;
-    background: $bg-primary;
+    background-color: $bg-primary;
     border-radius: $border-radius-sm;
     border: 1px solid $bg-tertiary;
 
@@ -319,7 +319,7 @@
 }
 
 .requirement-item {
-    background: $bg-secondary;
+    background-color: $bg-secondary;
     padding: $spacing-lg;
     border-radius: $border-radius-md;
     border: 1px solid $bg-tertiary;
@@ -352,25 +352,25 @@
     position: relative;
 
     &.ensured {
-        background: #d4edda;
+        background-color: #d4edda;
         color: #155724;
         border: 2px solid #c3e6cb;
         box-shadow: $shadow-sm;
 
         &:hover {
-            background: color.adjust(#d4edda, $lightness: -5%);
+            background-color: color.adjust(#d4edda, $lightness: -5%);
             box-shadow: $shadow-md;
         }
     }
 
     &.not-ensured {
-        background: #f8d7da;
+        background-color: #f8d7da;
         color: #721c24;
         border: 2px solid #f5c6cb;
         box-shadow: $shadow-sm;
 
         &:hover {
-            background: color.adjust(#f8d7da, $lightness: -5%);
+            background-color: color.adjust(#f8d7da, $lightness: -5%);
             box-shadow: $shadow-md;
         }
     }
@@ -386,13 +386,13 @@
     align-items: center;
     gap: $spacing-md;
     padding: $spacing-md;
-    background: $bg-secondary;
+    background-color: $bg-secondary;
     border-radius: $border-radius-md;
     border-left: 4px solid $color-primary;
     transition: background-color $transition-base;
 
     &:hover {
-        background: $bg-tertiary;
+        background-color: $bg-tertiary;
         box-shadow: $shadow-sm;
     }
 
@@ -403,7 +403,7 @@
 }
 
 .total-rank {
-    background: $color-primary;
+    background-color: $color-primary;
     color: $text-light;
     padding: $spacing-sm $spacing-md;
     border-radius: $border-radius-full;
@@ -448,13 +448,13 @@
     border: 1px solid transparent;
 
     &.parsed {
-        background: rgba(34, 197, 94, 0.1);
+        background-color: rgba(34, 197, 94, 0.1);
         color: #22c55e;
         border-color: rgba(34, 197, 94, 0.2);
     }
 
     &.not-parsed {
-        background: rgba(239, 68, 68, 0.1);
+        background-color: rgba(239, 68, 68, 0.1);
         color: #ef4444;
         border-color: rgba(239, 68, 68, 0.2);
     }
@@ -475,7 +475,7 @@
         font-weight: $font-weight-medium;
         margin-top: $spacing-xs;
         padding: $spacing-xs;
-        background: rgba(5, 150, 105, 0.1);
+        background-color: rgba(5, 150, 105, 0.1);
         border-radius: $border-radius-sm;
         border: 1px solid rgba(5, 150, 105, 0.2);
     }
@@ -486,7 +486,7 @@
         font-weight: $font-weight-medium;
         margin-top: $spacing-xs;
         padding: $spacing-xs;
-        background: rgba(217, 119, 6, 0.1);
+        background-color: rgba(217, 119, 6, 0.1);
         border-radius: $border-radius-sm;
         border: 1px solid rgba(217, 119, 6, 0.2);
     }
@@ -512,12 +512,12 @@
     transition: all $transition-base;
 
     &.parsed {
-        background: rgba(34, 197, 94, 0.1);
+        background-color: rgba(34, 197, 94, 0.1);
         color: #22c55e;
     }
 
     &.not-parsed {
-        background: rgba(239, 68, 68, 0.1);
+        background-color: rgba(239, 68, 68, 0.1);
         color: #ef4444;
     }
 
@@ -541,7 +541,7 @@
     transition: all $transition-base;
 
     &:hover {
-        background: rgba(0, 0, 0, 0.02);
+        background-color: rgba(0, 0, 0, 0.02);
     }
 }
 

@@ -26,7 +26,7 @@ body {
     font-weight: $font-weight-normal;
     line-height: 1.6;
     color: $text-primary;
-    background: #f8f9fa; // Clean, professional light gray background
+    background-color: #f8f9fa; // Clean, professional light gray background
     min-height: 100vh;
     position: relative;
 }
@@ -171,12 +171,12 @@ img {
 // =============================================================================
 
 ::selection {
-    background: rgba(102, 126, 234, 0.2);
+    background-color: rgba(102, 126, 234, 0.2);
     color: $text-primary;
 }
 
 ::-moz-selection {
-    background: rgba(102, 126, 234, 0.2);
+    background-color: rgba(102, 126, 234, 0.2);
     color: $text-primary;
 }
 
@@ -190,22 +190,22 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: $border-radius-full;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(44, 62, 80, 0.4);
+    background-color: rgba(44, 62, 80, 0.4);
     border-radius: $border-radius-full;
     transition: background $transition-base;
 
     &:hover {
-        background: rgba(44, 62, 80, 0.6);
+        background-color: rgba(44, 62, 80, 0.6);
     }
 }
 
 ::-webkit-scrollbar-corner {
-    background: transparent;
+    background-color: transparent;
 }
 
 // =============================================================================

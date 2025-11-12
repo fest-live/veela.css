@@ -40,7 +40,6 @@ $ve-color-properties: (
         --_surface-on-color: #{$color};
 
         border-color: var(--border-color);
-        background: var(--surface-color);
         background-color: var(--surface-color);
         color: var(--_surface-on-color, currentColor);
         accent-color: var(--_surface-on-color, currentColor);
@@ -258,7 +257,7 @@ $ve-color-properties: (
 
 @mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
     border-color: oklch(from $color l c h / $border-opacity);
-    background: oklch(from $color l c h / $bg-opacity);
+    background-color: oklch(from $color l c h / $bg-opacity);
 }
 
 @mixin validation-success { @include validation-state(var(--color-success)); }

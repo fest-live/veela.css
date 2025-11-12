@@ -29,7 +29,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: color-mix(in oklch, var(#{$role-var}) #{$weight}, transparent);
+        background-color: color-mix(in oklch, var(#{$role-var}) #{$weight}, transparent);
         opacity: 0;
         pointer-events: none;
         transition: opacity var(--duration-fast) var(--ease-out);

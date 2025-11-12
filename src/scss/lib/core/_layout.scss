@@ -307,7 +307,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        background: oklch(
+        background-color: oklch(
             from --c2-on-surface(
                 var(--scrollbar-tint),
                 var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
@@ -317,7 +317,7 @@
     }
 
     &::-webkit-scrollbar-track {
-        background: transparent;
+        background-color: transparent;
     }
 }
 

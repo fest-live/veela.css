@@ -102,14 +102,14 @@
 
 @media print {
     * {
-        background: transparent !important;
+        background-color: transparent !important;
         color: black !important;
         box-shadow: none !important;
         text-shadow: none !important;
     }
 
     .lumber-calculator {
-        background: white !important;
+        background-color: white !important;
 
         &::before {
             display: none;
@@ -117,7 +117,7 @@
     }
 
     .panel-header {
-        background: white !important;
+        background-color: white !important;
         color: black !important;
         border-bottom: 2px solid black;
     }
@@ -186,7 +186,7 @@
     position: absolute;
     top: -40px;
     left: 6px;
-    background: var(--color-primary);
+    background-color: var(--color-primary);
     color: var(--text-light);
     padding: 8px;
     text-decoration: none;
@@ -249,25 +249,25 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius-full);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(44, 62, 80, 0.4);
+    background-color: rgba(44, 62, 80, 0.4);
     border-radius: var(--border-radius-full);
     border: 2px solid transparent;
     background-clip: content-box;
     transition: background var(--transition-base);
 
     &:hover {
-        background: rgba(44, 62, 80, 0.6);
+        background-color: rgba(44, 62, 80, 0.6);
         background-clip: content-box;
     }
 }
 
 ::-webkit-scrollbar-corner {
-    background: transparent;
+    background-color: transparent;
 }
 
 // =============================================================================
@@ -275,11 +275,11 @@
 // =============================================================================
 
 ::selection {
-    background: rgba(44, 62, 80, 0.2);
+    background-color: rgba(44, 62, 80, 0.2);
     color: var(--text-primary);
 }
 
 ::-moz-selection {
-    background: rgba(44, 62, 80, 0.2);
+    background-color: rgba(44, 62, 80, 0.2);
     color: var(--text-primary);
 }

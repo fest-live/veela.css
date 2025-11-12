@@ -47,8 +47,19 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
         --ux-tone-direction: var(--interaction-tone-direction, 1);
     }
 
+    //
+    :where(:root, :host, :scope) {
+        @include solid-colorize("&");
+        @include initial-properties();
+    }
 
+    //
+    :where(input, option, select, button) {
+        @include solid-colorize("&");
+        @include initial-properties();
+    }
 
+    //
     ui-longtext {
         --thumb-size: 1.25rem;
         --track-height: 0.25rem;
@@ -169,7 +180,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
 
             &::-webkit-datetime-edit {
                 @include solid-colorize-selector-only("&");
-                & { background: transparent; float: right; justify-self: end; }
+                & { background-color: transparent; float: right; justify-self: end; }
             }
         }
     }
@@ -189,7 +200,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
 
         &::-webkit-datetime-edit {
             @include solid-colorize-selector-only("&");
-            & { background: transparent; float: right; justify-self: end; }
+            & { background-color: transparent; float: right; justify-self: end; }
         }
     }
 

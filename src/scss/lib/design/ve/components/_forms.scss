@@ -92,7 +92,7 @@
         //
         display: block;
         block-size: fit-content;
-        background: none;
+        background-color: none;
         padding: 0;
         user-select: none;
 
@@ -115,7 +115,7 @@
         cursor: pointer;
         padding: var(--padding-sm);
         padding-inline-start: var(--padding-md);
-        background: none;
+        background-color: none;
         user-select: none;
         display: flex;
         place-content: center;
@@ -131,7 +131,6 @@
     &::picker(select) {
         appearance: base-select;
         cursor: pointer;
-        background: transparent;
         background-color: transparent;
         padding: 0;
 

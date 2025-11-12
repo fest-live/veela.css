@@ -3,6 +3,7 @@
     "exclude": ["./dist/**/*", "./externals/**/*"],
     "compilerOptions": {
         "outDir": "./dist/",
+        "baseUrl": "./",
         "paths": {
             "fest/veela": ["./src/index.ts"],
             "fest/veela-runtime": ["./src/index.ts"],

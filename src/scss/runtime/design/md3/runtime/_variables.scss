@@ -515,23 +515,27 @@
     }
 
     //
-    :root, :host, :scope {
-        :where(*) {
-            --color-shade: 0.0;
-            --color-tint: 0.0;
-            --color-opacity: 0.0;
-            --color-enable-blur: 0;
-        }
+    :where(:root, :host, :scope) :where(*) {
+        --color-shade: 0.0;
+        --color-tint: 0.0;
+        --color-opacity: 0.0;
+        --color-enable-blur: 0;
+    }
 
-        :where(&) {
-            @include md3.md3-export-density-vars();
-            @include md3.md3-export-layout-vars();
-            @include md3.md3-export-motion-vars();
-            @include md3.md3-export-typography-vars();
-            @include md3.md3-export-elevation-vars();
-            @include md3.md3-export-state-vars();
-            @include md3.initial-properties();
-        }
+    //
+    :root, :host, :scope {
+        @include md3.md3-export-density-vars();
+        @include md3.md3-export-layout-vars();
+        @include md3.md3-export-motion-vars();
+        @include md3.md3-export-typography-vars();
+        @include md3.md3-export-elevation-vars();
+        @include md3.md3-export-state-vars();
+        @include md3.initial-properties();
+    }
+
+    //
+    :where(input, option, select, button) {
+        @include md3.initial-properties();
     }
 
 }

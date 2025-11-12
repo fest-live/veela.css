@@ -10,11 +10,13 @@
     @include type.text-wrap();
     @include colorize.solid-colorize("&");
 
-    --_input-border-current: var(--input-border-color, transparent);
-    --_input-surface-current: var(--input-surface, transparent);
+    //
+    --_input-border-current: var(--input-border-color, var(--border-color, transparent));
+    --_input-surface-current: var(--input-surface, var(--surface-color, transparent));
     --_input-shadow-current: var(--input-shadow, none);
     --_input-text-current: var(--input-text-color, var(--on-surface-color, currentColor));
 
+    //
     position: relative;
     //display: inline-flex;
     align-items: center;
@@ -54,18 +56,18 @@
 
     //
     & {
-        background-color: var(--_input-surface-current, transparent);
-        color: var(--_input-text-current, currentColor);
+        background-color: var(--_input-surface-current, var(--surface-color, transparent));
+        color: var(--_input-text-current, var(--on-surface-color, currentColor));
     }
 
     &::placeholder {
-        color: var(--input-placeholder-color, color-mix(in oklch, var(--_input-text-current) 32%, transparent));
+        color: var(--input-placeholder-color, color-mix(in oklch, var(--_input-text-current, var(--on-surface-color, currentColor)) 32%, transparent));
         opacity: 1;
     }
 
     &::selection {
-        background-color: var(--input-selection-color, color-mix(in oklch, var(--input-surface-focus, var(--_input-surface-current, transparent)) 40%, transparent));
-        color: var(--input-selection-on-color, var(--_input-text-current, currentColor));
+        background-color: var(--input-selection-color, var(--on-surface-color, currentColor));
+        color: var(--input-selection-on-color, var(--surface-color, transparent));
     }
 
     &:hover:not(:disabled):not([aria-disabled="true"]) {
@@ -119,16 +121,26 @@
     &:is(textarea) {
         border-radius: var(--radius-md);
     }
+
+    //
+    &:where([type="checkbox"], [type="radio"]) {
+        @include button.button-filled;
+
+        & {
+            aspect-ratio: 1 / 1;
+        }
+    }
 }
 
 //
 @mixin form-field-base() {
     @include input-base();
 
+    //
     display: block;
     block-size: auto;
-    min-block-size: var(--form-min-block-size, 3.5rem);
-    min-inline-size: min(var(--form-min-inline-size, 24ch), 100%);
+    min-block-size: var(--form-min-block-size, fit-content);
+    min-inline-size: min(var(--form-min-inline-size, 24ch), fit-content);
     padding-block: var(--form-padding-block, var(--input-padding-block, var(--padding-md)));
     padding-inline-start: var(--form-padding-inline-start, var(--input-padding-inline-start, var(--padding-lg, 1rem)));
     padding-inline-end: var(--form-padding-inline-end, calc(var(--space-lg) * 2));
@@ -137,6 +149,9 @@
     resize: var(--form-resize, vertical);
     line-height: var(--form-line-height, 1.5);
     overflow: auto;
+
+    inline-size: stretch;
+    block-size: fit-content;
 
     &:disabled,
     &[aria-disabled="true"] {
@@ -155,7 +170,7 @@
     //
     --_option-border-radius: 0px;
     --_option-surface-current: var(--option-surface-color, var(--input-surface, var(--surface-color, transparent)));
-    --_option-border-current: var(--option-border-color, color-mix(in oklch, var(--input-border-color, currentColor) 70%, transparent));
+    --_option-border-current: var(--option-border-color, var(--input-border-color, var(--border-color, transparent)));
     --_option-text-current: var(--option-text-color, var(--input-text-color, var(--on-surface-color, currentColor)));
     --_option-border-block-start-size: 0px;
     --_option-border-block-end-size: 0px;
@@ -208,27 +223,27 @@
 
     //
     &:hover {
-        --_option-surface-current: var(--option-surface-hover, transparent);
-        --_option-border-current: var(--option-border-hover, transparent);
-        --_option-text-current: var(--option-text-hover, currentColor);
+        --_option-surface-current: var(--option-surface-hover, var(--surface-color, transparent));
+        --_option-border-current: var(--option-border-hover, var(--border-color, transparent));
+        --_option-text-current: var(--option-text-hover, var(--on-surface-color, currentColor));
     }
 
     //
     &:active {
-        --_option-surface-current: var(--option-surface-active, transparent);
-        --_option-text-current: var(--option-text-active, currentColor);
+        --_option-surface-current: var(--option-surface-active, var(--surface-color, transparent));
+        --_option-text-current: var(--option-text-active, var(--on-surface-color, currentColor));
     }
 
     //
     &:is(:checked, :selected, [aria-selected="true"]) {
-        --_option-surface-current: var(--option-surface-checked, transparent);
-        --_option-border-current: var(--option-border-checked, transparent);
-        --_option-text-current: var(--option-text-checked, currentColor);
+        --_option-surface-current: var(--option-surface-checked, var(--surface-color, transparent));
+        --_option-border-current: var(--option-border-checked, var(--border-color, transparent));
+        --_option-text-current: var(--option-text-checked, var(--on-surface-color, currentColor));
     }
 
     //
     &:focus-visible {
-        --_option-border-current: var(--option-border-focus, transparent);
+        --_option-border-current: var(--option-border-focus, var(--border-color, transparent));
     }
 
     //
@@ -265,8 +280,8 @@
         @include button.button-filled();
 
         //
-        --_select-surface-current: var(--select-surface-color, transparent);
-        --_select-text-current: var(--select-text-color, currentColor);
+        --_select-surface-current: var(--select-surface-color, var(--surface-color, transparent));
+        --_select-text-current: var(--select-text-color, var(--on-surface-color, currentColor));
 
         //
         display: inline-flex;
@@ -289,19 +304,19 @@
 
         //
         &:hover {
-            --_select-surface-current: var(--select-surface-hover, transparent);
-            --_select-text-current: var(--select-text-hover, currentColor);
+            --_select-surface-current: var(--select-surface-hover, var(--surface-color, transparent));
+            --_select-text-current: var(--select-text-hover, var(--on-surface-color, currentColor));
         }
 
         //
         &:active {
-            --_select-surface-current: var(--select-surface-active, transparent);
-            --_select-text-current: var(--select-text-active, currentColor);
+            --_select-surface-current: var(--select-surface-active, var(--surface-color, transparent));
+            --_select-text-current: var(--select-text-active, var(--on-surface-color, currentColor));
         }
 
         //
         & :where(span, a) {
-            color: var(--_select-text-current, var(--select-text-color, currentColor));
+            color: var(--_select-text-current, var(--select-text-color, var(--on-surface-color, currentColor)));
         }
     }
 
@@ -330,7 +345,7 @@
     }
 
     //
-    &::after {
+    &::after, &::picker-icon {
         pointer-events: none;
         mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='currentColor'%3e%3cpath d='M4.2 6.4a.75.75 0 0 1 1.06-.05L8 8.68l2.74-2.33a.75.75 0 1 1 .98 1.14l-3.24 2.75a.75.75 0 0 1-.98 0L4.25 7.49a.75.75 0 0 1-.05-1.06z'/%3e%3c/svg%3e");
         mask-repeat: no-repeat;
@@ -354,6 +369,12 @@
     }
 
     //
+    &::picker-icon {
+        background-color: transparent;
+        color: transparent;
+    }
+
+    //
     &:where(select):disabled,
     &:where(select)[aria-disabled="true"] {
         cursor: not-allowed;
@@ -369,9 +390,10 @@
 @mixin checkbox-base() {
     @include type.type("body-medium");
     @include type.text-wrap();
+    @include button.button-filled;
 
     //
-    --_checkbox-surface-current: var(--checkbox-surface, var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 84%, transparent)));
+    --_checkbox-surface-current: var(--checkbox-surface, var(--input-surface, var(--surface-color, transparent)));
     --_checkbox-border-current: var(--checkbox-border-color, var(--input-border-color, color-mix(in oklch, var(--outline-color, currentColor) 40%, transparent)));
     --_checkbox-shadow-current: var(--checkbox-shadow, var(--input-shadow, 0 1px 2px color-mix(in oklch, var(--shadow-color, currentColor) 12%, transparent)));
     --_checkbox-icon-current: var(--checkbox-icon-color, var(--input-icon-color, var(--on-surface-color, currentColor)));
@@ -434,7 +456,7 @@
 
     &::before {
         --icon-color: inherit;
-        background-color: var(--icon-color, var(--_checkbox-icon-current, currentColor));
+        background-color: var(--icon-color, var(--_checkbox-icon-current, var(--on-surface-color, currentColor)));
         content: "";
         display: block;
         inline-size: stretch;

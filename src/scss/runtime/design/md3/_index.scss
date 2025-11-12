@@ -1,13 +1,13 @@
-@use "./runtime/material-color" as *;
-@use "./runtime/variables" as *;
 @use "./runtime/wavy-runtime" as *;
+@use "./runtime/variables" as *;
+@use "./runtime/material-color" as *;
+
+//
+@use "./effects/animations" as *;
 
 //
 @use "./theme/variants" as *;
 @use "./theme/states" as *;
-
-//
-@use "./effects/animations" as *;
 
 //
 @use "./shapes/shapes" as *;

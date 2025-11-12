@@ -202,7 +202,7 @@
 
     //
     &::after, &::picker-icon {
-        @include icon-style();
+        @include icon-style("select", $select-icon);
     }
 
     //
@@ -231,12 +231,14 @@
     line-height: 0;
 
     //
+    display: flex;
+    content: " ";
     cursor: pointer;
     user-select: none;
     pointer-events: auto;
-
-    //
-    content: " ";
+    place-content: center;
+    place-items: center;
+    place-self: center;
 
     //
     inline-size: var(--checkbox-size, 1.25rem);
@@ -249,5 +251,6 @@
     border-style: solid;
 
     //
-    &::before { @include icon-style("checkbox"); }
+    &::before { @include icon-style("checkbox", $checkbox-icon); }
+    &:checked::before { --icon-color: var(--surface-color, currentColor); }
 }

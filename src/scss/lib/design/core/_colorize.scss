@@ -8,12 +8,7 @@
 @use "./logical" as lg;
 @use "./utils" as prop;
 
-
-@function _option-or($options, $key, $fallback) {
-    $value: map.get($options, $key);
-    @return if($value == null, $fallback, $value);
-}
-
+//
 @mixin _apply-surface-palette($selectors, $color: var(--on-surface-color, currentColor), $set-icon: false) {
     #{$selectors} {
         border-color: var(--border-color, transparent);
@@ -76,15 +71,15 @@
         "global-targets": null
     )
 ) {
-    $base-shade: _option-or($options, "shade", 0.0);
-    $base-tint: _option-or($options, "tint", 0.0);
-    $scheme-id: _option-or($options, "scheme-id", 2);
     $role: map.get($options, "role");
-    $scope: _option-or($options, "scope", "component");
+    $base-shade: prop.option-or($options, "shade", 0.0);
+    $base-tint: prop.option-or($options, "tint", 0.0);
+    $scheme-id: prop.option-or($options, "scheme-id", 2);
+    $scope: prop.option-or($options, "scope", "component");
     $propagate-default: if($scope == "selector", false, true);
-    $propagate: _option-or($options, "propagate", $propagate-default);
-    $forms-background: _option-or($options, "forms-background", $propagate);
-    $global-targets: _option-or($options, "global-targets", $propagate);
+    $propagate: prop.option-or($options, "propagate", $propagate-default);
+    $forms-background: prop.option-or($options, "forms-background", $propagate);
+    $global-targets: prop.option-or($options, "global-targets", $propagate);
 
     #{$selector} {
         --color-shade: #{$base-shade};
@@ -183,6 +178,8 @@
             &:is(::selection, :checked) {
                 background-color: var(--on-surface-color, transparent);
                 color: var(--surface-color, currentColor);
+                -webkit-text-fill-color: var(--surface-color, currentColor);
+                --icon-color: var(--surface-color, currentColor);
             }
         }
 

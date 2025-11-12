@@ -5,6 +5,12 @@
 @use "sass:string";
 
 //
+@function option-or($options, $key, $fallback) {
+    $value: map.get($options, $key);
+    @return if($value == null, $fallback, $value);
+}
+
+//
 // Fetch function
 @function md3-fetch($source, $token, $label: "token") {
     @if map.has-key($source, $token) {

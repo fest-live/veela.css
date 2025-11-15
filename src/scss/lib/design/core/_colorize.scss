@@ -232,12 +232,12 @@
 }
 
 //
-@mixin surface($shade: var(--surface-opacity-default)) {
+@mixin surface($shade: var(--surface-opacity-subtle)) {
     @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
 }
 
 //
-@mixin surface-interactive($shade: var(--surface-opacity-default)) {
+@mixin surface-interactive($shade: var(--surface-opacity-subtle)) {
     @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
 }
 

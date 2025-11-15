@@ -61,7 +61,6 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $resolved-timing: if($timing == null, _effect-token(transition-timing), $timing);
 
     @include motion.transition($prop-list, $resolved-duration, $resolved-timing);
-    will-change: #{list.join($prop-list, ", ")};
 }
 
 @mixin interactive-effect(

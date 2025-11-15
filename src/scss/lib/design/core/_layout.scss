@@ -619,7 +619,6 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
         @if $cursor != null { --cursor: #{$cursor}; }
         pointer-events: var(--pe, auto);
         user-select: var(--us, none);
-        cursor: var(--cursor, default);
     }
 }
 

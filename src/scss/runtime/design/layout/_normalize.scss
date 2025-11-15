@@ -32,6 +32,12 @@
 
             //
             & :where(*), &::slotted(*) {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+
+                //
                 -webkit-tap-highlight-color: transparent;
                 -moz-tap-highlight-color: transparent;
                 -o-tap-highlight-color: transparent;
@@ -39,20 +45,16 @@
                 tap-highlight-color: transparent;
 
                 //
-                transition-behavior: allow-discrete;
-                interpolate-size: allow-keywords;
+                /*transition-behavior: allow-discrete;
+                interpolate-size: allow-keywords;*/
                 box-sizing: border-box;
+                backface-visibility: hidden;
             }
 
             // if there is nothing, why there is needs content?
             :where(img, video, audio, picture, canvas) { content-visibility: auto; }
             :where(h1, h2, h3, h4, h5, h6, p, form, label, button) { content-visibility: auto; }
             :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty { content-visibility: hidden; }
-
-            //
-            :where(ui-window-frame, ui-modal, .ui-grid-item):active,
-            :where(ui-icon, label, form)
-            [data-dragging], [data-hidden] { will-change: inset, translate, transform, opacity, z-index; };
 
             //
             :where(ui-icon::before) { @include LQRendering(); }

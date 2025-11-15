@@ -27,7 +27,6 @@
     box-sizing: border-box;
     overflow: hidden;
     transition: none;
-    will-change: transform;
 
     @supports (contain: layout paint) {
         contain: layout paint;

@@ -74,7 +74,6 @@
                 --drag-y: 0; --cs-drag-y: calc(var(--drag-y, 0) * 1px);
             }
 
-
             //
             &:active, &:has(:active), *:active {
                 will-change: transform;
@@ -143,7 +142,7 @@
             }
 
             //
-            & {
+            /*& {
                 --drag-distance: clamp(0, hypot(var(--dir-x, 0), var(--dir-y, 0)), 6);
                 --drag-duration: clamp(96ms, calc(var(--drag-distance, 0) * 110ms + 70ms), 360ms);
                 transition-behavior: allow-discrete;
@@ -158,7 +157,7 @@
                     transition-duration: 0ms;
                     transition-timing-function: linear;
                 }
-            }
+            }*/
 
             // if interpolation keywords supported
             @supports (min-inline-size: max(1px, fit-content)) {

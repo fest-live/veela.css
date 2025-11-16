@@ -1,14 +1,5 @@
 @use "veela-lib" as md3;
-@use "sass:string";
-
-//
-@mixin make-func($selector) {
-    @if (string.slice($selector, 1, 1) == "@") {
-        @#{string.slice($selector, 2)} { @content; }
-    } @else {
-        @#{$selector} { @content; }
-    }
-}
+@use "./function-utils" as func;
 
 //
 @function if-cond($c, $a, $b) { @return #{"if(\
@@ -17,7 +8,7 @@
 )"}; }
 
 //
-@include make-func("@function --c2h-triple-mix(\
+@include func.make-func("@function --c2h-triple-mix(\
 --c2h-a <color>, \
 --c2h-b <color>, \
 --c2h-c <color>, \
@@ -44,7 +35,7 @@
 }
 
 //
-@include make-func("@function --c2h-re-shading(\
+@include func.make-func("@function --c2h-re-shading(\
 --c2h-color <color>, \
 --c2h-factor <number>: 0, \
 --c2h-theme-type <number>: 2 \
@@ -99,7 +90,7 @@
 
 
 /* */
-@include make-func("@function --c2-surface(\
+@include func.make-func("@function --c2-surface(\
 --c2-shift    <number>: 0, \
 --c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme    <number>: 2 \
@@ -107,7 +98,7 @@
     { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(0.02 + var(--c2-shift, 0) * 0.8), 1), var(--c2-theme, 2)); };
 
 /* */
-@include make-func("@function --c2-on-surface(\
+@include func.make-func("@function --c2-on-surface(\
 --c2-shift      <number>: 0, \
 --c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
@@ -117,7 +108,7 @@
 
 
 /* */
-@include make-func("@function --c2-contrast(\
+@include func.make-func("@function --c2-contrast(\
 --c2-shift    <number>: 0, \
 --c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
@@ -125,7 +116,7 @@
     { result: --c2h-re-shading(var(--c2-color, var(--primary, currentColor)), clamp(0, calc(0.01 + var(--c2-shift, 0) * 0.6), 1), var(--c2-theme, 2)); };
 
 /* */
-@include make-func("@function --c2-on-contrast(\
+@include func.make-func("@function --c2-on-contrast(\
 --c2-shift      <number>: 0, \
 --c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \

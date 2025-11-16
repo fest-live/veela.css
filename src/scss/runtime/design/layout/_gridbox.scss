@@ -34,14 +34,18 @@
             background-color: transparent;
 
             //
-            inline-size: 100%;
-            block-size: 100%;
+            inline-size: stretch;
+            block-size: stretch;
             padding: 0px;
             overflow: visible;
 
             //
-            grid-template-columns: repeat(var(--cs-layout-c, 4), minmax(0px, 1fr));
-            grid-template-rows: repeat(var(--cs-layout-r, 8), minmax(0px, 1fr));
+            max-inline-size: stretch;
+            max-block-size: stretch;
+
+            //
+            grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr));
+            grid-template-rows: repeat(round(nearest, var(--cs-layout-r, 8), 1), minmax(0px, 1fr));
             //grid-column-gap: var(--c-gap, 1rem);
             //grid-row-gap: var(--r-gap, 1rem);
 
@@ -50,6 +54,10 @@
             align-content: safe start !important;
             justify-items: safe start !important;
             align-items: safe start !important;
+
+            //
+            grid-row: 1 / -1;
+            grid-column: 1 / -1;
         }
 
         //
@@ -95,13 +103,15 @@
                 translate: 0px 0px 0px;
 
                 //
-                inset: 0px;
+                inset: auto;
+
+                //
                 inset-block-start: calc(var(--cs-sw-unit-y, 1px) * 0.5);
                 inset-inline-start: calc(var(--cs-sw-unit-x, 1px) * 0.5);
 
                 //
-                grid-column: round(nearest, var(--cs-grid-c, 1), 1);
-                grid-row: round(nearest, var(--cs-grid-r, 1), 1);
+                grid-column: calc(1 + round(nearest, var(--cs-grid-c, 0), 1));
+                grid-row: calc(1 + round(nearest, var(--cs-grid-r, 0), 1));
 
                 //
                 zoom: 1;
@@ -133,11 +143,20 @@
 
             //
             & {
+                --drag-distance: clamp(0, hypot(var(--dir-x, 0), var(--dir-y, 0)), 6);
+                --drag-duration: clamp(96ms, calc(var(--drag-distance, 0) * 110ms + 70ms), 360ms);
                 transition-behavior: allow-discrete;
                 transition-property: transform;
-                transition-duration: calc(var(--drag-d, 0.01) * 0.8ms);
-                transition-timing-function: linear ;
+                transition-duration: var(--drag-duration);
+                transition-timing-function: cubic-bezier(0.22, 0.8, 0.3, 1);
                 transition-delay: 0ms;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                & {
+                    transition-duration: 0ms;
+                    transition-timing-function: linear;
+                }
             }
 
             // if interpolation keywords supported

@@ -1,0 +1,11 @@
+@use "sass:string";
+
+//
+@mixin make-func($selector) {
+    @if (string.slice($selector, 1, 1) == "@") {
+        @#{string.slice($selector, 2)} { @content; }
+    } @else {
+        @#{$selector} { @content; }
+    }
+}
+

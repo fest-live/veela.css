@@ -121,8 +121,12 @@
         "--f-row": ("syntax": "<integer>", "initial": 0),
         "--grid-c": ("syntax": "<number>", "initial": 0),
         "--grid-r": ("syntax": "<number>", "initial": 0),
-        "--cell-x": ("syntax": "<integer>", "initial": 0),
-        "--cell-y": ("syntax": "<integer>", "initial": 0)
+        "--cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--cs-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--cs-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--os-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--os-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
     ));
 }
 
@@ -132,12 +136,12 @@
         "--p-drag-y": ("syntax": "<number>", "initial": 0, "inherits": false),
         "--layout-r": ("syntax": "<integer>", "initial": 1),
         "--layout-c": ("syntax": "<integer>", "initial": 1),
-        "--p-cell-x": ("syntax": "<integer>", "initial": 0),
-        "--p-cell-y": ("syntax": "<integer>", "initial": 0),
-        "--fc-cell-x": ("syntax": "<integer>", "initial": 0),
-        "--fc-cell-y": ("syntax": "<integer>", "initial": 0),
-        "--fp-cell-x": ("syntax": "<integer>", "initial": 0),
-        "--fp-cell-y": ("syntax": "<integer>", "initial": 0),
+        "--p-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--p-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--fc-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--fc-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--fp-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+        "--fp-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
         "--c-shift-mod": ("syntax": "<number>", "initial": 0),
         "--r-shift-mod": ("syntax": "<number>", "initial": 0)
     ));

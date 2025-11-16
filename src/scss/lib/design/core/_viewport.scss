@@ -177,30 +177,38 @@
 
 
 @mixin compute_cs_size_to_os {
+    $orient: #{inverse-orient(var(--orient, 0))};
+
     & {
         @include v2-size-pair(
             "os-size",
             (var(--cs-size-x, 100cqi), var(--cs-size-y, 100cqb)),
-            (var(--cs-size-x, 100cqb), var(--cs-size-y, 100cqi))
+            (var(--cs-size-x, 100cqb), var(--cs-size-y, 100cqi)),
+            $orient: $orient
         );
 
         @include v2-size-pair(
             "os-self-size",
-            (var(--cs-self-size-x, 100%), var(--cs-self-size-y, 100%))
+            (var(--cs-self-size-x, 100%), var(--cs-self-size-y, 100%)),
+            $orient: $orient
         );
     }
 }
 
 @mixin compute_from_cs_to_os {
+    $orient: #{inverse-orient(var(--orient, 0))};
+
     & {
         @include v2-coord-pair(
             "os-inset",
-            (var(--cs-inset-x, 0px), var(--cs-inset-y, 0px), var(--cs-size-x, 100cqi), var(--cs-size-y, 100cqb))
+            (var(--cs-inset-x, 0px), var(--cs-inset-y, 0px), var(--cs-size-x, 100cqi), var(--cs-size-y, 100cqb)),
+            $orient: $orient
         );
 
         @include v2-vec-pair(
             "os-drag",
-            (var(--cs-drag-x, 0px), var(--cs-drag-y, 0px))
+            (var(--cs-drag-x, 0px), var(--cs-drag-y, 0px)),
+            $orient: $orient
         );
     }
 }
@@ -208,38 +216,38 @@
 
 
 @mixin compute_os_size_to_cs {
-    $inverse-orient: #{inverse-orient(var(--orient, 0))};
+    $orient: var(--orient, 0);
 
     & {
         @include v2-size-pair(
             "cs-size",
             (var(--os-size-x, 100cqb), var(--os-size-y, 100cqi)),
             (var(--os-size-x, 100cqi), var(--os-size-y, 100cqb)),
-            $orient: $inverse-orient
+            $orient: $orient
         );
 
         @include v2-size-pair(
             "cs-self-size",
             (var(--os-self-size-x, 100%), var(--os-self-size-y, 100%)),
-            $orient: $inverse-orient
+            $orient: $orient
         );
     }
 }
 
 @mixin compute_from_os_to_cs {
-    $inverse-orient: #{inverse-orient(var(--orient, 0))};
+    $orient: var(--orient, 0);
 
     & {
         @include v2-coord-pair(
             "cs-inset",
             (var(--os-inset-x, 0px), var(--os-inset-y, 0px), var(--os-size-x, 100cqi), var(--os-size-y, 100cqb)),
-            $orient: $inverse-orient
+            $orient: $orient
         );
 
         @include v2-vec-pair(
             "cs-drag",
             (var(--os-drag-x, 0px), var(--os-drag-y, 0px)),
-            $orient: $inverse-orient
+            $orient: $orient
         );
     }
 }
@@ -260,7 +268,7 @@
 }
 
 @mixin init-cs-size {
-    @include v2-pair("cs-size", 100cqw, 100cqh);
+    @include v2-pair("cs-size", 100cqi, 100cqb);
 }
 
 @mixin centered-self($transforms: null) {
@@ -343,12 +351,23 @@
             calc(var(--cs-size-x, 100cqi) / var(--cs-layout-c, 1)),
             calc(var(--cs-size-y, 100cqb) / var(--cs-layout-r, 1))
         );
+    }
 
+    & {
+        @include v2-pair(
+            "cs-transition",
+            calc(var(--cs-sw-unit-x, 1px) * 0.5),
+            calc(var(--cs-sw-unit-y, 1px) * 0.5),
+            ("c", "r")
+        );
+    }
+
+    &[data-dragging] {
         //
         @include v2-pair(
             "cs-transition",
-            calc((var(--cs-inset-x, 0px) - (round(nearest, var(--cs-grid-c, 1), 1) - 0.5) * var(--cs-sw-unit-x, 1px))),
-            calc((var(--cs-inset-y, 0px) - (round(nearest, var(--cs-grid-r, 1), 1) - 0.5) * var(--cs-sw-unit-y, 1px))),
+            calc((var(--rv-grid-c, 0) - var(--cs-p-grid-c, 0) + 0.5) * var(--cs-sw-unit-x, 1px)),
+            calc((var(--rv-grid-r, 0) - var(--cs-p-grid-r, 0) + 0.5) * var(--cs-sw-unit-y, 1px)),
             ("c", "r")
         );
     }
@@ -362,27 +381,40 @@
 
         //
         @include v2-pair(
-            "fc-cell",
+            "grid",
             clamp(0, var(--cell-x), calc(var(--f-col) - 1)),
-            clamp(0, var(--cell-y), calc(var(--f-row) - 1))
+            clamp(0, var(--cell-y), calc(var(--f-row) - 1)),
+            ("c", "r")
+        );
+
+        //
+        @include v2-pair(
+            "p-grid",
+            clamp(0, var(--p-cell-x), calc(var(--f-col) - 1)),
+            clamp(0, var(--p-cell-y), calc(var(--f-row) - 1)),
+            ("c", "r")
+        );
+
+        //
+        @include v2-pair(
+            "fc-cell",
+            clamp(0, var(--cs-grid-c, 0), calc(var(--f-col) - 1)),
+            clamp(0, var(--cs-grid-r, 0), calc(var(--f-row) - 1))
         );
 
         //
         @include v2-pair(
             "fp-cell",
-            clamp(0, var(--p-cell-x), calc(var(--f-col) - 1)),
-            clamp(0, var(--p-cell-y), calc(var(--f-row) - 1))
+            clamp(0, var(--cs-p-grid-c, 0), calc(var(--f-col) - 1)),
+            clamp(0, var(--cs-p-grid-r, 0), calc(var(--f-row) - 1))
         );
 
         //
         @include v2-pair(
             "dir",
-            calc(var(--fc-cell-x) - var(--fp-cell-x)),
-            calc(var(--fc-cell-y) - var(--fp-cell-y))
+            calc(var(--cs-grid-c, 0) - var(--cs-p-grid-c, 0)),
+            calc(var(--cs-grid-r, 0) - var(--cs-p-grid-r, 0))
         );
-
-        //
-        @include v2-pair("grid", var(--fc-cell-x), var(--fc-cell-y), ("c", "r"));
     }
 
     //
@@ -390,9 +422,26 @@
         @include v2-pair("os-grid", var(--grid-c, 1), var(--grid-r, 1), ("c", "r"));
 
         //
+        @include v2-pair("rv-grid", var(--cs-grid-c, 1), var(--cs-grid-r, 1), ("c", "r"));
         @include v2-coord-num-pair(
             "cs-grid",
             (var(--os-grid-c, 1), var(--os-grid-r, 1), calc(var(--f-col, 1) - 1), calc(var(--f-row, 1) - 1)),
+            $axes: ("c", "r")
+        );
+    }
+
+    //
+    &[data-dragging] {
+        @include v2-pair("rv-grid", var(--cs-p-grid-c, 1), var(--cs-p-grid-r, 1), ("c", "r"));
+    }
+
+    //
+    & {
+        @include v2-pair("os-p-grid", var(--p-cell-x, 0), var(--p-cell-y, 0), ("c", "r"));
+
+        @include v2-coord-num-pair(
+            "cs-p-grid",
+            (var(--os-p-grid-c, 0), var(--os-p-grid-r, 0), calc(var(--f-col, 1) - 1), calc(var(--f-row, 1) - 1)),
             $axes: ("c", "r")
         );
     }

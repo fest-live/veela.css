@@ -65,6 +65,8 @@
 
 @mixin declare-inset-props {
     @include prop.register-properties((
+        "--cs-transition-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--cs-transition-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
         "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
         "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
         "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
@@ -87,16 +89,18 @@
 
 @mixin declare-size-props {
     @include prop.register-properties((
-        "--cs-size-x": ("syntax": "<length-percentage>", "initial": 100cqi),
-        "--cs-size-y": ("syntax": "<length-percentage>", "initial": 100cqb),
-        "--os-size-x": ("syntax": "<length-percentage>", "initial": 100cqi),
-        "--os-size-y": ("syntax": "<length-percentage>", "initial": 100cqb),
+        "--cs-sw-unit-x": ("syntax": "<length-percentage>", "initial": 100%),
+        "--cs-sw-unit-y": ("syntax": "<length-percentage>", "initial": 100%),
+        "--cs-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+        "--cs-size-y": ("syntax": "<length-percentage>", "initial": 100%),
+        "--os-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+        "--os-size-y": ("syntax": "<length-percentage>", "initial": 100%),
         "--cs-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
         "--cs-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
         "--os-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
         "--os-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cqi": ("syntax": "<length-percentage>", "initial": 100cqi),
-        "--cqb": ("syntax": "<length-percentage>", "initial": 100cqb)
+        "--cqi": ("syntax": "<length-percentage>", "initial": 100%),
+        "--cqb": ("syntax": "<length-percentage>", "initial": 100%)
     ));
 }
 
@@ -125,8 +129,14 @@
         "--cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
         "--cs-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
         "--cs-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--rv-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--rv-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--cs-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--cs-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
         "--os-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
         "--os-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--os-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+        "--os-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
     ));
 }
 

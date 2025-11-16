@@ -6,6 +6,10 @@
     @return string.unquote("rem(#{$value}, #{$mod})");
 }
 
+//
+@function css-mod($value, $mod) {
+    @return string.unquote("mod(#{$value}, #{$mod})");
+}
 
 
 
@@ -21,7 +25,7 @@
     --go-axis-inline: calc(1 - var(--go-axis, 0));
     --go-axis-block: var(--go-axis, 0);
 
-    --go-swap-raw: #{css-rem(var(--go-orient), 2)};
+    --go-swap-raw: #{css-mod(var(--go-orient), 2)};
     --go-swap: clamp(0, round(nearest, var(--go-swap-raw), 1), 1);
     --go-swap-inline: calc(1 - var(--go-swap, 0));
 
@@ -52,26 +56,20 @@
 --osy <length-percentage>: 0px, \
 --axis-to-return <number>: 0 \
 ) returns <length-percentage>") {
-    --go-orient: round(nearest, var(--orient, 0), 1);
+    --go-orient: mod(round(nearest, var(--orient, 0), 1), 4);
     --go-axis: clamp(0, round(nearest, var(--axis-to-return, 0), 1), 1);
-    --go-axis-inline: calc(1 - var(--go-axis));
-    --go-axis-block: var(--go-axis);
+    --go-axis-inline: calc(1 - var(--go-axis, 0));
+    --go-axis-block: var(--go-axis, 0);
 
-    --go-swap-raw: #{css-rem(var(--go-orient), 2)};
-    --go-swap: clamp(0, round(nearest, var(--go-swap-raw), 1), 1);
-    --go-swap-inline: calc(1 - var(--go-swap));
+    --go-swap-raw: #{css-mod(var(--go-orient, 0), 2)};
+    --go-swap: clamp(0, round(nearest, var(--go-swap-raw, 0), 1), 1);
+    --go-swap-inline: calc(1 - var(--go-swap, 0));
 
     --go-primary: var(--osx, 0px);
     --go-secondary: var(--osy, 0px);
 
-    --go-inline: calc(
-        var(--go-primary) * var(--go-swap-inline) +
-        var(--go-secondary) * var(--go-swap)
-    );
-    --go-block: calc(
-        var(--go-secondary) * var(--go-swap-inline) +
-        var(--go-primary) * var(--go-swap)
-    );
+    --go-inline: calc(var(--go-primary) * var(--go-swap-inline) + var(--go-secondary) * var(--go-swap));
+    --go-block: calc(var(--go-secondary) * var(--go-swap-inline) + var(--go-primary) * var(--go-swap));
 
     result: calc(
         var(--go-inline) * var(--go-axis-inline) +
@@ -87,12 +85,12 @@
 --osy <length-percentage>: 0px, \
 --axis-to-return <number>: 0 \
 ) returns <length-percentage>") {
-    --go-orient: round(nearest, var(--orient, 0), 1);
+    --go-orient: mod(round(nearest, var(--orient, 0), 1), 4);
     --go-axis: clamp(0, round(nearest, var(--axis-to-return, 0), 1), 1);
     --go-axis-inline: calc(1 - var(--go-axis, 0));
     --go-axis-block: var(--go-axis, 0);
 
-    --go-swap-raw: #{css-rem(var(--go-orient, 0), 2)};
+    --go-swap-raw: #{css-mod(var(--go-orient, 0), 2)};
     --go-swap: clamp(0, round(nearest, var(--go-swap-raw, 0), 1), 1);
     --go-swap-inline: calc(1 - var(--go-swap, 0));
 
@@ -138,12 +136,12 @@
 --osy <number>: 0, \
 --axis-to-return <number>: 0 \
 ) returns <number>") {
-    --go-orient: round(nearest, var(--orient, 0), 1);
+    --go-orient: mod(round(nearest, var(--orient, 0), 1), 4);
     --go-axis: clamp(0, round(nearest, var(--axis-to-return, 0), 1), 1);
     --go-axis-inline: calc(1 - var(--go-axis, 0));
     --go-axis-block: var(--go-axis, 0);
 
-    --go-swap-raw: #{css-rem(var(--go-orient, 0), 2)};
+    --go-swap-raw: #{css-mod(var(--go-orient, 0), 2)};
     --go-swap: clamp(0, round(nearest, var(--go-swap-raw, 0), 1), 1);
     --go-swap-inline: calc(1 - var(--go-swap, 0));
 
@@ -214,12 +212,12 @@
 --osy <length-percentage>: 0px, \
 --axis-to-return <number>: 0 \
 ) returns <length-percentage>") {
-    --go-orient: round(nearest, var(--orient, 0), 1);
+    --go-orient: mod(round(nearest, var(--orient, 0), 1), 4);
     --go-axis: clamp(0, round(nearest, var(--axis-to-return, 0), 1), 1);
     --go-axis-inline: calc(1 - var(--go-axis, 0));
     --go-axis-block: var(--go-axis, 0);
 
-    --go-swap-raw: #{css-rem(var(--go-orient, 0), 2)};
+    --go-swap-raw: #{css-mod(var(--go-orient, 0), 2)};
     --go-swap: clamp(0, round(nearest, var(--go-swap-raw, 0), 1), 1);
     --go-swap-inline: calc(1 - var(--go-swap, 0));
 

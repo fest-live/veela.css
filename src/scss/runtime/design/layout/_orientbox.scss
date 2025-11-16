@@ -5,6 +5,7 @@
 
     //
     .ui-orientbox {
+        @include init-cs-size;
         @include compute_os_conditions;
         @include compute_cs_size_to_os;
         @include compute_from_os_to_cs;

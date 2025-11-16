@@ -70,15 +70,10 @@
 
             // dragging coordinate
             & {
-                --drag-x: 0; --cs-drag-x: 0px;
-                --drag-y: 0; --cs-drag-y: 0px;
+                --drag-x: 0; --cs-drag-x: calc(var(--drag-x, 0) * 1px);
+                --drag-y: 0; --cs-drag-y: calc(var(--drag-y, 0) * 1px);
             }
 
-            //
-            &[data-dragging] {
-                --cs-drag-x: calc(var(--drag-x, 0) * 1px);
-                --cs-drag-y: calc(var(--drag-y, 0) * 1px);
-            }
 
             //
             &:active, &:has(:active), *:active {
@@ -106,12 +101,12 @@
                 inset: auto;
 
                 //
-                inset-block-start: calc(var(--cs-sw-unit-y, 1px) * 0.5);
-                inset-inline-start: calc(var(--cs-sw-unit-x, 1px) * 0.5);
+                //inset-block-start: calc(var(--cs-sw-unit-y, 1px) * -0.5);
+                //inset-inline-start: calc(var(--cs-sw-unit-x, 1px) * -0.5);
 
                 //
-                grid-column: calc(1 + round(nearest, var(--cs-grid-c, 0), 1));
-                grid-row: calc(1 + round(nearest, var(--cs-grid-r, 0), 1));
+                grid-column: clamp(1, calc(1 + round(nearest, var(--rv-grid-c, 0), 1)), var(--cs-layout-c, 4));
+                grid-row: clamp(1, calc(1 + round(nearest, var(--rv-grid-r, 0), 1)), var(--cs-layout-r, 8));
 
                 //
                 zoom: 1;
@@ -139,6 +134,12 @@
                 //
                 overflow: visible;
                 isolation: isolate;
+            }
+
+            //
+            & {
+                grid-column: clamp(1, calc(1 + round(nearest, var(--cs-grid-c, 0), 1)), var(--cs-layout-c, 4));
+                grid-row: clamp(1, calc(1 + round(nearest, var(--cs-grid-r, 0), 1)), var(--cs-layout-r, 8));
             }
 
             //

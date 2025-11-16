@@ -58,12 +58,23 @@
 
             // calculate visible size
             & { --item-size: min((100cqmin / min(calc(var(--layout-c, 4) / var(--ox-c-span, 1)), calc(var(--layout-r, 8) / var(--ox-r-span, 1)))) - 0.5 * min(var(--c-gap, 1rem), var(--r-gap, 1rem)), 6rem); }
-            & * {--drag-x: 0; --drag-y: 0; }
+            & :where(*) {--drag-x: 0; --drag-y: 0; }
 
             // dragging coordinate
             & {
-                --drag-x: 0; --cs-drag-x: calc(var(--drag-x, 0) * 1px);
-                --drag-y: 0; --cs-drag-y: calc(var(--drag-y, 0) * 1px);
+                --drag-x: 0; --cs-drag-x: 0px;
+                --drag-y: 0; --cs-drag-y: 0px;
+            }
+
+            //
+            &[data-dragging] {
+                --cs-drag-x: calc(var(--drag-x, 0) * 1px);
+                --cs-drag-y: calc(var(--drag-y, 0) * 1px);
+            }
+
+            //
+            &:active, &:has(:active), *:active {
+                will-change: transform;
             }
 
             //
@@ -117,6 +128,7 @@
 
                 //
                 overflow: visible;
+                isolation: isolate;
             }
 
             //
@@ -138,6 +150,50 @@
             & > :where(*) {
                 inline-size: 100%;
                 block-size: 100%;
+            }
+        }
+
+        //
+        &.sd-grid--labels,
+        &[data-layer="labels"] {
+            pointer-events: none !important;
+            isolation: isolate;
+            mix-blend-mode: normal;
+
+            //
+            & > :where(*) {
+                pointer-events: none;
+            }
+
+            //
+            & > :where(.ui-ws-item-label) {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: clamp(0.1rem, 0.35cqmin, 0.35rem);
+                inline-size: 100%;
+                block-size: stretch;
+                padding-block-start: clamp(0.25rem, 0.65cqmin, 0.65rem);
+                color: color-mix(in oklch, var(--on-surface-color) 78%, transparent 22%);
+                font-size: clamp(0.65rem, 1.35cqmin, 1rem);
+                font-weight: 500;
+                text-align: center;
+                text-wrap: balance;
+                letter-spacing: 0.015em;
+                text-shadow:
+                    0 1px 2px color-mix(in oklch, var(--surface-color) 35%, transparent),
+                    0 0 0.35rem color-mix(in oklch, var(--surface-color) 15%, transparent);
+                translate: 0 calc(clamp(0.25rem, 0.65cqmin, 0.65rem) + var(--cs-sw-unit-y, 0px));
+                filter: drop-shadow(0 0 0.2rem color-mix(in oklch, var(--surface-color) 25%, transparent));
+
+                //
+                span {
+                    pointer-events: none;
+                    user-select: none;
+                    max-inline-size: min(8ch, 100%);
+                    opacity: clamp(0.75, 0.9, 1);
+                }
             }
         }
     }

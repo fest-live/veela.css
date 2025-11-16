@@ -65,12 +65,12 @@
 
 @mixin declare-inset-props {
     @include prop.register-properties((
-        "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px),
-        "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px),
-        "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px),
-        "--os-inset-y": ("syntax": "<length-percentage>", "initial": 0px),
-        "--in-inset-x": ("syntax": "<length-percentage>", "initial": 0px),
-        "--in-inset-y": ("syntax": "<length-percentage>", "initial": 0px)
+        "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--os-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--in-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+        "--in-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false)
     ));
 }
 

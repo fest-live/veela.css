@@ -11,6 +11,9 @@
 
         //
         & {
+            @include solid-colorize();
+
+            //
             --cs-size-x: 100cqi;
             --cs-size-y: 100cqb;
 
@@ -44,6 +47,15 @@
             //
             max-inline-size: min(var(--screen-width, 100dvi), 100%) !important;
             max-block-size: min(var(--screen-height, 100dvb), 100%) !important;
+
+            //
+            outline-color: oklch(from var(--on-surface-color) l c h / 0.1);
+            outline-width: 1px;
+            outline-style: solid;
+            outline-offset: -1px;
+
+            //
+            border-radius: var(--radius-lg);
         }
 
         //

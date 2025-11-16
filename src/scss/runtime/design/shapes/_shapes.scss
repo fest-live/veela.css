@@ -42,6 +42,11 @@
     }
 
     //
+    *[data-shape] {
+        @include solid-colorize();
+    }
+
+    //
     *[data-shape="wavy"]:not(:has(.shaped)), *[data-shape="wavy"]:not(.shaped) > *, *[data-shape="wavy"]:not(.shaped) .shaped {
         & {
             --clip-amplitude: 0.05;

@@ -9,3 +9,44 @@
     }
 }
 
+//
+@function hsv-calc($src-color) {
+    // component names (interpretation)
+    $h-hsv: h;
+    $s-hsv: s;
+    $v-hsv: l;
+
+    // new CSS calc division and conversion into number
+    $S_v-frac: calc($s-hsv / 100%);
+    $V-frac:   calc($v-hsv / 100%);
+
+    $L-frac:   calc($V-frac * (1 - $S_v-frac / 2));
+    $minDen:   min($L-frac, calc(1 - $L-frac));
+    $safeDen:  clamp(0.00001, $minDen, 1);
+    $S_l-frac: calc(($V-frac - $L-frac) / $safeDen);
+
+    $L-hsl: calc($L-frac * 100%);
+    $S-hsl: calc($S_l-frac * 100%);
+
+    @return hsl(from $src-color $h-hsv $S-hsl $L-hsl / a);
+}
+
+//
+@function hsv-calc-component($src-cmp) {
+    @return hsv-calc(hsl($src-cmp));
+}
+
+//
+@include func.make-func("@function --c2h-triple-mix(--src-color <color>) returns <color>") {
+    result: hsv-calc($src-color);
+}
+
+// or can be just named as `hsv` for SCSS
+@function hsv-calc-wrap($src-color) {
+    @return --hsv($src-color);
+}
+
+// by syntax, most closer to CSS syntax
+@function hsv($src-cmp) {
+    @return hsv-calc-wrap(hsl($src-cmp));
+}

@@ -13,7 +13,7 @@
 
 
 
-
+//
 @include func.make-func("@function --get-oriented-size-num(\
 --orient <number>: 0, \
 --osx <number>: 0, \
@@ -49,7 +49,7 @@
 
 
 
-
+//
 @include func.make-func("@function --get-oriented-size(\
 --orient <number>: 0, \
 --osx <length-percentage>: 0px, \
@@ -79,6 +79,7 @@
 
 
 
+//
 @include func.make-func("@function --get-oriented-vector(\
 --orient <number>: 0, \
 --osx <length-percentage>: 0px, \
@@ -122,8 +123,6 @@
         var(--go-block) * var(--go-axis-block)
     );
 }
-
-
 
 
 
@@ -198,8 +197,6 @@
         var(--go-block) * var(--go-axis-block)
     );
 }
-
-
 
 
 

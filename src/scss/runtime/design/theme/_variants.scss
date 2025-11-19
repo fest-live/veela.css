@@ -1,5 +1,4 @@
 @use "veela-lib" as *;
-//@use "../../../../lib/design/md3/components/buttons" as buttons;
 
 //
 @mixin validation-state($color, $border-opacity: var(--border-opacity-strong), $bg-opacity: 0.04) {
@@ -7,6 +6,7 @@
     background-color: oklch(from $color l c h / $bg-opacity);
 }
 
+//
 @mixin validation-warning { @include validation-state(var(--color-warning)); }
 @mixin validation-success { @include validation-state(var(--color-success)); }
 @mixin validation-error   { @include validation-state(var(--color-error)); }

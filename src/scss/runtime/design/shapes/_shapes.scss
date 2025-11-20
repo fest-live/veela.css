@@ -43,7 +43,7 @@
 
     //
     *[data-shape] {
-        @include solid-colorize();
+        @include solid-colorize("&", ("shade": 0.1));
     }
 
     //

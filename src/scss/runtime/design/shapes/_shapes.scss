@@ -7,10 +7,9 @@
 
     //
     .shaped {
-        --icon-size: 6rem;
         aspect-ratio: 1 / 1;
-        inline-size: 6rem;
-        block-size: 6rem;
+        inline-size: stretch;
+        block-size: stretch;
         display: flex;
         place-content: center;
         place-items: center;

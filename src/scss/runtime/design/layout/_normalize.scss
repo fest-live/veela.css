@@ -6,92 +6,53 @@
     /*                                  Variables                                 */
     /* -------------------------------------------------------------------------- */
     :root {
-        /* Markdown tokens */
-        --active-brightness: #{md-config("effects", "active-brightness")};
-        /*--border-radius: #{md-config("shape", "border-radius")};*/
-        --box-shadow: #{md-config("shape", "box-shadow")};
-        --color-accent: #{md-light-dark("accent")};
+        /* Core tokens */
         --color-bg: #{md-light-dark("bg")};
         --color-bg-secondary: #{md-light-dark("bg-secondary")};
+        --color-text: #{md-light-dark("text")};
+        --color-text-secondary: #{md-light-dark("text-secondary")};
         --color-link: #{md-light-dark("link")};
+        --color-accent: #{md-light-dark("accent")};
         --color-secondary: #{md-light-dark("secondary")};
         --color-secondary-accent: #{md-light-dark("secondary-accent")};
         --color-shadow: #{md-light-dark("shadow")};
+        --color-border: #{md-light-dark("border")};
         --color-table: #{md-light-dark("table")};
-        --color-text: #{md-light-dark("text")};
-        --color-text-secondary: #{md-light-dark("text-secondary")};
         --color-scrollbar: #{md-light-dark("scrollbar")};
-        --font-family-emoji-flag-capable: #{md-config("font", "emoji")};
+
+        /* Config tokens */
         --font-family: #{md-config("font", "body")};
-        --hover-brightness: #{md-config("effects", "hover-brightness")};
-        --justify-important: #{md-config("layout", "justify-important")};
-        --justify-normal: #{md-config("layout", "justify-normal")};
+        --font-family-mono: #{md-config("font", "mono")};
         --line-height: #{md-config("layout", "line-height")};
+
+        --active-brightness: #{md-config("effects", "active-brightness")};
+        --hover-brightness: #{md-config("effects", "hover-brightness")};
+
         --width-card: #{md-config("layout", "widths", "card")};
         --width-card-medium: #{md-config("layout", "widths", "card-medium")};
         --width-card-wide: #{md-config("layout", "widths", "card-wide")};
         --width-content: #{md-config("layout", "widths", "content")};
-        --md-scrollbar-size: #{md-config("scrollbar", "size")};
 
-        --base-size-4: 0.25em;
-        --base-size-8: 0.5em;
-        --base-size-16: 1em;
-        --base-size-24: 1.5em;
-        --base-size-40: 2.5em;
-        --base-text-weight-normal: 400;
-        --base-text-weight-medium: 500;
-        --base-text-weight-semibold: 600;
-        --fontStack-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-        --focus-outlineColor: light-dark(#0969da, #1f6feb);
+        --box-shadow: #{md-config("shape", "box-shadow")};
+        --border-radius: #{md-config("shape", "border-radius")};
+
+        --scrollbar-size: #{md-config("scrollbar", "size")};
+
+        /* Syntax Highlighting (GitHub Light/Dark inspired) */
         --fgColor-default: light-dark(#1f2328, #f0f6fc);
-        --fgColor-muted: light-dark(#59636e, #9198a1);
+        --fgColor-muted: light-dark(#656d76, #9198a1);
         --fgColor-accent: light-dark(#0969da, #4493f8);
         --fgColor-success: light-dark(#1a7f37, #3fb950);
         --fgColor-attention: light-dark(#9a6700, #d29922);
         --fgColor-danger: light-dark(#d1242f, #f85149);
         --fgColor-done: light-dark(#8250df, #ab7df8);
+
         --bgColor-default: light-dark(#ffffff, #0d1117);
         --bgColor-muted: light-dark(#f6f8fa, #151b23);
-        --bgColor-neutral-muted: light-dark(#818b981f, #656c7633);
-        --bgColor-attention-muted: light-dark(#fff8c5, #bb800926);
-        --borderColor-default: light-dark(#d1d9e0, #3d444d);
-        --borderColor-muted: light-dark(#d1d9e0b3, #3d444db3);
-        --borderColor-neutral-muted: light-dark(#d1d9e0b3, #3d444db3);
-        --borderColor-accent-emphasis: light-dark(#0969da, #1f6feb);
-        --borderColor-success-emphasis: light-dark(#1a7f37, #238636);
-        --borderColor-attention-emphasis: light-dark(#9a6700, #9e6a03);
-        --borderColor-danger-emphasis: light-dark(#cf222e, #da3633);
-        --borderColor-done-emphasis: light-dark(#8250df, #8957e5);
-        --color-prettylights-syntax-comment: light-dark(#59636e, #9198a1);
-        --color-prettylights-syntax-constant: light-dark(#0550ae, #79c0ff);
-        --color-prettylights-syntax-constant-other-reference-link: light-dark(#0a3069, #a5d6ff);
-        --color-prettylights-syntax-entity: light-dark(#6639ba, #d2a8ff);
-        --color-prettylights-syntax-storage-modifier-import: light-dark(#1f2328, #f0f6fc);
-        --color-prettylights-syntax-entity-tag: light-dark(#0550ae, #7ee787);
-        --color-prettylights-syntax-keyword: light-dark(#cf222e, #ff7b72);
-        --color-prettylights-syntax-string: light-dark(#0a3069, #a5d6ff);
-        --color-prettylights-syntax-variable: light-dark(#953800, #ffa657);
-        --color-prettylights-syntax-brackethighlighter-unmatched: light-dark(#82071e, #f85149);
-        --color-prettylights-syntax-brackethighlighter-angle: light-dark(#59636e, #9198a1);
-        --color-prettylights-syntax-invalid-illegal-text: light-dark(#f6f8fa, #f0f6fc);
-        --color-prettylights-syntax-invalid-illegal-bg: light-dark(#82071e, #8e1519);
-        --color-prettylights-syntax-carriage-return-text: light-dark(#f6f8fa, #f0f6fc);
-        --color-prettylights-syntax-carriage-return-bg: light-dark(#cf222e, #b62324);
-        --color-prettylights-syntax-string-regexp: light-dark(#116329, #7ee787);
-        --color-prettylights-syntax-markup-list: light-dark(#3b2300, #f2cc60);
-        --color-prettylights-syntax-markup-heading: light-dark(#0550ae, #1f6feb);
-        --color-prettylights-syntax-markup-italic: light-dark(#1f2328, #f0f6fc);
-        --color-prettylights-syntax-markup-bold: light-dark(#1f2328, #f0f6fc);
-        --color-prettylights-syntax-markup-deleted-text: light-dark(#82071e, #ffdcd7);
-        --color-prettylights-syntax-markup-deleted-bg: light-dark(#ffebe9, #67060c);
-        --color-prettylights-syntax-markup-inserted-text: light-dark(#116329, #aff5b4);
-        --color-prettylights-syntax-markup-inserted-bg: light-dark(#dafbe1, #033a16);
-        --color-prettylights-syntax-markup-changed-text: light-dark(#953800, #ffdfb6);
-        --color-prettylights-syntax-markup-changed-bg: light-dark(#ffd8b5, #5a1e02);
-        --color-prettylights-syntax-markup-ignored-text: light-dark(#d1d9e0, #f0f6fc);
-        --color-prettylights-syntax-markup-ignored-bg: light-dark(#0550ae, #1158c7);
-        --color-prettylights-syntax-meta-diff-range: light-dark(#8250df, #d2a8ff);
-        --color-prettylights-syntax-sublimelinter-gutter-mark: light-dark(#818b98, #3d444d);
+        --borderColor-default: light-dark(#d0d7de, #30363d);
+        --borderColor-muted: light-dark(#d0d7de, #30363d);
+
+        interpolate-size: allow-keywords;
     }
 
     @keyframes bottom-to-top {
@@ -110,29 +71,32 @@
         :where(:root, html) {
             color-scheme: light dark;
             scroll-behavior: smooth;
+            tab-size: 4;
+            -webkit-text-size-adjust: none; /* Prevent font scaling in landscape on mobile */
+            text-size-adjust: none;
 
             @media (prefers-reduced-motion: reduce) {
                 scroll-behavior: auto;
             }
 
-            // Font family defaults
-            &, :where(body, button) {
-                font-family: "InterVariable", "Inter", 'Open Sans', 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, var(--font-family-system), sans-serif;
+            &, :where(body, button, input, select, textarea) {
+                font-family: var(--font-family);
             }
         }
 
         :where(body) {
             margin: 0;
             padding: 0;
-            border: none 0px transparent;
-            inset: 0;
+            min-block-size: 100dvb;
 
-            // Typography & Color
-            background: var(--color-bg);
-            background-color: transparent;
+            background-color: var(--color-bg);
             color: var(--color-text);
             line-height: var(--line-height);
-            overflow-inline: hidden;
+
+            /* Improve text rendering */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
 
             @include HQRendering();
         }
@@ -143,577 +107,325 @@
 
         :where(:host, :scope, :root) {
 
-            & > :where(*) {
-                background-color: transparent;
-                background-image: none;
-                mask-image: none;
+            :where(*), :where(*::before), :where(*::after) {
+                box-sizing: border-box;
+                border-width: 0;
+                border-style: solid;
+                border-color: var(--color-border);
+                word-wrap: break-word;
             }
 
             :where(*), &::slotted(*) {
-                // Interactions
-                user-select: none;
-                -webkit-user-select: none;
+                /* Interaction defaults */
                 -webkit-tap-highlight-color: transparent;
-
-                // Layout
-                box-sizing: border-box;
-                backface-visibility: hidden;
             }
 
-            // Content Visibility Optimization
+            /* Media defaults */
+            :where(img, video, canvas, svg, picture) {
+                display: block;
+                max-inline-size: 100%;
+                block-size: auto;
+                shape-margin: 0.75rem;
+            }
+
+            :where(img, video) {
+                object-fit: cover;
+            }
+
+            :where(picture) { display: contents; }
+
+            /* Typography defaults */
+            :where(h1, h2, h3, h4, h5, h6) {
+                font-weight: bold;
+                text-wrap: balance;
+                margin-block: 0.5em;
+            }
+
+            :where(p) {
+                text-wrap: pretty;
+                margin-block: 1em;
+            }
+
+            :where(a) {
+                color: inherit;
+                text-decoration: inherit;
+                text-underline-offset: 0.2em;
+            }
+
+            /* Form defaults */
+            :where(input, button, textarea, select) {
+                font: inherit;
+                color: inherit;
+                letter-spacing: inherit;
+            }
+
+            /* Optimization */
             :where(img, video, audio, picture, canvas, h1, h2, h3, h4, h5, h6, p, form, label, button) {
                 content-visibility: auto;
             }
 
-            // Hide empty elements that shouldn't be there
-            :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty {
+            :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty:not([class]) {
                 content-visibility: hidden;
             }
 
-            // Low Quality Rendering for icons for performance
-            :where(ui-icon::before) {
-                @include LQRendering();
-            }
-
-            // Hidden Elements
-            :where(head, script, link, style, meta, [aria-hidden="true"]) {
+            /* Hidden Elements */
+            :where(head, script, link, style, meta, [hidden], [aria-hidden="true"]) {
                 display: none !important;
-                user-select: none !important;
-                pointer-events: none !important;
             }
 
-            // Optimization states
             [data-hidden] {
-                content-visibility: auto;
-                filter: none !important;
-                backdrop-filter: none !important;
-                user-select: none !important;
-                opacity: var(--opacity, 0);
+                display: none !important;
             }
 
-            [data-dragging] {
-                &, & * {
-                    backdrop-filter: none !important;
-                    user-select: none !important;
-                }
-            }
-
-            // Inert
-            :where([inert], [inert] *) {
-                pointer-events: none !important;
-                user-select: none !important;
-                touch-action: none !important;
-            }
-
-            // Reduced Motion
+            /* Reduced Motion */
             @media (prefers-reduced-motion: reduce) {
                 :where(*, ::after, ::before) {
-                    animation-delay: -1ms !important;
-                    animation-duration: 1ms !important;
+                    animation-duration: 0.01ms !important;
                     animation-iteration-count: 1 !important;
-                    background-attachment: initial !important;
+                    transition-duration: 0.01ms !important;
                     scroll-behavior: auto !important;
-                    transition-delay: 0s !important;
-                    transition-duration: 0s !important;
                 }
             }
 
-            // Media & Replaced Elements
-            :where(img, picture, span, a, button, input, svg, video, canvas) {
-                -webkit-user-drag: none;
-                user-select: none;
+            /* Scrollbars */
+            :where(*) {
+                scrollbar-width: thin;
+                scrollbar-color: var(--color-scrollbar) transparent;
+
+                &::-webkit-scrollbar {
+                    inline-size: var(--scrollbar-size);
+                    block-size: var(--scrollbar-size);
+                }
+
+                &::-webkit-scrollbar-track { background: transparent; }
+                &::-webkit-scrollbar-thumb {
+                    background-color: var(--color-scrollbar);
+                    border-radius: var(--border-radius);
+                }
             }
-
-            :where(picture) { display: contents; }
-            :where(picture, canvas, img, video) {
-                overflow: hidden;
-            }
-
-            // Direction
-            :where(:dir(rtl), :dir(rtl) *) { direction: rtl; }
-            :where(:dir(ltr), :dir(ltr) *) { direction: ltr; }
-
-            // Inline Elements
-            :where(a, span) {
-                text-decoration: none;
-                background-color: transparent;
-                place-content: center;
-                place-items: center;
-                justify-content: start;
-            }
-
-            // Flex Utilities
-            :where(.space, flex-space) {
-                flex-grow: 1;
-                flex-shrink: 0;
-            }
-
-            :where(.break, flex-break, br) {
-                flex-basis: 100%;
-                flex-grow: 1;
-                flex-shrink: 0;
-            }
-
-            // Form/Icon Defaults
-            input, button { accent-color: currentColor; }
-            ui-icon { --icon-color: currentColor; font-size: 0px; line-height: 0; }
-
-            // Undefined
-            *:not(:defined) { display: none; }
         }
 
         /* -------------------------------------------------------------------------- */
         /*                                   Layout                                   */
         /* -------------------------------------------------------------------------- */
 
-        // Main structural elements
         :where(footer, header, main) {
-            margin: 0 auto;
+            margin-inline: auto;
             max-inline-size: var(--width-content);
-            padding: 3rem 1rem;
+            padding: 2rem 1rem;
         }
 
         :where(section) {
             display: flex;
             flex-wrap: wrap;
-            justify-content: var(--justify-important);
-
-            :where(img) { max-inline-size: 100%; }
-            :where(pre) { overflow: auto; scrollbar-width: thin; }
-
-            :where(header) {
-                padding-block-start: 0;
-                inline-size: 100%;
-            }
+            justify-content: var(--justify-important, center);
+            gap: 1rem;
 
             :where(aside) {
                 border: 1px solid var(--color-bg-secondary);
-                border-radius: var(--border-radius, 1rem);
-                box-shadow: var(--box-shadow) var(--color-shadow);
-                margin: 1rem;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
                 padding: 1.25rem;
                 inline-size: var(--width-card);
+                flex: 1 1 var(--width-card);
 
                 &:hover {
-                    box-shadow: var(--box-shadow) var(--color-bg-secondary);
+                    box-shadow: var(--box-shadow-hover, var(--box-shadow));
                 }
             }
         }
-
-        :where(article) {
-            :where(aside) {
-                background: var(--color-secondary-accent);
-                border-inline-start: 4px solid var(--color-secondary);
-                padding: 0.01rem 0.8rem;
-
-                :where(a) { color: var(--color-secondary); }
-            }
-
-            :where(img) { max-inline-size: 100%; }
-
-            :where(header) { padding-block-start: 0; }
-        }
-
-        :where(div, main) header {
-             padding-block-start: 0;
-        }
-
-        :where([hidden]) { display: none; }
 
         /* -------------------------------------------------------------------------- */
         /*                                 Components                                 */
         /* -------------------------------------------------------------------------- */
 
-        // Header
+        /* Header & Nav */
         :where(header) {
-            text-align: var(--justify-important);
-
-            :where(a) :where(b, em, i, strong) {
-                margin-inline: 0.5rem;
-            }
-
-            :where(nav img) { margin: 1rem 0; }
+            text-align: center;
         }
 
-        // Navigation
         :where(nav) {
-            align-items: center;
             display: flex;
-            font-weight: bold;
+            align-items: center;
             justify-content: space-between;
-            margin-block-end: 7rem;
+            flex-wrap: wrap;
+            margin-block-end: 3rem;
 
-            :where(ul) {
+            ul {
+                display: flex;
                 list-style: none;
                 padding: 0;
+                gap: 1rem;
+                margin: 0;
 
-                :where(li) {
-                    display: inline-block;
-                    margin-inline: 0.5rem;
-                    position: relative;
-                    text-align: start;
-
-                    &:hover ul { display: block; }
-
-                    :where(ul) {
-                        background: var(--color-bg);
-                        border: 1px solid var(--color-bg-secondary);
-                        border-radius: var(--border-radius, 1rem);
-                        box-shadow: var(--box-shadow) var(--color-shadow);
-                        display: none;
-                        block-size: auto;
-                        inset-inline-start: -2px;
-                        padding: 0.5rem 1rem;
-                        position: absolute;
-                        inset-block-start: 1.7rem;
-                        white-space: nowrap;
-                        inline-size: auto;
-                        z-index: 1;
-
-                        &::before {
-                            content: "";
-                            position: absolute;
-                            inset-inline: 0;
-                            inset-block-start: -0.5rem;
-                            block-size: 0.5rem;
-                        }
-
-                        :where(li, li a) { display: block; }
-                    }
-                }
+                li { position: relative; }
             }
 
-            @media (max-inline-size: 768px) {
-                flex-wrap: wrap;
-
-                :where(ul li) {
-                    inline-size: calc(100% - 1em);
-
-                    :where(ul) {
-                        border: none;
-                        box-shadow: none;
-                        display: block;
-                        position: static;
-                    }
-                }
-            }
-        }
-
-        // Typography
-        :where(h1, h2, h3, h4, h5, h6) {
-            line-height: var(--line-height);
-            text-wrap: balance;
-        }
-
-        :where(p) {
-            margin: 0.75rem 0;
-            padding: 0;
-            inline-size: 100%;
-        }
-
-        :where(code, samp) {
-            background-color: var(--color-accent);
-            border-radius: var(--border-radius, 1rem);
-            color: var(--color-text);
-            display: inline-block;
-            margin: 0 0.1rem;
-            padding: 0 0.5rem;
-        }
-
-        :where(pre) {
-            margin: 1rem 0;
-            max-inline-size: var(--width-card-wide);
-            padding: 1rem 0;
-            overflow: auto;
-            scrollbar-width: thin;
-
-            :where(code, samp) {
-                display: block;
-                max-inline-size: var(--width-card-wide);
-                padding: 0.5rem 2rem;
-                white-space: pre-wrap;
-            }
-        }
-
-        :where(mark) { padding: 0.1rem; }
-        :where(ol, ul) :where(li) { padding: 0.2rem 0; }
-
-        :where(details) {
-            margin: 1.3rem 0;
-            :where(summary) {
+            a {
                 font-weight: bold;
-                cursor: pointer;
+                color: var(--color-link);
+                text-decoration: none;
+
+                &:hover { text-decoration: underline; }
             }
         }
 
-        :where(small) { color: var(--color-text-secondary); }
+        /* Code blocks */
+        :where(pre) {
+            background-color: var(--bgColor-muted);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--borderColor-muted);
+            padding: 1rem;
+            overflow: auto;
+            font-family: var(--font-family-mono);
+            max-inline-size: 100%;
 
-        :where(sup) {
-            background-color: var(--color-secondary);
-            border-radius: var(--border-radius, 1rem);
-            color: var(--color-bg);
-            font-size: xx-small;
-            font-weight: bold;
-            margin: 0.2rem;
-            padding: 0.2rem 0.3rem;
-            position: relative;
-            inset-block-start: -2px;
+            code {
+                background: transparent;
+                padding: 0;
+                border-radius: 0;
+            }
         }
 
-        :where(hr) {
-            background-color: var(--color-bg-secondary);
-            border: none;
-            block-size: 1px;
-            margin: 4rem 0;
-            inline-size: 100%;
+        :where(code, samp, kbd) {
+            font-family: var(--font-family-mono);
+            background-color: var(--bgColor-muted);
+            border-radius: 0.3em;
+            padding: 0.2em 0.4em;
+            font-size: 85%;
         }
 
+        /* Blockquote */
         :where(blockquote) {
-            display: block;
-            font-size: 1em;
-            line-height: var(--line-height);
-            margin: 1rem auto;
-            max-inline-size: var(--width-card-medium);
-            padding: 1.5rem 1rem;
-            text-align: var(--justify-important);
+            margin-inline: 1rem;
+            padding-inline: 1rem;
+            border-inline-start: 0.25rem solid var(--color-secondary);
+            color: var(--color-text-secondary);
+        }
 
-            :where(footer) {
-                color: var(--color-text-secondary);
-                display: block;
-                font-size: small;
-                line-height: var(--line-height);
-                padding: 1.5rem 0;
+        /* Tables */
+        :where(table) {
+            display: block;
+            overflow-x: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            inline-size: max-content;
+            max-inline-size: 100%;
+            margin-block: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+
+            :where(th, td) {
+                padding: 0.5rem 1rem;
+                border-block-end: 1px solid var(--color-border);
+                text-align: start;
+            }
+
+            :where(th) {
+                background-color: var(--color-table);
+                color: var(--color-text);
+                font-weight: bold;
+            }
+
+            :where(tr:last-child td) {
+                border-block-end: none;
+            }
+
+            :where(tr:nth-child(even)) {
+                background-color: var(--color-bg-secondary);
             }
         }
 
-        // Links & Buttons
+        /* Links & Buttons */
         :where(a) {
             color: var(--color-link);
-            display: inline-block;
-            font-weight: bold;
-            text-decoration: underline;
 
             &:hover { filter: brightness(var(--hover-brightness)); }
             &:active { filter: brightness(var(--active-brightness)); }
-
-            :where(b, em, i, strong) {
-                border: 2px solid var(--color-link);
-                border-radius: var(--border-radius, 1rem);
-                color: var(--color-link);
-                display: inline-block;
-                padding: 1rem 2rem;
-            }
-
-            :where(b, strong) {
-                background-color: var(--color-link);
-                color: var(--color-bg);
-            }
         }
 
-        :where(button, input[type="submit"]) {
+        :where(button, input[type="submit"], input[type="button"]) {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background-color: var(--color-link);
-            border: 2px solid var(--color-link);
-            border-radius: var(--border-radius, 1rem);
-            color: var(--color-bg);
-            display: inline-block;
-            font-size: medium;
-            font-weight: bold;
-            font-family: var(--font-family);
-            line-height: var(--line-height);
-            margin: 0.5rem 0;
-            padding: 1rem 2rem;
+            color: #ffffff; /* Force white text on primary buttons */
+            border: 1px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: filter 0.2s ease, transform 0.1s ease;
 
             &:hover {
-                cursor: pointer;
                 filter: brightness(var(--hover-brightness));
             }
 
             &:active {
                 filter: brightness(var(--active-brightness));
+                transform: translateY(1px);
             }
 
-            &:where(:disabled) {
-                background: var(--color-bg-secondary);
-                border-color: var(--color-bg-secondary);
-                color: var(--color-text-secondary);
+            &:disabled {
+                opacity: 0.6;
                 cursor: not-allowed;
                 filter: none;
+                background-color: var(--color-secondary);
             }
         }
 
-        // Images
-        :where(figure) {
-            margin: 0;
-            padding: 0;
-
-            :where(img) { max-inline-size: 100%; }
-            :where(figcaption) { color: var(--color-text-secondary); }
-        }
-
-        // Forms
-        :where(form) {
-            border: 1px solid var(--color-bg-secondary);
-            border-radius: var(--border-radius, 1rem);
-            box-shadow: var(--box-shadow) var(--color-shadow);
+        /* Forms */
+        :where(input:not([type="submit"]):not([type="button"]), select, textarea) {
             display: block;
-            max-inline-size: var(--width-card-wide);
-            min-inline-size: var(--width-card);
-            padding: 1.5rem;
-            text-align: var(--justify-normal);
+            inline-size: 100%;
+            padding: 0.5rem;
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            color: var(--color-text);
+            margin-block-end: 1rem;
 
-            :where(header) {
-                margin: 1.5rem 0;
-                padding: 1.5rem 0;
+            &:focus-visible {
+                outline: 2px solid var(--color-link);
+                outline-offset: -1px;
             }
-        }
 
-        :where(input, label, select, textarea) {
-            display: block;
-            font-size: inherit;
-            max-inline-size: var(--width-card-wide);
+            &::placeholder {
+                color: var(--color-text-secondary);
+                opacity: 0.7;
+            }
+
+            &:disabled {
+                background-color: var(--color-bg-secondary);
+                cursor: not-allowed;
+            }
         }
 
         :where(label) {
-            font-weight: bold;
-            margin-block-end: 0.2rem;
-            position: relative;
-
-            // Hide nested inputs within label if needed, or siblings
-            & > :where(input[type="radio"], input[type="checkbox"]) {
-                display: none;
-                pointer-events: none;
-            }
+            display: block;
+            font-weight: 600;
+            margin-block-end: 0.25rem;
         }
 
-        :where(input) {
-            border-radius: var(--border-radius, 50cqmin);
-
-            &:where([type="checkbox"], [type="radio"]) {
-                display: inline-block;
-
-                & + label {
-                    display: inline-block;
-                    font-weight: normal;
-                    position: relative;
-                    inset-block-start: 1px;
-                }
-            }
-
-            &:where([type="range"]) { padding: 0.4rem 0; }
-
-            &:where([type="text"], [type="password"], [type="email"]),
-            &:where(textarea) {
-                inline-size: calc(100% - 1.6rem);
-            }
-
-            &:where(:disabled) {
-                background: var(--color-bg-secondary);
-                border-color: var(--color-bg-secondary);
-                color: var(--color-text-secondary);
-                cursor: not-allowed;
-            }
-
-            &:where([readonly]) { background-color: var(--color-bg-secondary); }
-        }
-
-        :where(textarea) {
-             &:where([readonly]) { background-color: var(--color-bg-secondary); }
-        }
-
-        :where(input, select, textarea) {
-            border: 1px solid var(--color-bg-secondary);
-            border-radius: var(--border-radius, 1rem);
-            margin-block-end: 1rem;
-            padding: 0.4rem 0.8rem;
-        }
-
-        // Dialogs
+        /* Dialog */
         :where(dialog) {
-            max-inline-size: 90%;
-            max-block-size: 85dvh;
             margin: auto;
-            padding-block: 0;
-            padding-inline: 20px;
-            border: 1px solid var(--color-bg-secondary);
-            border-radius: 0.5rem;
-            overscroll-behavior: contain;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            scrollbar-color: transparent transparent;
-            animation: bottom-to-top 0.25s ease-in-out forwards;
+            padding: 1rem;
+            background: var(--color-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-inline-size: min(90vw, 600px);
+            max-block-size: 85vh;
 
-            &::-webkit-scrollbar {
-                inline-size: 0;
-                display: none;
-            }
-            &::-webkit-scrollbar-track { background: transparent; }
-            &::-webkit-scrollbar-thumb { background-color: transparent; }
-
-            &::backdrop { background-color: rgba(0, 0, 0, 0.5); }
-
-            :where(hr) { margin-block: 1rem; }
-
-            @media (min-inline-size: 650px) {
-                max-inline-size: 39rem;
-            }
-        }
-
-        // Tables
-        :where(table) {
-            border: 1px solid var(--color-bg-secondary);
-            border-radius: var(--border-radius, 1rem);
-            border-spacing: 0;
-            display: inline-block;
-            max-inline-size: 100%;
-            overflow-x: auto;
-            padding: 0;
-            white-space: nowrap;
-
-            :where(td, th, tr) {
-                padding: 0.4rem 0.8rem;
-                text-align: var(--justify-important);
+            &::backdrop {
+                background-color: rgb(0 0 0 / 0.5);
+                backdrop-filter: blur(2px);
             }
 
-            :where(thead) {
-                background-color: var(--color-table);
-                border-collapse: collapse;
-                border-radius: var(--border-radius, 1rem);
-                color: var(--color-bg);
-                margin: 0;
-                padding: 0;
-
-                :where(tr:first-child) {
-                    :where(th:first-child) { border-start-start-radius: var(--border-radius, 1rem); }
-                    :where(th:last-child) { border-start-end-radius: var(--border-radius, 1rem); }
-                }
-
-                :where(th:first-child) { text-align: var(--justify-normal); }
-            }
-
-            :where(tr) {
-                :where(td:first-child) { text-align: var(--justify-normal); }
-                &:nth-child(even) { background-color: var(--color-accent); }
-            }
-        }
-
-        /* -------------------------------------------------------------------------- */
-        /*                                  Scrollbars                                */
-        /* -------------------------------------------------------------------------- */
-
-        :where(*) {
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-scrollbar) transparent;
-
-            &::-webkit-scrollbar {
-                inline-size: 5px;
-                block-size: 5px;
-            }
-
-            &::-webkit-scrollbar-track { background: transparent; }
-            &::-webkit-scrollbar-thumb {
-                background-color: var(--color-scrollbar);
-                border-radius: 10px;
+            &[open] {
+                animation: bottom-to-top 0.25s ease-out;
             }
         }
 
@@ -721,47 +433,19 @@
         /*                                   Visuals                                  */
         /* -------------------------------------------------------------------------- */
 
-        :where(canvas):is([is="ui-canvas"]), :host(canvas[is="ui-canvas"]) {
-            min-inline-size: 1px;
-            min-block-size: 1px;
-            inline-size: 100%;
-            block-size: 100%;
-            max-inline-size: 100%;
-            max-block-size: 100%;
-
-            pointer-events: none !important;
-            place-content: center;
-            place-items: center;
-            place-self: center;
-
-            aspect-ratio: auto;
-            display: flex;
-
-            image-rendering: auto;
-            image-rendering: optimizeQuality;
-            image-rendering: smooth;
-            image-rendering: high-quality;
-
-            object-fit: cover;
-            object-position: center;
-
-            background-color: var(--theme-base-color, transparent);
-            border-image-source: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-
+        :where(canvas):is([is="ui-canvas"]) {
             position: fixed !important;
-            inset: 0px !important;
+            inset: 0 !important;
+            inline-size: 100% !important;
+            block-size: 100% !important;
+            pointer-events: none !important;
+            z-index: 0; /* Set specific z-index if needed */
+            image-rendering: optimizeQuality;
         }
 
-        :where(div, :host, button):has(> ui-icon:only-child:only-of-type) {
-            text-overflow: clip !important;
-        }
-
-        /* -------------------------------------------------------------------------- */
-        /*                                Scheme Overrides                            */
-        /* -------------------------------------------------------------------------- */
+        /* Scheme Overrides */
         [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
         [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
         [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
-        [data-scheme="auto"], [data-theme="auto"] { color-scheme: light dark; }
     }
-};
+}

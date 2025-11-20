@@ -4,6 +4,7 @@
 @use "./runtime/orientation-functions" as *;
 
 //
+@use "./layout/index" as *;
 @use "./effects/animations" as *;
 
 //
@@ -14,5 +15,4 @@
 @use "./shapes/shapes" as *;
 
 //
-@use "./layout/index" as *;
 @use "./ui/essentials" as *;

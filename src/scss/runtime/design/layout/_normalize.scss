@@ -1,9 +1,10 @@
 @use "veela-lib" as *;
 
-//
 @layer ux-normalize {
 
-    //
+    /* -------------------------------------------------------------------------- */
+    /*                                  Variables                                 */
+    /* -------------------------------------------------------------------------- */
     :root {
         /* Markdown tokens */
         --active-brightness: #{md-config("effects", "active-brightness")};
@@ -93,94 +94,120 @@
         --color-prettylights-syntax-sublimelinter-gutter-mark: light-dark(#818b98, #3d444d);
     }
 
-    //
     @keyframes bottom-to-top {
-        0% {
-            opacity: 0;
-            transform: translateY(10%);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        0% { opacity: 0; transform: translateY(10%); }
+        100% { opacity: 1; transform: translateY(0); }
     }
 
-    //
     @layer ux-agate;
+
     @media screen {
-        :root, :where(html) {
-            & { color-scheme: light dark; }
-            &, :where(body) {
-                padding: 0px;
-                margin: 0px;
-                inset: 0px;
-                border: none 0px transparent;
-                background-color: transparent;
-                @include HQRendering();
+
+        /* -------------------------------------------------------------------------- */
+        /*                                    Base                                    */
+        /* -------------------------------------------------------------------------- */
+
+        :where(:root, html) {
+            color-scheme: light dark;
+            scroll-behavior: smooth;
+
+            @media (prefers-reduced-motion: reduce) {
+                scroll-behavior: auto;
             }
 
-            //
-            :where(body, button, html, :root) { font-family: "InterVariable", "Inter", 'Open Sans', 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif; }
+            // Font family defaults
+            &, :where(body, button) {
+                font-family: "InterVariable", "Inter", 'Open Sans', 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, var(--font-family-system), sans-serif;
+            }
         }
 
-        //
-        :host, :scope, :root {
+        :where(body) {
+            margin: 0;
+            padding: 0;
+            border: none 0px transparent;
+            inset: 0;
+
+            // Typography & Color
+            background: var(--color-bg);
+            background-color: transparent;
+            color: var(--color-text);
+            line-height: var(--line-height);
+            overflow-inline: hidden;
+
+            @include HQRendering();
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /*                               Global Defaults                              */
+        /* -------------------------------------------------------------------------- */
+
+        :where(:host, :scope, :root) {
+
             & > :where(*) {
                 background-color: transparent;
                 background-image: none;
                 mask-image: none;
             }
 
-            //
-            & :where(*), &::slotted(*) {
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
+            :where(*), &::slotted(*) {
+                // Interactions
                 user-select: none;
-
-                //
+                -webkit-user-select: none;
                 -webkit-tap-highlight-color: transparent;
-                -moz-tap-highlight-color: transparent;
-                -o-tap-highlight-color: transparent;
-                -ms-tap-highlight-color: transparent;
-                tap-highlight-color: transparent;
 
-                //
-                /*transition-behavior: allow-discrete;
-                interpolate-size: allow-keywords;*/
+                // Layout
                 box-sizing: border-box;
                 backface-visibility: hidden;
             }
 
-            // if there is nothing, why there is needs content?
-            :where(img, video, audio, picture, canvas) { content-visibility: auto; }
-            :where(h1, h2, h3, h4, h5, h6, p, form, label, button) { content-visibility: auto; }
-            :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty { content-visibility: hidden; }
+            // Content Visibility Optimization
+            :where(img, video, audio, picture, canvas, h1, h2, h3, h4, h5, h6, p, form, label, button) {
+                content-visibility: auto;
+            }
 
-            //
-            :where(ui-icon::before) { @include LQRendering(); }
-            :where(head, script, link, style, meta) { display: none !important; user-select: none !important; pointer-events: none !important; }
+            // Hide empty elements that shouldn't be there
+            :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty {
+                content-visibility: hidden;
+            }
 
-            // optimize effects
-            [data-hidden] { content-visibility: auto; filter: none !important; backdrop-filter: none !important; };
-            [data-dragging] * { backdrop-filter: none !important; user-select: none !important; /*pointer-events: none !important;*/ };
-            [data-dragging], [data-hidden] { backdrop-filter: none !important; user-select: none !important; };
-            [aria-hidden="true"] { display: none !important; }
-            [data-hidden] { opacity: var(--opacity, 0); }
+            // Low Quality Rendering for icons for performance
+            :where(ui-icon::before) {
+                @include LQRendering();
+            }
 
-            //
-            :where([inert], *[inert]) {
+            // Hidden Elements
+            :where(head, script, link, style, meta, [aria-hidden="true"]) {
+                display: none !important;
+                user-select: none !important;
+                pointer-events: none !important;
+            }
+
+            // Optimization states
+            [data-hidden] {
+                content-visibility: auto;
+                filter: none !important;
+                backdrop-filter: none !important;
+                user-select: none !important;
+                opacity: var(--opacity, 0);
+            }
+
+            [data-dragging] {
+                &, & * {
+                    backdrop-filter: none !important;
+                    user-select: none !important;
+                }
+            }
+
+            // Inert
+            :where([inert], [inert] *) {
                 pointer-events: none !important;
                 user-select: none !important;
                 touch-action: none !important;
             }
 
-            //
+            // Reduced Motion
             @media (prefers-reduced-motion: reduce) {
-                :where(*),
-                ::after,
-                ::before {
+                :where(*, ::after, ::before) {
                     animation-delay: -1ms !important;
                     animation-duration: 1ms !important;
                     animation-iteration-count: 1 !important;
@@ -191,37 +218,22 @@
                 }
             }
 
-            //
-            :where(*) {
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-
-                //
-                -webkit-tap-highlight-color: transparent;
-                backface-visibility: hidden;
-            }
-
-            //
+            // Media & Replaced Elements
             :where(img, picture, span, a, button, input, svg, video, canvas) {
                 -webkit-user-drag: none;
                 user-select: none;
             }
 
-            //
             :where(picture) { display: contents; }
             :where(picture, canvas, img, video) {
-                user-select: none;
                 overflow: hidden;
-                //pointer-events: none;
             }
 
-            //
-            :dir(rtl) :where(*), :where(*):dir(rtl) { direction: rtl; }
-            :dir(ltr) :where(*), :where(*):dir(ltr) { direction: ltr; }
+            // Direction
+            :where(:dir(rtl), :dir(rtl) *) { direction: rtl; }
+            :where(:dir(ltr), :dir(ltr) *) { direction: ltr; }
 
-            //
+            // Inline Elements
             :where(a, span) {
                 text-decoration: none;
                 background-color: transparent;
@@ -230,87 +242,51 @@
                 justify-content: start;
             }
 
-            // relative by default
-            :where(label) { position: relative; & > input:where([type="radio"], [type="checkbox"]) { display: none; pointer-events: none; } }
+            // Flex Utilities
             :where(.space, flex-space) {
                 flex-grow: 1;
                 flex-shrink: 0;
             }
 
-            //
             :where(.break, flex-break, br) {
                 flex-basis: 100%;
                 flex-grow: 1;
                 flex-shrink: 0;
             }
 
-            //
-            //.ui-icon { background-color: var(--ui-icon-color, currentColor); }
-            input, button { accent-color: currentColor; };
-            ui-icon { --icon-color: currentColor; font-size: 0px; line-height: 0; };
+            // Form/Icon Defaults
+            input, button { accent-color: currentColor; }
+            ui-icon { --icon-color: currentColor; font-size: 0px; line-height: 0; }
 
-            //
+            // Undefined
             *:not(:defined) { display: none; }
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        /* -------------------------------------------------------------------------- */
+        /*                                   Layout                                   */
+        /* -------------------------------------------------------------------------- */
 
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
-        }
-
-        /* Layout */
-        article aside {
-            background: var(--color-secondary-accent);
-            border-inline-start: 4px solid var(--color-secondary);
-            padding: 0.01rem 0.8rem;
-        }
-
-        body {
-            background: var(--color-bg);
-            color: var(--color-text);
-            font-family: var(--font-family);
-            line-height: var(--line-height);
-            margin: 0;
-            overflow-inline: hidden;
-            padding: 0;
-        }
-
-        footer,
-        header,
-        main {
+        // Main structural elements
+        :where(footer, header, main) {
             margin: 0 auto;
             max-inline-size: var(--width-content);
             padding: 3rem 1rem;
         }
 
-        hr {
-            background-color: var(--color-bg-secondary);
-            border: none;
-            block-size: 1px;
-            margin: 4rem 0;
-            inline-size: 100%;
-        }
-
-        section {
+        :where(section) {
             display: flex;
             flex-wrap: wrap;
             justify-content: var(--justify-important);
 
-            img {
-                max-inline-size: 100%;
+            :where(img) { max-inline-size: 100%; }
+            :where(pre) { overflow: auto; scrollbar-width: thin; }
+
+            :where(header) {
+                padding-block-start: 0;
+                inline-size: 100%;
             }
 
-            pre {
-                overflow: auto;
-                scrollbar-width: thin;
-            }
-
-            aside {
+            :where(aside) {
                 border: 1px solid var(--color-bg-secondary);
                 border-radius: var(--border-radius, 1rem);
                 box-shadow: var(--box-shadow) var(--color-shadow);
@@ -322,68 +298,64 @@
                     box-shadow: var(--box-shadow) var(--color-bg-secondary);
                 }
             }
+        }
 
-            header {
-                padding-block-start: 0;
-                inline-size: 100%;
+        :where(article) {
+            :where(aside) {
+                background: var(--color-secondary-accent);
+                border-inline-start: 4px solid var(--color-secondary);
+                padding: 0.01rem 0.8rem;
+
+                :where(a) { color: var(--color-secondary); }
             }
+
+            :where(img) { max-inline-size: 100%; }
+
+            :where(header) { padding-block-start: 0; }
         }
 
-        article img {
-            max-inline-size: 100%;
+        :where(div, main) header {
+             padding-block-start: 0;
         }
 
-        [hidden] {
-            display: none;
-        }
+        :where([hidden]) { display: none; }
 
-        /* Headers */
-        article header,
-        div header,
-        main header {
-            padding-block-start: 0;
-        }
+        /* -------------------------------------------------------------------------- */
+        /*                                 Components                                 */
+        /* -------------------------------------------------------------------------- */
 
-        header {
+        // Header
+        :where(header) {
             text-align: var(--justify-important);
+
+            :where(a) :where(b, em, i, strong) {
+                margin-inline: 0.5rem;
+            }
+
+            :where(nav img) { margin: 1rem 0; }
         }
 
-        header a b,
-        header a em,
-        header a i,
-        header a strong {
-            margin-inline-start: 0.5rem;
-            margin-inline-end: 0.5rem;
-        }
-
-        header nav img {
-            margin: 1rem 0;
-        }
-
-
-        /* Nav */
-        nav {
+        // Navigation
+        :where(nav) {
             align-items: center;
             display: flex;
             font-weight: bold;
             justify-content: space-between;
             margin-block-end: 7rem;
 
-            ul {
+            :where(ul) {
                 list-style: none;
                 padding: 0;
 
-                li {
+                :where(li) {
                     display: inline-block;
                     margin-inline: 0.5rem;
                     position: relative;
                     text-align: start;
 
-                    &:hover ul {
-                        display: block;
-                    }
+                    &:hover ul { display: block; }
 
-                    ul {
+                    :where(ul) {
                         background: var(--color-bg);
                         border: 1px solid var(--color-bg-secondary);
                         border-radius: var(--border-radius, 1rem);
@@ -399,19 +371,14 @@
                         z-index: 1;
 
                         &::before {
-                            /* fill gap above to make mousing over them easier */
                             content: "";
                             position: absolute;
-                            inset-inline-start: 0;
-                            inset-inline-end: 0;
+                            inset-inline: 0;
                             inset-block-start: -0.5rem;
                             block-size: 0.5rem;
                         }
 
-                        li,
-                        li a {
-                            display: block;
-                        }
+                        :where(li, li a) { display: block; }
                     }
                 }
             }
@@ -419,24 +386,32 @@
             @media (max-inline-size: 768px) {
                 flex-wrap: wrap;
 
-                ul {
-                    li {
-                        inline-size: calc(100% - 1em);
+                :where(ul li) {
+                    inline-size: calc(100% - 1em);
 
-                        ul {
-                            border: none;
-                            box-shadow: none;
-                            display: block;
-                            position: static;
-                        }
+                    :where(ul) {
+                        border: none;
+                        box-shadow: none;
+                        display: block;
+                        position: static;
                     }
                 }
             }
         }
 
-        /* Typography */
-        code,
-        samp {
+        // Typography
+        :where(h1, h2, h3, h4, h5, h6) {
+            line-height: var(--line-height);
+            text-wrap: balance;
+        }
+
+        :where(p) {
+            margin: 0.75rem 0;
+            padding: 0;
+            inline-size: 100%;
+        }
+
+        :where(code, samp) {
             background-color: var(--color-accent);
             border-radius: var(--border-radius, 1rem);
             color: var(--color-text);
@@ -445,61 +420,35 @@
             padding: 0 0.5rem;
         }
 
-        details {
-            margin: 1.3rem 0;
-        }
-
-        details summary {
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            line-height: var(--line-height);
-            text-wrap: balance;
-        }
-
-        mark {
-            padding: 0.1rem;
-        }
-
-        ol li,
-        ul li {
-            padding: 0.2rem 0;
-        }
-
-        p {
-            margin: 0.75rem 0;
-            padding: 0;
-            inline-size: 100%;
-        }
-
-        pre {
+        :where(pre) {
             margin: 1rem 0;
             max-inline-size: var(--width-card-wide);
             padding: 1rem 0;
             overflow: auto;
             scrollbar-width: thin;
+
+            :where(code, samp) {
+                display: block;
+                max-inline-size: var(--width-card-wide);
+                padding: 0.5rem 2rem;
+                white-space: pre-wrap;
+            }
         }
 
-        pre code,
-        pre samp {
-            display: block;
-            max-inline-size: var(--width-card-wide);
-            padding: 0.5rem 2rem;
-            white-space: pre-wrap;
+        :where(mark) { padding: 0.1rem; }
+        :where(ol, ul) :where(li) { padding: 0.2rem 0; }
+
+        :where(details) {
+            margin: 1.3rem 0;
+            :where(summary) {
+                font-weight: bold;
+                cursor: pointer;
+            }
         }
 
-        small {
-            color: var(--color-text-secondary);
-        }
+        :where(small) { color: var(--color-text-secondary); }
 
-        sup {
+        :where(sup) {
             background-color: var(--color-secondary);
             border-radius: var(--border-radius, 1rem);
             color: var(--color-bg);
@@ -511,104 +460,98 @@
             inset-block-start: -2px;
         }
 
-        /* Links */
-        a {
+        :where(hr) {
+            background-color: var(--color-bg-secondary);
+            border: none;
+            block-size: 1px;
+            margin: 4rem 0;
+            inline-size: 100%;
+        }
+
+        :where(blockquote) {
+            display: block;
+            font-size: 1em;
+            line-height: var(--line-height);
+            margin: 1rem auto;
+            max-inline-size: var(--width-card-medium);
+            padding: 1.5rem 1rem;
+            text-align: var(--justify-important);
+
+            :where(footer) {
+                color: var(--color-text-secondary);
+                display: block;
+                font-size: small;
+                line-height: var(--line-height);
+                padding: 1.5rem 0;
+            }
+        }
+
+        // Links & Buttons
+        :where(a) {
             color: var(--color-link);
             display: inline-block;
             font-weight: bold;
             text-decoration: underline;
+
+            &:hover { filter: brightness(var(--hover-brightness)); }
+            &:active { filter: brightness(var(--active-brightness)); }
+
+            :where(b, em, i, strong) {
+                border: 2px solid var(--color-link);
+                border-radius: var(--border-radius, 1rem);
+                color: var(--color-link);
+                display: inline-block;
+                padding: 1rem 2rem;
+            }
+
+            :where(b, strong) {
+                background-color: var(--color-link);
+                color: var(--color-bg);
+            }
         }
 
-        a:hover {
-            filter: brightness(var(--hover-brightness));
-        }
-
-        a:active {
-            filter: brightness(var(--active-brightness));
-        }
-
-        a b,
-        a em,
-        a i,
-        a strong,
-        button,
-        input[type="submit"] {
+        :where(button, input[type="submit"]) {
+            background-color: var(--color-link);
+            border: 2px solid var(--color-link);
             border-radius: var(--border-radius, 1rem);
+            color: var(--color-bg);
             display: inline-block;
             font-size: medium;
             font-weight: bold;
+            font-family: var(--font-family);
             line-height: var(--line-height);
             margin: 0.5rem 0;
             padding: 1rem 2rem;
+
+            &:hover {
+                cursor: pointer;
+                filter: brightness(var(--hover-brightness));
+            }
+
+            &:active {
+                filter: brightness(var(--active-brightness));
+            }
+
+            &:where(:disabled) {
+                background: var(--color-bg-secondary);
+                border-color: var(--color-bg-secondary);
+                color: var(--color-text-secondary);
+                cursor: not-allowed;
+                filter: none;
+            }
         }
 
-        button,
-        input[type="submit"] {
-            font-family: var(--font-family);
-        }
-
-        button:hover,
-        input[type="submit"]:hover {
-            cursor: pointer;
-            filter: brightness(var(--hover-brightness));
-        }
-
-        button:active,
-        input[type="submit"]:active {
-            filter: brightness(var(--active-brightness));
-        }
-
-        a b,
-        a strong,
-        button,
-        input[type="submit"] {
-            background-color: var(--color-link);
-            border: 2px solid var(--color-link);
-            color: var(--color-bg);
-        }
-
-        a em,
-        a i {
-            border: 2px solid var(--color-link);
-            border-radius: var(--border-radius, 1rem);
-            color: var(--color-link);
-            display: inline-block;
-            padding: 1rem 2rem;
-        }
-
-        article aside a {
-            color: var(--color-secondary);
-        }
-
-        /* Images */
-        figure {
+        // Images
+        :where(figure) {
             margin: 0;
             padding: 0;
+
+            :where(img) { max-inline-size: 100%; }
+            :where(figcaption) { color: var(--color-text-secondary); }
         }
 
-        figure img {
-            max-inline-size: 100%;
-        }
-
-        figure figcaption {
-            color: var(--color-text-secondary);
-        }
-
-        /* Forms */
-        button:disabled,
-        input:disabled {
-            background: var(--color-bg-secondary);
-            border-color: var(--color-bg-secondary);
-            color: var(--color-text-secondary);
-            cursor: not-allowed;
-        }
-
-        button[disabled]:hover,
-        input[type="submit"][disabled]:hover {
-            filter: none;
-        }
-
-        form {
+        // Forms
+        :where(form) {
             border: 1px solid var(--color-bg-secondary);
             border-radius: var(--border-radius, 1rem);
             box-shadow: var(--box-shadow) var(--color-shadow);
@@ -617,71 +560,75 @@
             min-inline-size: var(--width-card);
             padding: 1.5rem;
             text-align: var(--justify-normal);
+
+            :where(header) {
+                margin: 1.5rem 0;
+                padding: 1.5rem 0;
+            }
         }
 
-        form header {
-            margin: 1.5rem 0;
-            padding: 1.5rem 0;
-        }
-
-        input,
-        label,
-        select,
-        textarea {
+        :where(input, label, select, textarea) {
             display: block;
             font-size: inherit;
             max-inline-size: var(--width-card-wide);
         }
 
-        input[type="checkbox"],
-        input[type="radio"] {
-            display: inline-block;
-        }
-
-        input[type="checkbox"] + label,
-        input[type="radio"] + label {
-            display: inline-block;
-            font-weight: normal;
+        :where(label) {
+            font-weight: bold;
+            margin-block-end: 0.2rem;
             position: relative;
-            inset-block-start: 1px;
+
+            // Hide nested inputs within label if needed, or siblings
+            & > :where(input[type="radio"], input[type="checkbox"]) {
+                display: none;
+                pointer-events: none;
+            }
         }
 
-        input[type="range"] {
-            padding: 0.4rem 0;
+        :where(input) {
+            border-radius: var(--border-radius, 50cqmin);
+
+            &:where([type="checkbox"], [type="radio"]) {
+                display: inline-block;
+
+                & + label {
+                    display: inline-block;
+                    font-weight: normal;
+                    position: relative;
+                    inset-block-start: 1px;
+                }
+            }
+
+            &:where([type="range"]) { padding: 0.4rem 0; }
+
+            &:where([type="text"], [type="password"], [type="email"]),
+            &:where(textarea) {
+                inline-size: calc(100% - 1.6rem);
+            }
+
+            &:where(:disabled) {
+                background: var(--color-bg-secondary);
+                border-color: var(--color-bg-secondary);
+                color: var(--color-text-secondary);
+                cursor: not-allowed;
+            }
+
+            &:where([readonly]) { background-color: var(--color-bg-secondary); }
         }
 
-        input,
-        select,
-        textarea {
+        :where(textarea) {
+             &:where([readonly]) { background-color: var(--color-bg-secondary); }
+        }
+
+        :where(input, select, textarea) {
             border: 1px solid var(--color-bg-secondary);
             border-radius: var(--border-radius, 1rem);
             margin-block-end: 1rem;
             padding: 0.4rem 0.8rem;
         }
 
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        textarea {
-            inline-size: calc(100% - 1.6rem);
-        }
-
-        input[readonly],
-        textarea[readonly] {
-            background-color: var(--color-bg-secondary);
-        }
-
-        label {
-            font-weight: bold;
-            margin-block-end: 0.2rem;
-        }
-
-        input {
-            border-radius: var(--border-radius, 50cqmin);
-        }
-
-        /* Popups */
-        dialog {
+        // Dialogs
+        :where(dialog) {
             max-inline-size: 90%;
             max-block-size: 85dvh;
             margin: auto;
@@ -692,42 +639,28 @@
             overscroll-behavior: contain;
             scroll-behavior: smooth;
             scrollbar-width: none;
-            /* Hide scrollbar for Firefox */
             -ms-overflow-style: none;
-            /* Hide scrollbar for IE and Edge */
             scrollbar-color: transparent transparent;
             animation: bottom-to-top 0.25s ease-in-out forwards;
-        }
 
-        dialog::-webkit-scrollbar {
-            inline-size: 0;
-            display: none;
-        }
+            &::-webkit-scrollbar {
+                inline-size: 0;
+                display: none;
+            }
+            &::-webkit-scrollbar-track { background: transparent; }
+            &::-webkit-scrollbar-thumb { background-color: transparent; }
 
-        dialog::-webkit-scrollbar-track {
-            background: transparent;
-        }
+            &::backdrop { background-color: rgba(0, 0, 0, 0.5); }
 
-        dialog::-webkit-scrollbar-thumb {
-            background-color: transparent;
-        }
+            :where(hr) { margin-block: 1rem; }
 
-        @media (min-inline-size: 650px) {
-            dialog {
+            @media (min-inline-size: 650px) {
                 max-inline-size: 39rem;
             }
         }
 
-        dialog::backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        dialog hr {
-            margin-block: 1rem;
-        }
-
-        /* Tables */
-        table {
+        // Tables
+        :where(table) {
             border: 1px solid var(--color-bg-secondary);
             border-radius: var(--border-radius, 1rem);
             border-spacing: 0;
@@ -736,121 +669,85 @@
             overflow-x: auto;
             padding: 0;
             white-space: nowrap;
+
+            :where(td, th, tr) {
+                padding: 0.4rem 0.8rem;
+                text-align: var(--justify-important);
+            }
+
+            :where(thead) {
+                background-color: var(--color-table);
+                border-collapse: collapse;
+                border-radius: var(--border-radius, 1rem);
+                color: var(--color-bg);
+                margin: 0;
+                padding: 0;
+
+                :where(tr:first-child) {
+                    :where(th:first-child) { border-start-start-radius: var(--border-radius, 1rem); }
+                    :where(th:last-child) { border-start-end-radius: var(--border-radius, 1rem); }
+                }
+
+                :where(th:first-child) { text-align: var(--justify-normal); }
+            }
+
+            :where(tr) {
+                :where(td:first-child) { text-align: var(--justify-normal); }
+                &:nth-child(even) { background-color: var(--color-accent); }
+            }
         }
 
-        table td,
-        table th,
-        table tr {
-            padding: 0.4rem 0.8rem;
-            text-align: var(--justify-important);
-        }
+        /* -------------------------------------------------------------------------- */
+        /*                                  Scrollbars                                */
+        /* -------------------------------------------------------------------------- */
 
-        table thead {
-            background-color: var(--color-table);
-            border-collapse: collapse;
-            border-radius: var(--border-radius, 1rem);
-            color: var(--color-bg);
-            margin: 0;
-            padding: 0;
-        }
-
-        table thead tr:first-child th:first-child {
-            border-start-start-radius: var(--border-radius, 1rem);
-        }
-
-        table thead tr:first-child th:last-child {
-            border-start-end-radius: var(--border-radius, 1rem);
-        }
-
-        table thead th:first-child,
-        table tr td:first-child {
-            text-align: var(--justify-normal);
-        }
-
-        table tr:nth-child(even) {
-            background-color: var(--color-accent);
-        }
-
-        /* Quotes */
-        blockquote {
-            display: block;
-            font-size: 1em;
-            line-height: var(--line-height);
-            margin: 1rem auto;
-            max-inline-size: var(--width-card-medium);
-            padding: 1.5rem 1rem;
-            text-align: var(--justify-important);
-        }
-
-        blockquote footer {
-            color: var(--color-text-secondary);
-            display: block;
-            font-size: small;
-            line-height: var(--line-height);
-            padding: 1.5rem 0;
-        }
-
-        /* Scrollbars */
-        * {
+        :where(*) {
             scrollbar-width: thin;
             scrollbar-color: var(--color-scrollbar) transparent;
+
+            &::-webkit-scrollbar {
+                inline-size: 5px;
+                block-size: 5px;
+            }
+
+            &::-webkit-scrollbar-track { background: transparent; }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--color-scrollbar);
+                border-radius: 10px;
+            }
         }
 
-        *::-webkit-scrollbar {
-            inline-size: 5px;
-            block-size: 5px;
-        }
+        /* -------------------------------------------------------------------------- */
+        /*                                   Visuals                                  */
+        /* -------------------------------------------------------------------------- */
 
-        *::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        *::-webkit-scrollbar-thumb {
-            background-color: var(--color-scrollbar);
-            border-radius: 10px;
-        }
-
-        /* HACK to workaround unexpected display: none in shared files */
-        [aria-hidden="true"] { display: none !important; }
-
-        //
         :where(canvas):is([is="ui-canvas"]), :host(canvas[is="ui-canvas"]) {
             min-inline-size: 1px;
             min-block-size: 1px;
-
-            //
             inline-size: 100%;
             block-size: 100%;
-
-            //
             max-inline-size: 100%;
             max-block-size: 100%;
 
-            //
             pointer-events: none !important;
             place-content: center;
             place-items: center;
             place-self: center;
 
-            //
             aspect-ratio: auto;
             display: flex;
 
-            //
             image-rendering: auto;
             image-rendering: optimizeQuality;
             image-rendering: smooth;
             image-rendering: high-quality;
 
-            //
             object-fit: cover;
             object-position: center;
 
-            //
             background-color: var(--theme-base-color, transparent);
             border-image-source: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
 
-            //
             position: fixed !important;
             inset: 0px !important;
         }
@@ -858,11 +755,13 @@
         :where(div, :host, button):has(> ui-icon:only-child:only-of-type) {
             text-overflow: clip !important;
         }
-    };
 
-    //
-    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
-    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
-    [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
-    [data-scheme="auto"], [data-theme="auto"] { color-scheme: light dark; }
+        /* -------------------------------------------------------------------------- */
+        /*                                Scheme Overrides                            */
+        /* -------------------------------------------------------------------------- */
+        [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
+        [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
+        [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
+        [data-scheme="auto"], [data-theme="auto"] { color-scheme: light dark; }
+    }
 };

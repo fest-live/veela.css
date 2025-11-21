@@ -177,6 +177,15 @@
                 display: none !important;
             }
 
+            [data-dragging] {
+                will-change: transform;
+                cursor: grabbing;
+            }
+
+            *:active {
+                will-change: transform;
+            }
+
             /* Reduced Motion */
             @media (prefers-reduced-motion: reduce) {
                 :where(*, ::after, ::before) {
@@ -442,10 +451,10 @@
             z-index: 0; /* Set specific z-index if needed */
             image-rendering: optimizeQuality;
         }
-
-        /* Scheme Overrides */
-        [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
-        [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
-        [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
     }
+
+    /* Scheme Overrides */
+    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
+    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
+    [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
 }

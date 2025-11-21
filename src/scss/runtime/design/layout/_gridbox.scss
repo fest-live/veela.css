@@ -91,17 +91,13 @@
                         0px)
                     scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
                     translate3d(
-                        round(nearest, calc(var(--translate-x, 0px) - 50%), calc(1px / var(--pixel-ratio, 1))),
-                        round(nearest, calc(var(--translate-y, 0px) - 50%), calc(1px / var(--pixel-ratio, 1))),
+                        round(nearest, var(--translate-x, 0px), calc(1px / var(--pixel-ratio, 1))),
+                        round(nearest, var(--translate-y, 0px), calc(1px / var(--pixel-ratio, 1))),
                         0px) !important;
                 translate: 0px 0px 0px;
 
                 //
                 inset: auto;
-
-                //
-                //inset-block-start: calc(var(--cs-sw-unit-y, 1px) * -0.5);
-                //inset-inline-start: calc(var(--cs-sw-unit-x, 1px) * -0.5);
 
                 //
                 grid-column: clamp(1, calc(1 + round(nearest, var(--rv-grid-c, 0), 1)), var(--cs-layout-c, 4));
@@ -145,11 +141,11 @@
             }
 
             //
-            /*& {
+            &, & > *, & span {
                 --drag-distance: clamp(0, hypot(var(--dir-x, 0), var(--dir-y, 0)), 6);
                 --drag-duration: clamp(96ms, calc(var(--drag-distance, 0) * 110ms + 70ms), 360ms);
                 transition-behavior: allow-discrete;
-                transition-property: transform;
+                transition-property: opacity, background-color, color;
                 transition-duration: var(--drag-duration);
                 transition-timing-function: cubic-bezier(0.22, 0.8, 0.3, 1);
                 transition-delay: 0ms;
@@ -160,7 +156,7 @@
                     transition-duration: 0ms;
                     transition-timing-function: linear;
                 }
-            }*/
+            }
 
             // if interpolation keywords supported
             @supports (min-inline-size: max(1px, fit-content)) {

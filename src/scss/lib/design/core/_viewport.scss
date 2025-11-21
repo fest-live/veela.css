@@ -356,8 +356,8 @@
     & {
         @include v2-pair(
             "cs-transition",
-            calc(var(--cs-sw-unit-x, 1px) * 0.5),
-            calc(var(--cs-sw-unit-y, 1px) * 0.5),
+            0px,
+            0px,
             ("c", "r")
         );
     }
@@ -366,8 +366,8 @@
         //
         @include v2-pair(
             "cs-transition",
-            calc((var(--rv-grid-c, 0) - var(--cs-grid-c, 0) + 0.5) * var(--cs-sw-unit-x, 1px)),
-            calc((var(--rv-grid-r, 0) - var(--cs-grid-r, 0) + 0.5) * var(--cs-sw-unit-y, 1px)),
+            calc((var(--rv-grid-c, 0) - var(--cs-grid-c, 0)) * var(--cs-sw-unit-x, 1px)),
+            calc((var(--rv-grid-r, 0) - var(--cs-grid-r, 0)) * var(--cs-sw-unit-y, 1px)),
             ("c", "r")
         );
     }

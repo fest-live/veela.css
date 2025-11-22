@@ -128,6 +128,13 @@
     justify-content: flex-start;
 
     //
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    overflow: hidden;
+
+    //
     min-inline-size: fit-content; inline-size: stretch;
 
     //
@@ -165,6 +172,9 @@
         text-indent: 0;
         text-overflow: ellipsis;
         white-space: nowrap;
+        text-wrap: nowrap;
+        word-break: keep-all;
+        overflow: hidden;
 
         //
         min-inline-size: fit-content; inline-size: stretch;

@@ -72,7 +72,7 @@
             @include compute_grid_item_cell();
 
             // calculate visible size
-            & { --item-size: clamp(2rem, calc(100cqmax / min(var(--cs-layout-c, 4), var(--cs-layout-r, 8))), 6rem); }
+            & { --item-size: clamp(4rem, calc(100cqmax / min(var(--cs-layout-c, 4), var(--cs-layout-r, 8))), 5rem); }
             & :where(*) {--drag-x: 0; --drag-y: 0; }
 
             // dragging coordinate

@@ -156,8 +156,8 @@
                 transform var(--transition-fast);
 
             //
-            &:hover { --color-shade: calc(#{$base-shade} + var(--hover-lift, 0.04)); }
-            &:active { --color-shade: calc(#{$base-shade} + var(--active-lift, 0.06)); }
+            &:hover { --color-shade: calc(#{$base-shade} + var(--hover-lift, 0.03)); }
+            &:active { --color-shade: calc(#{$base-shade} + var(--active-lift, 0.05)); }
             &:is(:focus, :focus-visible) { --color-shade: calc(#{$base-shade} + var(--focus-lift, 0.02)); }
 
             //

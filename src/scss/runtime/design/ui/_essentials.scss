@@ -74,19 +74,22 @@
             --color-shade: 0.04;
 
             position: fixed;
-            min-inline-size: 100px;
+            min-inline-size: 160px;
             inline-size: fit-content;
-            max-inline-size: min(200px, 100%);
+            max-inline-size: min(200px, 100cqi);
             block-size: fit-content;
             z-index: calc(99999 + var(--z-index, 0)) !important;
             opacity: var(--opacity, 1);
             transform: scale3d(var(--scale, 1), var(--scale, 1), 1) translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px);
             pointer-events: auto;
             font-size: 0.8em;
-            border-radius: none 0px transparent;
+            border: none 0px transparent;
             padding: 0px;
+            border-radius: 0.333rem;
+            padding-block: 0.333rem;
+            transition: all 0.2s ease-in-out;
 
-            filter: drop-shadow(0px 0px 0.125rem #0001);
+            filter: drop-shadow(0px 0px 0.25rem #000a);
         }
 
         //
@@ -106,7 +109,7 @@
 
             /* */
             &:not(.ctx-menu-separator) {
-                padding: 0.125rem;
+                padding: 0.25rem;
             }
 
             & > span {
@@ -114,7 +117,7 @@
                 justify-self: start;
                 user-select: none;
                 pointer-events: none;
-                padding-inline: 0.25rem;
+                padding-inline: 0.333rem;
             }
 
             & > ui-icon {

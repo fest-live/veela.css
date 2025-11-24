@@ -213,14 +213,17 @@
                     0 1px 2px color-mix(in oklch, var(--surface-color) 35%, transparent),
                     0 0 0.35rem color-mix(in oklch, var(--surface-color) 15%, transparent);
                 translate: 0 calc(clamp(0.25rem, 0.65cqmin, 0.65rem) + var(--cs-sw-unit-y, 0px));
-                filter: drop-shadow(0 0 0.2rem color-mix(in oklch, var(--surface-color) 25%, transparent));
-
+                // Removed drop-shadow filter which is very expensive on many elements
+                // filter: drop-shadow(0 0 0.2rem color-mix(in oklch, var(--surface-color) 25%, transparent));
+                
                 //
                 span {
                     pointer-events: none;
                     user-select: none;
                     max-inline-size: min(8ch, 100%);
                     opacity: clamp(0.75, 0.9, 1);
+                    contain: layout paint; // Optimization: isolate layout/paint
+                    content-visibility: auto; // Optimization: skip offscreen work
                 }
             }
         }

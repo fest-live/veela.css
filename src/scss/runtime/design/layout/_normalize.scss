@@ -182,9 +182,9 @@
                 cursor: grabbing;
             }
 
-            *:active {
-                will-change: transform;
-            }
+            /**:active, *:has(*:active) {
+                will-change: transform, contents;
+            }*/
 
             /* Reduced Motion */
             @media (prefers-reduced-motion: reduce) {

@@ -32,12 +32,12 @@
 
         //
         :root, :where(html) {
-            translate: 0px 0px !important;
-            transform: none !important;
-            margin: 0px !important;
-            padding: 0px !important;
-            border: none 0px transparent !important;
-            outline: none 0px transparent !important;
+            translate: none;
+            transform: none;
+            margin: 0px;
+            padding: 0px;
+            border: none 0px transparent;
+            outline: none 0px transparent;
 
             //
             background-color: transparent;
@@ -78,12 +78,12 @@
 
             //
             & {
-                translate: 0px 0px !important;
-                transform: none !important;
-                margin: 0px !important;
-                padding: 0px !important;
-                border: none 0px transparent !important;
-                outline: none 0px transparent !important;
+                translate: none;
+                transform: none;
+                margin: 0px;
+                padding: 0px;
+                border: none 0px transparent;
+                outline: none 0px transparent;
 
                 //
                 font-size: var(--text-base, 0.9rem);

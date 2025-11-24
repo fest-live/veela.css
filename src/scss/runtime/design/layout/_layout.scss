@@ -10,7 +10,7 @@
 @property --order { syntax: "<integer>"; initial-value: 1; inherits: true; };
 @property --content-inline-size { syntax: "<length-percentage>"; initial-value: 100%; inherits: true; };
 @property --content-block-size  { syntax: "<length-percentage>"; initial-value: 100%; inherits: true; };
-@property --icon-size { syntax: "<length>"; initial-value: 1rem; inherits: true; };
+@property --icon-size { syntax: "<length-percentage>"; initial-value: 16px; inherits: true; };
 @property --icon-color { syntax: "<color>"; initial-value: #0000; inherits: true; };
 
 //

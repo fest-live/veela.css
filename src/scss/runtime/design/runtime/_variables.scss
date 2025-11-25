@@ -1,6 +1,9 @@
 @use "veela-lib" as md3;
 
 //
+@include md3.declare-props();
+
+//
 @mixin make-md-theme($suffix: "", $theme-type: 2) {
     --md-c2-primary#{$suffix}: var(--current, var(--primary-fallback, #469));
     --md-c2-secondary#{$suffix}: var(--secondary, var(--secondary-fallback, var(--md-c2-primary#{$suffix})));
@@ -92,11 +95,11 @@
 
         //
         --primary: var(--primary-fallback);
-        --secondary: var(--secondary-fallback);
-        --tertiary: var(--tertiary-fallback);
-        --trinary: var(--tertiary);
-        --accent: var(--accent-fallback);
-        --current: var(--primary-fallback, #469);
+        --secondary: var(--secondary-fallback, var(--primary));
+        --tertiary: var(--tertiary-fallback, var(--secondary));
+        --trinary: var(--tertiary, var(--secondary));
+        --accent: var(--accent-fallback, var(--tertiary));
+        --current: var(--primary, var(--primary-fallback, #469));
 
         //
         @media(prefers-color-scheme: dark) { color-scheme: dark; }
@@ -116,6 +119,8 @@
         --color-tint: 0.0;
         --color-opacity: 0.0;
         --color-enable-blur: 0;
+        --_color-shade: var(--color-shade, 0);
+        --_color-tint: var(--color-tint, 0);
     }
 
     //

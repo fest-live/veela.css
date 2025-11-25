@@ -238,6 +238,9 @@
     @include prop.register-properties((
         "--_color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
         "--_color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+        "--hover-lift": ("syntax": "<number>", "inherits": true, "initial": 0.03),
+        "--active-lift": ("syntax": "<number>", "inherits": true, "initial": 0.05),
+        "--focus-lift": ("syntax": "<number>", "inherits": true, "initial": 0.02)
     ));
 
     //
@@ -245,7 +248,7 @@
         "--color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
         "--color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
         "--color-opacity": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--color-enable-blur": ("syntax": "<boolean>", "inherits": true, "initial": false),
+        "--color-enable-blur": ("syntax": "<number>", "inherits": true, "initial": 0),
         "--c2h-ct": ("syntax": "<number>", "inherits": true, "initial": 0)
     ));
 }

@@ -105,9 +105,6 @@
             ) l c h / 0.1
         );
 
-        --_color-shade: var(--color-shade, 0);
-        --_color-tint: var(--color-tint, 0);
-
         &:where(a, span, ui-icon) {
             @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
             --icon-color: var(--on-surface-color, currentColor);
@@ -166,6 +163,7 @@
                 opacity var(--transition-normal);
 
             //
+            & { --_color-shade: var(--color-shade, 0); };
             &:hover { --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03)); }
             &:active { --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05)); }
             &:is(:focus, :focus-visible) { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }

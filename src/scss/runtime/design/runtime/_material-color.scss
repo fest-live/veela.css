@@ -91,7 +91,7 @@
 
 /* */
 @include func.make-func("@function --c2-surface(\
---c2-shift    <number>: 0, \
+--c2-shift    <number>: var(--_color-shade, 0), \
 --c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme    <number>: 2 \
 )")
@@ -99,7 +99,7 @@
 
 /* */
 @include func.make-func("@function --c2-on-surface(\
---c2-shift      <number>: 0, \
+--c2-shift      <number>: var(--_color-tint, 0), \
 --c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")
@@ -109,7 +109,7 @@
 
 /* */
 @include func.make-func("@function --c2-contrast(\
---c2-shift    <number>: 0, \
+--c2-shift    <number>: var(--_color-shade, 0), \
 --c2-color     <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")
@@ -117,7 +117,7 @@
 
 /* */
 @include func.make-func("@function --c2-on-contrast(\
---c2-shift      <number>: 0, \
+--c2-shift      <number>: var(--_color-tint, 0), \
 --c2-color       <color>: var(--current, var(--primary, currentColor)), \
 --c2-theme      <number>: 2 \
 )")

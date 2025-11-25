@@ -169,7 +169,8 @@
             }
 
             /* Hidden Elements */
-            [data-hidden], :where(head, script, link, style, meta, [hidden]) {
+            /*[data-hidden],*/
+            :where(head, script, link, style, meta, [hidden]) {
                 display: none !important;
             }
 

@@ -147,7 +147,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
             // Enhanced calendar icon styling
             &::-webkit-calendar-picker-indicator {
                 cursor: pointer; opacity: 0.8;
-                float: right; justify-self: end;
+                float: end; justify-self: end;
 
                 &:where(:hover, :focus-visible, :active)
                     {opacity: 1; }
@@ -155,7 +155,7 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
 
             //
             &::-webkit-datetime-edit {
-                & { background-color: transparent; float: right; justify-self: end; }
+                & { background-color: transparent; float: end; justify-self: end; }
             }
         }
     }
@@ -171,14 +171,14 @@ $ux-numeric-temporal-types: '[type="number"], [type="date"], [type="time"], [typ
         &::-webkit-calendar-picker-indicator {
             cursor: pointer; opacity: 0.8;
             transition: filter var(--transition-normal);
-            float: right; justify-self: end;
+            float: end; justify-self: end;
 
             &:where(:hover, :focus-visible, :active)
                 { opacity: 1; }
         }
 
         &::-webkit-datetime-edit {
-            & { background-color: transparent; float: right; justify-self: end; }
+            & { background-color: transparent; float: end; justify-self: end; }
         }
     }
 

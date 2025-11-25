@@ -24,11 +24,17 @@
         transition-behavior: allow-discrete;
         transition: --background-tone-shift 0.2s ease-in-out, --icon-color 0.2s ease-in-out;
 
+        //
+        contain: strict;
+        overflow: hidden;
+
+        //
         & span {
             inline-size: stretch;
             block-size: stretch;
         }
 
+        //
         & ui-icon {
             inline-size: stretch;
             block-size: stretch;
@@ -43,6 +49,13 @@
     //
     *[data-shape] {
         @include solid-colorize("&", ("shade": 0.1));
+
+        //
+        contain: strict;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+        clip-path: var(--clip-path);
+        border-radius: var(--border-radius);
     }
 
     //
@@ -77,7 +90,7 @@
     //
     *[data-shape="square"]:not(:has(.shaped)), *[data-shape="square"]:not(.shaped) > *, *[data-shape="square"]:not(.shaped) .shaped {
         --clip-path: inset(0px 0px round 25%);
-        border-radius: calc(var(--icon-size, 100%) * 0.25);
+        border-radius: calc(var(--icon-size, 50cqmin) * 0.25);
     }
 
 }

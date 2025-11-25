@@ -65,7 +65,13 @@ $radio-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' v
     --_option-border-inline-size: 0.5px;
 
     //
-    border-radius: var(--_option-border-radius);
+    --_option-border-radius-start-start: 0px;
+    --_option-border-radius-start-end: 0px;
+    --_option-border-radius-end-start: 0px;
+    --_option-border-radius-end-end: 0px;
+
+    //
+    border-radius: var(--_option-border-radius-start-start) var(--_option-border-radius-start-end) var(--_option-border-radius-end-start) var(--_option-border-radius-end-end);
     border-inline-start-width: var(--_option-border-inline-size, 1px);
     border-inline-end-width: var(--_option-border-inline-size, 1px);
     border-block-start-width: var(--_option-border-block-start-size, 0px);
@@ -74,13 +80,15 @@ $radio-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' v
     //
     &:first-of-type {
         --_option-border-block-start-size: 0.5px;
-        --_option-border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        --_option-border-radius-start-start: var(--radius-sm);
+        --_option-border-radius-start-end: var(--radius-sm);
     }
 
     //
     &:last-of-type {
         --_option-border-block-end-size: 0.5px;
-        --_option-border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        --_option-border-radius-end-start: var(--radius-sm);
+        --_option-border-radius-end-end: var(--radius-sm);
     }
 }
 

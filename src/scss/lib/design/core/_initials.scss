@@ -101,7 +101,7 @@
     --input-border-checked: color-mix(in oklch, var(--surface-color, currentColor) 80%, transparent);
     --input-border-autofill: color-mix(in oklch, var(--input-border-color) 80%, transparent);
 
-    --input-surface-color: color-mix(in oklch, var(--surface-color, transparent) 90%, var(--on-surface-color, transparent));
+    --input-surface-color: color-mix(in oklch, var(--surface-color, transparent) 96%, var(--on-surface-color, transparent));
     --input-surface-hover: color-mix(in oklch, var(--input-surface-color) 90%, var(--input-border-focus) 10%);
     --input-surface-focus: color-mix(in oklch, var(--input-surface-color) 88%, var(--input-border-focus) 12%);
     --input-surface-error: color-mix(in oklch, var(--input-surface-color) 88%, var(--input-border-error) 12%);
@@ -201,7 +201,7 @@
     --checkbox-radius: var(--radius-sm);
     --checkbox-border-width: 1px;
 
-    --checkbox-surface: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 84%, var(--on-surface-color, currentColor)));
+    --checkbox-surface: var(--input-surface, color-mix(in oklch, var(--surface-color, currentColor) 96%, var(--on-surface-color, currentColor)));
     --checkbox-surface-hover: color-mix(in oklch, var(--checkbox-surface) 88%, var(--on-surface-color, currentColor) 12%);
     --checkbox-surface-checked: color-mix(in oklch, var(--checkbox-surface) 10%, var(--on-surface-color, currentColor) 12%);
     --checkbox-surface-disabled: color-mix(in oklch, var(--checkbox-surface) 96%, transparent 4%);

@@ -234,6 +234,12 @@
         "--scrollbar-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0)
     ));
 
+    // internals
+    @include prop.register-properties((
+        "--_color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+        "--_color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+    ));
+
     //
     @include prop.register-properties((
         "--color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),

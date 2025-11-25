@@ -169,12 +169,16 @@
             }
 
             /* Hidden Elements */
-            :where(head, script, link, style, meta, [hidden], [aria-hidden="true"]) {
+            [data-hidden], :where(head, script, link, style, meta, [hidden]) {
                 display: none !important;
             }
 
-            [data-hidden] {
-                display: none !important;
+            [aria-hidden="true"] {
+                visibility: collapse;
+                pointer-events: none;
+                touch-action: none;
+                user-select: none;
+                content-visibility: auto;
             }
 
             [data-dragging] {

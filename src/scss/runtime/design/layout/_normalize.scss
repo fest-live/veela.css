@@ -447,12 +447,12 @@
         /* -------------------------------------------------------------------------- */
 
         :where(canvas):is([is="ui-canvas"]) {
-            position: fixed !important;
-            inset: 0 !important;
-            inline-size: 100% !important;
-            block-size: 100% !important;
-            pointer-events: none !important;
-            z-index: 0; /* Set specific z-index if needed */
+            position: fixed;
+            inset: 0;
+            inline-size: 100%;
+            block-size: 100%;
+            pointer-events: none;
+            z-index: 0;
             image-rendering: optimizeQuality;
         }
     }

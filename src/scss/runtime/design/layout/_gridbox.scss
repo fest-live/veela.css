@@ -159,6 +159,7 @@
                 transition-duration: var(--drag-duration);
                 transition-timing-function: cubic-bezier(0.22, 0.8, 0.3, 1);
                 transition-delay: 0ms;
+                background-image: none;
 
                 //
                 border: none 0px transparent;
@@ -229,6 +230,7 @@
                     opacity: clamp(0.75, 0.9, 1);
                     contain: layout paint; // Optimization: isolate layout/paint
                     content-visibility: auto; // Optimization: skip offscreen work
+                    background-image: none;
                 }
             }
         }

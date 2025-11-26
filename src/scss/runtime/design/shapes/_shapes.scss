@@ -3,94 +3,205 @@
 @use "sass:list";
 
 //
+@use "../runtime/wavy-runtime" as *;
+
+//
 @layer ux-shapes {
 
-    //
+    // ─────────────────────────────────────────────────────────────────────────
+    // Base Shaped Element
+    // ─────────────────────────────────────────────────────────────────────────
     .shaped {
-        aspect-ratio: 1 / 1;
-        inline-size: stretch;
-        block-size: stretch;
+        // Layout
         display: flex;
         place-content: center;
         place-items: center;
-
-        //
+        aspect-ratio: 1 / 1;
+        inline-size: stretch;
+        block-size: stretch;
         padding: 1.25rem;
-        pointer-events: auto;
-        border-radius: 1.5rem;
-        user-select: none;
-        z-index: 1;
-        clip-path: var(--clip-path);
-        transition-behavior: allow-discrete;
-        transition: --background-tone-shift 0.2s ease-in-out, --icon-color 0.2s ease-in-out;
 
-        //
+        // Containment & Overflow
         contain: strict;
         overflow: hidden;
 
-        //
-        & span {
-            inline-size: stretch;
-            block-size: stretch;
-        }
+        // Rendering
+        border-radius: 1.5rem;
+        clip-path: var(--clip-path, none);
+        z-index: 1;
 
-        //
-        & ui-icon {
+        // Interaction
+        pointer-events: auto;
+        user-select: none;
+
+        // Animation
+        transition-behavior: allow-discrete;
+        transition: --background-tone-shift 0.2s ease-in-out, --icon-color 0.2s ease-in-out;
+
+        // Nested elements
+        & span, & ui-icon {
             inline-size: stretch;
             block-size: stretch;
         }
     }
 
-    //
+    // ─────────────────────────────────────────────────────────────────────────
+    // Dragging State
+    // ─────────────────────────────────────────────────────────────────────────
     *[data-dragging] {
         z-index: calc(100 + var(--z-index, 0)) !important;
     }
 
     //
-    *[data-shape] {
-        @include solid-colorize("&", ("shade": 0.1));
+    // Shape Variants: Border-Radius Based (Simple)
+    // ─────────────────────────────────────────────────────────────────────────
+    *:not(:has(.shaped)),
+    *:not(.shaped) > *,
+    *:not(.shaped) .shaped {
+        --border-radius: var(--radius-md);
+        --clip-path: none;
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Base Shape Container
+        // ─────────────────────────────────────────────────────────────────────────
+        &[data-shape] {
+            @include solid-colorize("&", ("shade": 0.1));
+            contain: strict;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            clip-path: var(--clip-path, none);
+            border-radius: var(--border-radius, var(--radius-md));
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Shape Variants: Border-Radius Based (Simple)
+        // ─────────────────────────────────────────────────────────────────────────
+
+        // Square - minimal rounding
+        &[data-shape="square"] {
+            --border-radius: var(--radius-md);
+            --clip-path: none;
+        }
+
+        // Squircle - iOS-style super-ellipse approximation
+        &[data-shape="squircle"] {
+            --border-radius: 28%;
+            --clip-path: none;
+        }
+
+        // Circle - fully round
+        &[data-shape="circle"] {
+            --border-radius: 50%;
+            --clip-path: none;
+        }
+
+        // Rounded - generous rounding
+        &[data-shape="rounded"] {
+            --border-radius: var(--radius-xl);
+            --clip-path: none;
+        }
+
+        // Blob - organic asymmetric shape
+        &[data-shape="blob"] {
+            --border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            --clip-path: none;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Shape Variants: Clip-Path Based (Polygonal)
+        // ─────────────────────────────────────────────────────────────────────────
+
+        // Hexagon - 6-sided polygon
+        &[data-shape="hexagon"] {
+            --border-radius: 0;
+            --clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        // Diamond - rotated square
+        &[data-shape="diamond"] {
+            --border-radius: 0;
+            --clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        // Star - 4-pointed star
+        &[data-shape="star"] {
+            --border-radius: 0;
+            --clip-path: polygon(
+                50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+                50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+            );
+        }
+
+        // Badge - shield/badge shape
+        &[data-shape="badge"] {
+            --border-radius: 0;
+            --clip-path: polygon(
+                0% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%
+            );
+        }
+
+        // Heart - heart shape
+        &[data-shape="heart"] {
+            --border-radius: 0;
+            --clip-path: path('M 50 88 C 20 60, 0 35, 25 15 C 40 5, 50 20, 50 20 C 50 20, 60 5, 75 15 C 100 35, 80 60, 50 88 Z');
+        }
+
+        // Clover - 4-leaf clover
+        &[data-shape="clover"] {
+            --border-radius: 0;
+            --clip-path: polygon(
+                50% 0%, 65% 35%, 100% 50%, 65% 65%,
+                50% 100%, 35% 65%, 0% 50%, 35% 35%
+            );
+        }
+
+        // Flower - 8-petal flower
+        &[data-shape="flower"] {
+            --border-radius: 0;
+            --clip-path: polygon(
+                50% 0%, 62% 20%, 85% 15%, 75% 38%,
+                100% 50%, 75% 62%, 85% 85%, 62% 75%,
+                50% 100%, 38% 75%, 15% 85%, 25% 62%,
+                0% 50%, 25% 38%, 15% 15%, 38% 25%
+            );
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Shape Variants: Tear/Drop (Asymmetric Radius)
+        // ─────────────────────────────────────────────────────────────────────────
+
+        // Tear - teardrop/water drop shape
+        &[data-shape="egg"] {
+            --border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            --clip-path: none;
+        }
 
         //
-        contain: strict;
-        overflow: hidden;
-        aspect-ratio: 1 / 1;
-        clip-path: var(--clip-path);
-        border-radius: var(--border-radius);
-    }
+        &[data-shape="tear"] {
+            --border-radius: 50cqmin 50cqmin 5rem 50cqmin;
+            --clip-path: none;
 
-    //
-    *[data-shape="wavy"]:not(:has(.shaped)), *[data-shape="wavy"]:not(.shaped) > *, *[data-shape="wavy"]:not(.shaped) .shaped {
-        & {
+            border-start-start-radius: 50cqmin;
+            border-start-end-radius: 50cqmin;
+            border-end-start-radius: 50cqmin;
+            border-end-end-radius: 5rem;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Shape Variants: Wavy (Procedural)
+        // ─────────────────────────────────────────────────────────────────────────
+
+        // Wavy - procedural wavy edge (uses Integrate function)
+        &[data-shape="wavy"] {
+            /*
             --clip-amplitude: 0.05;
             --clip-freq: 8;
             --clip-path: #{Integrate("wavy-step", 100)};
-            --corrector: 1.1;
+            --corrector: 1.1;*/
+            --border-radius: calc(var(--icon-size, 100%) * 0.5);
+
+            @include wavy-shaped(100);
         }
-
-        //
-        & {
-            clip-path: var(--clip-path);
-            border-radius: calc(var(--icon-size, 100%) * 0.5);
-        }
-    }
-
-    //
-    *[data-shape="circle"]:not(:has(.shaped)), *[data-shape="circle"]:not(.shaped) > *, *[data-shape="circle"]:not(.shaped) .shaped {
-        --clip-path: inset(0px 0px round 50%);
-        border-radius: calc(var(--icon-size, 100%) * 0.5);
-    }
-
-    //
-    *[data-shape="tear"]:not(:has(.shaped)), *[data-shape="tear"]:not(.shaped) > *, *[data-shape="tear"]:not(.shaped) .shaped {
-        --clip-path: inset(0px 0px round 50% / 0.125);
-        border-radius: calc(var(--icon-size, 100%) * 0.5);
-        border-end-end-radius: calc(var(--icon-size, 100%) * 0.125);
-    }
-
-    //
-    *[data-shape="square"]:not(:has(.shaped)), *[data-shape="square"]:not(.shaped) > *, *[data-shape="square"]:not(.shaped) .shaped {
-        --clip-path: inset(0px 0px round 25%);
-        border-radius: calc(var(--icon-size, 50cqmin) * 0.25);
     }
 
 }

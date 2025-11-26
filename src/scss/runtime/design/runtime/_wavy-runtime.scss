@@ -27,7 +27,7 @@
     --adjust: calc(var(--variant, 0) * var(--clip-amplitude, 0));
     --x: calc(50% + (cos(var(--angle, 0deg)) * (0.5 - var(--adjust, 0))) * var(--icon-size, 100%));
     --y: calc(50% + (sin(var(--angle, 0deg)) * (0.5 - var(--adjust, 0))) * var(--icon-size, 100%));
-    result: var(--x) var(--y);
+    result: #{"var(--x) var(--y)"};
 }
 
 // F(X):[x,y] where X:[0..1]

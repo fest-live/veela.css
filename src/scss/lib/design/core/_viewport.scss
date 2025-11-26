@@ -377,7 +377,7 @@
 
         // CLAMPED GRID
         --f-col: clamp(4, var(--layout-c, 4), 6);
-        --f-row: clamp(8, var(--layout-r, 8), 12);
+        --f-row: clamp(6, var(--layout-r, 8), 12);
 
         //
         @include v2-pair(

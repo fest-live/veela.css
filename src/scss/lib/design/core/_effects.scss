@@ -5,6 +5,7 @@
 @use "./colorize" as colorize;
 @use "./motion" as motion;
 @use "./shadow" as shadow;
+@use "./utils" as utils;
 
 // =============================================================================
 // VISUAL EFFECTS MIXINS (split from layout)
@@ -79,7 +80,17 @@ $shimmer-keyframes-name: veela-shimmer-glide;
         box-shadow: $rest-shadow;
     }
 
-    &:hover {
+    @include utils.when-hover {
+        @if $hover-transform != null {
+            transform: $hover-transform;
+        }
+
+        @if $hover-shadow != null {
+            box-shadow: $hover-shadow;
+        }
+    }
+
+    @include utils.when-active {
         @if $hover-transform != null {
             transform: $hover-transform;
         }
@@ -127,7 +138,11 @@ $shimmer-keyframes-name: veela-shimmer-glide;
 
     @include effect-transition(background-position);
 
-    &:hover {
+    @include utils.when-hover {
+        background-position: 100% 50%;
+    }
+
+    @include utils.when-active {
         background-position: 100% 50%;
     }
 }
@@ -248,9 +263,8 @@ $shimmer-keyframes-name: veela-shimmer-glide;
         mix-blend-mode: soft-light;
     }
 
-    &:hover::before,
-    &:focus-visible::before {
-        transform: translate3d(120%, 0, 0);
+    @include utils.when-hover {
+        &::before { transform: translate3d(120%, 0, 0); }
     }
 
     @include motion.reduced-motion {
@@ -259,4 +273,3 @@ $shimmer-keyframes-name: veela-shimmer-glide;
         }
     }
 }
-

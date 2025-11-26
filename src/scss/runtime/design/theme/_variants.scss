@@ -99,24 +99,14 @@
 
     .surface-interactive {
         @include surface-interactive(var(--surface-opacity-default));
-
-        &:hover { --color-shade: calc(var(--surface-opacity-default) + var(--hover-lift, 0.03)); }
-        &:active { --color-shade: calc(var(--surface-opacity-default) + var(--active-lift, 0.05)); }
-        &:focus-visible { --color-shade: calc(var(--surface-opacity-default) + var(--focus-lift, 0.02)); }
     }
 
     .surface-interactive-subtle {
         @include surface-interactive(var(--surface-opacity-subtle));
-
-        &:hover { --color-shade: calc(var(--surface-opacity-subtle) + var(--hover-lift, 0.03)); }
-        &:active { --color-shade: calc(var(--surface-opacity-subtle) + var(--active-lift, 0.05)); }
     }
 
     .surface-interactive-emphasis {
         @include surface-interactive(var(--surface-opacity-emphasis));
-
-        &:hover { --color-shade: calc(var(--surface-opacity-emphasis) + var(--hover-lift, 0.03)); }
-        &:active { --color-shade: calc(var(--surface-opacity-emphasis) + var(--active-lift, 0.05)); }
     }
 
 
@@ -192,10 +182,6 @@
         .#{$color-name}-surface-interactive {
             --current: #{$color-var};
             @include surface-interactive(var(--surface-opacity-default));
-
-            &:hover { --color-shade: calc(var(--surface-opacity-default) + var(--hover-lift, 0.03)); }
-            &:active { --color-shade: calc(var(--surface-opacity-default) + var(--active-lift, 0.05)); }
-            &:focus-visible { --color-shade: calc(var(--surface-opacity-default) + var(--focus-lift, 0.02)); }
         }
     }
 

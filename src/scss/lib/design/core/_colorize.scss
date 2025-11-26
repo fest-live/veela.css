@@ -6,7 +6,7 @@
 //
 @use "./color" as color;
 @use "./logical" as lg;
-@use "./utils" as prop;
+@use "./utils" as utils;
 
 //
 @mixin _apply-surface-palette($selectors, $color: var(--on-surface-color, currentColor), $set-icon: false) {
@@ -72,14 +72,14 @@
     )
 ) {
     $role: map.get($options, "role");
-    $base-shade: prop.option-or($options, "shade", 0.0);
-    $base-tint: prop.option-or($options, "tint", 0.0);
-    $scheme-id: prop.option-or($options, "scheme-id", 2);
-    $scope: prop.option-or($options, "scope", "component");
+    $base-shade: utils.option-or($options, "shade", 0.0);
+    $base-tint: utils.option-or($options, "tint", 0.0);
+    $scheme-id: utils.option-or($options, "scheme-id", 2);
+    $scope: utils.option-or($options, "scope", "component");
     $propagate-default: if($scope == "selector", false, true);
-    $propagate: prop.option-or($options, "propagate", $propagate-default);
-    $forms-background: prop.option-or($options, "forms-background", $propagate);
-    $global-targets: prop.option-or($options, "global-targets", $propagate);
+    $propagate: utils.option-or($options, "propagate", $propagate-default);
+    $forms-background: utils.option-or($options, "forms-background", $propagate);
+    $global-targets: utils.option-or($options, "global-targets", $propagate);
 
     #{$selector} {
         --color-shade: #{$base-shade};
@@ -164,9 +164,11 @@
 
             //
             & { --_color-shade: var(--color-shade, 0); };
-            &:hover { --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03)); }
-            &:active { --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05)); }
-            &:is(:focus, :focus-visible) { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
+
+            //
+            @include utils.when-hover { --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03)); }
+            @include utils.when-active { --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05)); }
+            @include utils.when-focus { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
 
             //
             &::placeholder {
@@ -180,10 +182,11 @@
             }
 
             //
-            &:disabled { --_color-shade: calc(var(--color-shade, 0) + var(--disabled-shade, 0.1)); }
+            @include utils.when-disabled {
+                --_color-shade: calc(var(--color-shade, 0) + var(--disabled-shade, 0.1));
+            }
 
-            //
-            &:is(::selection, :checked) {
+            @include utils.when-selected {
                 background-color: var(--on-surface-color, transparent);
                 color: var(--surface-color, currentColor);
                 -webkit-text-fill-color: var(--surface-color, currentColor);
@@ -311,57 +314,4 @@
     }
 
     @return $selectors;
-}
-
-//
-@mixin veela-interactive(
-    $base,
-    $hover: null,
-    $focus: null,
-    $active: null,
-    $hover-selectors: (":hover"),
-    $focus-selectors: (":focus", ":focus-visible"),
-    $active-selectors: (":active"),
-    $disabled-shade: null,
-    $disabled-opacity: null,
-    $disabled-selectors: (":disabled"),
-    $outline-size: 2px,
-    $outline-offset: 2px,
-    $outline-alpha: var(--outline-opacity),
-    $outline-enabled: true
-) {
-    @if $hover != null {
-        &:where(#{veela-selector-list($hover-selectors)}):not(:disabled) {
-            --_color-shade: veela-state-shade($base, $hover);
-        }
-    }
-
-    @if $focus != null {
-        &:where(#{veela-selector-list($focus-selectors)}):not(:disabled) {
-            --_color-shade: veela-state-shade($base, $focus);
-
-            @if $outline-enabled {
-                outline: $outline-size solid oklch(from var(--current) l c h / #{$outline-alpha});
-                outline-offset: $outline-offset;
-            }
-        }
-    }
-
-    @if $active != null {
-        &:where(#{veela-selector-list($active-selectors)}):not(:disabled) {
-            --_color-shade: veela-state-shade($base, $active);
-        }
-    }
-
-    @if $disabled-shade != null or $disabled-opacity != null {
-        &:where(#{veela-selector-list($disabled-selectors)}) {
-            @if $disabled-shade != null {
-                --_color-shade: veela-state-shade($base, $disabled-shade);
-            }
-
-            @if $disabled-opacity != null {
-                opacity: $disabled-opacity;
-            }
-        }
-    }
 }

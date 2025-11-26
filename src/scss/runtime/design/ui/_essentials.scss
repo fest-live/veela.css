@@ -152,7 +152,7 @@
         }
 
         //
-        &:active {
+        &:active, &:has(:active) {
             will-change: inset, translate, transform, opacity, z-index;
             cursor: grabbing;
         }

@@ -1,4 +1,5 @@
 @use "../core/layout" as l;
+@use "../core/utils" as utils;
 
 // default styles
 @mixin reset-styles {
@@ -226,8 +227,9 @@
         opacity: 0.1;
     }
 
-    &:hover { opacity: 0.2; }
-    &:active { opacity: 0.3; }
+    @include utils.when-hover { opacity: 0.2; }
+    @include utils.when-active { opacity: 0.2; }
+    @include utils.when-focus-visible { opacity: 0.2; }
 }
 
 // titlebar
@@ -473,8 +475,9 @@
     }
 
     & { pointer-events: auto; }
-    &:hover { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
-    &:active { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
+    @include utils.when-hover { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
+    @include utils.when-active { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
+    @include utils.when-focus-visible { --window-frame-control-bg: --c2-surface(0.15, var(--current)); }
 }
 
 // close button
@@ -489,6 +492,8 @@
         ui-icon { --icon-color: var(--window-frame-close-fg); }
     }
 
-    &:hover  { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
-    &:active { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
+    //
+    @include utils.when-hover { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
+    @include utils.when-active { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
+    @include utils.when-focus-visible { --window-frame-close-bg: --c2-on-surface(-0.1, var(--current)); }
 }

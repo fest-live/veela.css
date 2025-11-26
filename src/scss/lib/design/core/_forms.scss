@@ -32,9 +32,13 @@
     padding-inline-end: var(--input-padding-inline-end, var(--input-padding-inline, var(--input-padding, var(--padding-md))));
 
     //
-    border-radius: var(--input-radius);
+    /*border-radius: var(--input-radius);
     border-width: var(--input-border-width, 1px);
-    border-color: var(--_input-border-current);
+    border-color: var(--_input-border-current);*/
+
+    border: none 0px transparent;
+    outline: none 0px transparent;
+
     border-style: solid;
 
     //

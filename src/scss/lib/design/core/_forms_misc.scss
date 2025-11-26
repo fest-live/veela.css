@@ -3,7 +3,7 @@
 @use "./colorize" as colorize;
 @use "./buttons" as button;
 @use "./color" as color;
-
+@use "./utils" as utils;
 
 //
 @mixin appearance-decl() {
@@ -115,59 +115,63 @@ $radio-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' v
 
     //
     &:is(textarea) { cursor: text; }
-    &:is(:checked, [aria-selected="true"]) {
+    /*&:is(:checked, [aria-selected="true"]) {
         --_#{$name}-surface-current: var(--#{$name}-surface-checked, var(--on-surface-color, transparent));
         --_#{$name}-border-current: var(--#{$name}-border-checked, var(--border-color, transparent));
         --_#{$name}-text-current: var(--#{$name}-text-checked, var(--surface-color, currentColor));
         --_#{$name}-icon-current: var(--#{$name}-icon-checked, var(--surface-color, currentColor));
-    }
+    }*/
 
     //
-    &:hover:not(:disabled):not([aria-disabled="true"]) {
-        --_#{$name}-surface-current: var(--#{$name}-surface-hover, var(--surface-color, transparent));
-        --_#{$name}-border-current: var(--#{$name}-border-hover, var(--border-color, transparent));
-        --_#{$name}-shadow-current: var(--#{$name}-shadow-hover, var(--shadow-color, transparent));
-        --_#{$name}-text-current: var(--#{$name}-text-hover, var(--on-surface-color, currentColor));
-    }
+    /*@include utils.when-hover {
+        &:not(:disabled):not([aria-disabled="true"]) {
+            --_#{$name}-surface-current: var(--#{$name}-surface-hover, var(--surface-color, transparent));
+            --_#{$name}-border-current: var(--#{$name}-border-hover, var(--border-color, transparent));
+            --_#{$name}-shadow-current: var(--#{$name}-shadow-hover, var(--shadow-color, transparent));
+            --_#{$name}-text-current: var(--#{$name}-text-hover, var(--on-surface-color, currentColor));
+        }
+    }*/
 
     //
-    &:active {
-        --_#{$name}-surface-current: var(--#{$name}-surface-active, var(--surface-color, transparent));
-        --_#{$name}-text-current: var(--#{$name}-text-active, var(--on-surface-color, currentColor));
-    }
+    /*@include utils.when-active {
+        &:not(:disabled):not([aria-disabled="true"]) {
+            --_#{$name}-surface-current: var(--#{$name}-surface-active, var(--surface-color, transparent));
+            --_#{$name}-border-current: var(--#{$name}-border-active, var(--border-color, transparent));
+            --_#{$name}-shadow-current: var(--#{$name}-shadow-active, var(--shadow-color, transparent));
+            --_#{$name}-text-current: var(--#{$name}-text-active, var(--on-surface-color, currentColor));
+        }
+    }*/
 
     //
-    &::placeholder {
-        color: var(--#{$name}-placeholder-color, color-mix(in oklch, var(--on-surface-color, currentColor) 32%, transparent));
-        opacity: 1;
-    }
-
-    //
-    &::selection {
-        background-color: var(--#{$name}-selection-color, var(--on-surface-color, currentColor));
-        color: var(--#{$name}-selection-on-color, var(--surface-color, transparent));
-    }
-
-    //
-    &:is(:focus, :focus-visible) {
+    /*@include utils.when-focus {
+        &:not(:disabled):not([aria-disabled="true"]) {
         --_#{$name}-surface-current: var(--#{$name}-surface-focus, var(--surface-color, transparent));
-        --_#{$name}-border-current: var(--#{$name}-border-focus, var(--border-color, transparent));
-        --_#{$name}-shadow-current: var(--#{$name}-shadow-focus, var(--shadow-color, transparent));
-    }
+            --_#{$name}-border-current: var(--#{$name}-border-focus, var(--border-color, transparent));
+            --_#{$name}-shadow-current: var(--#{$name}-shadow-focus, var(--shadow-color, transparent));
+            --_#{$name}-text-current: var(--#{$name}-text-focus, var(--on-surface-color, currentColor));
+        }
+    }*/
 
     //
     &:invalid, &[aria-invalid="true"] {
+        --current: var(--color-error, var(--color-danger, currentColor));
+
+        /*
         --_#{$name}-border-current: var(--#{$name}-border-error, var(--border-color, transparent));
         --_#{$name}-surface-current: var(--#{$name}-surface-error, var(--surface-color, transparent));
         --_#{$name}-shadow-current: var(--#{$name}-shadow-error, var(--shadow-color, transparent));
+        */
     }
 
     //
-    &:disabled, &[aria-disabled="true"] {
+    @include utils.when-disabled {
+        /*
         --_#{$name}-border-current: var(--#{$name}-border-disabled, var(--border-color, transparent));
         --_#{$name}-surface-current: var(--#{$name}-surface-disabled, var(--surface-color, transparent));
         --_#{$name}-text-current: var(--#{$name}-text-disabled, color-mix(in oklch, var(--input-text-color, currentColor) 55%, transparent));
-        --_#{$name}-shadow-current: none;
+        --_#{$name}-shadow-current: none;*/
+
+        //
         cursor: not-allowed;
         resize: none;
         user-select: none;
@@ -175,18 +179,24 @@ $radio-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' v
 
     //
     &[readonly] {
+        /*
         --_#{$name}-border-current: var(--#{$name}-border-readonly, var(--border-color, transparent));
         --_#{$name}-surface-current: var(--#{$name}-surface-readonly, var(--surface-color, transparent));
         --_#{$name}-text-current: var(--#{$name}-text-readonly, var(--on-surface-color, currentColor));
+        */
+
+        //
         cursor: default;
     }
 
     //
     &::-moz-focus-inner { border: 0; }
+
+    /*
     &:-webkit-autofill {
         --_#{$name}-surface-current: var(--#{$name}-surface-autofill, var(--surface-color, transparent));
         --_#{$name}-text-current: var(--#{$name}-text-autofill, var(--on-surface-color, currentColor));
-    }
+    }*/
 
     //
     span, a, ui-icon {

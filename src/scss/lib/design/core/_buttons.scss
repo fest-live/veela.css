@@ -122,13 +122,13 @@
         );
     }
 
-    &:hover::after,
-    &:focus-visible::after { opacity: 1; }
-    &:active::before { opacity: 1; }
+    //
+    @include utils.when-hover { &::after { opacity: 1; } }
+    @include utils.when-active { &::before { opacity: 1; } }
 }
 
 @mixin button-focus-ring() {
-    &:focus-visible {
+    @include utils.when-focus {
         outline: 2px solid color-mix(
             in oklch,
             var(--md-button-state-color, var(--md-primary)) calc(var(--state-opacity-focus, 0.12) * 100%),
@@ -167,7 +167,7 @@
     $state-role: secondary,
     $include-base: true
 ) {
-    @include colorize.solid-colorize("&");
+    @include colorize.solid-colorize("&", ("shade": 0.05, "tint": 0.0, "scope": "selector", "global-targets": true));
     @if $include-base { @include button-structure(); }
 
     // Compute the CSS variable to use for state overlays
@@ -191,10 +191,9 @@
         background-color: transparent;
         color: var(--md-button-on, var(--on-surface-color, currentColor));
         border: none;
-        padding-inline: var(--padding-sm);
     } @else {
         // filled, elevated, tonal
-        background-color: var(--md-button-bg, var(--surface-color, transparent));
+        background-color: var(--surface-color, var(--surface-color, transparent));
         color: var(--md-button-on, var(--on-surface-color, currentColor));
         border: none;
     }

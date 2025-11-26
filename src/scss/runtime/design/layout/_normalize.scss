@@ -1,5 +1,6 @@
 @use "veela-lib" as *;
 
+
 @layer ux-normalize {
 
     /* -------------------------------------------------------------------------- */
@@ -188,10 +189,6 @@
                 cursor: grabbing;
             }
 
-            /**:active, *:has(*:active) {
-                will-change: transform, contents;
-            }*/
-
             /* Reduced Motion */
             @media (prefers-reduced-motion: reduce) {
                 :where(*, ::after, ::before) {
@@ -243,10 +240,6 @@
                 padding: 1.25rem;
                 inline-size: var(--width-card);
                 flex: 1 1 var(--width-card);
-
-                &:hover {
-                    box-shadow: var(--box-shadow-hover, var(--box-shadow));
-                }
             }
         }
 
@@ -281,7 +274,7 @@
                 color: var(--color-link);
                 text-decoration: none;
 
-                &:hover { text-decoration: underline; }
+                @include when-active { text-decoration: underline; }
             }
         }
 
@@ -354,9 +347,6 @@
         /* Links & Buttons */
         :where(a) {
             color: var(--color-link);
-
-            &:hover { filter: brightness(var(--hover-brightness)); }
-            &:active { filter: brightness(var(--active-brightness)); }
         }
 
         :where(button, input[type="submit"], input[type="button"]) {
@@ -364,22 +354,12 @@
             align-items: center;
             justify-content: center;
             background-color: var(--color-link);
-            color: #ffffff; /* Force white text on primary buttons */
             border: 1px solid transparent;
             border-radius: var(--border-radius);
             padding: 0.5rem 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: filter 0.2s ease, transform 0.1s ease;
-
-            &:hover {
-                filter: brightness(var(--hover-brightness));
-            }
-
-            &:active {
-                filter: brightness(var(--active-brightness));
-                transform: translateY(1px);
-            }
 
             &:disabled {
                 opacity: 0.6;
@@ -400,7 +380,7 @@
             color: var(--color-text);
             /*margin-block-end: 1rem;*/
 
-            &:focus-visible {
+            @include when-focus-visible {
                 outline: 2px solid var(--color-link);
                 outline-offset: -1px;
             }

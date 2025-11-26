@@ -570,13 +570,6 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
     justify-content: space-between;
 }
 
-@mixin hover($selector: "&") {
-    & {
-        @media screen and ((hover: hover) or (pointer: fine)) { #{$selector}:hover { @content; } }
-        @media screen and ((hover: none) and (pointer: coarse)) { #{$selector}:active { @content; } }
-    }
-}
-
 // Sizing
 @mixin size($inline: null, $block: null, $aspect-ratio: null) {
     & {

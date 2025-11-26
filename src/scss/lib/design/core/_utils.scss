@@ -20,6 +20,41 @@
     @error "Unknown #{$label} `#{$token}`. Available: #{map.keys($source)}";
 }
 
+//
+@mixin when-hover($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:hover { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:active { @content; } }
+}
+
+//
+@mixin when-active($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:active { @content; } }
+}
+
+//
+@mixin when-focus($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:focus-visible { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:focus { @content; } }
+}
+
+//
+@mixin when-focus-visible($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:focus-visible { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:focus-visible { @content; } }
+}
+
+//
+@mixin when-disabled($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:disabled, #{$selector}[aria-disabled="true"] { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:disabled, #{$selector}[aria-disabled="true"] { @content; } }
+}
+
+//
+@mixin when-selected($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}::selection, #{$selector}:checked, #{$selector}[aria-selected="true"] { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}::selection, #{$selector}:checked, #{$selector}[aria-selected="true"] { @content; } }
+}
+
 // State layer mixin
 @mixin md3-state-layer($role: primary, $state: hover, $selector: "&::after") {
     $opacity: md3-opacity-state($state);
@@ -41,23 +76,37 @@
         transition: opacity var(--duration-fast) var(--ease-out);
     }
 
-    @if $state == hover {
-        &:hover #{$selector} { opacity: $opacity; }
+    @include when-hover {
+        #{$selector} { opacity: $opacity; }
     }
 
-    @else if $state == focus {
-        &:focus #{$selector},
-        &:focus-visible #{$selector} { opacity: $opacity; }
+    @include when-active {
+        #{$selector} { opacity: $opacity; }
     }
 
-    @else if $state == press {
-        &:active #{$selector} { opacity: $opacity; }
+    @include when-focus {
+        #{$selector} { opacity: $opacity; }
     }
 
-    @else {
-        &:is(:hover, :focus-visible, :active) #{$selector} { opacity: $opacity; }
+    @include when-focus-visible {
+        #{$selector} { opacity: $opacity; }
+    }
+
+    @include when-disabled {
+        #{$selector} { opacity: $opacity; }
+    }
+
+    @include when-selected {
+        #{$selector} { opacity: $opacity; }
     }
 }
+
+@mixin hover($selector: "&") {
+    @include when-hover { #{$selector}:hover { @content; } }
+    @include when-active { #{$selector}:active { @content; } }
+}
+
+
 
 ///
 /// Registers a single CSS Custom Property via the Properties & Values API.

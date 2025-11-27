@@ -110,10 +110,12 @@
 
             :where(*), :where(*::before), :where(*::after) {
                 box-sizing: border-box;
-                border-width: 0;
+
+                /* don't needs such potential lag-machine */
+                /*border-width: 0;
                 border-style: solid;
-                border-color: var(--color-border);
-                word-wrap: break-word;
+                border-color: var(--color-border, currentColor);
+                word-wrap: break-word;*/
             }
 
             :where(*), &::slotted(*) {
@@ -129,10 +131,8 @@
                 shape-margin: 0.75rem;
             }
 
-            :where(img, video) {
-                object-fit: cover;
-            }
-
+            /* Media defaults */
+            :where(img, video) { object-fit: contain; object-position: center; }
             :where(picture) { display: contents; }
 
             /* Typography defaults */
@@ -147,10 +147,77 @@
                 margin-block: 1em;
             }
 
+            /* */
             :where(a) {
                 color: inherit;
                 text-decoration: inherit;
                 text-underline-offset: 0.2em;
+                pointer-events: auto;
+                cursor: pointer;
+                user-select: none;
+                touch-action: none;
+            }
+
+            /* avoid side effects on labels by default */
+            :where(label) {
+                user-select: none;
+                touch-action: none;
+                pointer-events: none;
+            }
+
+            /* button interactions fixtures */
+            :where(button) {
+                user-select: none;
+                touch-action: none;
+                pointer-events: auto;
+                cursor: pointer;
+
+                /* if button has only icon */
+                &:has(> ui-icon:only-child) {
+                    place-content: center;
+                    place-items: center;
+                    text-align: center;
+                    font-size: 0;
+                    line-height: 0;
+                    letter-spacing: 0;
+                    aspect-ratio: 1 / 1;
+                    gap: 0;
+                }
+
+                /* clean up empty elements */
+                & :where(span, a, label):empty {
+                    display: none;
+                }
+
+                /* */
+                :where(button) {
+                    pointer-events: auto;
+                }
+
+                /* interaction defaults */
+                :where(span, a, label) {
+                    user-select: none;
+                    touch-action: none;
+                }
+
+                /* interaction defaults */
+                :where(span, label) {
+                    pointer-events: none;
+                }
+
+                /* interaction defaults */
+                :where(a) {
+                    pointer-events: auto;
+                    text-decoration: none;
+                }
+
+                /* interaction defaults */
+                &:disabled {
+                    pointer-events: none;
+                    user-select: none;
+                    touch-action: none;
+                    cursor: not-allowed;
+                }
             }
 
             /* Form defaults */
@@ -170,11 +237,14 @@
             }
 
             /* Hidden Elements */
-            /*[data-hidden],*/
-            :where(head, script, link, style, meta, [hidden]) {
+            :where(head, script, link, style, meta) {
                 display: none !important;
             }
 
+            /* just hidden without important */
+            [hidden] { display: none; }
+
+            /* aria-hidden="true" */
             [aria-hidden="true"] {
                 visibility: collapse;
                 pointer-events: none;
@@ -202,7 +272,7 @@
             /* Scrollbars */
             :where(*) {
                 scrollbar-width: thin;
-                scrollbar-color: var(--color-scrollbar) transparent;
+                scrollbar-color: var(--color-scrollbar, currentColor) transparent;
 
                 &::-webkit-scrollbar {
                     inline-size: var(--scrollbar-size);
@@ -211,7 +281,7 @@
 
                 &::-webkit-scrollbar-track { background: transparent; }
                 &::-webkit-scrollbar-thumb {
-                    background-color: var(--color-scrollbar);
+                    background-color: var(--color-scrollbar, currentColor);
                     border-radius: var(--border-radius);
                 }
             }

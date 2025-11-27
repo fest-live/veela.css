@@ -110,6 +110,7 @@
 
             :where(*), :where(*::before), :where(*::after) {
                 box-sizing: border-box;
+                font-display: swap;
 
                 /* don't needs such potential lag-machine */
                 /*border-width: 0;
@@ -118,9 +119,33 @@
                 word-wrap: break-word;*/
             }
 
+            /* */
+            :where(*):not(:defined) { opacity: 0; visibility: collapse; pointer-events: none; display: none; background-color: transparent; color: transparent; };
+
+            /* */
             :where(*), &::slotted(*) {
                 /* Interaction defaults */
                 -webkit-tap-highlight-color: transparent;
+            }
+
+            /* */
+            :where(html, body) {
+                inset: 0px;
+                padding: 0px;
+                margin: 0px;
+                border: none 0px transparent;
+                background-color: transparent;
+                color: transparent;
+                font-family: Calibri, Carlito, Caliburn, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
+                min-inline-size: 0px;    min-block-size: 0px;
+                max-inline-size: 100cqi; max-block-size: 100cqb;
+                    inline-size: 100dvi;     block-size: 100dvb;
+                dynamic-range-limit: constrained-high;
+            }
+
+            /* */
+            :where(button, a, input, textarea) {
+                border: none 0px transparent;
             }
 
             /* Media defaults */
@@ -237,8 +262,12 @@
             }
 
             /* Hidden Elements */
-            :where(head, script, link, style, meta) {
+            :where(link, head, script, style, meta) {
                 display: none !important;
+                pointer-events: none !important;
+                interactivity: inert !important;
+                user-select: none !important;
+                touch-action: none !important;
             }
 
             /* just hidden without important */

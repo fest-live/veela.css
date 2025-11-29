@@ -187,11 +187,11 @@
 
             //
             @include utils.when-autofill {
-                background-color: var(--surface-color, transparent);
-                color: var(--on-surface-color, currentColor);
-                -webkit-text-fill-color: var(--on-surface-color, currentColor);
-                --icon-color: var(--on-surface-color, currentColor);
+                &, &:hover, &:focus, &:active {
+                    background-color: var(--surface-color, transparent) !important;
+                }
             }
+
 
             //
             @include utils.when-selected {

@@ -169,6 +169,10 @@
             @include utils.when-hover { --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03)); }
             @include utils.when-active { --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05)); }
             @include utils.when-focus { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
+            @include utils.when-focus-visible { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
+            @include utils.when-disabled { --_color-shade: calc(var(--color-shade, 0) + var(--disabled-shade, 0.1)); }
+            @include utils.when-selected { --_color-shade: calc(var(--color-shade, 0) + var(--selected-shade, 0.04)); }
+            @include utils.when-autofill { --_color-shade: calc(var(--color-shade, 0) + var(--autofill-shade, 0.04)); }
 
             //
             &::placeholder {
@@ -177,15 +181,19 @@
                         0.0,
                         var(--color-source, var(--current, var(--primary, transparent))),
                         #{$scheme-id}
-                    ) l c h / 0.2
+                    ) l c h / 0.3
                 );
             }
 
             //
-            @include utils.when-disabled {
-                --_color-shade: calc(var(--color-shade, 0) + var(--disabled-shade, 0.1));
+            @include utils.when-autofill {
+                background-color: var(--surface-color, transparent);
+                color: var(--on-surface-color, currentColor);
+                -webkit-text-fill-color: var(--on-surface-color, currentColor);
+                --icon-color: var(--on-surface-color, currentColor);
             }
 
+            //
             @include utils.when-selected {
                 background-color: var(--on-surface-color, transparent);
                 color: var(--surface-color, currentColor);

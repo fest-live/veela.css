@@ -55,6 +55,13 @@
     @media (hover: none) and (pointer: coarse) { #{$selector}::selection, #{$selector}:checked, #{$selector}[aria-selected="true"] { @content; } }
 }
 
+//
+@mixin when-autofill($selector: "&") {
+    #{$selector}:-webkit-autofill { @content; }
+    #{$selector}:autofill { @content; }
+    #{$selector}:auto-fill { @content; }
+}
+
 // State layer mixin
 @mixin md3-state-layer($role: primary, $state: hover, $selector: "&::after") {
     $opacity: md3-opacity-state($state);

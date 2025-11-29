@@ -192,12 +192,6 @@ $radio-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' v
     //
     &::-moz-focus-inner { border: 0; }
 
-    /*
-    &:-webkit-autofill {
-        --_#{$name}-surface-current: var(--#{$name}-surface-autofill, var(--surface-color, transparent));
-        --_#{$name}-text-current: var(--#{$name}-text-autofill, var(--on-surface-color, currentColor));
-    }*/
-
     //
     span, a, ui-icon {
         --icon-color: var(--_#{$name}-icon-current, var(--_#{$name}-text-current, var(--on-surface-color, currentColor)));

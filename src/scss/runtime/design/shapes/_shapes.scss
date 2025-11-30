@@ -71,6 +71,8 @@
             aspect-ratio: 1 / 1;
             clip-path: var(--clip-path, none);
             border-radius: var(--border-radius, var(--radius-md));
+            pointer-events: auto;
+            touch-action: none;
         }
 
         // ─────────────────────────────────────────────────────────────────────────

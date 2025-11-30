@@ -28,9 +28,6 @@
 
             //
             container-name: u2-grid;
-            container-type: normal;
-            //container-type: size;
-            contain: none;
 
             //
             zoom: 1;
@@ -43,8 +40,13 @@
             //
             inline-size: stretch;
             block-size: stretch;
-            padding: 0px;
-            overflow: visible;
+
+            // for correct working of grid items
+            container-type: normal !important;
+            overflow: visible !important;
+            contain: none !important;
+            padding: 0px !important;
+            gap: 0px !important;
 
             //
             max-inline-size: stretch;
@@ -53,14 +55,16 @@
             //
             grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr));
             grid-template-rows: repeat(round(nearest, var(--cs-layout-r, 8), 1), minmax(0px, 1fr));
-            //grid-column-gap: var(--c-gap, 1rem);
-            //grid-row-gap: var(--r-gap, 1rem);
 
             //
-            justify-content: safe start !important;
+            /*justify-content: safe start !important;
             align-content: safe start !important;
             justify-items: safe start !important;
-            align-items: safe start !important;
+            align-items: safe start !important;*/
+
+            place-content: center !important;
+            place-items: center !important;
+            text-align: center !important;
 
             //
             grid-row: 1 / -1;
@@ -162,10 +166,17 @@
                 background-image: none;
 
                 //
+                pointer-events: none;
                 border: none 0px transparent;
                 outline: none 0px transparent;
                 box-shadow: none;
+                touch-action: none;
                 filter: none;
+            }
+
+            //
+            ui-icon {
+                pointer-events: none;
             }
 
             //

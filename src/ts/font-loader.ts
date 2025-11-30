@@ -179,7 +179,8 @@ export async function loadFonts(metadataArray: FontMetadata[]): Promise<FontFace
  * Load all fonts from the registry
  */
 export async function loadAllFonts(): Promise<FontFace[]> {
-    const metadataArray = Object.values(fontRegistry);
+    const fontRegistry = await import("./font-registry");
+    const metadataArray = Object.values(fontRegistry.fontRegistry as Record<string, FontMetadata>);
     return loadFonts(metadataArray);
 }
 
@@ -187,7 +188,8 @@ export async function loadAllFonts(): Promise<FontFace[]> {
  * Load fonts by family name
  */
 export async function loadFontsByFamily(family: string): Promise<FontFace[]> {
-    const metadataArray = Object.values(fontRegistry).filter(
+    const fontRegistry = await import("./font-registry");
+    const metadataArray = Object.values(fontRegistry.fontRegistry as Record<string, FontMetadata>).filter(
         metadata => metadata.family === family
     );
     return loadFonts(metadataArray);

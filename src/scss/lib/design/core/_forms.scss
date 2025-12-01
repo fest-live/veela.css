@@ -19,7 +19,7 @@
 
     //
     inline-size: var(--input-inline-size, fit-content); block-size: fit-content;
-    min-inline-size: var(--input-min-inline-size, 0px); min-block-size: var(--input-min-block-size, 2.75rem);
+    min-inline-size: var(--input-min-inline-size, 0px); min-block-size: var(--input-min-block-size, fit-content);
     max-inline-size: var(--input-max-inline-size, 100%);
 
     //

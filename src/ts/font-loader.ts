@@ -175,11 +175,20 @@ export async function loadFonts(metadataArray: FontMetadata[]): Promise<FontFace
     return Promise.all(promises);
 }
 
+let loadingFontRegistry: any = null;
+export async function loadFontRegistry(): Promise<any> {
+    if (loadingFontRegistry) {
+        return loadingFontRegistry;
+    }
+    loadingFontRegistry = import("./font-registry")?.catch?.((error: any) => { console.error("Failed to load font registry:", error); });;
+    return loadingFontRegistry;
+}
+
 /**
  * Load all fonts from the registry
  */
 export async function loadAllFonts(): Promise<FontFace[]> {
-    const fontRegistry = await import("./font-registry");
+    const fontRegistry = await loadFontRegistry();
     const metadataArray = Object.values(fontRegistry.fontRegistry as Record<string, FontMetadata>);
     return loadFonts(metadataArray);
 }
@@ -188,7 +197,7 @@ export async function loadAllFonts(): Promise<FontFace[]> {
  * Load fonts by family name
  */
 export async function loadFontsByFamily(family: string): Promise<FontFace[]> {
-    const fontRegistry = await import("./font-registry");
+    const fontRegistry = await loadFontRegistry();
     const metadataArray = Object.values(fontRegistry.fontRegistry as Record<string, FontMetadata>).filter(
         metadata => metadata.family === family
     );
@@ -212,5 +221,4 @@ export function clearFontCache(): void {
  * Font data registry (populated by Vite plugin)
  * Import from generated font-registry module
  */
-export { fontRegistry } from './font-registry';
-
+//export { fontRegistry } from './font-registry';

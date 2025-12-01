@@ -27,7 +27,7 @@
     //
     padding-block: var(--button-padding-y, var(--padding-sm));
     padding-inline: var(--button-padding-x, var(--padding-lg));
-    min-block-size: var(--button-min-height, 2.75rem);
+    min-block-size: var(--button-min-height, fit-content);
     border-radius: var(--button-radius, var(--radius-full));
 
     //

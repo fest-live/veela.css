@@ -1,8 +1,8 @@
-import { whenAnyScreenChanges, updateVP, initVisibility, loadInlineStyle } from "fest/dom";
-import { loadAllFonts } from "../../ts/font-loader";
+import { whenAnyScreenChanges, updateVP, initVisibility, loadInlineStyle, loadAsAdopted } from "fest/dom";
 
 //@ts-ignore
-import runtimeStyles from "./index.scss?url";
+import runtimeStylesInline from "./index.scss?inline";
+export const runtimeStyles = URL.createObjectURL(new Blob([runtimeStylesInline], { type: "text/css" }));
 
 //
 /**
@@ -28,8 +28,9 @@ export const initialize = async (ROOT: any = document.body)=>{
     if (ROOT?.closest?.("html")) {
         whenAnyScreenChanges(updateVP);
     }
-    return (loadedStyles ??= loadInlineStyle(runtimeStyles));
-}
+
+    return (loadedStyles ??= loadAsAdopted(runtimeStyles));
+};
 
 //
-export default initialize;
+export default initialize as any;

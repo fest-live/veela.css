@@ -238,9 +238,7 @@ export function fontEncoder(options: FontEncoderOptions): Plugin {
  * DO NOT EDIT MANUALLY
  */
 
-import type { FontMetadata } from './font-loader';
-
-export const fontRegistry: Record<string, FontMetadata> = {
+export const fontRegistry: Record<string, any> = {
 ${generatedFonts.map(({ key, metadata }) => `    '${key}': {
         base64: '${metadata.base64}',
         family: '${metadata.family}',

@@ -12,6 +12,8 @@
 @property --content-block-size  { syntax: "<length-percentage>"; initial-value: 100%; inherits: true; };
 @property --icon-size { syntax: "<length-percentage>"; initial-value: 16px; inherits: true; };
 @property --icon-color { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --icon-padding { syntax: "<length-percentage>"; initial-value: 0px; inherits: true; };
+@property --icon-image { syntax: "<image>"; initial-value: linear-gradient(#0000, #0000); inherits: true; };
 
 //
 @layer ux-classes {

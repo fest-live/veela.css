@@ -93,7 +93,7 @@
 
         //
         & > * {
-            @include solid-colorize("&");
+            @include solid-colorize("&", ("shade": 0));
 
             //
             pointer-events: auto;
@@ -102,13 +102,27 @@
             cursor: pointer;
             inline-size: stretch;
             position: relative;
+            background-color: var(--surface-color, transparent);
 
             //
             --color-shade: 0.04;
 
+            @include when-hover {
+                --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03));
+            }
+
+            @include when-active {
+                --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05));
+            }
+
+            @include when-focus-visible {
+                --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02));
+            }
+
             /* */
             &:not(.ctx-menu-separator) {
                 padding: 0.25rem;
+                min-block-size: 2rem;
             }
 
             & > span {
@@ -124,6 +138,8 @@
                 padding: 0.5rem;
                 user-select: none;
                 pointer-events: none;
+                min-block-size: var(--icon-size, 1.8rem);
+                min-inline-size: var(--icon-size, 1.8rem);
             }
         }
 

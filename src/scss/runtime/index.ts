@@ -19,7 +19,12 @@ let loadedStyles: any = null;
 
 //
 export const initialize = async (ROOT: any = document.body)=>{
-    initVisibility(ROOT); loadAllFonts()?.catch?.(console.error.bind(console));
+    initVisibility(ROOT);
+
+    import("../../ts/font-loader")?.then?.(({ loadAllFonts })=>{
+        loadAllFonts()?.catch?.(console.error.bind(console));
+    })?.catch?.(console.error.bind(console));
+
     if (ROOT?.closest?.("html")) {
         whenAnyScreenChanges(updateVP);
     }

@@ -49,8 +49,9 @@
             gap: 0px !important;
 
             //
-            max-inline-size: stretch;
-            max-block-size: stretch;
+            max-inline-size: stretch !important;
+            max-block-size: stretch !important;
+            box-sizing: border-box !important;
 
             //
             grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr)) !important;

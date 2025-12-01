@@ -31,10 +31,10 @@
             place-self: start;
 
             //
-            min-inline-size: 1px;
-            min-block-size: 1px;
-            inline-size: 100%;
-            block-size: 100%;
+            min-inline-size: 0px;
+            min-block-size: 0px;
+            inline-size: stretch;
+            block-size: stretch;
             pointer-events: none;
 
             //

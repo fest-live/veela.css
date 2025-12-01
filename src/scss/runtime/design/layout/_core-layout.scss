@@ -74,7 +74,7 @@
 
         //
         :where(body) {
-            @include fit-viewport();
+            //@include fit-viewport();
 
             //
             & {
@@ -92,7 +92,6 @@
                 overflow: visible;
                 position: relative;
                 pointer-events: auto;
-                //inset: 0px;
                 inset: auto;
 
                 //
@@ -106,35 +105,36 @@
 
                 // if needs viewport
                 container-name: body;
-                container-type: inline-size;
-                contain: none;
+                container-type: size;
+                contain: strict;
 
                 //
-                min-inline-size: 100dvi;
-                min-block-size: 100dvb;
+                min-inline-size: 0px;
+                min-block-size: 0px;
 
                 //
-                inline-size: 100%;
-                block-size: 100%;
+                inline-size: stretch;
+                block-size: stretch;
 
                 //
-                max-inline-size: var(--screen-width, 100dvi) !important;
-                max-block-size: var(--screen-height, 100dvb) !important;
-
-                //
-                inset-block-end: max(env(titlebar-area-height, 0px), 0px) !important;
+                max-inline-size: min(100%, min(100cqi, 100dvi));
+                max-block-size: min(100%, min(100cqb, 100dvb));
             }
 
             //
             & > :where(#app, #container, #root, .root) {
                 inline-size: stretch;
                 block-size: stretch;
+                min-inline-size: 0px;
+                min-block-size: 0px;
+                max-inline-size: min(100%, min(100cqi, 100dvi));
+                max-block-size: min(100%, min(100cqb, 100dvb));
             }
 
             //
             & > :where(*) {
-                max-inline-size: min(var(--screen-width, 100dvi), 100%);
-                max-block-size: min(var(--screen-height, 100dvb), 100%);
+                max-inline-size: min(100%, min(100cqi, 100dvi));
+                max-block-size: min(100%, min(100cqb, 100dvb));
             }
         }
     };

@@ -76,6 +76,21 @@
             text-size-adjust: 100%;
             font-size: 16px;
 
+            min-block-size: 0px;
+            min-inline-size: 0px;
+            max-inline-size: min(100cqi, 100dvi) !important;
+            max-block-size: min(100cqb, 100dvb) !important;
+            inline-size: min(100cqi, 100dvi);
+            block-size: min(100cqb, 100dvb);
+
+            contain: strict;
+            overflow: hidden;
+
+            padding: 0px;
+            margin: 0px;
+            border: none 0px transparent;
+            outline: none 0px transparent;
+
             @media (prefers-reduced-motion: reduce) {
                 scroll-behavior: auto;
             }
@@ -88,7 +103,12 @@
         :where(body) {
             margin: 0;
             padding: 0;
-            min-block-size: 100dvb;
+
+            border: none 0px transparent;
+            outline: none 0px transparent;
+
+            min-block-size: min(100dvb, 100cqb);
+            block-size: fit-content;
 
             background-color: var(--color-bg);
             color: var(--color-text);
@@ -114,9 +134,6 @@
             background-color: transparent;
             color: transparent;
             font-family: Calibri, Carlito, Caliburn, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
-            min-inline-size: 0px;    min-block-size: 0px;
-            max-inline-size: 100cqi; max-block-size: 100cqb;
-                inline-size: 100dvi;     block-size: 100dvb;
             dynamic-range-limit: constrained-high;
         }
 
@@ -548,13 +565,26 @@
         /* -------------------------------------------------------------------------- */
 
         :where(canvas):is([is="ui-canvas"]) {
-            position: fixed;
+            position: absolute;
             inset: 0;
-            inline-size: 100%;
-            block-size: 100%;
             pointer-events: none;
             z-index: 0;
             image-rendering: optimizeQuality;
+            padding: 0px;
+            margin: 0px;
+            border: none 0px transparent;
+            outline: none 0px transparent;
+
+            inline-size: stretch;
+            block-size: stretch;
+            max-inline-size: stretch !important;
+            max-block-size: stretch !important;
+            box-sizing: border-box !important;
+            min-inline-size: 0px;
+            min-block-size: 0px;
+
+            object-fit: cover;
+            object-position: center;
         }
     }
 

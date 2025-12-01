@@ -19,7 +19,7 @@ let loadedStyles: any = null;
 
 //
 export const initialize = async (ROOT: any = document.body)=>{
-    initVisibility(ROOT);
+    initVisibility(ROOT); (loadedStyles ??= loadAsAdopted(runtimeStyles));
 
     import("../../ts/font-loader")?.then?.(({ loadAllFonts })=>{
         loadAllFonts()?.catch?.(console.error.bind(console));
@@ -29,7 +29,7 @@ export const initialize = async (ROOT: any = document.body)=>{
         whenAnyScreenChanges(updateVP);
     }
 
-    return (loadedStyles ??= loadAsAdopted(runtimeStyles));
+    return loadedStyles;
 };
 
 //

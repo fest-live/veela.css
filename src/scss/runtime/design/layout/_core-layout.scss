@@ -50,16 +50,16 @@
             inset-block-end: auto;
 
             //
-            min-inline-size: 100dvi;
-            min-block-size: 100dvb;
+            min-inline-size: min(100cqi, 100dvi);
+            min-block-size: min(100cqb, 100dvb);
 
             //
-            inline-size: 100%;
-            block-size: 100%;
+            inline-size: stretch;
+            block-size: stretch;
 
             //
-            max-inline-size: var(--screen-width, 100dvi) !important;
-            max-block-size: var(--screen-height, 100dvb) !important;
+            max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
+            max-block-size: min(100%, min(100cqb, 100dvb)) !important;
 
             //
             place-content: start;

@@ -1,6 +1,6 @@
 @mixin HQRendering($importance: null) {
-    image-rendering: high-quality;
-    image-rendering: optimizeQuality;
+    /*image-rendering: high-quality;
+    image-rendering: optimizeQuality;*/
     font-smooth: always;
     text-rendering: optimizeLegibility;
     text-rendering: geometricPrecision;
@@ -10,8 +10,8 @@
 }
 
 @mixin LQRendering($importance: null) {
-    image-rendering: low-quality;
-    image-rendering: optimizeSpeed;
+    /*image-rendering: low-quality;
+    image-rendering: optimizeSpeed;*/
     font-smooth: never;
     text-rendering: optimizeSpeed;
     shape-rendering: optimizeSpeed;

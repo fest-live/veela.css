@@ -23,8 +23,8 @@
         //
         & {
             //display: block flow;
-            display: block grid;
-            position: relative;
+            display: block grid !important;
+            position: relative !important;
 
             //
             container-name: u2-grid;
@@ -34,7 +34,7 @@
             direction: ltr;
 
             //
-            pointer-events: none;
+            pointer-events: none !important;
             background-color: transparent;
 
             //
@@ -53,8 +53,8 @@
             max-block-size: stretch;
 
             //
-            grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr));
-            grid-template-rows: repeat(round(nearest, var(--cs-layout-r, 8), 1), minmax(0px, 1fr));
+            grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr)) !important;
+            grid-template-rows: repeat(round(nearest, var(--cs-layout-r, 8), 1), minmax(0px, 1fr)) !important;
 
             //
             /*justify-content: safe start !important;
@@ -92,9 +92,13 @@
 
             //
             & {
+                grid-column: clamp(1, calc(1 + round(nearest, var(--cs-grid-c, 0), 1)), var(--cs-layout-c, 4)) !important;
+                grid-row: clamp(1, calc(1 + round(nearest, var(--cs-grid-r, 0), 1)), var(--cs-layout-r, 8)) !important;
+
+                //
                 position: relative !important;
                 z-index: 1;
-                transform-origin: 0% 0%;
+                transform-origin: 50% 50% !important;
                 transform:
                     translate3d(
                         round(nearest, calc(var(--cs-drag-x, 0px) + var(--cs-transition-c, 0px)), calc(1px / var(--pixel-ratio, 1))),
@@ -105,19 +109,15 @@
                         round(nearest, var(--translate-x, 0px), calc(1px / var(--pixel-ratio, 1))),
                         round(nearest, var(--translate-y, 0px), calc(1px / var(--pixel-ratio, 1))),
                         0px) !important;
-                translate: 0px 0px 0px;
+                translate: 0px 0px 0px !important;
 
                 //
-                inset: auto;
+                inset: auto !important;
                 visibility: visible;
 
                 //
-                grid-column: clamp(1, calc(1 + round(nearest, var(--rv-grid-c, 0), 1)), var(--cs-layout-c, 4));
-                grid-row: clamp(1, calc(1 + round(nearest, var(--rv-grid-r, 0), 1)), var(--cs-layout-r, 8));
-
-                //
                 zoom: 1;
-                place-self: start;
+                place-self: center !important;
 
                 //
                 min-inline-size: fit-content;
@@ -146,12 +146,6 @@
                 //
                 border: none 0px transparent;
                 outline: none 0px transparent;
-            }
-
-            //
-            & {
-                grid-column: clamp(1, calc(1 + round(nearest, var(--cs-grid-c, 0), 1)), var(--cs-layout-c, 4));
-                grid-row: clamp(1, calc(1 + round(nearest, var(--cs-grid-r, 0), 1)), var(--cs-layout-r, 8));
             }
 
             //

@@ -418,11 +418,12 @@
     }
 
     //
-    & { // compute oriented grid cell to client-space coordinates
-        @include v2-pair("os-grid", var(--grid-c, 1), var(--grid-r, 1), ("c", "r"));
+    & { @include v2-pair("rv-grid", var(--cs-grid-c, 1), var(--cs-grid-r, 1), ("c", "r")); }
+    &[data-dragging] { @include v2-pair("rv-grid", var(--cs-p-grid-c, 1), var(--cs-p-grid-r, 1), ("c", "r")); }
 
-        //
-        @include v2-pair("rv-grid", var(--cs-grid-c, 1), var(--cs-grid-r, 1), ("c", "r"));
+    //
+    & {
+        @include v2-pair("os-grid", var(--grid-c, 1), var(--grid-r, 1), ("c", "r"));
         @include v2-coord-num-pair(
             "cs-grid",
             (var(--os-grid-c, 1), var(--os-grid-r, 1), calc(var(--f-col, 1) - 1), calc(var(--f-row, 1) - 1)),
@@ -431,14 +432,8 @@
     }
 
     //
-    &[data-dragging] {
-        @include v2-pair("rv-grid", var(--cs-p-grid-c, 1), var(--cs-p-grid-r, 1), ("c", "r"));
-    }
-
-    //
     & {
         @include v2-pair("os-p-grid", var(--p-cell-x, 0), var(--p-cell-y, 0), ("c", "r"));
-
         @include v2-coord-num-pair(
             "cs-p-grid",
             (var(--os-p-grid-c, 0), var(--os-p-grid-r, 0), calc(var(--f-col, 1) - 1), calc(var(--f-row, 1) - 1)),

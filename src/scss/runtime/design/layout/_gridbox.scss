@@ -49,8 +49,8 @@
             gap: 0px !important;
 
             //
-            max-inline-size: stretch !important;
-            max-block-size: stretch !important;
+            max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
+            max-block-size: min(100%, min(100cqb, 100dvb)) !important;
             box-sizing: border-box !important;
 
             //

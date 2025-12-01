@@ -46,8 +46,8 @@
             direction: ltr !important;
 
             //
-            max-inline-size: min(var(--screen-width, 100dvi), 100%) !important;
-            max-block-size: min(var(--screen-height, 100dvb), 100%) !important;
+            max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
+            max-block-size: min(100%, min(100cqb, 100dvb)) !important;
 
             //
             /*outline-color: oklch(from var(--on-surface-color) l c h / 0.1);

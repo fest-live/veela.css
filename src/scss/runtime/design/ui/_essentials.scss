@@ -119,6 +119,10 @@
                 --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02));
             }
 
+            & > * {
+                pointer-events: none;
+            }
+
             /* */
             &:not(.ctx-menu-separator) {
                 padding: 0.25rem;

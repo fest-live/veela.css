@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../README.md)
+[@fest-lib/veela v0.0.0](../../README.md)
 
 ***
 
-[@fest/veela](../../README.md) / scss/lib
+[@fest-lib/veela](../../README.md) / scss/lib
 
 # scss/lib
 
@@ -17,7 +17,7 @@ Reusable SCSS mixins and helpers.
 ## Import
 
 ```scss
-@use "@fest/veela/src/scss/lib" as *; // forwards core, design, misc
+@use "@fest-lib/veela/src/scss/lib" as *; // forwards core, design, misc
 ```
 
 

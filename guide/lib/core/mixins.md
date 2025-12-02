@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../../README.md)
+[@fest-lib/veela v0.0.0](../../../README.md)
 
 ***
 
-[@fest/veela](../../../README.md) / scss/lib/core / mixins
+[@fest-lib/veela](../../../README.md) / scss/lib/core / mixins
 
 # Core Mixins
 
@@ -95,7 +95,7 @@ Grouped by area; see source under `src/scss/lib/core`.
 Usage example:
 
 ```scss
-@use "@fest/veela/src/scss/lib/core" as *;
+@use "@fest-lib/veela/src/scss/lib/core" as *;
 
 .container {
   @include grid-auto-fill(260px);

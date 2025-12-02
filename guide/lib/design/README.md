@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../../README.md)
+[@fest-lib/veela v0.0.0](../../../README.md)
 
 ***
 
-[@fest/veela](../../../README.md) / scss/lib/design
+[@fest-lib/veela](../../../README.md) / scss/lib/design
 
 # scss/lib/design
 
@@ -11,7 +11,7 @@ Design systems and tokens. By default, the Veela (VE) design is forwarded.
 ## Import
 
 ```scss
-@use "@fest/veela/src/scss/lib/design" as *; // forwards ./ve
+@use "@fest-lib/veela/src/scss/lib/design" as *; // forwards ./ve
 ```
 
 To enable Material Design 3 instead of VE, switch the forward in `src/scss/lib/design/index.scss` (uncomment MD3, comment VE).
@@ -29,7 +29,7 @@ Provides:
 ## Usage
 
 ```scss
-@use "@fest/veela/src/scss/index" as veela;
+@use "@fest-lib/veela/src/scss/index" as veela;
 
 .button {
   @include veela.padding(var(--space-sm));

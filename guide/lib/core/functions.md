@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../../README.md)
+[@fest-lib/veela v0.0.0](../../../README.md)
 
 ***
 
-[@fest/veela](../../../README.md) / scss/lib/core / functions
+[@fest-lib/veela](../../../README.md) / scss/lib/core / functions
 
 # SCSS Functions
 
@@ -34,7 +34,7 @@ Collected from:
 Usage pattern:
 
 ```scss
-@use "@fest/veela/src/scss/lib/core" as *;
+@use "@fest-lib/veela/src/scss/lib/core" as *;
 
 .thumb {
   --r: #{mix(0.25rem, 1rem, 0.5)};

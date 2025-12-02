@@ -6,7 +6,7 @@ export const runtimeStyles = URL.createObjectURL(new Blob([runtimeStylesInline],
 
 //
 /**
- * Initialize `@fest/dom` runtime behaviors and inject styles.
+ * Initialize `@fest-lib/dom` runtime behaviors and inject styles.
  *
  * - Preloads and clones project styles from `fest/veela` and appends them to `document.head` when attached to an HTML root.
  * - Sets up visibility decorators and viewport observers to react on screen changes.

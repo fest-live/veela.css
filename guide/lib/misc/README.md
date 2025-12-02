@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../../README.md)
+[@fest-lib/veela v0.0.0](../../../README.md)
 
 ***
 
-[@fest/veela](../../../README.md) / scss/lib/misc
+[@fest-lib/veela](../../../README.md) / scss/lib/misc
 
 # scss/lib/misc
 
@@ -11,7 +11,7 @@ Miscellaneous helpers and pseudo-selector utilities.
 ## Import
 
 ```scss
-@use "@fest/veela/src/scss/lib/misc" as *;
+@use "@fest-lib/veela/src/scss/lib/misc" as *;
 ```
 
 ## Utilities
@@ -29,7 +29,7 @@ Partial files (prefixed with `_ps-`) provide focused helpers:
 Usage depends on the partial; import via the top-level lib index for convenience:
 
 ```scss
-@use "@fest/veela/src/scss/lib" as *;
+@use "@fest-lib/veela/src/scss/lib" as *;
 
 .resizable { @include ps-resizable; }
 ```

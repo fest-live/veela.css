@@ -1,5 +1,5 @@
 {
-    "name": "@fest/veela",
+    "name": "@fest-lib/veela",
     "description": "Veela CSS Framework API",
     "version": "0.0.0",
     "private": false,

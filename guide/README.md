@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../README.md)
+[@fest-lib/veela v0.0.0](../README.md)
 
 ***
 
-[@fest/veela](../README.md) / scss
+[@fest-lib/veela](../README.md) / scss
 
 # scss
 
@@ -17,7 +17,7 @@ SCSS sources for Veela CSS. Import `src/scss/index.scss` to get the full stack (
 
 ```scss
 // Get mixins, helpers, and design tokens
-@use "@fest/veela/src/scss/index" as veela;
+@use "@fest-lib/veela/src/scss/index" as veela;
 
 .card {
   @include veela.padding(1rem);

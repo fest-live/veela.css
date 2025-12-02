@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../../README.md)
+[@fest-lib/veela v0.0.0](../../../README.md)
 
 ***
 
-[@fest/veela](../../../README.md) / scss/lib/core
+[@fest-lib/veela](../../../README.md) / scss/lib/core
 
 # scss/lib/core
 
@@ -11,7 +11,7 @@ Low-level mixins for layout, spacing, sizing, display, grid/flex, typography, an
 ## Import
 
 ```scss
-@use "@fest/veela/src/scss/lib/core" as *;
+@use "@fest-lib/veela/src/scss/lib/core" as *;
 ```
 
 ## Spacing

@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../README.md)
+[@fest-lib/veela v0.0.0](../../README.md)
 
 ***
 
-[@fest/veela](../../README.md) / scss/runtime / layers
+[@fest-lib/veela](../../README.md) / scss/runtime / layers
 
 # CSS Layers
 

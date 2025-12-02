@@ -1,8 +1,8 @@
-[@fest/veela v0.0.0](../../README.md)
+[@fest-lib/veela v0.0.0](../../README.md)
 
 ***
 
-[@fest/veela](../../README.md) / scss/runtime / properties
+[@fest-lib/veela](../../README.md) / scss/runtime / properties
 
 # Runtime CSS Custom Properties
 

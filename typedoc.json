@@ -12,7 +12,7 @@
   "skipErrorChecking": true,
   "plugin": ["typedoc-plugin-markdown"],
   "theme": "default",
-  "name": "@fest/veela API Documentation",
+  "name": "@fest-lib/veela API Documentation",
   "categorizeByGroup": true,
   "categoryOrder": [
     "Veela CSS API",

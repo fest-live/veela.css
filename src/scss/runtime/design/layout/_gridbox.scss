@@ -95,6 +95,7 @@
             & {
                 grid-column: clamp(1, calc(1 + round(nearest, var(--cs-grid-c, 0), 1)), var(--cs-layout-c, 4)) !important;
                 grid-row: clamp(1, calc(1 + round(nearest, var(--cs-grid-r, 0), 1)), var(--cs-layout-r, 8)) !important;
+                cursor: pointer;
 
                 //
                 position: relative !important;
@@ -167,6 +168,16 @@
                 box-shadow: none;
                 touch-action: none;
                 filter: none;
+            }
+
+            //
+            & {
+                pointer-events: auto;
+            }
+
+            //
+            & span, &.span, & ui-icon, &.ui-icon, & label, &.label {
+                pointer-events: none;
             }
 
             //

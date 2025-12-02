@@ -105,6 +105,16 @@
             background-color: var(--surface-color, transparent);
 
             //
+            text-wrap: nowrap;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: center;
+            justify-content: center;
+            justify-items: center;
+            justify-self: center;
+
+            //
             --color-shade: 0.04;
 
             @include when-hover {
@@ -135,6 +145,13 @@
                 user-select: none;
                 pointer-events: none;
                 padding-inline: 0.333rem;
+
+                text-wrap: nowrap;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                justify-content: center;
+                justify-items: center;
             }
 
             & > ui-icon {
@@ -147,10 +164,11 @@
             }
         }
 
-        & > .ctx-menu-separator {
+        & > .ctx-menu-separator, &.ctx-menu-separator {
             block-size: 0.0625rem;
             background-color: --c2-on-surface(var(--background-tone-shift, 0), var(--current, transparent));
             opacity: 0.1;
+            pointer-events: none;
         }
     }
 

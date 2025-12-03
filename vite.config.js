@@ -39,7 +39,7 @@ const baseConfig = await importConfig(resolve(__dirname, "../../shared/vite.conf
 
 // Add font encoder plugin
 const fontEncoderPlugin = fontEncoder({
-    fontDir: resolve(__dirname, "./fonts"),
+    fontDir: resolve(__dirname, "./assets/fonts"),
     outputFile: resolve(__dirname, "./src/ts/font-registry.ts"),
     compress: false // woff2 files are already compressed
 });

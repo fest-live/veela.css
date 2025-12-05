@@ -719,17 +719,18 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 
 @mixin scrollable($direction: "y") {
     @if $direction == "x" {
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow-inline: auto;
+        overflow-block: hidden;
     }
 
     @else if $direction == "y" {
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow-block: auto;
+        overflow-inline: hidden;
     }
 
     @else {
-        overflow: auto;
+        overflow-inline: auto;
+        overflow-block: auto;
     }
 
     scrollbar-width: thin;

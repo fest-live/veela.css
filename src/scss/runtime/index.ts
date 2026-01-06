@@ -2,7 +2,23 @@ import { whenAnyScreenChanges, updateVP, initVisibility, loadInlineStyle, loadAs
 
 //@ts-ignore
 import runtimeStylesInline from "./index.scss?inline";
-export const runtimeStyles = URL.createObjectURL(new Blob([runtimeStylesInline], { type: "text/css" }));
+export const runtimeStyles = runtimeStylesInline;
+
+let runtimeSheet: CSSStyleSheet | null = null;
+export const ensureRuntimeStyleSheet = (): CSSStyleSheet | null => {
+    if (typeof document === "undefined" || typeof CSSStyleSheet === "undefined") return null;
+    if (runtimeSheet) return runtimeSheet;
+
+    runtimeSheet = new CSSStyleSheet();
+    if (!document.adoptedStyleSheets?.includes(runtimeSheet)) {
+        document.adoptedStyleSheets?.push(runtimeSheet);
+    }
+
+    // Async parse to avoid blocking (runtime CSS can be large).
+    // @ts-ignore
+    runtimeSheet.replace?.(`@layer veela-runtime { ${runtimeStylesInline} }`)?.catch?.(() => {});
+    return runtimeSheet;
+};
 
 //
 /**
@@ -19,7 +35,9 @@ let loadedStyles: any = null;
 
 //
 export const initialize = async (ROOT: any = document.body)=>{
-    initVisibility(ROOT); (loadedStyles ??= loadAsAdopted(runtimeStyles));
+    initVisibility(ROOT);
+    // Ensure styles are installed once, without blocking render.
+    loadedStyles ??= (ensureRuntimeStyleSheet() ?? loadAsAdopted(runtimeStyles));
 
     import("../../ts/font-loader")?.then?.(({ loadAllFonts })=>{
         loadAllFonts()?.catch?.(console.error.bind(console));

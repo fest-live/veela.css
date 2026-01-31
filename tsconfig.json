@@ -10,7 +10,7 @@
             "fest/dom": ["../../shared/fest/dom/index.ts"],
             "fest/core": ["../../shared/fest/core/index.ts"],
             "fest/veela": ["./src/ts/index.ts"],
-            "fest/veela-runtime": ["./src/scss/runtime/index.ts"],
+            "fest/veela-runtime": ["src/scss/runtime/advanced/index.ts"],
             "veela-lib": ["./src/scss/lib/index.scss"],
             "veela-lib/*": ["./src/scss/lib/*"]
         },

@@ -1,0 +1,39 @@
+/**
+ * Veela CSS - Advanced Runtime
+ *
+ * Full-featured styling with advanced components and effects.
+ * Inherits from core and adds comprehensive component library.
+ *
+ * Includes:
+ * - Core (normalize, layout, states)
+ * - Advanced tokens and variables
+ * - Material-inspired color system
+ * - Animation system
+ * - Theme variants
+ * - Advanced UI essentials
+ * - Effects and shapes
+ *
+ * @see core/_index.scss for foundation styles
+ */
+
+// Inherit core foundation
+@use "../core/index" as *;
+
+// Advanced runtime features
+@use "./runtime/wavy-runtime" as *;
+@use "./runtime/variables" as *;
+@use "./runtime/material-color" as *;
+@use "./runtime/orientation-functions" as *;
+
+// Advanced layout
+@use "./layout/index" as *;
+
+// Effects and animations
+@use "./effects/animations" as *;
+
+// Theme system
+@use "./theme/variants" as *;
+@use "./theme/states" as *;
+
+// Advanced UI components
+@use "./ui/essentials" as *;

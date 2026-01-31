@@ -1,184 +1,116 @@
-import { whenAnyScreenChanges, updateVP, initVisibility, loadAsAdopted } from "fest/dom";
-
-// =============================================================================
-// RUNTIME STYLES LOADER
-// Modular, optional loading of veela.css runtime styles
-// =============================================================================
-
-// Lazy-load runtime styles only when needed
-let runtimeStylesPromise: Promise<string> | null = null;
-const getRuntimeStyles = (): Promise<string> => {
-    if (!runtimeStylesPromise) {
-        runtimeStylesPromise = import("./index.scss?inline").then(m => m.default);
-    }
-    return runtimeStylesPromise;
-};
-
-// Cached stylesheet reference
-let runtimeSheet: CSSStyleSheet | null = null;
-
 /**
- * Get or create the runtime stylesheet.
- * Uses CSSStyleSheet for optimal performance with adoptedStyleSheets.
+ * Veela CSS - Runtime Entry Point
+ *
+ * Unified runtime module providing access to all veela style variants.
+ *
+ * Variants:
+ * - core: Shared foundation (normalize, layout, states)
+ * - basic: Lightweight styles (core + essential components)
+ * - advanced: Full-featured styles (core + comprehensive library)
+ * - beercss: Beer CSS compatible (basic + Beer CSS class names)
+ *
+ * @example
+ * ```ts
+ * // Load specific variant
+ * import { loadBasicStyles } from "fest/veela/runtime";
+ * await loadBasicStyles();
+ *
+ * // Or use the variant loader
+ * import { loadVeelaVariant } from "fest/veela/runtime";
+ * await loadVeelaVariant("advanced");
+ * ```
  */
-export const ensureRuntimeStyleSheet = async (): Promise<CSSStyleSheet | null> => {
-    if (typeof document === "undefined" || typeof CSSStyleSheet === "undefined") return null;
-    if (runtimeSheet) return runtimeSheet;
 
-    runtimeSheet = new CSSStyleSheet();
-    if (!document.adoptedStyleSheets?.includes(runtimeSheet)) {
-        document.adoptedStyleSheets?.push(runtimeSheet);
-    }
+import { loadAsAdopted } from "fest/dom";
 
-    // Async parse to avoid blocking
-    const styles = await getRuntimeStyles();
-    await runtimeSheet.replace?.(`@layer veela-runtime { ${styles} }`).catch(() => {});
-    return runtimeSheet;
-};
+// ============================================================================
+// TYPES
+// ============================================================================
 
-/**
- * Synchronous version for compatibility - uses pre-loaded styles if available.
- */
-export const ensureRuntimeStyleSheetSync = (): CSSStyleSheet | null => {
-    if (typeof document === "undefined" || typeof CSSStyleSheet === "undefined") return null;
-    if (runtimeSheet) return runtimeSheet;
+export type VeelaVariant = "core" | "basic" | "advanced" | "beercss";
 
-    // If styles haven't been loaded yet, start loading but return null
-    getRuntimeStyles();
-    return null;
-};
-
-// =============================================================================
-// FONT LOADING (Optional, lazy)
-// =============================================================================
-
-let fontsLoaded = false;
-
-/**
- * Load fonts asynchronously. Call only when fonts are needed.
- */
-export const loadFonts = async (): Promise<void> => {
-    if (fontsLoaded) return;
-    fontsLoaded = true;
-
-    try {
-        const { loadAllFonts } = await import("../../ts/font-loader");
-        await loadAllFonts?.();
-    } catch (e) {
-        console.warn("[veela] Font loading failed:", e);
-    }
-};
-
-// =============================================================================
-// INITIALIZATION OPTIONS
-// =============================================================================
-
-export interface InitOptions {
-    /** Load runtime styles (default: true) */
-    styles?: boolean;
-    /** Load fonts (default: true) */
-    fonts?: boolean;
-    /** Initialize visibility observers (default: true) */
-    visibility?: boolean;
-    /** Initialize viewport observers (default: true) */
-    viewport?: boolean;
+export interface VeelaConfig {
+    variant: VeelaVariant;
+    loaded: boolean;
 }
 
-const defaultOptions: Required<InitOptions> = {
-    styles: true,
-    fonts: true,
-    visibility: true,
-    viewport: true,
-};
+// ============================================================================
+// STATE
+// ============================================================================
 
-// =============================================================================
-// MAIN INITIALIZATION
-// =============================================================================
+let _loadedVariant: VeelaVariant | null = null;
 
-let initialized = false;
-let loadedStyles: CSSStyleSheet | null = null;
+// ============================================================================
+// VARIANT LOADERS
+// ============================================================================
+
+export { loadCoreStyles } from "./core/index";
+export { loadBasicStyles } from "./basic/index";
+export { loadAdvancedStyles } from "./advanced/index";
+export { loadBeerCssStyles } from "./beercss/index";
+
+// ============================================================================
+// UNIFIED LOADER
+// ============================================================================
 
 /**
- * Initialize veela.css runtime with optional features.
+ * Load a specific veela style variant
  *
- * @param ROOT - Root element for visibility/viewport observers (default: document.body)
- * @param options - Feature flags to enable/disable specific functionality
- * @returns Promise resolving to the loaded stylesheet (if styles enabled)
- *
- * @example
- * // Full initialization
- * await initialize();
- *
- * @example
- * // Minimal - styles only, no fonts
- * await initialize(document.body, { fonts: false });
- *
- * @example
- * // No styles - just observers
- * await initialize(document.body, { styles: false, fonts: false });
+ * @param variant - The style variant to load
+ * @returns Promise that resolves when styles are loaded
  */
-export const initialize = async (
-    ROOT: HTMLElement | null = document?.body ?? null,
-    options: InitOptions = {}
-): Promise<CSSStyleSheet | null> => {
-    const opts = { ...defaultOptions, ...options };
-
-    // Visibility observers
-    if (opts.visibility && ROOT) {
-        initVisibility(ROOT);
+export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
+    if (_loadedVariant === variant) {
+        console.log(`[Veela] Variant '${variant}' already loaded`);
+        return;
     }
 
-    // Styles
-    if (opts.styles) {
-        loadedStyles ??= await ensureRuntimeStyleSheet() ?? null;
-        if (!loadedStyles) {
-            // Fallback for older browsers
-            const styles = await getRuntimeStyles();
-            loadAsAdopted(styles);
+    console.log(`[Veela] Loading variant: ${variant}`);
+
+    switch (variant) {
+        case "core": {
+            const { loadCoreStyles } = await import("./core/index");
+            await loadCoreStyles();
+            break;
         }
+        case "basic": {
+            const { loadBasicStyles } = await import("./basic/index");
+            await loadBasicStyles();
+            break;
+        }
+        case "advanced": {
+            const { loadAdvancedStyles } = await import("./advanced/index");
+            await loadAdvancedStyles();
+            break;
+        }
+        case "beercss": {
+            const { loadBeerCssStyles } = await import("./beercss/index");
+            await loadBeerCssStyles();
+            break;
+        }
+        default:
+            throw new Error(`Unknown veela variant: ${variant}`);
     }
 
-    // Fonts (async, non-blocking)
-    if (opts.fonts) {
-        loadFonts().catch(() => {});
-    }
-
-    // Viewport observers
-    if (opts.viewport && ROOT?.closest?.("html")) {
-        whenAnyScreenChanges(updateVP);
-    }
-
-    initialized = true;
-    return loadedStyles;
-};
+    _loadedVariant = variant;
+}
 
 /**
- * Check if veela.css has been initialized.
+ * Get the currently loaded variant
  */
-export const isInitialized = (): boolean => initialized;
+export function getLoadedVariant(): VeelaVariant | null {
+    return _loadedVariant;
+}
 
 /**
- * Get the loaded stylesheet (if any).
+ * Check if a specific variant is loaded
  */
-export const getStyleSheet = (): CSSStyleSheet | null => loadedStyles;
+export function isVariantLoaded(variant: VeelaVariant): boolean {
+    return _loadedVariant === variant;
+}
 
-// =============================================================================
-// FEATURE-SPECIFIC LOADERS
-// =============================================================================
+// ============================================================================
+// DEFAULT EXPORT
+// ============================================================================
 
-/**
- * Load only styles without observers or fonts.
- */
-export const loadStyles = async (): Promise<CSSStyleSheet | null> => {
-    return initialize(null, { styles: true, fonts: false, visibility: false, viewport: false });
-};
-
-/**
- * Initialize observers only without loading styles.
- */
-export const initObservers = (ROOT: HTMLElement = document.body): void => {
-    initialize(ROOT, { styles: false, fonts: false, visibility: true, viewport: true });
-};
-
-// Legacy default export
-export default initialize as any;
+export default loadVeelaVariant;

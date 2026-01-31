@@ -1,0 +1,211 @@
+/**
+ * Veela CSS - Beer CSS Compatible Runtime
+ *
+ * Style variant compatible with Beer CSS (https://www.beercss.com/)
+ * Inherits from basic and adds Beer CSS integration.
+ *
+ * Includes:
+ * - Basic (core + essential components)
+ * - Beer CSS compatible class names
+ * - Material Design 3 inspired components
+ * - Beer CSS variable mappings
+ *
+ * @see basic/_index.scss for base styles
+ * @see https://www.beercss.com/ for Beer CSS reference
+ */
+
+// Inherit basic foundation
+@use "../basic/index" as *;
+
+// Beer CSS integrations
+@use "../advanced/integrations/beercss" as *;
+
+// Beer CSS compatible tokens
+@layer ux-tokens {
+    :root {
+        // Map veela tokens to Beer CSS naming
+        --primary: var(--basic-primary, #6200ee);
+        --on-primary: var(--basic-on-primary, #ffffff);
+        --secondary: var(--basic-secondary, #03dac6);
+        --on-secondary: var(--basic-on-secondary, #000000);
+        --background: var(--basic-background, #fafafa);
+        --on-background: var(--basic-on-background, #000000);
+        --surface: var(--basic-surface, #ffffff);
+        --on-surface: var(--basic-on-surface, #000000);
+        --error: var(--basic-error, #b00020);
+        --on-error: var(--basic-on-error, #ffffff);
+
+        // Beer CSS specific
+        --active: var(--basic-primary);
+        --border: var(--basic-outline-variant, #e0e0e0);
+        --overlay: color-mix(in oklab, var(--on-surface) 12%, transparent);
+
+        // Elevation (Beer CSS compatible)
+        --elevate1: var(--basic-elev-1, 0 1px 3px rgba(0,0,0,.12));
+        --elevate2: var(--basic-elev-2, 0 3px 6px rgba(0,0,0,.16));
+        --elevate3: var(--basic-elev-3, 0 6px 12px rgba(0,0,0,.16));
+
+        // Radius (Beer CSS compatible)
+        --round1: var(--basic-radius-sm, 8px);
+        --round2: var(--basic-radius-md, 12px);
+        --round3: var(--basic-radius-lg, 16px);
+        --round4: var(--basic-radius-xl, 24px);
+
+        // Animation (Beer CSS compatible)
+        --speed1: var(--basic-motion-fast, 0.1s);
+        --speed2: var(--basic-motion-normal, 0.2s);
+        --speed3: var(--basic-motion-slow, 0.3s);
+        --speed4: 0.4s;
+    }
+}
+
+// Beer CSS compatible utility classes
+@layer ux-utilities {
+    // Typography classes (Beer CSS style)
+    .small { font-size: 0.875rem; }
+    .medium { font-size: 1rem; }
+    .large { font-size: 1.25rem; }
+
+    // Spacing classes (Beer CSS style)
+    .padding { padding: 1rem; }
+    .small-padding { padding: 0.5rem; }
+    .medium-padding { padding: 1rem; }
+    .large-padding { padding: 1.5rem; }
+
+    .margin { margin: 1rem; }
+    .small-margin { margin: 0.5rem; }
+    .medium-margin { margin: 1rem; }
+    .large-margin { margin: 1.5rem; }
+
+    // Layout classes (Beer CSS style)
+    .row { display: flex; flex-direction: row; }
+    .column { display: flex; flex-direction: column; }
+    .wrap { flex-wrap: wrap; }
+    .center { align-items: center; justify-content: center; }
+    .middle { align-items: center; }
+    .left { justify-content: flex-start; }
+    .right { justify-content: flex-end; }
+
+    // Elevation classes (Beer CSS style)
+    .elevate { box-shadow: var(--elevate2); }
+    .no-elevate { box-shadow: none; }
+
+    // Border radius classes (Beer CSS style)
+    .round { border-radius: var(--round2); }
+    .circle { border-radius: 50%; }
+    .square { border-radius: 0; }
+
+    // Surface classes (Beer CSS style)
+    .surface { background-color: var(--surface); color: var(--on-surface); }
+    .primary { background-color: var(--primary); color: var(--on-primary); }
+    .secondary { background-color: var(--secondary); color: var(--on-secondary); }
+    .error { background-color: var(--error); color: var(--on-error); }
+
+    // Responsive classes (Beer CSS style)
+    .responsive { max-inline-size: 100%; block-size: auto; }
+    .fill { inline-size: 100%; block-size: 100%; }
+    .max { max-inline-size: 100%; max-block-size: 100%; }
+}
+
+// Beer CSS compatible component base styles
+@layer ux-components {
+    // Button (Beer CSS style)
+    .button, button:where(:not([class*="btn-"])) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding-block: 0.5rem;
+        padding-inline: 1rem;
+        border-radius: var(--round2);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--speed2);
+        border: none;
+        background-color: var(--surface);
+        color: var(--on-surface);
+
+        &:hover {
+            background-color: var(--overlay);
+        }
+
+        &.fill {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+    }
+
+    // Card (Beer CSS style)
+    .card {
+        background-color: var(--surface);
+        color: var(--on-surface);
+        border-radius: var(--round3);
+        box-shadow: var(--elevate1);
+        padding: 1rem;
+    }
+
+    // Chip (Beer CSS style)
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding-block: 0.25rem;
+        padding-inline: 0.75rem;
+        border-radius: var(--round1);
+        font-size: 0.875rem;
+        background-color: var(--surface-variant, var(--overlay));
+        color: var(--on-surface);
+    }
+
+    // Navigation (Beer CSS style)
+    nav.bottom {
+        position: fixed;
+        inset-block-end: 0;
+        inset-inline: 0;
+        display: flex;
+        justify-content: space-around;
+        background-color: var(--surface);
+        box-shadow: var(--elevate2);
+        padding-block: 0.5rem;
+    }
+
+    // App bar (Beer CSS style)
+    header.app {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-block: 0.5rem;
+        padding-inline: 1rem;
+        background-color: var(--surface);
+        box-shadow: var(--elevate1);
+    }
+
+    // Field (Beer CSS style)
+    .field {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        & > label {
+            font-size: 0.875rem;
+            color: var(--on-surface-variant, var(--on-surface));
+        }
+
+        & > input,
+        & > textarea,
+        & > select {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--round1);
+            background-color: var(--surface);
+            color: var(--on-surface);
+            transition: border-color var(--speed2);
+
+            &:focus {
+                border-color: var(--primary);
+                outline: none;
+            }
+        }
+    }
+}

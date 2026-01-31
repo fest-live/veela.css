@@ -1,0 +1,606 @@
+@use "veela-lib" as *;
+
+@layer ux-normalize {
+
+    /* ========================================================================
+       Variables & Tokens
+       ======================================================================== */
+
+    :root {
+        /* Core color tokens */
+        --color-bg: #{md-light-dark("bg")};
+        --color-bg-secondary: #{md-light-dark("bg-secondary")};
+        --color-text: #{md-light-dark("text")};
+        --color-text-secondary: #{md-light-dark("text-secondary")};
+        --color-link: #{md-light-dark("link")};
+        --color-accent: #{md-light-dark("accent")};
+        --color-secondary: #{md-light-dark("secondary")};
+        --color-secondary-accent: #{md-light-dark("secondary-accent")};
+        --color-shadow: #{md-light-dark("shadow")};
+        --color-border: #{md-light-dark("border")};
+        --color-table: #{md-light-dark("table")};
+        --color-scrollbar: #{md-light-dark("scrollbar")};
+
+        /* Config tokens */
+        --font-family: #{md-config("font", "body")};
+        --font-family-mono: #{md-config("font", "mono")};
+        --line-height: #{md-config("layout", "line-height")};
+
+        --active-brightness: #{md-config("effects", "active-brightness")};
+        --hover-brightness: #{md-config("effects", "hover-brightness")};
+
+        --width-card: #{md-config("layout", "widths", "card")};
+        --width-card-medium: #{md-config("layout", "widths", "card-medium")};
+        --width-card-wide: #{md-config("layout", "widths", "card-wide")};
+        --width-content: #{md-config("layout", "widths", "content")};
+
+        --box-shadow: #{md-config("shape", "box-shadow")};
+        --border-radius: #{md-config("shape", "border-radius")};
+        --scrollbar-size: #{md-config("scrollbar", "size")};
+
+        /* Syntax highlighting (GitHub inspired) */
+        --fgColor-default: light-dark(#1f2328, #f0f6fc);
+        --fgColor-muted: light-dark(#656d76, #9198a1);
+        --fgColor-accent: light-dark(#0969da, #4493f8);
+        --fgColor-success: light-dark(#1a7f37, #3fb950);
+        --fgColor-attention: light-dark(#9a6700, #d29922);
+        --fgColor-danger: light-dark(#d1242f, #f85149);
+        --fgColor-done: light-dark(#8250df, #ab7df8);
+
+        --bgColor-default: light-dark(#ffffff, #0d1117);
+        --bgColor-muted: light-dark(#f6f8fa, #151b23);
+        --borderColor-default: light-dark(#d0d7de, #30363d);
+        --borderColor-muted: light-dark(#d0d7de, #30363d);
+
+        interpolate-size: allow-keywords;
+    }
+
+    @keyframes bottom-to-top {
+        0% { opacity: 0; transform: translateY(10%); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @layer ux-agate;
+
+    @media screen {
+
+        /* ====================================================================
+           Document Root
+           ==================================================================== */
+
+        :where(:root, html) {
+            color-scheme: light dark;
+            tab-size: 4;
+            text-size-adjust: 100%;
+            font-size: 16px;
+            line-height: 1.5;
+
+            min-block-size: 0px;
+            min-inline-size: 0px;
+            max-inline-size: min(100cqi, 100dvi) !important;
+            max-block-size: min(100cqb, 100dvb) !important;
+            inline-size: min(100cqi, 100dvi);
+            block-size: min(100cqb, 100dvb);
+
+            contain: strict;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            border: none;
+
+            font-family: var(--font-family, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+        }
+
+        :where(body) {
+            inset: 0px;
+            margin: 0;
+            padding: 0;
+            border: none;
+
+            min-block-size: min(100dvb, 100cqb);
+            block-size: fit-content;
+
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: var(--line-height);
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* ====================================================================
+           Box Model (single declaration)
+           ==================================================================== */
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* ====================================================================
+           Scrollbars (consolidated)
+           ==================================================================== */
+
+        :where(body, main, aside, pre, code, textarea, [data-scrollable], .scrollable) {
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-scrollbar, currentColor) transparent;
+
+            &::-webkit-scrollbar {
+                inline-size: var(--scrollbar-size, 8px);
+                block-size: var(--scrollbar-size, 8px);
+            }
+            &::-webkit-scrollbar-track { background: transparent; }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--color-scrollbar, currentColor);
+                border-radius: var(--border-radius, 4px);
+            }
+        }
+
+        /* ====================================================================
+           Hidden & Undefined Elements
+           ==================================================================== */
+
+        :not(:defined) {
+            opacity: 0;
+            visibility: collapse;
+            pointer-events: none;
+            display: none;
+        }
+
+        :where(link, head, script, style, meta) {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+        [hidden] { display: none; }
+
+        [aria-hidden="true"] {
+            visibility: collapse;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        [data-dragging] {
+            will-change: transform;
+            cursor: grabbing;
+        }
+
+        /* ====================================================================
+           Interactive Elements
+           ==================================================================== */
+
+        :where(a, button, [role="button"]) {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :where(a) {
+            color: var(--color-link, inherit);
+            text-decoration: inherit;
+            text-underline-offset: 0.2em;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        :where(button) {
+            user-select: none;
+            pointer-events: auto;
+            cursor: pointer;
+            appearance: none;
+            border: none;
+            background: transparent;
+
+            &:has(> ui-icon:only-child) {
+                place-content: center;
+                place-items: center;
+                aspect-ratio: 1 / 1;
+            }
+
+            &:disabled {
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+        }
+
+        :where(label) {
+            user-select: none;
+            pointer-events: none;
+            display: block;
+            font-weight: 600;
+            margin-block-end: 0.25rem;
+        }
+
+        :where(details > summary) {
+            cursor: pointer;
+        }
+
+        /* ====================================================================
+           Form Elements
+           ==================================================================== */
+
+        :where(button, input, optgroup, select, textarea) {
+            font: inherit;
+            color: inherit;
+            letter-spacing: inherit;
+            margin: 0;
+            border: none;
+            outline: none;
+        }
+
+        :where(button, [type="button"], [type="reset"], [type="submit"]) {
+            -webkit-appearance: button;
+            cursor: pointer;
+
+            &::-moz-focus-inner {
+                border-style: none;
+                padding: 0;
+            }
+        }
+
+        :where(input) {
+            &:-webkit-autofill::first-line,
+            &:autofill::first-line {
+                font-size: 1em;
+                text-size-adjust: 100%;
+            }
+
+            &:-internal-autofill-previewed {
+                letter-spacing: #{"calc(1em / 10)"} !important;
+            }
+        }
+
+        :where([type="search"]) {
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+
+            &::-webkit-search-decoration {
+                -webkit-appearance: none;
+            }
+        }
+
+        :where([type="range"]) {
+            -webkit-appearance: none;
+        }
+
+        :where(input, textarea, select, button, option) {
+            accent-color: var(--color-link, currentColor);
+        }
+
+        :where(textarea) {
+            overflow: auto;
+            resize: vertical;
+        }
+
+        :where(fieldset) {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        :where(legend) {
+            padding: 0;
+        }
+
+        :where(progress) {
+            vertical-align: baseline;
+        }
+
+        /* ====================================================================
+           Media Elements
+           ==================================================================== */
+
+        :where(img, video, canvas, svg, picture) {
+            display: block;
+            max-inline-size: 100%;
+            block-size: auto;
+        }
+
+        :where(img, video) {
+            object-fit: contain;
+            object-position: center;
+        }
+
+        :where(picture) { display: contents; }
+
+        :where(iframe) {
+            max-inline-size: 100%;
+            block-size: auto;
+        }
+
+        /* ====================================================================
+           Typography
+           ==================================================================== */
+
+        :where(h1, h2, h3, h4, h5, h6) {
+            font-weight: bold;
+            text-wrap: balance;
+            margin-block: 0.5em;
+            line-height: 1.2;
+        }
+
+        :where(p) {
+            text-wrap: pretty;
+            margin-block: 1em;
+        }
+
+        :where(blockquote) {
+            margin-inline: 1rem;
+            padding-inline: 1rem;
+            border-inline-start: 0.25rem solid var(--color-secondary);
+            color: var(--color-text-secondary);
+        }
+
+        :where(blockquote, q) {
+            quotes: none;
+            &::before, &::after {
+                content: '';
+                content: none;
+            }
+        }
+
+        :where(sub, sup) {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        :where(sup) { top: -0.5em; }
+        :where(sub) { bottom: -0.25em; }
+
+        /* ====================================================================
+           Code Elements
+           ==================================================================== */
+
+        :where(code, kbd, samp, pre) {
+            font-family: var(--font-family-mono, 'SF Mono', 'Monaco', 'Inconsolata', monospace);
+        }
+
+        :where(code, samp, kbd) {
+            background-color: var(--bgColor-muted);
+            border-radius: 0.3em;
+            padding: 0.2em 0.4em;
+            font-size: 85%;
+        }
+
+        :where(pre) {
+            background-color: var(--bgColor-muted);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--borderColor-muted);
+            padding: 1rem;
+            overflow: auto;
+            max-inline-size: 100%;
+
+            code {
+                background: transparent;
+                padding: 0;
+                border-radius: 0;
+            }
+        }
+
+        /* ====================================================================
+           Tables
+           ==================================================================== */
+
+        :where(table) {
+            display: block;
+            overflow-x: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            inline-size: max-content;
+            max-inline-size: 100%;
+            margin-block: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+
+            :where(th, td) {
+                padding: 0.5rem 1rem;
+                border-block-end: 1px solid var(--color-border);
+                text-align: start;
+            }
+
+            :where(th) {
+                background-color: var(--color-table);
+                color: var(--color-text);
+                font-weight: bold;
+            }
+
+            :where(tr:last-child td) { border-block-end: none; }
+            :where(tr:nth-child(even)) { background-color: var(--color-bg-secondary); }
+        }
+
+        /* ====================================================================
+           Lists
+           ==================================================================== */
+
+        :where(ul, ol) {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ====================================================================
+           Other Elements
+           ==================================================================== */
+
+        :where(dialog) {
+            margin: auto;
+            padding: 1rem;
+            background: var(--color-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-inline-size: min(90vw, 600px);
+            max-block-size: 85vh;
+
+            &::backdrop {
+                background-color: rgb(0 0 0 / 0.5);
+            }
+
+            &[open] {
+                animation: bottom-to-top 0.25s ease-out;
+            }
+        }
+
+        :where(mark) {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        :where(hr) {
+            border: none;
+            border-block-start: 1px solid var(--color-border);
+            margin-block: 1rem;
+        }
+
+        /* ====================================================================
+           Layout Sections
+           ==================================================================== */
+
+        :where(footer, header, main) {
+            margin-inline: auto;
+            max-inline-size: var(--width-content);
+            padding: 2rem 1rem;
+        }
+
+        :where(header) {
+            text-align: center;
+        }
+
+        :where(nav) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-block-end: 3rem;
+
+            ul {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                gap: 1rem;
+                margin: 0;
+
+                li { position: relative; }
+            }
+
+            a {
+                font-weight: bold;
+                color: var(--color-link);
+                text-decoration: none;
+
+                @include when-active { text-decoration: underline; }
+            }
+        }
+
+        :where(section) {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: var(--justify-important, center);
+            gap: 1rem;
+
+            :where(aside) {
+                border: 1px solid var(--color-bg-secondary);
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+                padding: 1.25rem;
+                inline-size: var(--width-card);
+                flex: 1 1 var(--width-card);
+            }
+        }
+
+        /* ====================================================================
+           Styled Buttons & Inputs
+           ==================================================================== */
+
+        :where(button, input[type="submit"], input[type="button"]) {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-link);
+            border: 1px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: filter 0.2s ease, transform 0.1s ease;
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                filter: none;
+                background-color: var(--color-secondary);
+            }
+        }
+
+        :where(input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+            display: block;
+            inline-size: 100%;
+            padding: 0.5rem;
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            color: var(--color-text);
+
+            @include when-focus-visible {
+                outline: 2px solid var(--color-link);
+                outline-offset: -1px;
+            }
+
+            &::placeholder {
+                color: var(--color-text-secondary);
+                opacity: 0.7;
+            }
+
+            &:disabled {
+                background-color: var(--color-bg-secondary);
+                cursor: not-allowed;
+            }
+        }
+
+        /* ====================================================================
+           UI Canvas
+           ==================================================================== */
+
+        :where(canvas):is([is="ui-canvas"]) {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+
+            inline-size: stretch;
+            block-size: stretch;
+            max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
+            max-block-size: min(100%, min(100cqb, 100dvb)) !important;
+            box-sizing: border-box !important;
+            min-inline-size: 0px;
+            min-block-size: 0px;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* ====================================================================
+           Reduced Motion
+           ==================================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::after, *::before {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    }
+
+    /* ========================================================================
+       Scheme Overrides
+       ======================================================================== */
+
+    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
+    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
+    [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
+}

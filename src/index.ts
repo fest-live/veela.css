@@ -3,7 +3,7 @@
 // =============================================================================
 
 // Runtime module (styles, fonts, observers)
-export * from "./scss/runtime/index";
+export * from "./scss/runtime/advanced/index";
 export {
     initialize,
     loadStyles,
@@ -13,11 +13,11 @@ export {
     getStyleSheet,
     ensureRuntimeStyleSheet,
     type InitOptions
-} from "./scss/runtime/index";
+} from "./scss/runtime/advanced/index";
 
 // Font utilities
 export * from "./ts/font-loader";
 
 // Default export for backwards compatibility
-import forDefault from "./scss/runtime/index";
+import forDefault from "./scss/runtime/advanced/index";
 export default forDefault;

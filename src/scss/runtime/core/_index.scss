@@ -1,0 +1,25 @@
+/**
+ * Veela CSS - Core Runtime
+ *
+ * Shared foundation styles for all veela variants.
+ * This module provides:
+ * - CSS layer definitions
+ * - Normalize/reset styles
+ * - Core layout utilities
+ * - Base tokens and properties
+ * - Essential state management
+ *
+ * Inherited by: basic, advanced, beercss
+ */
+
+@use "../layers" as *;
+
+// Core foundation
+@use "./normalize" as *;
+@use "./core-layout" as *;
+@use "./layout" as *;
+@use "./states" as *;
+
+// Grid and orientation systems
+@use "./gridbox" as *;
+@use "./orientbox" as *;

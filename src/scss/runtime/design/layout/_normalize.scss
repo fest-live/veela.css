@@ -70,7 +70,6 @@
 
         :where(:root, html) {
             color-scheme: light dark;
-            scroll-behavior: smooth;
             tab-size: 4;
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
@@ -88,12 +87,8 @@
 
             padding: 0px;
             margin: 0px;
-            border: none 0px transparent;
-            outline: none 0px transparent;
-
-            @media (prefers-reduced-motion: reduce) {
-                scroll-behavior: auto;
-            }
+            border: none;
+            outline: none;
 
             &, :where(body, button, input, select, textarea) {
                 font-family: var(--font-family, inherit);
@@ -101,11 +96,11 @@
         }
 
         :where(body) {
+            inset: 0px;
             margin: 0;
             padding: 0;
-
-            border: none 0px transparent;
-            outline: none 0px transparent;
+            border: none;
+            outline: none;
 
             min-block-size: min(100dvb, 100cqb);
             block-size: fit-content;
@@ -114,243 +109,175 @@
             color: var(--color-text);
             line-height: var(--line-height);
 
-            /* Improve text rendering */
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
 
-            /* */
-            -webkit-text-size-adjust: 100%;
+            /* Scrollbar styling - scoped to body only */
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-scrollbar, currentColor) transparent;
 
-            @include HQRendering();
-        }
+            &::-webkit-scrollbar {
+                inline-size: var(--scrollbar-size);
+                block-size: var(--scrollbar-size);
+            }
 
-        /* */
-        :where(html, body) {
-            inset: 0px;
-            padding: 0px;
-            margin: 0px;
-            border: none 0px transparent;
-            background-color: transparent;
-            color: transparent;
-            font-family: Calibri, Carlito, Caliburn, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
-            dynamic-range-limit: constrained-high;
+            &::-webkit-scrollbar-track { background: transparent; }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--color-scrollbar, currentColor);
+                border-radius: var(--border-radius);
+            }
         }
 
         /* -------------------------------------------------------------------------- */
         /*                               Global Defaults                              */
         /* -------------------------------------------------------------------------- */
 
-        :where(:host, :scope, :root) {
+        /* Box model - applied once at top level */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-            /* */
-            :where(*), :where(*::before), :where(*::after) {
-                box-sizing: border-box;
-                font-display: swap;
+        /* Undefined custom elements - hide until registered */
+        :not(:defined) {
+            opacity: 0;
+            visibility: collapse;
+            pointer-events: none;
+            display: none;
+        }
 
-                /* don't needs such potential lag-machine */
-                /*border-width: 0;
-                border-style: solid;
-                border-color: var(--color-border, currentColor);
-                word-wrap: break-word;*/
-            }
+        /* Interaction defaults */
+        :where(a, button, [role="button"]) {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-            /* */
-            :where(*):not(:defined) { opacity: 0; visibility: collapse; pointer-events: none; display: none; background-color: transparent; color: transparent; };
-
-            /* */
-            :where(*), &::slotted(*) {
-                /* Interaction defaults */
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            /* */
-            :where(input):-webkit-autofill::first-line { font-size: 1em; -webkit-text-size-adjust: 100%; }
-            :where(input):autofill::first-line { font-size: 1em; text-size-adjust: 100%; }
-            :where(input):auto-fill::first-line { font-size: 1em; text-size-adjust: 100%; }
-
-            /* */
-            :where(input) {
-                position: relative;
+        /* Autofill fixes */
+        :where(input) {
+            &:-webkit-autofill::first-line,
+            &:autofill::first-line {
+                font-size: 1em;
                 text-size-adjust: 100%;
-                -webkit-text-size-adjust: 100%;
-
-                &:-internal-autofill-previewed {
-                    letter-spacing: #{"calc(1em / 10)"} !important;
-                }
             }
 
-            /* */
-            :where(button, a, input, textarea) {
-                border: none 0px transparent;
+            &:-internal-autofill-previewed {
+                letter-spacing: #{"calc(1em / 10)"} !important;
+            }
+        }
+
+        /* Form element resets */
+        :where(button, a, input, textarea) {
+            border: none;
+        }
+
+        /* Media defaults */
+        :where(img, video, canvas, svg, picture) {
+            display: block;
+            max-inline-size: 100%;
+            block-size: auto;
+        }
+
+        :where(img, video) {
+            object-fit: contain;
+            object-position: center;
+        }
+
+        :where(picture) { display: contents; }
+
+        /* Typography defaults */
+        :where(h1, h2, h3, h4, h5, h6) {
+            font-weight: bold;
+            text-wrap: balance;
+            margin-block: 0.5em;
+        }
+
+        :where(p) {
+            text-wrap: pretty;
+            margin-block: 1em;
+        }
+
+        /* Link defaults */
+        :where(a) {
+            color: inherit;
+            text-decoration: inherit;
+            text-underline-offset: 0.2em;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        /* Label defaults */
+        :where(label) {
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Button defaults */
+        :where(button) {
+            user-select: none;
+            pointer-events: auto;
+            cursor: pointer;
+
+            &:has(> ui-icon:only-child) {
+                place-content: center;
+                place-items: center;
+                aspect-ratio: 1 / 1;
             }
 
-            /* Media defaults */
-            :where(img, video, canvas, svg, picture) {
-                display: block;
-                max-inline-size: stretch;
-                block-size: auto;
-                shape-margin: 0.75rem;
-                max-block-size: stretch;
-            }
-
-            /* Media defaults */
-            :where(img, video) { object-fit: contain; object-position: center; }
-            :where(picture) { display: contents; }
-
-            /* Typography defaults */
-            :where(h1, h2, h3, h4, h5, h6) {
-                font-weight: bold;
-                text-wrap: balance;
-                margin-block: 0.5em;
-            }
-
-            :where(p) {
-                text-wrap: pretty;
-                margin-block: 1em;
-            }
-
-            /* */
-            :where(a) {
-                color: inherit;
-                text-decoration: inherit;
-                text-underline-offset: 0.2em;
-                pointer-events: auto;
-                cursor: pointer;
-                user-select: none;
-                touch-action: none;
-            }
-
-            /* avoid side effects on labels by default */
-            :where(label) {
-                user-select: none;
-                touch-action: none;
+            &:disabled {
                 pointer-events: none;
+                cursor: not-allowed;
+            }
+        }
+
+        /* Form inheritance */
+        :where(input, button, textarea, select) {
+            font: inherit;
+            color: inherit;
+            letter-spacing: inherit;
+        }
+
+        /* Hidden elements - native behavior */
+        :where(link, head, script, style, meta) {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+        [hidden] { display: none; }
+
+        [aria-hidden="true"] {
+            visibility: collapse;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        [data-dragging] {
+            will-change: transform;
+            cursor: grabbing;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::after, *::before {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
 
-            /* button interactions fixtures */
-            :where(button) {
-                user-select: none;
-                touch-action: none;
-                pointer-events: auto;
-                cursor: pointer;
+            :root, html { scroll-behavior: auto; }
+        }
 
-                /* if button has only icon */
-                &:has(> ui-icon:only-child) {
-                    place-content: center;
-                    place-items: center;
-                    text-align: center;
-                    font-size: 0;
-                    line-height: 0;
-                    letter-spacing: 0;
-                    aspect-ratio: 1 / 1;
-                    gap: 0;
-                }
+        /* Scrollbar styling for scrollable containers */
+        :where([data-scrollable], .scrollable, main, aside, pre, code, textarea) {
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-scrollbar, currentColor) transparent;
 
-                /* clean up empty elements */
-                & :where(span, a, label):empty {
-                    display: none;
-                }
-
-                /* */
-                :where(button) {
-                    pointer-events: auto;
-                }
-
-                /* interaction defaults */
-                :where(span, a, label) {
-                    user-select: none;
-                    touch-action: none;
-                }
-
-                /* interaction defaults */
-                :where(span, label) {
-                    pointer-events: none;
-                }
-
-                /* interaction defaults */
-                :where(a) {
-                    pointer-events: auto;
-                    text-decoration: none;
-                }
-
-                /* interaction defaults */
-                &:disabled {
-                    pointer-events: none;
-                    user-select: none;
-                    touch-action: none;
-                    cursor: not-allowed;
-                }
+            &::-webkit-scrollbar {
+                inline-size: var(--scrollbar-size);
+                block-size: var(--scrollbar-size);
             }
 
-            /* Form defaults */
-            :where(input, button, textarea, select) {
-                font: inherit;
-                color: inherit;
-                letter-spacing: inherit;
-            }
-
-            /* Optimization */
-            :where(img, video, audio, picture, canvas, h1, h2, h3, h4, h5, h6, p, form, label, button) {
-                content-visibility: auto;
-            }
-
-            :where(div, span, a, h1, h2, h3, h4, h5, h6, p, label, form):empty:not([class]) {
-                content-visibility: hidden;
-            }
-
-            /* Hidden Elements */
-            :where(link, head, script, style, meta) {
-                display: none !important;
-                pointer-events: none !important;
-                interactivity: inert !important;
-                user-select: none !important;
-                touch-action: none !important;
-            }
-
-            /* just hidden without important */
-            [hidden] { display: none; }
-
-            /* aria-hidden="true" */
-            [aria-hidden="true"] {
-                visibility: collapse;
-                pointer-events: none;
-                touch-action: none;
-                user-select: none;
-                content-visibility: auto;
-                opacity: 0;
-            }
-
-            [data-dragging] {
-                will-change: transform;
-                cursor: grabbing;
-            }
-
-            /* Reduced Motion */
-            @media (prefers-reduced-motion: reduce) {
-                :where(*, ::after, ::before) {
-                    animation-duration: 0.01ms !important;
-                    animation-iteration-count: 1 !important;
-                    transition-duration: 0.01ms !important;
-                    scroll-behavior: auto !important;
-                }
-            }
-
-            /* Scrollbars */
-            :where(*) {
-                scrollbar-width: thin;
-                scrollbar-color: var(--color-scrollbar, currentColor) transparent;
-
-                &::-webkit-scrollbar {
-                    inline-size: var(--scrollbar-size);
-                    block-size: var(--scrollbar-size);
-                }
-
-                &::-webkit-scrollbar-track { background: transparent; }
-                &::-webkit-scrollbar-thumb {
-                    background-color: var(--color-scrollbar, currentColor);
-                    border-radius: var(--border-radius);
-                }
+            &::-webkit-scrollbar-track { background: transparent; }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--color-scrollbar, currentColor);
+                border-radius: var(--border-radius);
             }
         }
 
@@ -384,7 +311,6 @@
         /*                                 Components                                 */
         /* -------------------------------------------------------------------------- */
 
-        /* Header & Nav */
         :where(header) {
             text-align: center;
         }
@@ -481,11 +407,12 @@
             }
         }
 
-        /* Links & Buttons */
+        /* Links */
         :where(a) {
             color: var(--color-link);
         }
 
+        /* Buttons */
         :where(button, input[type="submit"], input[type="button"]) {
             display: inline-flex;
             align-items: center;
@@ -506,7 +433,7 @@
             }
         }
 
-        /* Forms */
+        /* Form inputs */
         :where(input:not([type="submit"]):not([type="button"]), select, textarea) {
             display: block;
             inline-size: 100%;
@@ -515,7 +442,6 @@
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
             color: var(--color-text);
-            /*margin-block-end: 1rem;*/
 
             @include when-focus-visible {
                 outline: 2px solid var(--color-link);
@@ -572,8 +498,8 @@
             z-index: 0;
             padding: 0px;
             margin: 0px;
-            border: none 0px transparent;
-            outline: none 0px transparent;
+            border: none;
+            outline: none;
 
             inline-size: stretch;
             block-size: stretch;

@@ -78,7 +78,6 @@
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
     padding-inline-end: 2.5rem;
-    padding-right: 2.5rem;
 
     &::-ms-expand {
         display: none;
@@ -90,58 +89,7 @@
     }
 }
 
-.form-checkbox {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    color: var(--basic-on-surface);
-    cursor: pointer;
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        border-radius: var(--basic-radius-sm);
-        border: none;
-        background: var(--basic-surface-container-highest);
-        cursor: pointer;
-        transition: all var(--basic-motion-fast);
-        appearance: none;
-        position: relative;
-        accent-color: var(--basic-primary);
-        box-shadow: var(--basic-elev-0);
-
-        // Checked state
-        &:checked {
-            background: var(--basic-primary);
-            box-shadow: var(--basic-elev-1);
-
-            // Checkmark
-            &::after {
-                content: '✓';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                color: var(--basic-on-primary);
-                font-size: 12px;
-                font-weight: bold;
-            }
-        }
-
-        &:focus {
-            outline: none;
-            box-shadow: var(--basic-focus-ring);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    }
-}
-
+.form-checkbox,
 .form-radio {
     display: flex;
     align-items: center;
@@ -150,57 +98,90 @@
     font-weight: var(--font-weight-medium);
     color: var(--basic-on-surface);
     cursor: pointer;
+}
 
-    input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: none;
-        background: var(--basic-surface-container-highest);
-        cursor: pointer;
-        transition: all var(--basic-motion-fast);
-        appearance: none;
-        position: relative;
-        accent-color: var(--basic-primary);
-        box-shadow: var(--basic-elev-0);
+.form-checkbox input[type="checkbox"],
+.form-radio input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: var(--basic-surface-container-highest);
+    cursor: pointer;
+    transition: all var(--basic-motion-fast);
+    appearance: none;
+    position: relative;
+    accent-color: var(--basic-primary);
+    box-shadow: var(--basic-elev-0);
 
-        &:checked {
-            background: var(--basic-primary);
-            box-shadow: var(--basic-elev-1);
+    &:focus {
+        outline: none;
+        box-shadow: var(--basic-focus-ring);
+    }
 
-            &::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: var(--basic-on-primary);
-                transform: translate(-50%, -50%);
-            }
-        }
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
 
-        &:focus {
-            outline: none;
-            box-shadow: var(--basic-focus-ring);
-        }
+.form-checkbox input[type="checkbox"] {
+    border-radius: var(--basic-radius-sm);
 
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+    &:checked {
+        background: var(--basic-primary);
+        box-shadow: var(--basic-elev-1);
+
+        &::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--basic-on-primary);
+            font-size: 12px;
+            font-weight: bold;
         }
     }
 }
 
-.form-error {
-    color: var(--basic-error);
+.form-radio input[type="radio"] {
+    border-radius: 50%;
+
+    &:checked {
+        background: var(--basic-primary);
+        box-shadow: var(--basic-elev-1);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--basic-on-primary);
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.form-error,
+.form-success,
+.form-hint {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     margin-top: var(--space-xs);
+}
+
+.form-error,
+.form-success {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
+}
+
+.form-error {
+    color: var(--basic-error);
 
     &::before {
         content: '⚠';
@@ -210,12 +191,6 @@
 
 .form-success {
     color: var(--basic-success);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    margin-top: var(--space-xs);
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
 
     &::before {
         content: '✓';
@@ -225,36 +200,28 @@
 
 .form-hint {
     color: var(--basic-on-surface-variant);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
-    margin-top: var(--space-xs);
     opacity: 0.8;
 }
 
 /* Form validation states */
 .form-field {
     &.error {
-
-        .form-input,
-        .form-textarea,
-        .form-select {
-            background: color-mix(in oklab, var(--basic-error) 5%, var(--basic-surface-container-high));
-
-            &:focus {
-                box-shadow: 0 0 0 3px color-mix(in oklab, var(--basic-error) 35%, transparent);
-            }
-        }
+        --form-field-state-color: var(--basic-error);
     }
 
     &.success {
+        --form-field-state-color: var(--basic-success);
+    }
 
+    &.error,
+    &.success {
         .form-input,
         .form-textarea,
         .form-select {
-            background: color-mix(in oklab, var(--basic-success) 5%, var(--basic-surface-container-high));
+            background: color-mix(in oklab, var(--form-field-state-color) 5%, var(--basic-surface-container-high));
 
             &:focus {
-                box-shadow: 0 0 0 3px color-mix(in oklab, var(--basic-success) 35%, transparent);
+                box-shadow: 0 0 0 3px color-mix(in oklab, var(--form-field-state-color) 35%, transparent);
             }
         }
     }

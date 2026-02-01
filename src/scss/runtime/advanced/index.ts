@@ -18,7 +18,7 @@ import { loadAsAdopted } from "fest/dom";
  */
 export async function loadAdvancedStyles(): Promise<void> {
     try {
-        const advancedStyles = await import("./_index.scss?inline");
+        const advancedStyles = await import("./index.scss?inline");
         if (advancedStyles.default) {
             await loadAsAdopted(advancedStyles.default);
             console.log("[Veela/Advanced] Advanced styles loaded");

@@ -1,0 +1,168 @@
+@use "veela-lib" as *;
+
+//
+@property --value  { syntax: "<number>"; initial-value: 0; inherits: true; };
+@property --relate { syntax: "<number>"; initial-value: 0; inherits: true; };
+@property --drag-x { syntax: "<number>"; initial-value: 0; inherits: false; };
+@property --drag-y { syntax: "<number>"; initial-value: 0; inherits: false; };
+
+//
+@property --order { syntax: "<integer>"; initial-value: 1; inherits: true; };
+@property --content-inline-size { syntax: "<length-percentage>"; initial-value: 100%; inherits: true; };
+@property --content-block-size  { syntax: "<length-percentage>"; initial-value: 100%; inherits: true; };
+@property --icon-size { syntax: "<length-percentage>"; initial-value: 16px; inherits: true; };
+@property --icon-color { syntax: "<color>"; initial-value: #0000; inherits: true; };
+@property --icon-padding { syntax: "<length-percentage>"; initial-value: 0px; inherits: true; };
+@property --icon-image { syntax: "<image>"; initial-value: linear-gradient(#0000, #0000); inherits: true; };
+
+/* WorkCenter Layout Styles */
+
+@layer workcenter {
+    .workcenter-content {
+        flex: 1;
+        min-block-size: 0;
+        block-size: stretch;
+        max-block-size: stretch;
+        box-sizing: border-box;
+        inline-size: stretch;
+        max-inline-size: stretch;
+
+        .workcenter-layout {
+            display: grid;
+            grid-template-columns: minmax(0px, 1fr);
+            grid-auto-rows: minmax(0, max-content);
+            gap: var(--space-lg);
+            block-size: max-content;
+            min-block-size: calc-size(max-content, max(size, 600px));
+            max-block-size: none;
+            inline-size: stretch;
+            max-inline-size: stretch;
+
+            @container (max-width: 1400px) {
+                gap: var(--space-md);
+            }
+
+            @container (max-width: 768px) {
+                gap: var(--space-lg);
+            }
+
+            @container (max-width: 1024px) {
+                gap: var(--space-md);
+            }
+
+            @container (max-width: 768px) {
+                gap: var(--space-sm);
+            }
+
+            .workcenter-column {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-md);
+                min-block-size: 0;
+                box-sizing: border-box;
+                inline-size: stretch;
+                max-inline-size: stretch;
+
+                &.inputs-column, &.attachments-column {
+                    order: 3;
+                }
+
+                &.results-column {
+                    order: 1;
+                }
+
+                &.prompts-column {
+                    order: 2;
+                }
+
+                .section-header {
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: var(--space-md);
+                    background: var(--basic-surface-container-low);
+                    border-radius: var(--basic-radius-sm);
+                    border: 1px solid var(--basic-outline-variant);
+
+                    display: grid;
+                    grid-template-columns: minmax(0px, 1fr) minmax(0px, max-content);
+                    grid-template-rows: minmax(max-content, 1fr);
+                    gap: var(--space-md, 0.75rem);
+                    place-self: center;
+                    min-inline-size: max-content;
+                    max-inline-size: stretch;
+                    inline-size: stretch;
+                    place-items: center;
+                    place-content: stretch;
+
+                    h3 {
+                        margin: 0;
+                        font-size: var(--text-lg);
+                        font-weight: var(--font-weight-semibold);
+                        color: var(--basic-on-surface);
+                        text-align: start;
+                        justify-self: start;
+
+                        @container (max-width: 1024px) {
+                            font-size: var(--text-base);
+                        }
+
+                        @container (max-width: 768px) {
+                            font-size: var(--text-sm);
+                        }
+                    }
+
+                    .input-actions,
+                    .result-actions {
+                        display: flex;
+                        align-items: center;
+                        gap: var(--space-sm);
+                        place-items: center;
+                        place-content: center;
+
+                        .btn {
+                            padding: var(--space-xs) var(--space-sm);
+                            font-size: var(--text-sm);
+                        }
+                    }
+                }
+
+                .attachments-section,
+                .prompts-section,
+                .results-section {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--space-md);
+                    flex: 1;
+                    min-block-size: max-content;
+                    min-block-size: calc-size(max-content, max(size, 36rem));
+                    background: var(--basic-surface-container-low);
+                    border-radius: var(--basic-radius-md);
+                    border: 1px solid var(--basic-outline-variant);
+                    padding: var(--space-md);
+                    block-size: max-content;
+                    max-block-size: none;
+                    inline-size: stretch;
+                    max-inline-size: stretch;
+                    box-sizing: border-box;
+                    overflow: hidden;
+
+                    @container (max-width: 1024px) {
+                        padding: var(--space-sm);
+                        gap: var(--space-sm);
+                    }
+
+                    @container (max-width: 768px) {
+                        padding: var(--space-xs);
+                        gap: var(--space-xs);
+                    }
+
+                    &.attachments-section,
+                    &.prompts-section {
+                        min-block-size: calc-size(max-content, max(size, 12rem));
+                    }
+
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,325 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:list";
+@use "sass:string";
+
+//
+@use "./color" as color;
+@use "./logical" as lg;
+@use "./utils" as utils;
+
+//
+@mixin _apply-surface-palette($selectors, $color: var(--on-surface-color, currentColor), $set-icon: false) {
+    #{$selectors} {
+        border-color: var(--border-color, transparent);
+        background-color: var(--surface-color, transparent);
+        color: #{$color};
+        accent-color: #{$color};
+        caret-color: #{$color};
+        text-decoration-color: #{$color};
+        text-emphasis-color: #{$color};
+        scrollbar-color: var(--scrollbar-color) transparent;
+        -webkit-text-fill-color: currentColor;
+
+        @if $set-icon {
+            --icon-color: #{$color};
+        }
+    }
+}
+
+//
+@mixin reset-vars($vars...) { @each $v in $vars { #{$v}: 0; } }
+@mixin tm-dep($property, $light, $dark) {
+    & {
+        #{$property}: color-mix(in oklch, #{$light} calc(100% * var(--tm-scheme)), #{$dark});
+        @supports(color: light-dark(white, black)) { #{$property}: light-dark(#{$light}, #{$dark}); }
+    }
+}
+
+//
+@mixin inverse {
+    & {
+        @include tm-dep("--tm-cr", var(--tm-cr-dark), var(--tm-cr-light));
+        --tm-ac: #{tm-lo(var(--tm-origin, currentColor), 80%)};
+    }
+}
+
+//
+@function tm-hi($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-hi, white)); }
+@function tm-lo($base, $percent) { @return color-mix(in oklch, #{$base} calc(100% - #{$percent}), var(--tm-lo, black)); }
+
+// Internal helpers
+@function _merge-color-options($defaults, $overrides) {
+    @if $overrides == null or meta.type-of($overrides) != "map" or list.length($overrides) == 0 {
+        @return $defaults;
+    }
+
+    @return map.merge($defaults, $overrides);
+}
+
+// Enhanced colorize mixin with scoped propagation options
+@mixin solid-colorize(
+    $selector: "&",
+    $options: (
+        "shade": 0.0,
+        "tint": 0.0,
+        "scheme-id": 2,
+        "role": null,
+        "scope": "component",
+        "propagate": null,
+        "forms-background": null,
+        "global-targets": null
+    )
+) {
+    $role: map.get($options, "role");
+    $base-shade: utils.option-or($options, "shade", 0.0);
+    $base-tint: utils.option-or($options, "tint", 0.0);
+    $scheme-id: utils.option-or($options, "scheme-id", 2);
+    $scope: utils.option-or($options, "scope", "component");
+    $propagate-default: if($scope == "selector", false, true);
+    $propagate: utils.option-or($options, "propagate", $propagate-default);
+    $forms-background: utils.option-or($options, "forms-background", $propagate);
+    $global-targets: utils.option-or($options, "global-targets", $propagate);
+
+    #{$selector} {
+        --color-shade: #{$base-shade};
+        --color-tint: #{$base-tint};
+        --color-source: var(--current, var(--primary, transparent));
+        --surface-color: --c2-surface(
+            var(--_color-shade, 0),
+            var(--color-source, var(--current, var(--primary, transparent))),
+            #{$scheme-id}
+        );
+        --on-surface-color: --c2-on-surface(
+            var(--_color-tint, 0),
+            var(--color-source, var(--current, var(--primary, transparent))),
+            #{$scheme-id}
+        );
+        --on-surface: var(--on-surface-color, currentColor); // alias
+        --scrollbar-color: oklch(from var(--on-surface-color, currentColor) l c h / 0.4);
+        --border-color: oklch(
+            from --c2-surface(
+                calc(var(--_color-shade, 0) + var(--_color-tint, 0) + 0.05),
+                var(--color-source, var(--current, var(--primary, transparent))),
+                #{$scheme-id}
+            ) l c h / 0.1
+        );
+
+        &:where(a, span, ui-icon) {
+            @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
+            --icon-color: var(--on-surface-color, currentColor);
+
+            //
+            &::selection {
+                color: var(--surface-color, currentColor);
+                --icon-color: var(--surface-color, currentColor);
+            }
+        }
+
+        &:where(button, input, select, textarea) {
+            border-style: solid;
+            border-width: 0.5px;
+        }
+
+        @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
+        @include _apply-surface-palette("&::picker(select)", var(--on-surface-color, currentColor));
+
+        @if $propagate {
+            @include _apply-surface-palette("& :where(select)", var(--on-surface-color, currentColor));
+        }
+
+        $interactive-scope: if(
+            $propagate,
+            "&:where(button, input, select, textarea, option), & :where(button, input, select, textarea, option)",
+            "&:where(button, input, select, textarea, option)"
+        );
+
+        #{$interactive-scope} {
+            @if $propagate {
+                @include _apply-surface-palette("&", var(--on-surface-color, currentColor), true);
+            }
+
+            //
+            @if $forms-background {
+                background-color: color-mix(
+                    in oklch,
+                    var(--surface-color, transparent) 96%,
+                    var(--on-surface-color, transparent) 10%
+                );
+            }
+
+            //
+            transition:
+                --_color-shade var(--transition-normal),
+                --_color-tint var(--transition-normal),
+                --surface-color var(--transition-normal),
+                --on-surface-color var(--transition-normal),
+                --border-color var(--transition-normal),
+                --scrollbar-color var(--transition-normal),
+                --icon-color var(--transition-normal),
+                border-color var(--transition-normal),
+                background-color var(--transition-normal),
+                box-shadow var(--transition-normal),
+                opacity var(--transition-normal);
+
+            //
+            & { --_color-shade: var(--color-shade, 0); };
+
+            //
+            @include utils.when-hover { --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03)); }
+            @include utils.when-active { --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05)); }
+            @include utils.when-focus { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
+            @include utils.when-focus-visible { --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02)); }
+            @include utils.when-disabled { --_color-shade: calc(var(--color-shade, 0) + var(--disabled-shade, 0.1)); }
+            @include utils.when-selected { --_color-shade: calc(var(--color-shade, 0) + var(--selected-shade, 0.04)); }
+            @include utils.when-autofill { --_color-shade: calc(var(--color-shade, 0) + var(--autofill-shade, 0.04)); }
+
+            //
+            &::placeholder {
+                --on-surface-color: oklch(
+                    from --c2-on-surface(
+                        0.0,
+                        var(--color-source, var(--current, var(--primary, transparent))),
+                        #{$scheme-id}
+                    ) l c h / 0.3
+                );
+            }
+
+            //
+            @include utils.when-autofill {
+                &, &:hover, &:focus, &:active {
+                    background-color: var(--surface-color, transparent) !important;
+                }
+            }
+
+
+            //
+            @include utils.when-selected {
+                background-color: var(--on-surface-color, transparent);
+                color: var(--surface-color, currentColor);
+                -webkit-text-fill-color: var(--surface-color, currentColor);
+                --icon-color: var(--surface-color, currentColor);
+            }
+        }
+
+        &::picker(select) {
+            background-color: transparent;
+        }
+
+        @if $global-targets {
+            ::picker(select) {
+                background-color: transparent;
+            }
+        }
+
+        @if $global-targets {
+            ui-icon {
+                background-color: transparent;
+                --icon-color: var(--on-surface-color, currentColor);
+            }
+        }
+
+        //
+        &:where(a, span, ui-icon) {
+            background-color: transparent;
+            &::selection { background-color: var(--on-surface-color, transparent); }
+        }
+
+        //
+        @if $global-targets {
+            :where(a, span, ui-icon) {
+                background-color: transparent;
+                &::selection { background-color: var(--on-surface-color, transparent); }
+            }
+        }
+    }
+}
+
+
+
+//
+@mixin veela-select-surface() {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--on-surface-color);
+    accent-color: currentColor;
+    caret-color: currentColor;
+    text-decoration-color: currentColor;
+    text-emphasis-color: currentColor;
+    scrollbar-color: var(--scrollbar-color) transparent;
+    -webkit-text-fill-color: currentColor;
+}
+
+//
+@mixin surface($shade: var(--surface-opacity-subtle)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+}
+
+//
+@mixin surface-interactive($shade: var(--surface-opacity-subtle)) {
+    @include solid-colorize("&", ("shade": $shade, "tint": 0.0));
+}
+
+//
+@mixin text-color($tint: var(--text-tint-primary)) {
+    color: --c2-on-surface($tint, var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f))));
+}
+
+//
+@mixin border-color($tint: var(--scrollbar-tint), $opacity: var(--border-opacity-default)) {
+    border-color: oklch(
+        from --c2-on-surface(
+            $tint,
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
+        ) l c h / $opacity
+    );
+}
+
+//
+@mixin backdrop-blur($strength: "default") {
+    @if $strength =="subtle" {
+        backdrop-filter: var(--backdrop-blur-subtle);
+    }
+
+    @else if $strength =="strong" {
+        backdrop-filter: var(--backdrop-blur-strong);
+    }
+
+    @else {
+        backdrop-filter: var(--backdrop-blur-default);
+    }
+}
+
+//
+@function veela-state-shade($base, $delta: null) {
+    @if $delta == null or $delta == 0 {
+        @return $base;
+    }
+
+    @if meta.type-of($delta) == number {
+        $direction: var(--interaction-tone-direction, 1);
+        @return calc(#{$base} + (#{$delta} * #{$direction}));
+    }
+
+    @return $delta;
+}
+
+//
+@function veela-selector-list($selectors) {
+    @if meta.type-of($selectors) == string {
+        @return $selectors;
+    }
+
+    $result: "";
+
+    @if meta.type-of($selectors) == list {
+        @for $i from 1 through list.length($selectors) {
+            $separator: if($i > 1, ", ", "");
+            $result: #{$result}#{$separator}#{list.nth($selectors, $i)};
+        }
+
+        @return $result;
+    }
+
+    @return $selectors;
+}

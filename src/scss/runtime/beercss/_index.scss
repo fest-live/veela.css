@@ -17,9 +17,6 @@
 // Inherit basic foundation
 @use "../basic/index" as *;
 
-// Beer CSS integrations
-@use "../advanced/integrations/beercss" as *;
-
 // Beer CSS compatible tokens
 @layer ux-tokens {
     :root {

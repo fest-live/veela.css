@@ -151,7 +151,7 @@
             pointer-events: none !important;
         }
 
-        [hidden] { display: none; }
+        [hidden] { display: none !important; }
 
         [aria-hidden="true"] {
             visibility: collapse;
@@ -487,8 +487,6 @@
                 font-weight: bold;
                 color: var(--color-link);
                 text-decoration: none;
-
-                @include when-active { text-decoration: underline; }
             }
         }
 
@@ -540,11 +538,6 @@
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
             color: var(--color-text);
-
-            @include when-focus-visible {
-                outline: 2px solid var(--color-link);
-                outline-offset: -1px;
-            }
 
             &::placeholder {
                 color: var(--color-text-secondary);

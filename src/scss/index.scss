@@ -1,4 +1,4 @@
 @forward "./lib/index";
 
-//
-@use "./runtime/index" as *;
+// Runtime styles are loaded dynamically via TypeScript (loadVeelaVariant)
+// See: runtime/index.ts for the variant loader API

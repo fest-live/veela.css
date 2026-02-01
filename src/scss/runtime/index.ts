@@ -21,8 +21,6 @@
  * ```
  */
 
-import { loadAsAdopted } from "fest/dom";
-
 // ============================================================================
 // TYPES
 // ============================================================================
@@ -44,10 +42,10 @@ let _loadedVariant: VeelaVariant | null = null;
 // VARIANT LOADERS
 // ============================================================================
 
-export { loadCoreStyles } from "./core/index";
-export { loadBasicStyles } from "./basic/index";
-export { loadAdvancedStyles } from "./advanced/index";
-export { loadBeerCssStyles } from "./beercss/index";
+import { loadCoreStyles } from "./core/index";
+import { loadBasicStyles } from "./basic/index";
+import { loadAdvancedStyles } from "./advanced/index";
+import { loadBeerCssStyles } from "./beercss/index";
 
 // ============================================================================
 // UNIFIED LOADER
@@ -67,24 +65,18 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
 
     console.log(`[Veela] Loading variant: ${variant}`);
 
+    await loadCoreStyles();
+
     switch (variant) {
-        case "core": {
-            const { loadCoreStyles } = await import("./core/index");
-            await loadCoreStyles();
-            break;
-        }
         case "basic": {
-            const { loadBasicStyles } = await import("./basic/index");
             await loadBasicStyles();
             break;
         }
         case "advanced": {
-            const { loadAdvancedStyles } = await import("./advanced/index");
             await loadAdvancedStyles();
             break;
         }
         case "beercss": {
-            const { loadBeerCssStyles } = await import("./beercss/index");
             await loadBeerCssStyles();
             break;
         }

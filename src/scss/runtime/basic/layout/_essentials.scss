@@ -69,8 +69,6 @@
 
         //
         & {
-            @include solid-colorize("&");
-
             --color-shade: 0.04;
 
             position: fixed;
@@ -93,9 +91,6 @@
 
         //
         & > * {
-            @include solid-colorize("&", ("shade": 0));
-
-            //
             pointer-events: auto;
             place-content: center;
             place-items: center;
@@ -116,18 +111,6 @@
 
             //
             --color-shade: 0.04;
-
-            @include when-hover {
-                --_color-shade: calc(var(--color-shade, 0) + var(--hover-lift, 0.03));
-            }
-
-            @include when-active {
-                --_color-shade: calc(var(--color-shade, 0) + var(--active-lift, 0.05));
-            }
-
-            @include when-focus-visible {
-                --_color-shade: calc(var(--color-shade, 0) + var(--focus-lift, 0.02));
-            }
 
             & > * {
                 pointer-events: none;
@@ -217,5 +200,157 @@
             --translate-y: 0%;
         };
     };
+
+
+    // Essential UI components (from veela runtime)
+    .ctx-menu {
+        &, * {
+            visibility: visible;
+            content-visibility: visible;
+            max-inline-size: stretch;
+            inline-size: fit-content;
+        }
+
+        & {
+            background-color: var(--basic-surface);
+            color: var(--basic-on-surface);
+            border: 1px solid var(--basic-outline-variant);
+            position: fixed;
+            min-inline-size: 160px;
+            inline-size: fit-content;
+            max-inline-size: min(240px, 100cqi);
+            block-size: fit-content;
+            z-index: 99999;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: scale3d(var(--scale, 1), var(--scale, 1), 1) translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px);
+            font-size: 0.875rem;
+            font-weight: 400;
+            border-radius: var(--basic-radius-md);
+            padding: 0.25rem 0;
+            transition: opacity 0.15s ease-out, visibility 0.15s ease-out, transform 0.15s ease-out;
+            box-shadow: var(--basic-elev-3);
+        }
+
+        // Hidden state controlled by data-hidden attribute
+        &[data-hidden] {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        & > * {
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            inline-size: stretch;
+            position: relative;
+            background-color: transparent;
+            color: var(--basic-on-surface);
+            padding: 0.375rem 0.75rem;
+            min-block-size: 2rem;
+            border: none;
+            outline: none;
+            border-radius: var(--basic-radius-sm);
+
+            text-wrap: nowrap;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            transition: background-color 0.15s ease, color 0.15s ease;
+
+            &:hover {
+                background-color: var(--basic-surface-container-high);
+                color: var(--basic-on-surface);
+            }
+
+            &:active {
+                background-color: var(--basic-surface-container-highest);
+                color: var(--basic-on-surface);
+            }
+
+            &:focus-visible {
+                outline: var(--basic-focus-ring);
+                background-color: var(--basic-surface-container-high);
+            }
+
+            & > * {
+                pointer-events: none;
+            }
+
+            &:not(.ctx-menu-separator) {
+                gap: 0.5rem;
+            }
+
+            & > span {
+                flex: 1;
+                text-align: start;
+                user-select: none;
+                pointer-events: none;
+                font-size: 0.875rem;
+                font-weight: 400;
+                line-height: 1.25;
+                color: inherit;
+            }
+
+            & > ui-icon {
+                flex-shrink: 0;
+                --icon-size: 1rem;
+                width: var(--icon-size);
+                height: var(--icon-size);
+                color: var(--basic-on-surface-variant);
+                user-select: none;
+                pointer-events: none;
+            }
+        }
+
+        & > .ctx-menu-separator, &.ctx-menu-separator {
+            height: 1px;
+            background-color: var(--basic-outline-variant);
+            opacity: 0.3;
+            pointer-events: none;
+            margin: 0.125rem 0.375rem;
+            padding: 0;
+            min-block-size: auto;
+        }
+    }
+
+
+    // Context menu anchor positioning (essential for cursor positioning)
+    .ux-anchor {
+        // fallback
+        & {
+            inset-inline-start: max(calc(var(--client-x, 0) * 1px), 0px);
+            inset-block-start: max(calc(var(--client-y, 0) * 1px), 0px);
+            inset-inline-end: auto;
+            inset-block-end: auto;
+
+            direction: ltr;
+            writing-mode: horizontal-tb;
+            translate: 0% 0% 0%;
+            transform: none;
+        };
+
+        //
+        & {
+            --shift-x: var(--client-x, 0);
+            --shift-y: var(--client-y, 0);
+            --translate-x: round(nearest, min(0px, calc(100cqi - (100% + var(--shift-x, 0) * 1px))), calc(1px / var(--pixel-ratio, 1))) !important;
+            --translate-y: round(nearest, min(0px, calc(100cqb - (100% + var(--shift-y, 0) * 1px))), calc(1px / var(--pixel-ratio, 1))) !important;
+
+            inset-inline-start: max(calc(var(--shift-x) * 1px), 0px);
+            inset-block-start: max(calc(var(--shift-y) * 1px), var(--status-bar-padding, 0px));
+            inset-inline-end: auto;
+            inset-block-end: auto;
+
+            direction: ltr;
+            translate: 0% 0% 0%;
+            writing-mode: horizontal-tb;
+            transform: none;
+        };
+    }
 
 }

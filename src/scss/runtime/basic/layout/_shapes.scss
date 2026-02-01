@@ -3,7 +3,7 @@
 @use "sass:list";
 
 //
-@use "../runtime/wavy-runtime" as *;
+@use "../../core/wavy-runtime" as *;
 
 //
 @layer ux-shapes {
@@ -65,7 +65,6 @@
         // Base Shape Container
         // ─────────────────────────────────────────────────────────────────────────
         &[data-shape] {
-            @include solid-colorize("&", ("shade": 0.1));
             contain: strict;
             overflow: hidden;
             aspect-ratio: 1 / 1;

@@ -13,16 +13,15 @@
 
 import { loadAsAdopted } from "fest/dom";
 
+import styles from "./index.scss?inline";
+
 /**
  * Load core veela styles (normalize + layout + states)
  */
 export async function loadCoreStyles(): Promise<void> {
     try {
-        const coreStyles = await import("./_index.scss?inline");
-        if (coreStyles.default) {
-            await loadAsAdopted(coreStyles.default);
-            console.log("[Veela/Core] Core styles loaded");
-        }
+        await loadAsAdopted(styles);
+        console.log("[Veela/Core] Core styles loaded");
     } catch (e) {
         console.warn("[Veela/Core] Failed to load core styles:", e);
     }

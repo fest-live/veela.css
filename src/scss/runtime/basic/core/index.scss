@@ -5,8 +5,7 @@
  * Uses @use for modern SCSS module imports.
  */
 
-@use "../scss/normalize";
-@use "../scss/utilities";
+@use "../../core/normalize";
 
 // ============================================================================
 // CSS VARIABLES

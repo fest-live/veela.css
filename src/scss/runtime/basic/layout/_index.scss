@@ -1,6 +1,2 @@
-@use "./normalize" as *;
-@use "./core-layout" as *;
-@use "./states" as *;
-@use "./orientbox" as *;
-@use "./gridbox" as *;
-@use "./layout" as *;
+@forward "./essentials";
+@forward "./shapes";

@@ -25,7 +25,7 @@ For backwards compatibility and Beer CSS compatibility:
 
 | Class | Description |
 |-------|-------------|
-| `basic-app` | Basic application container |
+| `shell-basic` | Basic application container |
 | `ctx-menu` | Context menu |
 | `ux-anchor` | Anchor positioning |
 
@@ -137,10 +137,10 @@ When using `veela-beercss`, these additional classes are available:
 
 ```css
 /* Old */
-.basic-app { ... }
+.shell-basic { ... }
 .card-wrap { ... }
 
 /* New (unchanged for compatibility) */
-.basic-app { ... }
+.shell-basic { ... }
 .vc-card-wrap { ... }
 ```

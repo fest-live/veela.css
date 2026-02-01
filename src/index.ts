@@ -3,21 +3,12 @@
 // =============================================================================
 
 // Runtime module (styles, fonts, observers)
-export * from "./scss/runtime/advanced/index";
-export {
-    initialize,
-    loadStyles,
-    loadFonts,
-    initObservers,
-    isInitialized,
-    getStyleSheet,
-    ensureRuntimeStyleSheet,
-    type InitOptions
-} from "./scss/runtime/advanced/index";
+export * from "./scss/runtime/index";
+export { loadVeelaVariant } from "./scss/runtime/index";
 
 // Font utilities
 export * from "./ts/font-loader";
 
 // Default export for backwards compatibility
-import forDefault from "./scss/runtime/advanced/index";
+import forDefault from "./scss/runtime/index";
 export default forDefault;

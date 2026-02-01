@@ -12,7 +12,7 @@
 
     //
     .ui-gridlayout {
-        @include compute_orient_grid_layout();
+        @include compute-orient-grid-layout();
 
         //
         & {
@@ -74,7 +74,7 @@
 
         //
         & > :where(*) {
-            @include compute_grid_item_cell();
+            @include compute-grid-item-cell();
 
             // calculate visible size
             & { --item-size: clamp(4rem, calc(100cqmax / min(var(--cs-layout-c, 4), var(--cs-layout-r, 8))), 5rem); }

@@ -14,12 +14,14 @@
 
 @use "../layers" as *;
 
-// Core foundation
-@use "./normalize" as *;
-@use "./core-layout" as *;
-@use "./layout" as *;
-@use "./states" as *;
+// Grid and orientation systems
+@use "./misc/orientation-functions" as *;
+@use "./misc/properties" as *;
+@use "./misc/wavy-runtime" as *;
 
 // Grid and orientation systems
-@use "./gridbox" as *;
-@use "./orientbox" as *;
+@use "./layout/normalize" as *;
+@use "./layout/core-layout" as *;
+@use "./layout/states" as *;
+@use "./layout/gridbox" as *;
+@use "./layout/orientbox" as *;

@@ -1,4 +1,5 @@
-@use "veela-lib" as *;
+/*@use "veela-lib" as *;*/
+@use "./shared" as *;
 
 /* ==========================================================================
    Unified Normalize Styles - Cross-browser consistency and modern defaults
@@ -6,13 +7,11 @@
 
 @layer reset {
 
-    /* Remove default margin and padding */
+    /* Box model reset (universal) */
     *,
     *::before,
     *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+        @include reset-box-model;
     }
 
     /* Remove list styles */
@@ -47,12 +46,9 @@
         text-rendering: optimizeLegibility;
     }
 
-    /* Focus styles */
+    /* Focus styles (M3-style, no outline) */
     :focus-visible {
-        /* M3-style focus without outlines/borders */
-        outline: none;
-        box-shadow: var(--basic-focus-ring, 0 0 0 3px color-mix(in oklab, var(--basic-primary, #0066cc) 35%, transparent));
-        border-radius: var(--basic-radius-sm, 8px);
+        @include focus-ring();
     }
 
     /* Remove focus outline for mouse users */
@@ -75,10 +71,8 @@
     optgroup,
     select,
     textarea {
-        font-family: inherit;
-        font-size: 100%;
+        @include reset-form-appearance;
         line-height: 1.15;
-        margin: 0;
     }
 
     button,
@@ -237,8 +231,7 @@
     }
 
     input, textarea, select, button, option {
-        border: none 0px transparent;
-        outline: none 0px transparent;
+        @include reset-borders;
         accent-color: var(--basic-primary, currentColor);
         font-variant-emoji: text;
     }
@@ -357,10 +350,7 @@
 
             min-block-size: 0px;
             min-inline-size: 0px;
-            max-inline-size: min(100cqi, 100dvi) !important;
-            max-block-size: min(100cqb, 100dvb) !important;
-            inline-size: min(100cqi, 100dvi);
-            block-size: min(100cqb, 100dvb);
+            @include stretch-viewport;
 
             contain: strict;
             overflow: hidden;
@@ -397,22 +387,11 @@
         }
 
         /* ====================================================================
-           Scrollbars (consolidated)
+           Scrollbars (consolidated: webkit + Firefox)
            ==================================================================== */
 
         :where(body, main, aside, pre, code, textarea, [data-scrollable], .scrollable) {
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-scrollbar, currentColor) transparent;
-
-            &::-webkit-scrollbar {
-                inline-size: var(--scrollbar-size, 8px);
-                block-size: var(--scrollbar-size, 8px);
-            }
-            &::-webkit-scrollbar-track { background: transparent; }
-            &::-webkit-scrollbar-thumb {
-                background-color: var(--color-scrollbar, currentColor);
-                border-radius: var(--border-radius, 4px);
-            }
+            @include scrollbar-styling();
         }
 
         /* ====================================================================
@@ -497,12 +476,7 @@
            ==================================================================== */
 
         :where(button, input, optgroup, select, textarea) {
-            font: inherit;
-            color: inherit;
-            letter-spacing: inherit;
-            margin: 0;
-            border: none;
-            outline: none;
+            @include reset-form-appearance;
         }
 
         :where(button, [type="button"], [type="reset"], [type="submit"]) {
@@ -568,9 +542,7 @@
            ==================================================================== */
 
         :where(img, video, canvas, svg, picture) {
-            display: block;
-            max-inline-size: 100%;
-            block-size: auto;
+            @include media-sizing;
         }
 
         :where(img, video) {
@@ -635,10 +607,7 @@
         }
 
         :where(code, samp, kbd) {
-            background-color: var(--bgColor-muted);
-            border-radius: 0.3em;
-            padding: 0.2em 0.4em;
-            font-size: 85%;
+            @include code-styling();
         }
 
         :where(pre) {
@@ -747,10 +716,7 @@
         }
 
         :where(nav) {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            @include flex-row-wrap();
             margin-block-end: 3rem;
 
             ul {

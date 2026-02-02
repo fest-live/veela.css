@@ -3,9 +3,6 @@
 @use "sass:list";
 
 //
-@use "../../core/wavy-runtime" as *;
-
-//
 @layer ux-shapes {
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -273,8 +270,6 @@
             --clip-path: #{Integrate("wavy-step", 100)};
             --corrector: 1.1;*/
             --border-radius: calc(var(--icon-size, 100%) * 0.5);
-
-            @include wavy-shaped(100);
         }
     }
 

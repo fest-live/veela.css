@@ -1,0 +1,118 @@
+/**
+ * Design Tokens - Centralized Constants
+ * 
+ * Consolidates design-system-level constants used across buttons, forms,
+ * and other interactive elements.
+ * 
+ * Contains:
+ * - State opacity values (hover, press, focus, disabled, drag)
+ * - Motion/timing defaults (duration, easing)
+ * - Shared styling constants
+ */
+
+@use "sass:map";
+
+// ============================================================================
+// State Opacity Tokens
+// ============================================================================
+// Used across buttons, forms, inputs, and interactive elements
+
+$state-opacity-hover: 0.08 !default;
+$state-opacity-press: 0.12 !default;
+$state-opacity-focus: 0.12 !default;
+$state-opacity-disabled: 0.38 !default;
+$state-opacity-drag: 0.16 !default;
+
+$state-opacity-map: (
+    hover: $state-opacity-hover,
+    press: $state-opacity-press,
+    focus: $state-opacity-focus,
+    disabled: $state-opacity-disabled,
+    drag: $state-opacity-drag,
+) !default;
+
+// ============================================================================
+// Motion/Timing Tokens
+// ============================================================================
+// Used for transitions on interactive elements
+
+$duration-fast: 140ms !default;
+$duration-normal: 160ms !default;
+$duration-slow: 200ms !default;
+
+$motion-timing-map: (
+    fast: $duration-fast,
+    normal: $duration-normal,
+    slow: $duration-slow,
+) !default;
+
+$ease-out: cubic-bezier(0, 0, 0.2, 1) !default;
+$ease-in: cubic-bezier(0.4, 0, 1, 1) !default;
+$ease-in-out: cubic-bezier(0.4, 0, 0.2, 1) !default;
+
+// ============================================================================
+// Button & Form Styling Tokens
+// ============================================================================
+
+$button-gap: var(--gap-sm) !default;
+$button-padding-y: var(--padding-sm) !default;
+$button-padding-x: var(--padding-lg) !default;
+$button-radius: var(--radius-full) !default;
+$button-min-height: fit-content !default;
+
+$input-gap: var(--space-sm) !default;
+$input-padding: var(--padding-sm) !default;
+$input-padding-x: var(--padding-md) !default;
+
+// ============================================================================
+// Mixin: Export state opacity CSS variables
+// ============================================================================
+
+///
+/// Exports state opacity values as CSS custom properties.
+/// Centralizes opacity values used across interactive elements.
+///
+/// @param {map} $map - Opacity map (default: $state-opacity-map)
+///
+@mixin export-state-opacity(
+    $map: $state-opacity-map
+) {
+    @each $state, $value in $map {
+        --state-opacity-#{$state}: #{$value};
+    }
+}
+
+// ============================================================================
+// Mixin: Export motion timing CSS variables
+// ============================================================================
+
+///
+/// Exports motion timing values as CSS custom properties.
+/// Centralizes duration and easing used for transitions.
+///
+/// @param {map} $timing-map - Timing map (default: $motion-timing-map)
+///
+@mixin export-motion-timing(
+    $timing-map: $motion-timing-map
+) {
+    @each $type, $duration in $timing-map {
+        --duration-#{$type}: #{$duration};
+    }
+
+    --ease-out: #{$ease-out};
+    --ease-in: #{$ease-in};
+    --ease-in-out: #{$ease-in-out};
+}
+
+// ============================================================================
+// Mixin: Export all design tokens
+// ============================================================================
+
+///
+/// Convenience mixin to export all design tokens at once.
+/// Useful for setting up root or component-level defaults.
+///
+@mixin export-design-tokens() {
+    @include export-state-opacity();
+    @include export-motion-timing();
+}

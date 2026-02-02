@@ -28,9 +28,6 @@
    Main SCSS Entry Point - Modern Atomic Design System
    ========================================================================== */
 
-@use "basic.scss";
-@use "settings.scss";
-
 @layer reset, base, components, settings, layout, utilities;
 
 /* ==========================================================================

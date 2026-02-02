@@ -4,6 +4,9 @@
 @use "sass:meta";
 @use "sass:string";
 
+// Re-export unified property registration system
+@use "./register-properties" as *;
+
 //
 @function option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
@@ -65,62 +68,4 @@
 @mixin hover($selector: "&") {
     @include when-hover { #{$selector}:hover { @content; } }
     @include when-active { #{$selector}:active { @content; } }
-}
-
-
-
-///
-/// Registers a single CSS Custom Property via the Properties & Values API.
-/// Accepts either:
-/// - a map: ("syntax": "<color>", "initial": currentColor, "inherits": false)
-/// - or explicit keyword arguments via a map provided with merge utilities.
-///
-/// Supported keys:
-/// - syntax: string value describing the syntax
-/// - initial or initial-value: default value for the property
-/// - inherits: boolean flag (defaults to true)
-///
-@mixin register-property($name, $definition) {
-    $config: if(meta.type-of($definition) == "map", $definition, ());
-
-    $defaultByType: (
-        "integer": 0,
-        "number": 0.0,
-        "color": #0000,
-        "boolean": false,
-        "string": "",
-        "length": 0px,
-        "length-percentage": 0px,
-        "angle": 0deg
-    );
-
-    $syntax: map.get($config, "syntax") or "<number>";
-    $initial: if(
-        map.has-key($config, "initial-value"),
-        map.get($config, "initial-value"),
-        map.get($config, "initial")
-    ) or option-or($defaultByType, $syntax, 0.0);
-    $inherits: if(map.has-key($config, "inherits"), map.get($config, "inherits"), true);
-
-    @property #{$name} {
-        @if $syntax != null { syntax: "#{$syntax}"; }
-        @if $inherits != null { inherits: $inherits; }
-        @if $initial != null { initial-value: #{$initial}; }
-    }
-}
-
-///
-/// Registers multiple CSS Custom Properties at once.
-/// Accepts any number of maps. Each map entry should follow the format used by `register-property`.
-///
-@mixin register-properties($bundles...) {
-    @each $bundle in $bundles {
-        @if meta.type-of($bundle) == "map" {
-            @each $name, $definition in $bundle {
-                @include register-property($name, $definition);
-            }
-        } @else if $bundle != null {
-            @warn "register-properties expects map entries, received #{meta.type-of($bundle)}.";
-        }
-    }
 }

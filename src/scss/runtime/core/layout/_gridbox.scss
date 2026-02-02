@@ -1,4 +1,5 @@
 @use "veela-lib" as *;
+@use "./shared" as *;
 
 //
 @property --item-size {
@@ -134,11 +135,8 @@
                 max-block-size: var(--item-size, stretch);
 
                 //
-                pointer-events: none;
-                touch-action: none;
-                user-select: none;
-                -webkit-user-drag: none;
-                -moz-user-drag: none;
+                @include disable-interaction;
+                @include no-drag;
 
                 //
                 overflow: visible;
@@ -146,8 +144,7 @@
                 isolation: isolate;
 
                 //
-                border: none 0px transparent;
-                outline: none 0px transparent;
+                @include reset-borders;
             }
 
             //
@@ -162,11 +159,9 @@
                 background-image: none;
 
                 //
-                pointer-events: none;
-                border: none 0px transparent;
-                outline: none 0px transparent;
+                @include disable-interaction;
+                @include reset-borders;
                 box-shadow: none;
-                touch-action: none;
                 filter: none;
             }
 
@@ -220,10 +215,7 @@
 
             //
             & > :where(.ui-ws-item-label) {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
+                @include flex-column-center;
                 gap: clamp(0.1rem, 0.35cqmin, 0.35rem);
                 inline-size: 100%;
                 block-size: stretch;
@@ -241,12 +233,11 @@
 
                 //
                 span {
-                    pointer-events: none;
-                    user-select: none;
+                    @include disable-interaction;
                     max-inline-size: min(8ch, 100%);
                     opacity: clamp(0.75, 0.9, 1);
-                    contain: layout paint; // Optimization: isolate layout/paint
-                    content-visibility: auto; // Optimization: skip offscreen work
+                    contain: layout paint;
+                    content-visibility: auto;
                     background-image: none;
                 }
             }

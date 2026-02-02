@@ -14,6 +14,9 @@
 
 @use "../layers" as *;
 
+// Shared utilities (mixins, placeholders, common patterns)
+@use "./layout/shared" as *;
+
 // Grid and orientation systems
 @use "./misc/orientation-functions" as *;
 @use "./misc/properties" as *;

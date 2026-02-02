@@ -20,7 +20,6 @@ $emoji-to-icon: (
     "✏️": "pencil-simple",
     "⚡": "lightning",
     "⚙️": "gear",
-    "🎨": "palette",
     "🖼️": "image",
     "📄": "file-text",
     "📋": "clipboard-text",
@@ -38,14 +37,12 @@ $emoji-to-icon: (
     "🎯": "target",
     "🔧": "wrench",
     "📁": "folder",
-    "🗂️": "folders",
     "🎪": "tent",
     "📊": "chart-bar",
     "📈": "trend-up",
     "📉": "trend-down",
     "📌": "push-pin",
     "🔗": "link",
-    "🔔": "bell",
     "💡": "lightbulb",
     "🌙": "moon",
     "☀️": "sun",
@@ -53,8 +50,7 @@ $emoji-to-icon: (
     "🔒": "lock",
     "🔓": "lock-open",
     "🔔": "bell",
-    "🎨": "paint-brush",
-    "💡": "lightbulb"
+    "🎨": "paint-brush"
 );
 
 /// Get icon name from emoji

@@ -1,2 +1,6 @@
-@forward "./essentials";
-@forward "./shapes";
+@use "./config" as *;
+@use "./properties" as *;
+@use "./normalize" as *;
+@use "./utilities" as *;
+@use "./shapes" as *;
+@use "./icons" as *;

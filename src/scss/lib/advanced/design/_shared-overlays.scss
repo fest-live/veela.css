@@ -1,0 +1,162 @@
+/**
+ * Shared Overlay & State Patterns
+ * 
+ * Consolidates button and form state overlay mixins that were previously
+ * duplicated across _buttons.scss, _forms.scss, and _colorize.scss.
+ * 
+ * Provides reusable patterns for:
+ * - State overlays (hover, press, active, focus)
+ * - Focus rings with consistent styling
+ * - Icon button sizing
+ */
+
+@use "sass:map";
+@use "./utils" as utils;
+@use "./color" as color;
+
+// ============================================================================
+// Shared state opacity defaults (used across buttons, forms, inputs)
+// ============================================================================
+
+$state-opacity-defaults: (
+    hover: 0.08,
+    press: 0.12,
+    focus: 0.12,
+    disabled: 0.38,
+    drag: 0.16,
+) !default;
+
+// ============================================================================
+// Base overlay structure (shared placeholder for reusability)
+// ============================================================================
+
+%overlay-base {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: normal;
+}
+
+// ============================================================================
+// Mixin: State overlay (for buttons, forms, and interactive elements)
+// ============================================================================
+
+///
+/// Creates state-aware overlays for hover and press states.
+/// Used by buttons, form controls, and other interactive elements.
+///
+/// @param {color} $fallback-color - Base color for overlay calculation
+/// @param {number} $hover-opacity - Hover state opacity (default: var(--state-opacity-hover, 0.08))
+/// @param {number} $press-opacity - Press/active state opacity (default: var(--state-opacity-press, 0.12))
+///
+@mixin state-overlay(
+    $fallback-color,
+    $hover-opacity: var(--state-opacity-hover, 0.08),
+    $press-opacity: var(--state-opacity-press, 0.12)
+) {
+    position: relative;
+    overflow: hidden;
+
+    &::after,
+    &::before {
+        @extend %overlay-base;
+    }
+
+    // Hover overlay
+    &::after {
+        opacity: 0;
+        transition: opacity var(--duration-normal) var(--ease-out);
+        background-color: color-mix(
+            in oklch,
+            $fallback-color calc(#{$hover-opacity} * 100%),
+            transparent
+        );
+    }
+
+    // Press/active overlay
+    &::before {
+        opacity: 0;
+        transition: opacity var(--duration-fast) var(--ease-out);
+        background-color: color-mix(
+            in oklch,
+            $fallback-color calc(#{$press-opacity} * 100%),
+            transparent
+        );
+    }
+
+    // Apply overlays on interaction
+    @include utils.when-hover { &::after { opacity: 1; } }
+    @include utils.when-active { &::before { opacity: 1; } }
+}
+
+// ============================================================================
+// Mixin: Focus ring (accessible focus indicator)
+// ============================================================================
+
+///
+/// Creates an accessible focus ring with consistent styling.
+/// Used across buttons, form inputs, and interactive elements.
+///
+/// @param {color} $state-color - Color for focus ring (default: var(--md-button-state-color, var(--md-primary)))
+/// @param {number} $opacity - Focus opacity (default: var(--state-opacity-focus, 0.12))
+///
+@mixin focus-ring(
+    $state-color: var(--md-button-state-color, var(--md-primary)),
+    $opacity: var(--state-opacity-focus, 0.12)
+) {
+    @include utils.when-focus {
+        outline: 2px solid color-mix(
+            in oklch,
+            $state-color calc(#{$opacity} * 100%),
+            transparent
+        );
+        outline-offset: 3px;
+    }
+}
+
+// ============================================================================
+// Mixin: Icon button sizing (square button for icon-only buttons)
+// ============================================================================
+
+///
+/// Sizes icon-only buttons as squares with centered content.
+/// Commonly used for toolbar buttons, FABs, and icon-only controls.
+///
+/// @param {length} $size - Button size (default: var(--icon-size-lg))
+///
+@mixin icon-button(
+    $size: var(--icon-size-lg)
+) {
+    min-inline-size: $size;
+    min-block-size: $size;
+    inline-size: $size;
+    block-size: $size;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+
+    & > :where(ui-icon, svg) {
+        inline-size: 60%;
+        block-size: 60%;
+    }
+}
+
+// ============================================================================
+// Mixin: Export state opacity tokens
+// ============================================================================
+
+///
+/// Exports state opacity values as CSS custom properties.
+/// Centralizes opacity values for buttons, forms, and other interactive elements.
+///
+/// @param {map} $map - Opacity map (default: $state-opacity-defaults)
+///
+@mixin export-state-opacity-vars(
+    $map: $state-opacity-defaults
+) {
+    @each $state, $value in $map {
+        --state-opacity-#{$state}: #{$value};
+    }
+}

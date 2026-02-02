@@ -1,5 +1,5 @@
 @use "sass:string";
-@use "./function-utils" as func;
+@use "veela-lib" as func;
 
 //
 @function css-rem($value, $mod) {

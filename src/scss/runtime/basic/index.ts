@@ -13,14 +13,15 @@
 
 import { loadAsAdopted } from "fest/dom";
 
+import basicStyles from "./index.scss?inline";
+
 /**
  * Load basic veela styles
  */
 export async function loadBasicStyles(): Promise<void> {
     try {
-        const basicStyles = await import("./_index.scss?inline");
-        if (basicStyles.default) {
-            await loadAsAdopted(basicStyles.default);
+        if (basicStyles) {
+            await loadAsAdopted(basicStyles);
             console.log("[Veela/Basic] Basic styles loaded");
         }
     } catch (e) {

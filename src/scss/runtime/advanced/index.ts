@@ -13,14 +13,15 @@
 
 import { loadAsAdopted } from "fest/dom";
 
+import advancedStyles from "./index.scss?inline";
+
 /**
  * Load advanced veela styles
  */
 export async function loadAdvancedStyles(): Promise<void> {
     try {
-        const advancedStyles = await import("./index.scss?inline");
-        if (advancedStyles.default) {
-            await loadAsAdopted(advancedStyles.default);
+        if (advancedStyles) {
+            await loadAsAdopted(advancedStyles);
             console.log("[Veela/Advanced] Advanced styles loaded");
         }
     } catch (e) {

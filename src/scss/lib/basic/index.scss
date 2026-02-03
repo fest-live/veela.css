@@ -7,9 +7,7 @@
 
 // Configuration and tokens
 @forward "./config";
-@forward "./tokens";
-@forward "./props";
-@forward "./typed-properties";
+@forward "./properties";
 
 // Mixins
 @forward "./mixins";

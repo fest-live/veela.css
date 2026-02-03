@@ -708,7 +708,7 @@
         :where(footer, header, main) {
             margin-inline: auto;
             max-inline-size: var(--width-content);
-            padding: 2rem 1rem;
+            padding: 0px;
         }
 
         :where(header) {
@@ -717,7 +717,7 @@
 
         :where(nav) {
             @include flex-row-wrap();
-            margin-block-end: 3rem;
+            margin-block-end: 0px;
 
             ul {
                 display: flex;

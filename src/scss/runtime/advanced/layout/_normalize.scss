@@ -361,7 +361,7 @@
         :where(footer, header, main) {
             margin-inline: auto;
             max-inline-size: var(--width-content);
-            padding: 2rem 1rem;
+            padding: 0px;
         }
 
         :where(section) {
@@ -394,7 +394,7 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            margin-block-end: 3rem;
+            margin-block-end: 0px;
 
             ul {
                 display: flex;

@@ -47,13 +47,6 @@
             max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
             max-block-size: min(100%, min(100cqb, 100dvb)) !important;
 
-            //
-            /*outline-color: oklch(from var(--on-surface-color) l c h / 0.1);
-            outline-width: 1px;
-            outline-style: solid;
-            outline-offset: -1px;*/
-
-            //
             border-radius: var(--radius-lg);
         }
 

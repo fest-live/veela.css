@@ -42,15 +42,6 @@ const kMeans = (data, k) => {
 
     //
     const maxIterations = 10;
-    /*for (let iteration = 0; iteration < maxIterations; iteration++) {
-        let clusters = makeClusters(data, centroids);
-        centroids = clusters.map((cluster, i) => {
-            if (cluster.points.length < 1) { return centroids[i]; };
-            return computeMean(cluster.points);
-        }) as [number, number, number][];
-    }
-    */
-
     for (let iteration = 0; iteration < maxIterations; iteration++) {
         let clusters = makeClusters(data, centroids);
         const newCentroids = clusters.map((cluster) => (cluster.points.length > 0 ? computeMean(cluster.points) : null));
@@ -68,21 +59,7 @@ const kMeans = (data, k) => {
     return centroids;
 }
 
-// uniform colors with random ranging
-/*const initializeCentroids = (data: [number, number, number][], k): [number, number, number][] => {
-    const centroids: [number, number, number][] = [];
-    const usedIndices = new Set();
-    while (centroids.length < k) {
-        const index = Math.floor(((centroids.length + Math.random()) / k) * data.length);
-        if (!usedIndices.has(index)) {
-            usedIndices.add(index);
-            centroids.push(data[index]);
-        }
-    }
-    return centroids;
-}*/
-
-//
+// k-means++ initialization for better centroid selection
 const initializeCentroids = (data: [number, number, number][], k): [number, number, number][] => {
     const centroids: [number, number, number][] = [data[Math.floor(Math.random() * data.length)]];
 
@@ -141,9 +118,9 @@ const getClusterImageData = async (imgURL)=>{
     const fp32: any[] = [];
     for (let s=0;s<allCount;s++) {
         // TODO: more smart method for color selection
-        const i4 = s*4;//Math.floor((s + Math.random()) / (samCount * allCount)), i4 = i*4;
+        const i4 = s * 4;
 
-        // @ts-ignore
+        // @ts-expect-error Float16Array may not be in all TS libs
         fp32.push((data instanceof Float32Array || data instanceof Float16Array) ? [
             (data?.[i4+0]||0),
             (data?.[i4+1]||0),
@@ -156,7 +133,7 @@ const getClusterImageData = async (imgURL)=>{
     }
 
     //
-    return fp32;//sortColors(fp32);
+    return fp32;
 }
 
 // STEP-2 - get K-means by required counts

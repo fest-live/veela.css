@@ -22,7 +22,7 @@
 @use "./misc/properties" as *;
 @use "./misc/wavy-runtime" as *;
 
-// Grid and orientation systems
+// Normalize, layout, and state management
 @use "./layout/normalize" as *;
 @use "./layout/core-layout" as *;
 @use "./layout/states" as *;

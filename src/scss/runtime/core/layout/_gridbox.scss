@@ -23,7 +23,6 @@
 
         //
         & {
-            //display: block flow;
             display: block grid !important;
             position: relative !important;
 
@@ -57,12 +56,6 @@
             //
             grid-template-columns: repeat(round(nearest, var(--cs-layout-c, 4), 1), minmax(0px, 1fr)) !important;
             grid-template-rows: repeat(round(nearest, var(--cs-layout-r, 8), 1), minmax(0px, 1fr)) !important;
-
-            //
-            /*justify-content: safe start !important;
-            align-content: safe start !important;
-            justify-items: safe start !important;
-            align-items: safe start !important;*/
 
             place-content: center !important;
             place-items: center !important;

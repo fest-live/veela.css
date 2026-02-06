@@ -1,6 +1,5 @@
 @use "sass:map";
 @use "veela-lib" as *;
-@use "veela-lib" as cfg;
 @use "veela-lib" as mixins;
 
 
@@ -763,12 +762,6 @@
 
     .pointer-events-auto {
         pointer-events: auto;
-    }
-
-    .truncate {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 
     .line-clamp-1 {

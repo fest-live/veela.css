@@ -2,11 +2,10 @@ import { DOMMixin } from "fest/dom";
 
 //
 export class ThinSlider extends DOMMixin {
-    constructor(name?) { super(name); }
+    constructor(name?: string) { super(name); }
 
-    // @ts-ignore
-    connect(self) { // @ts-ignore
-
+    connect(_self: unknown) {
+        // TODO: implement thin slider connection logic
     }
 }
 

@@ -3,31 +3,11 @@
 //
 $cps: 0.0001;
 
-//
-//@function abs($a) { @return string.unquote("max(#{$a}, calc(-1 * #{$a}))"); }
-//@function sign($a) { @return string.unquote("round(to-zero, clamp(-1, calc(#{$a} / max(#{abs($a)}, #{$cps})), 1), 1)"); }
 @function mix($a, $b, $i) { @return string.unquote("calc(#{$b} * #{$i} + #{$a} * calc(1 - #{$i}))"); }
-
-//
 @function abs($a) { @return string.unquote("abs(#{$a})"); }
 @function sign($a) { @return string.unquote("sign(#{$a})"); }
-
-//
-@function land($a, $b) {
-    @return string.unquote("calc(#{$a} * #{$b})"); // make our logic simpler
-    //@return string.unquote("round(to-zero, clamp(0, calc(calc(#{$a} * #{$b}) * 10000), 1), 1)");
-}
-
-//
-@function lor($a, $b) {
-    @return string.unquote("max(#{$a}, #{$b})"); // make our logic simpler
-    //@return string.unquote("round(to-zero, clamp(0, calc(max(#{$a}, #{$b}) * 10000), 1), 1)");
-}
-
-// currently un-used...
-@function lenToNum($l, $d: 1px) {
-    @return string.unquote("tan(atan2(#{$l}, #{$d}))");
-}
+@function land($a, $b) { @return string.unquote("calc(#{$a} * #{$b})"); }
+@function lor($a, $b) { @return string.unquote("max(#{$a}, #{$b})"); }
 
 //
 @function inv-mul($a, $b) {

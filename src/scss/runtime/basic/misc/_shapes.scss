@@ -1,6 +1,4 @@
 @use "veela-lib" as *;
-@use "sass:math";
-@use "sass:list";
 
 //
 @layer ux-shapes {
@@ -264,11 +262,6 @@
 
         // Wavy - procedural wavy edge (uses Integrate function)
         &[data-shape="wavy"] {
-            /*
-            --clip-amplitude: 0.05;
-            --clip-freq: 8;
-            --clip-path: #{Integrate("wavy-step", 100)};
-            --corrector: 1.1;*/
             --border-radius: calc(var(--icon-size, 100%) * 0.5);
         }
     }

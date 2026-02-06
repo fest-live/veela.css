@@ -654,7 +654,7 @@
     }
 
     .aspect-video {
-        @include mixins.aspect-ratio(16 / 9);
+        @include mixins.aspect-ratio(#{"16 / 9"});
     }
 
     .inline-size-full {

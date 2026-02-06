@@ -1,8 +1,12 @@
 /* ==========================================================================
-   Typed custom properties (Chromium)
-   - Enables per-element overrides with better interpolation/validation
-   - Keep syntax conservative: <length>, <length-percentage>, <color>, <number>
+   Design tokens & typed custom properties
+   - @layer base:   Chromium @property registrations (interpolation/validation)
+   - @layer tokens:  All design tokens (structural, color, component)
    ========================================================================== */
+
+// ============================================================================
+// LAYER: base — @property registrations
+// ============================================================================
 
 @layer base {
 
@@ -101,405 +105,431 @@
     }
 }
 
+// ============================================================================
+// Theme color mixins (private DRY helpers — no CSS output on their own)
+// ============================================================================
+
+/// Light-theme color primitives + derived view tokens
+@mixin -theme-light {
+    // ── Material You primitives ──────────────────────────────────────
+    --basic-primary: #5a7fff;
+    --basic-on-primary: #ffffff;
+    --basic-secondary: #6b7280;
+    --basic-on-secondary: #ffffff;
+    --basic-tertiary: #64748b;
+    --basic-on-tertiary: #ffffff;
+    --basic-error: #ef4444;
+    --basic-on-error: #ffffff;
+    --basic-success: #4caf50;
+    --basic-warning: #ff9800;
+    --basic-info: #2196f3;
+
+    --basic-background: #fafbfc;
+    --basic-on-background: #1e293b;
+    --basic-surface: #fafbfc;
+    --basic-on-surface: #1e293b;
+    --basic-surface-variant: #f1f5f9;
+    --basic-on-surface-variant: #64748b;
+    --basic-outline: #cbd5e1;
+    --basic-outline-variant: #94a3b8;
+
+    // ── Surface containers (primary-tinted) ──────────────────────────
+    --basic-surface-container-low:     color-mix(in oklab, var(--basic-surface) 96%, var(--basic-primary) 4%);
+    --basic-surface-container:         color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
+    --basic-surface-container-high:    color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
+    --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
+    --basic-border: color-mix(in oklab, var(--basic-outline-variant) 75%, transparent);
+
+    // ── View-level tokens ────────────────────────────────────────────
+    --view-bg: var(--basic-surface);
+    --view-fg: var(--basic-on-surface);
+    --view-border: var(--basic-outline-variant);
+    --view-input-bg: #ffffff;
+    --view-files-bg: rgba(0, 0, 0, 0.02);
+    --view-file-bg: rgba(0, 0, 0, 0.03);
+    --view-results-bg: rgba(0, 0, 0, 0.01);
+    --view-result-bg: rgba(0, 0, 0, 0.03);
+}
+
+/// Dark-theme color primitives + derived view tokens
+@mixin -theme-dark {
+    // ── Material You primitives ──────────────────────────────────────
+    --basic-primary: #7ca7ff;
+    --basic-on-primary: #0f172a;
+    --basic-secondary: #94a3b8;
+    --basic-on-secondary: #1e293b;
+    --basic-tertiary: #94a3b8;
+    --basic-on-tertiary: #0f172a;
+    --basic-error: #f87171;
+    --basic-on-error: #450a0a;
+    --basic-success: #66bb6a;
+    --basic-warning: #ffa726;
+    --basic-info: #42a5f5;
+
+    --basic-background: #0f1419;
+    --basic-on-background: #f1f5f9;
+    --basic-surface: #0f1419;
+    --basic-on-surface: #f1f5f9;
+    --basic-surface-variant: #1e293b;
+    --basic-on-surface-variant: #cbd5e1;
+    --basic-outline: #475569;
+    --basic-outline-variant: #334155;
+
+    // ── Surface containers (primary-tinted) ──────────────────────────
+    --basic-surface-container-low:     color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
+    --basic-surface-container:         color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
+    --basic-surface-container-high:    color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
+    --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 80%, var(--basic-primary) 20%);
+    --basic-border: color-mix(in oklab, var(--basic-outline-variant) 70%, transparent);
+
+    // ── View-level tokens ────────────────────────────────────────────
+    --view-bg: var(--basic-surface);
+    --view-fg: var(--basic-on-surface);
+    --view-border: var(--basic-outline-variant);
+    --view-input-bg: var(--basic-surface-container-high);
+    --view-files-bg: var(--basic-surface-container-low);
+    --view-file-bg: var(--basic-surface-container-lowest);
+    --view-results-bg: var(--basic-surface-container-low);
+    --view-result-bg: var(--basic-surface-container-lowest);
+}
+
+// ============================================================================
+// LAYER: tokens — Unified design tokens
+// ============================================================================
+
 @layer tokens {
 
+    // ──────────────────────────────────────────────────────────────────────
+    // STRUCTURAL + SEMANTIC TOKENS
+    // Light theme is the default; dark overrides via @media / [data-theme]
+    // ──────────────────────────────────────────────────────────────────────
+
     :root, :host, :scope {
-        --basic-radius-sm: 8px;
-        --basic-radius-md: 12px;
-        --basic-radius-lg: 16px;
-        --basic-radius-xl: 22px;
-        --basic-radius-2xl: 28px;
+        color-scheme: light dark;
+
+        // Light color primitives (default)
+        @include -theme-light;
+
+        // ── Spacing ──────────────────────────────────────────────────────
+
+        --space-xs:  0.25rem;
+        --space-sm:  0.5rem;
+        --space-md:  0.75rem;
+        --space-lg:  1rem;
+        --space-xl:  1.25rem;
+        --space-2xl: 1.6rem;
+
+        // ── Padding (extended scale, aliased to --space where overlapping)
+
+        --padding-xs:  var(--space-xs);
+        --padding-sm:  var(--space-sm);
+        --padding-md:  var(--space-md);
+        --padding-lg:  var(--space-lg);
+        --padding-xl:  var(--space-xl);
+        --padding-2xl: var(--space-2xl);
+        --padding-3xl: 2rem;
+        --padding-4xl: 2.5rem;
+        --padding-5xl: 3rem;
+        --padding-6xl: 4rem;
+        --padding-7xl: 5rem;
+        --padding-8xl: 6rem;
+        --padding-9xl: 8rem;
+
+        // ── Gap (aliased to --space) ─────────────────────────────────────
+
+        --gap-xs:  var(--space-xs);
+        --gap-sm:  var(--space-sm);
+        --gap-md:  var(--space-md);
+        --gap-lg:  var(--space-lg);
+        --gap-xl:  var(--space-xl);
+        --gap-2xl: var(--space-2xl);
+
+        // ── Radius ───────────────────────────────────────────────────────
+
+        // Material You scale (px)
+        --basic-radius-sm:   8px;
+        --basic-radius-md:   12px;
+        --basic-radius-lg:   16px;
+        --basic-radius-xl:   22px;
+        --basic-radius-2xl:  28px;
         --basic-radius-full: 9999px;
+
+        // Utility scale (rem)
+        --radius-none:    0;
+        --radius-sm:      0.25rem;
+        --radius-default: 0.25rem;
+        --radius-md:      0.375rem;
+        --radius-lg:      0.5rem;
+        --radius-xl:      0.75rem;
+        --radius-2xl:     1rem;
+        --radius-3xl:     1.5rem;
+        --radius-full:    9999px;
+
+        // ── Elevations & Shadows ─────────────────────────────────────────
+
+        // Material You elevations
         --basic-elev-0: none;
         --basic-elev-1: 0 1px 1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
         --basic-elev-2: 0 2px 6px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
         --basic-elev-3: 0 6px 16px rgba(0, 0, 0, 0.14), 0 18px 48px rgba(0, 0, 0, 0.1);
-        --basic-motion-fast: 140ms cubic-bezier(0.2, 0, 0, 1);
-        --basic-motion-normal: 200ms cubic-bezier(0.2, 0, 0, 1);
-        --basic-motion-slow: 260ms cubic-bezier(0.2, 0, 0, 1);
-        --basic-focus-ring: 0 0 0 3px color-mix(in oklab, var(--basic-primary) 35%, transparent);
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 0.75rem;
-        --space-lg: 1rem;
-        --space-xl: 1.25rem;
-        --space-2xl: 1.6rem;
-        --padding-xs: 0.25rem;
-        --padding-sm: 0.5rem;
-        --padding-md: 0.75rem;
-        --padding-lg: 1rem;
-        --padding-xl: 1.25rem;
-        --padding-2xl: 1.6rem;
-        --padding-3xl: 2rem;
-        --padding-4xl: 2.5rem;
-        --padding-5xl: 3rem;
-        --padding-6xl: 4rem;
-        --padding-7xl: 5rem;
-        --padding-8xl: 6rem;
-        --padding-9xl: 8rem;
-        --gap-xs: 0.25rem;
-        --gap-sm: 0.5rem;
-        --gap-md: 0.75rem;
-        --gap-lg: 1rem;
-        --gap-xl: 1.25rem;
-        --gap-2xl: 1.6rem;
-        --border-width-xs: 0.5px;
-        --border-width-sm: 1px;
-        --border-width-md: 1.5px;
-        --border-width-lg: 2px;
-        --border-width-xl: 3px;
-        --border-width-2xl: 4px;
-        --border-width-3xl: 6px;
-        --border-width-4xl: 8px;
-        --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-        --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
-        --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.1);
-        --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+        // Utility shadows
+        --shadow-xs:           0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-sm:           0 1px 3px rgba(0, 0, 0, 0.1);
+        --shadow-md:           0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg:           0 10px 15px rgba(0, 0, 0, 0.1);
+        --shadow-xl:           0 20px 25px rgba(0, 0, 0, 0.1);
+        --shadow-2xl:          0 25px 50px rgba(0, 0, 0, 0.1);
+        --shadow-inset:        inset 0 2px 4px rgba(0, 0, 0, 0.06);
         --shadow-inset-strong: inset 0 4px 8px rgba(0, 0, 0, 0.12);
-        --transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
-        --transition-normal: 160ms cubic-bezier(0.2, 0, 0, 1);
-        --transition-slow: 200ms cubic-bezier(0.2, 0, 0, 1);
-        --hover-lift: 0.03;
-        --active-lift: 0.05;
-        --focus-lift: 0.02;
-        --avatar-size: 32px;
-        --avatar-size-sm: 24px;
-        --avatar-size-md: 32px;
-        --avatar-size-lg: 48px;
-        --avatar-size-xl: 64px;
-        --icon-size-xs: 0.75rem;
-        --icon-size-sm: 0.875rem;
-        --icon-size-md: 1rem;
-        --icon-size-lg: 1.25rem;
-        --icon-size-xl: 1.5rem;
-        --text-xs: 0.7rem;
-        --text-sm: 0.8rem;
+        --shadow-none:         0 0 #0000;
+
+        // ── Typography ───────────────────────────────────────────────────
+
+        // Compact UI font-size scale
+        --text-xs:   0.7rem;
+        --text-sm:   0.8rem;
         --text-base: 0.9rem;
-        --text-lg: 1rem;
-        --text-xl: 1.25rem;
-        --text-2xl: 1.6rem;
-        --text-3xl: 2rem;
-        --font-weight-normal: 400;
-        --font-weight-medium: 500;
+        --text-lg:   1rem;
+        --text-xl:   1.25rem;
+        --text-2xl:  1.6rem;
+        --text-3xl:  2rem;
+
+        // Standard web font-size scale (for broader consumers)
+        --font-size-xs:   0.75rem;
+        --font-size-sm:   0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg:   1.125rem;
+        --font-size-xl:   1.25rem;
+
+        // Weights
+        --font-weight-normal:   400;
+        --font-weight-medium:   500;
         --font-weight-semibold: 600;
-        --font-weight-bold: 700;
-        --font-family: "Roboto", ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+        --font-weight-bold:     700;
+
+        // Families
+        --font-family:      "Roboto", ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
         --font-family-mono: "Roboto Mono", "SF Mono", Monaco, Inconsolata, "Fira Code", monospace;
-        --leading-tight: 1.2;
-        --leading-normal: 1.5;
+        --font-sans: var(--font-family);
+        --font-mono: var(--font-family-mono);
+
+        // Line heights
+        --leading-tight:   1.2;
+        --leading-normal:  1.5;
         --leading-relaxed: 1.8;
 
-        @media (prefers-color-scheme: light) {
-            --basic-primary: #5a7fff;
-            --basic-on-primary: #ffffff;
-            --basic-secondary: #6b7280;
-            --basic-on-secondary: #ffffff;
-            --basic-tertiary: #64748b;
-            --basic-on-tertiary: #ffffff;
-            --basic-error: #ef4444;
-            --basic-on-error: #ffffff;
-            --basic-background: #fafbfc;
-            --basic-on-background: #1e293b;
-            --basic-surface: #fafbfc;
-            --basic-on-surface: #1e293b;
-            --basic-surface-variant: #f1f5f9;
-            --basic-on-surface-variant: #64748b;
-            --basic-outline: #cbd5e1;
-            --basic-outline-variant: #94a3b8;
-            --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 96%, var(--basic-primary) 4%);
-            --basic-surface-container: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-            --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-            --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-            --basic-border: color-mix(in oklab, var(--basic-outline-variant) 75%, transparent);
-            --view-bg: var(--basic-surface);
-            --view-fg: var(--basic-on-surface);
-            --view-border: var(--basic-outline-variant);
-            --view-input-bg: #ffffff;
-            --view-files-bg: rgba(0, 0, 0, 0.02);
-            --view-file-bg: rgba(0, 0, 0, 0.03);
-            --view-results-bg: rgba(0, 0, 0, 0.01);
-            --view-result-bg: rgba(0, 0, 0, 0.03);
-            --color-surface: var(--basic-surface);
-            --color-on-surface: var(--basic-on-surface);
-            --color-primary: var(--basic-primary);
-        }
+        // ── Transitions ──────────────────────────────────────────────────
 
+        --transition-fast:   120ms cubic-bezier(0.2, 0, 0, 1);
+        --transition-normal: 160ms cubic-bezier(0.2, 0, 0, 1);
+        --transition-slow:   200ms cubic-bezier(0.2, 0, 0, 1);
 
-        @media (prefers-color-scheme: dark) {
-            --basic-primary: #7ca7ff;
-            --basic-on-primary: #0f172a;
-            --basic-secondary: #94a3b8;
-            --basic-on-secondary: #1e293b;
-            --basic-tertiary: #94a3b8;
-            --basic-on-tertiary: #0f172a;
-            --basic-error: #f87171;
-            --basic-on-error: #450a0a;
-            --basic-background: #0f1419;
-            --basic-on-background: #f1f5f9;
-            --basic-surface: #0f1419;
-            --basic-on-surface: #f1f5f9;
-            --basic-surface-variant: #1e293b;
-            --basic-on-surface-variant: #cbd5e1;
-            --basic-outline: #475569;
-            --basic-outline-variant: #334155;
-            --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-            --basic-surface-container: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-            --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-            --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 80%, var(--basic-primary) 20%);
-            --basic-border: color-mix(in oklab, var(--basic-outline-variant) 70%, transparent);
-            --view-bg: var(--basic-surface);
-            --view-fg: var(--basic-on-surface);
-            --view-border: var(--basic-outline-variant);
-            --view-input-bg: #2d2d30;
-            --view-files-bg: rgba(255, 255, 255, 0.02);
-            --view-file-bg: rgba(255, 255, 255, 0.05);
-            --view-results-bg: rgba(255, 255, 255, 0.02);
-            --view-result-bg: rgba(255, 255, 255, 0.05);
-            --color-surface: var(--basic-surface);
-            --color-on-surface: var(--basic-on-surface);
-            --color-primary: var(--basic-primary);
-        }
-    }
+        --basic-motion-fast:   var(--transition-fast);
+        --basic-motion-normal: var(--transition-normal);
+        --basic-motion-slow:   var(--transition-slow);
 
-    :root, :host, :scope {
-        /* Material You-ish shape / motion / elevations (no borders) */
-        --basic-radius-sm: 8px;
-        --basic-radius-md: 12px;
-        --basic-radius-lg: 16px;
-        --basic-radius-xl: 22px;
-        --basic-radius-2xl: 28px;
-        --basic-radius-full: 9999px;
-        --basic-elev-0: none;
-        --basic-elev-1: 0 1px 1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.10);
-        --basic-elev-2: 0 2px 6px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
-        --basic-elev-3: 0 6px 16px rgba(0, 0, 0, 0.14), 0 18px 48px rgba(0, 0, 0, 0.10);
-        --basic-motion-fast: 140ms cubic-bezier(0.2, 0, 0, 1);
-        --basic-motion-normal: 200ms cubic-bezier(0.2, 0, 0, 1);
-        --basic-motion-slow: 260ms cubic-bezier(0.2, 0, 0, 1);
+        // ── Focus ────────────────────────────────────────────────────────
+
         --basic-focus-ring: 0 0 0 3px color-mix(in oklab, var(--basic-primary) 35%, transparent);
 
-        /* Spacing system */
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 0.75rem;
-        --space-lg: 1rem;
-        --space-xl: 1.25rem;
-        --space-2xl: 1.6rem;
+        // ── Z-index scale ────────────────────────────────────────────────
 
-        /* Padding variables */
-        --padding-xs: 0.25rem;
-        --padding-sm: 0.5rem;
-        --padding-md: 0.75rem;
-        --padding-lg: 1rem;
-        --padding-xl: 1.25rem;
-        --padding-2xl: 1.6rem;
-        --padding-3xl: 2rem;
-        --padding-4xl: 2.5rem;
-        --padding-5xl: 3rem;
-        --padding-6xl: 4rem;
-        --padding-7xl: 5rem;
-        --padding-8xl: 6rem;
-        --padding-9xl: 8rem;
+        --z-base:           0;
+        --z-dropdown:       100;
+        --z-sticky:         200;
+        --z-fixed:          300;
+        --z-modal-backdrop: 400;
+        --z-modal:          500;
+        --z-popover:        600;
+        --z-tooltip:        700;
+        --z-toast:          800;
+        --z-max:            9999;
 
-        /* Gap variables */
-        --gap-xs: 0.25rem;
-        --gap-sm: 0.5rem;
-        --gap-md: 0.75rem;
-        --gap-lg: 1rem;
-        --gap-xl: 1.25rem;
-        --gap-2xl: 1.6rem;
+        // ── Semantic color aliases (auto-resolve via themed --basic-*) ───
 
-        /* Border width variables */
-        --border-width-xs: 0.5px;
-        --border-width-sm: 1px;
-        --border-width-md: 1.5px;
-        --border-width-lg: 2px;
-        --border-width-xl: 3px;
-        --border-width-2xl: 4px;
-        --border-width-3xl: 6px;
-        --border-width-4xl: 8px;
+        // Surfaces
+        --color-surface:          var(--basic-surface);
+        --color-surface-elevated: var(--basic-surface-container);
+        --color-surface-hover:    var(--basic-surface-container-low);
+        --color-surface-active:   var(--basic-surface-container-high);
+        --color-on-surface:       var(--basic-on-surface);
+        --color-on-surface-muted: var(--basic-on-surface-variant);
 
-        /* Shadow variables */
-        --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-        --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
-        --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.1);
-        --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-        --shadow-inset-strong: inset 0 4px 8px rgba(0, 0, 0, 0.12);
+        // Background
+        --color-background:     var(--basic-background);
+        --color-background-alt: var(--basic-surface-variant);
+        --color-on-background:  var(--basic-on-background);
 
-        /* Transition variables */
-        --transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
-        --transition-normal: 160ms cubic-bezier(0.2, 0, 0, 1);
-        --transition-slow: 200ms cubic-bezier(0.2, 0, 0, 1);
+        // Primary / accent
+        --color-primary:        var(--basic-primary);
+        --color-primary-hover:  color-mix(in oklab, var(--basic-primary) 80%, black);
+        --color-primary-active: color-mix(in oklab, var(--basic-primary) 65%, black);
+        --color-on-primary:     var(--basic-on-primary);
+        --color-accent:         var(--basic-secondary);
+        --color-accent-hover:   color-mix(in oklab, var(--basic-secondary) 80%, black);
+        --color-on-accent:      var(--basic-on-secondary);
 
-        /* Interactive state variables */
-        --hover-lift: 0.03;
-        --active-lift: 0.05;
-        --focus-lift: 0.02;
+        // Borders
+        --color-border:        var(--basic-border);
+        --color-border-hover:  var(--basic-outline-variant);
+        --color-border-strong: var(--basic-outline);
+        --color-border-focus:  var(--basic-primary);
 
-        /* Avatar/Icon size variables */
-        --avatar-size: 32px;
-        --avatar-size-sm: 24px;
-        --avatar-size-md: 32px;
-        --avatar-size-lg: 48px;
-        --avatar-size-xl: 64px;
-        --icon-size-xs: 0.75rem;
-        --icon-size-sm: 0.875rem;
-        --icon-size-md: 1rem;
-        --icon-size-lg: 1.25rem;
-        --icon-size-xl: 1.5rem;
+        // Text
+        --color-text:           var(--basic-on-surface);
+        --color-text-secondary: var(--basic-on-surface-variant);
+        --color-text-muted:     color-mix(in oklab, var(--basic-on-surface) 50%, var(--basic-surface));
+        --color-text-disabled:  color-mix(in oklab, var(--basic-on-surface) 38%, var(--basic-surface));
+        --color-text-inverse:   var(--basic-on-primary);
 
-        /* Typography */
-        --text-xs: 0.7rem;
-        --text-sm: 0.8rem;
-        --text-base: 0.9rem;
-        --text-lg: 1rem;
-        --text-xl: 1.25rem;
-        --text-2xl: 1.6rem;
-        --text-3xl: 2rem;
+        // Links
+        --color-link:       var(--basic-primary);
+        --color-link-hover: color-mix(in oklab, var(--basic-primary) 80%, black);
 
-        --font-weight-normal: 400;
-        --font-weight-medium: 500;
-        --font-weight-semibold: 600;
-        --font-weight-bold: 700;
+        // Status (base + auto-generated light/dark variants)
+        --color-success:       var(--basic-success);
+        --color-success-light: color-mix(in oklab, var(--basic-success) 60%, white);
+        --color-success-dark:  color-mix(in oklab, var(--basic-success) 70%, black);
+        --color-warning:       var(--basic-warning);
+        --color-warning-light: color-mix(in oklab, var(--basic-warning) 60%, white);
+        --color-warning-dark:  color-mix(in oklab, var(--basic-warning) 70%, black);
+        --color-error:         var(--basic-error);
+        --color-error-light:   color-mix(in oklab, var(--basic-error) 60%, white);
+        --color-error-dark:    color-mix(in oklab, var(--basic-error) 70%, black);
+        --color-info:          var(--basic-info);
+        --color-info-light:    color-mix(in oklab, var(--basic-info) 60%, white);
+        --color-info-dark:     color-mix(in oklab, var(--basic-info) 70%, black);
 
-        --font-family: 'Roboto', ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
-        --font-family-mono: 'Roboto Mono', 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace;
+        // Short aliases (alternate naming convention)
+        --color-bg:       var(--basic-surface);
+        --color-bg-alt:   var(--basic-surface-variant);
+        --color-fg:       var(--basic-on-surface);
+        --color-fg-muted: var(--basic-on-surface-variant);
 
-        --leading-tight: 1.2;
-        --leading-normal: 1.5;
-        --leading-relaxed: 1.8;
+        // ── Component tokens ─────────────────────────────────────────────
+
+        // Buttons
+        --btn-height-sm:    2rem;
+        --btn-height-md:    2.5rem;
+        --btn-height-lg:    3rem;
+        --btn-padding-x-sm: var(--space-md);
+        --btn-padding-x-md: var(--space-lg);
+        --btn-padding-x-lg: 1.5rem;
+        --btn-radius:       var(--radius-md);
+        --btn-font-weight:  var(--font-weight-medium);
+
+        // Inputs
+        --input-height-sm:         2rem;
+        --input-height-md:         2.5rem;
+        --input-height-lg:         3rem;
+        --input-padding-x:         var(--space-md);
+        --input-radius:            var(--radius-md);
+        --input-border-color:      var(--color-border);
+        --input-focus-ring-color:  var(--color-primary);
+        --input-focus-ring-width:  2px;
+
+        // Cards
+        --card-padding:      var(--space-lg);
+        --card-radius:       var(--radius-lg);
+        --card-shadow:       var(--shadow-sm);
+        --card-border-color: var(--color-border);
+
+        // Modals
+        --modal-backdrop-bg: light-dark(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.7));
+        --modal-bg:          var(--color-surface);
+        --modal-radius:      var(--radius-xl);
+        --modal-shadow:      var(--shadow-xl);
+        --modal-padding:     1.5rem;
+
+        // Toast / notifications
+        --toast-bg:      var(--color-surface-elevated);
+        --toast-radius:  var(--radius-lg);
+        --toast-shadow:  var(--shadow-lg);
+        --toast-padding: var(--space-lg);
+
+        // Navigation / layout
+        --sidebar-width:           280px;
+        --sidebar-collapsed-width: 64px;
+        --nav-height:              56px;
+        --nav-height-compact:      48px;
+
+        // Status bar
+        --status-height:    24px;
+        --status-bg:        var(--color-surface-elevated);
+        --status-font-size: var(--text-xs);
     }
 
-
-    @media (prefers-color-scheme: light) {
-        :root, :host, :scope {
-            /* Blue-neutral palette - soft blue-gray tones */
-            --basic-primary: #5a7fff;
-            --basic-on-primary: #ffffff;
-            --basic-secondary: #6b7280;
-            --basic-on-secondary: #ffffff;
-            --basic-tertiary: #64748b;
-            --basic-on-tertiary: #ffffff;
-            --basic-error: #ef4444;
-            --basic-on-error: #ffffff;
-
-            --basic-background: #fafbfc;
-            --basic-on-background: #1e293b;
-            --basic-surface: #fafbfc;
-            --basic-on-surface: #1e293b;
-            --basic-surface-variant: #f1f5f9;
-            --basic-on-surface-variant: #64748b;
-            --basic-outline: #cbd5e1;
-            --basic-outline-variant: #94a3b8;
-
-            /* Surface containers (soft tint of primary) */
-            --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 96%, var(--basic-primary) 4%);
-            --basic-surface-container: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-            --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-            --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-
-            /* Convenience */
-            --basic-border: color-mix(in oklab, var(--basic-outline-variant) 75%, transparent);
-        }
-    }
+    // ──────────────────────────────────────────────────────────────────────
+    // COLOR SCHEME — System dark preference
+    // ──────────────────────────────────────────────────────────────────────
 
     @media (prefers-color-scheme: dark) {
         :root, :host, :scope {
-            /* Blue-neutral palette - soft blue-gray tones */
-            --basic-primary: #7ca7ff;
-            --basic-on-primary: #0f172a;
-            --basic-secondary: #94a3b8;
-            --basic-on-secondary: #1e293b;
-            --basic-tertiary: #94a3b8;
-            --basic-on-tertiary: #0f172a;
-            --basic-error: #f87171;
-            --basic-on-error: #450a0a;
-
-            --basic-background: #0f1419;
-            --basic-on-background: #f1f5f9;
-            --basic-surface: #0f1419;
-            --basic-on-surface: #f1f5f9;
-            --basic-surface-variant: #1e293b;
-            --basic-on-surface-variant: #cbd5e1;
-            --basic-outline: #475569;
-            --basic-outline-variant: #334155;
-
-            /* Surface containers (soft tint of primary) */
-            --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-            --basic-surface-container: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-            --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-            --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 80%, var(--basic-primary) 20%);
-
-            /* Convenience */
-            --basic-border: color-mix(in oklab, var(--basic-outline-variant) 70%, transparent);
+            @include -theme-dark;
         }
     }
 
+    // ──────────────────────────────────────────────────────────────────────
+    // COLOR SCHEME — Explicit overrides via [data-theme]
+    // ──────────────────────────────────────────────────────────────────────
+
     [data-theme="light"] {
         color-scheme: light;
-        /* Blue-neutral palette - soft blue-gray tones */
-        --basic-primary: #5a7fff;
-        --basic-on-primary: #ffffff;
-        --basic-secondary: #6b7280;
-        --basic-on-secondary: #ffffff;
-        --basic-tertiary: #64748b;
-        --basic-on-tertiary: #ffffff;
-        --basic-error: #ef4444;
-        --basic-on-error: #ffffff;
-
-        --basic-background: #fafbfc;
-        --basic-on-background: #1e293b;
-        --basic-surface: #fafbfc;
-        --basic-on-surface: #1e293b;
-        --basic-surface-variant: #f1f5f9;
-        --basic-on-surface-variant: #64748b;
-        --basic-outline: #cbd5e1;
-        --basic-outline-variant: #94a3b8;
-
-        /* Surface containers (soft tint of primary) */
-        --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 96%, var(--basic-primary) 4%);
-        --basic-surface-container: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-        --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-        --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-
-        /* Convenience */
-        --basic-border: color-mix(in oklab, var(--basic-outline-variant) 75%, transparent);
+        @include -theme-light;
     }
 
     [data-theme="dark"] {
         color-scheme: dark;
-        /* Blue-neutral palette - soft blue-gray tones */
-        --basic-primary: #7ca7ff;
-        --basic-on-primary: #0f172a;
-        --basic-secondary: #94a3b8;
-        --basic-on-secondary: #1e293b;
-        --basic-tertiary: #94a3b8;
-        --basic-on-tertiary: #0f172a;
-        --basic-error: #f87171;
-        --basic-on-error: #450a0a;
+        @include -theme-dark;
+    }
 
-        --basic-background: #0f1419;
-        --basic-on-background: #f1f5f9;
-        --basic-surface: #0f1419;
-        --basic-on-surface: #f1f5f9;
-        --basic-surface-variant: #1e293b;
-        --basic-on-surface-variant: #cbd5e1;
-        --basic-outline: #475569;
-        --basic-outline-variant: #334155;
+    // ──────────────────────────────────────────────────────────────────────
+    // ACCESSIBILITY — Reduced motion
+    // ──────────────────────────────────────────────────────────────────────
 
-        /* Surface containers (soft tint of primary) */
-        --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-        --basic-surface-container: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-        --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-        --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 80%, var(--basic-primary) 20%);
+    @media (prefers-reduced-motion: reduce) {
+        :root {
+            --transition-fast:     0ms;
+            --transition-normal:   0ms;
+            --transition-slow:     0ms;
+            --basic-motion-fast:   0ms;
+            --basic-motion-normal: 0ms;
+            --basic-motion-slow:   0ms;
+        }
+    }
 
-        /* Convenience */
-        --basic-border: color-mix(in oklab, var(--basic-outline-variant) 70%, transparent);
+    // ──────────────────────────────────────────────────────────────────────
+    // ACCESSIBILITY — High contrast
+    // ──────────────────────────────────────────────────────────────────────
+
+    @media (prefers-contrast: high) {
+        :root {
+            --color-border:         var(--basic-outline);
+            --color-border-hover:   color-mix(in oklab, var(--basic-outline) 80%, var(--basic-on-surface));
+            --color-text-secondary: var(--basic-on-surface);
+            --color-text-muted:     var(--basic-on-surface-variant);
+        }
+    }
+
+    // ==========================================================================
+    // PRINT STYLES
+    // ==========================================================================
+
+    @media print {
+        :root {
+            --view-padding: 0;
+            --view-content-max-width: 100%;
+            --view-bg: white;
+            --view-fg: black;
+            --view-heading-color: black;
+            --view-link-color: black;
+        }
+
+        :root:has([data-view="viewer"]) {
+            --view-code-bg: #f5f5f5;
+            --view-code-fg: black;
+            --view-blockquote-bg: #f5f5f5;
+        }
     }
 }

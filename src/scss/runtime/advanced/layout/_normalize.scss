@@ -2,59 +2,6 @@
 
 @layer ux-normalize {
 
-    /* -------------------------------------------------------------------------- */
-    /*                                  Variables                                 */
-    /* -------------------------------------------------------------------------- */
-    :root {
-        /* Core tokens */
-        --color-bg: #{md-light-dark("bg")};
-        --color-bg-secondary: #{md-light-dark("bg-secondary")};
-        --color-text: #{md-light-dark("text")};
-        --color-text-secondary: #{md-light-dark("text-secondary")};
-        --color-link: #{md-light-dark("link")};
-        --color-accent: #{md-light-dark("accent")};
-        --color-secondary: #{md-light-dark("secondary")};
-        --color-secondary-accent: #{md-light-dark("secondary-accent")};
-        --color-shadow: #{md-light-dark("shadow")};
-        --color-border: #{md-light-dark("border")};
-        --color-table: #{md-light-dark("table")};
-        --color-scrollbar: #{md-light-dark("scrollbar")};
-
-        /* Config tokens */
-        --font-family: #{md-config("font", "body")};
-        --font-family-mono: #{md-config("font", "mono")};
-        --line-height: #{md-config("layout", "line-height")};
-
-        --active-brightness: #{md-config("effects", "active-brightness")};
-        --hover-brightness: #{md-config("effects", "hover-brightness")};
-
-        --width-card: #{md-config("layout", "widths", "card")};
-        --width-card-medium: #{md-config("layout", "widths", "card-medium")};
-        --width-card-wide: #{md-config("layout", "widths", "card-wide")};
-        --width-content: #{md-config("layout", "widths", "content")};
-
-        --box-shadow: #{md-config("shape", "box-shadow")};
-        --border-radius: #{md-config("shape", "border-radius")};
-
-        --scrollbar-size: #{md-config("scrollbar", "size")};
-
-        /* Syntax Highlighting (GitHub Light/Dark inspired) */
-        --fgColor-default: light-dark(#1f2328, #f0f6fc);
-        --fgColor-muted: light-dark(#656d76, #9198a1);
-        --fgColor-accent: light-dark(#0969da, #4493f8);
-        --fgColor-success: light-dark(#1a7f37, #3fb950);
-        --fgColor-attention: light-dark(#9a6700, #d29922);
-        --fgColor-danger: light-dark(#d1242f, #f85149);
-        --fgColor-done: light-dark(#8250df, #ab7df8);
-
-        --bgColor-default: light-dark(#ffffff, #0d1117);
-        --bgColor-muted: light-dark(#f6f8fa, #151b23);
-        --borderColor-default: light-dark(#d0d7de, #30363d);
-        --borderColor-muted: light-dark(#d0d7de, #30363d);
-
-        interpolate-size: allow-keywords;
-    }
-
     @keyframes bottom-to-top {
         0% { opacity: 0; transform: translateY(10%); }
         100% { opacity: 1; transform: translateY(0); }
@@ -360,7 +307,6 @@
 
         :where(footer, header, main) {
             margin-inline: auto;
-            max-inline-size: var(--width-content);
             padding: 0px;
         }
 

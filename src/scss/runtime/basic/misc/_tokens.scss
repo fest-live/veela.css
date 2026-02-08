@@ -225,10 +225,10 @@
         --color-info-light: color-mix(in oklab, var(--basic-info) 60%, white);
         --color-info-dark: color-mix(in oklab, var(--basic-info) 70%, black);
 
-        --color-bg: var(--basic-surface);
-        --color-bg-alt: var(--basic-surface-variant);
-        --color-fg: var(--basic-on-surface);
-        --color-fg-muted: var(--basic-on-surface-variant);
+        --color-bg: var(--color-surface, var(--basic-surface));
+        --color-bg-alt: var(--color-surface-variant, var(--basic-surface-variant));
+        --color-fg: var(--color-on-surface, var(--basic-on-surface));
+        --color-fg-muted: var(--color-on-surface-variant, var(--basic-on-surface-variant));
 
         --btn-height-sm: 2rem;
         --btn-height-md: 2.5rem;
@@ -244,22 +244,22 @@
         --input-height-lg: 3rem;
         --input-padding-x: var(--space-md);
         --input-radius: var(--radius-md);
-        --input-border-color: var(--color-border);
+        --input-border-color: var(--color-border, var(--basic-border));
         --input-focus-ring-color: var(--color-primary);
         --input-focus-ring-width: 2px;
 
         --card-padding: var(--space-lg);
         --card-radius: var(--radius-lg);
         --card-shadow: var(--shadow-sm);
-        --card-border-color: var(--color-border);
+        --card-border-color: var(--color-border, var(--basic-border));
 
         --modal-backdrop-bg: light-dark(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.7));
-        --modal-bg: var(--color-surface);
+        --modal-bg: var(--color-surface, var(--basic-surface));
         --modal-radius: var(--radius-xl);
         --modal-shadow: var(--shadow-xl);
         --modal-padding: 1.5rem;
 
-        --toast-bg: var(--color-surface-elevated);
+        --toast-bg: var(--color-surface-elevated, var(--basic-surface-container-high));
         --toast-radius: var(--radius-lg);
         --toast-shadow: var(--shadow-lg);
         --toast-padding: var(--space-lg);
@@ -270,7 +270,7 @@
         --nav-height-compact: 48px;
 
         --status-height: 24px;
-        --status-bg: var(--color-surface-elevated);
+        --status-bg: var(--color-surface-elevated, var(--basic-surface-container-high));
         --status-font-size: var(--text-xs);
     }
 
@@ -305,10 +305,10 @@
 
     @media (prefers-contrast: high) {
         :root {
-            --color-border: var(--basic-outline);
-            --color-border-hover: color-mix(in oklab, var(--basic-outline) 80%, var(--basic-on-surface));
-            --color-text-secondary: var(--basic-on-surface);
-            --color-text-muted: var(--basic-on-surface-variant);
+            --color-border: var(--color-border, var(--basic-outline));
+            --color-border-hover: color-mix(in oklab, var(--color-border, var(--basic-outline)) 80%, var(--color-on-surface, var(--basic-on-surface)));
+            --color-text-secondary: var(--color-on-surface, var(--basic-on-surface));
+            --color-text-muted: var(--color-on-surface-variant, var(--basic-on-surface-variant));
         }
     }
 

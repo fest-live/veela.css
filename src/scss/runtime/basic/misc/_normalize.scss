@@ -12,6 +12,55 @@
 // ============================================================================
 
 @layer base {
+    // Inputs
+    input,
+    textarea,
+    select {
+        padding-block: var(--space-sm);
+        padding-inline: var(--space-md);
+        font-size: var(--font-size-base);
+        background: var(--color-bg);
+        color: var(--color-fg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        transition: border-color var(--transition-fast);
+
+        &:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        &::placeholder {
+            color: var(--color-fg-muted);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    textarea {
+        resize: vertical;
+        min-block-size: 4rem;
+    }
+
+    // Checkbox & Radio
+    input[type="checkbox"],
+    input[type="radio"] {
+        inline-size: 1rem;
+        block-size: 1rem;
+        accent-color: var(--color-primary);
+    }
+
+    // Labels
+    label {
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
     html {
         font-family: var(--font-sans);
         font-size: 16px;

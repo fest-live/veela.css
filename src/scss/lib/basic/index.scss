@@ -5,12 +5,11 @@
  * Use @use "lib" to access all library features.
  */
 
-// Configuration and tokens
-@forward "./config";
-@forward "./properties";
-
 // Mixins
 @forward "./mixins";
+
+// Functions
+@forward "./functions";
 
 // Icons
 @forward "./icons";

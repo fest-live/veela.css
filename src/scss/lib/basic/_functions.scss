@@ -1,0 +1,387 @@
+@use "sass:math";
+@use "sass:color";
+@use "sass:string";
+@use "sass:list";
+@use "sass:map";
+
+// ============================================================================
+// DESIGN SYSTEM CONFIGURATION
+// ============================================================================
+$design-system: (
+    "breakpoints": (
+        "xs": 320px,
+        "sm": 640px,
+        "md": 768px,
+        "lg": 1024px,
+        "xl": 1280px,
+        "2xl": 1536px
+    ),
+    "container-sizes": (
+        "xs": 320px,
+        "sm": 640px,
+        "md": 768px,
+        "lg": 1024px,
+        "xl": 1280px,
+        "2xl": 1536px
+    ),
+    "spacing": (
+        "xs": 0.25rem,
+        "sm": 0.5rem,
+        "md": 0.75rem,
+        "lg": 1rem,
+        "xl": 1.25rem,
+        "2xl": 1.5rem,
+        "3xl": 2rem,
+        "4xl": 2.5rem,
+        "5xl": 3rem,
+        "6xl": 4rem
+    ),
+    "effects": (
+        "active-brightness": 0.95,
+        "hover-brightness": 0.96,
+        "motion-fast": 140ms cubic-bezier(0.2, 0, 0, 1),
+        "motion-normal": 200ms cubic-bezier(0.2, 0, 0, 1),
+        "motion-slow": 300ms cubic-bezier(0.2, 0, 0, 1)
+    ),
+    "shape": (
+        "border-radius": (
+            "xs": 0.125rem,
+            "sm": 0.25rem,
+            "md": 0.375rem,
+            "lg": 0.5rem,
+            "xl": 0.75rem,
+            "2xl": 1rem,
+            "3xl": 1.5rem,
+            "full": 9999px
+        ),
+        "shadow": (
+            "xs": 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+            "sm": 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+            "md": 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            "lg": 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            "xl": 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            "2xl": 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            "inner": inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)
+        )
+    ),
+    "colors": (
+        "primary": (#5a7fff, #7ca7ff),
+        "secondary": (#6b7280, #94a3b8),
+        "accent": (#64748b, #94a3b8),
+        "success": (#10b981, #34d399),
+        "warning": (#f59e0b, #fbbf24),
+        "error": (#ef4444, #f87171),
+        "info": (#60a5fa, #93c5fd),
+        "surface": (#fafbfc, #0f1419),
+        "surface-container": (#f1f5f9, #1e293b),
+        "surface-container-high": (#e2e8f0, #334155),
+        "surface-container-low": (#f8fafc, #0f172a),
+        "surface-container-highest": (#cbd5e1, #475569),
+        "surface-container-lowest": (#fafbfc, #0f1419),
+        "border": (#cbd5e1, #475569),
+        "border-variant": (#94a3b8, #64748b),
+        "border-subtle": (#e2e8f0, #334155),
+        "text-primary": (#1e293b, #f1f5f9),
+        "text-secondary": (#64748b, #94a3b8),
+        "text-muted": (#94a3b8, #64748b),
+        "text-disabled": (#cbd5e1, #475569),
+        "hover": (#f1f5f9, #334155),
+        "active": (#e2e8f0, #1e293b),
+        "focus": (#dbeafe, #1e40af),
+        "link": (#3b82f6, #60a5fa),
+        "code-bg": (#f8fafc, #1e293b),
+        "code-text": (#1e293b, #f1f5f9),
+        "highlight": (#dbeafe, #1d4ed8),
+        "table-border": (#cbd5e1, #475569),
+        "table-stripe": (#f8fafc, #1e293b),
+        "scrollbar": (#cbd5e1, #64748b),
+        "scrollbar-hover": (#94a3b8, #94a3b8),
+        "outline": (#cbd5e1, #64748b),
+        "outline-variant": (#94a3b8, #cbd5e1)
+    ),
+    "typography": (
+        "font-family": (
+            "sans": "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+            "mono": "ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace",
+            "emoji": "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'"
+        ),
+        "font-size": (
+            "xs": 0.75rem,
+            "sm": 0.875rem,
+            "base": 1rem,
+            "lg": 1.125rem,
+            "xl": 1.25rem,
+            "2xl": 1.5rem,
+            "3xl": 1.875rem,
+            "4xl": 2.25rem,
+            "5xl": 3rem,
+            "6xl": 3.75rem
+        ),
+        "font-weight": (
+            "thin": 100,
+            "light": 300,
+            "normal": 400,
+            "medium": 500,
+            "semibold": 600,
+            "bold": 700,
+            "extrabold": 800,
+            "black": 900
+        ),
+        "line-height": (
+            "tight": 1.25,
+            "snug": 1.375,
+            "normal": 1.5,
+            "relaxed": 1.625,
+            "loose": 2
+        ),
+        "letter-spacing": (
+            "tighter": -0.05em,
+            "tight": -0.025em,
+            "normal": 0,
+            "wide": 0.025em,
+            "wider": 0.05em,
+            "widest": 0.1em
+        )
+    ),
+    "layout": (
+        "line-height": 1.4,
+        "justify-important": start,
+        "justify-normal": start,
+        "widths": (
+            "card": 285px,
+            "card-medium": 460px,
+            "card-wide": 800px,
+            "content": 980px
+        )
+    ),
+    "page": (
+        "margin": 2rem
+    ),
+    "heading": (
+        "padding": 0,
+        "padding-small": 0
+    ),
+    "blockquote": (
+        "margin-inline": 0,
+        "padding-inline": 1em
+    ),
+    "table": (
+        "cell-padding": 6px 13px
+    ),
+    "media": (
+        "img-max-width": 100%
+    ),
+    "scrollbar": (
+        "size": 10px
+    )
+);
+
+// ============================================================================
+// TOKENS
+// ============================================================================
+$-z-layers: (
+    "base": 0,
+    "dropdown": 100,
+    "sticky": 200,
+    "fixed": 300,
+    "modal-backdrop": 400,
+    "modal": 500,
+    "popover": 600,
+    "tooltip": 700,
+    "toast": 800,
+    "max": 9999
+);
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+@function config($keys...) {
+    $value: $design-system;
+
+    @each $key in $keys {
+        @if $value == null {
+            @return null;
+        }
+
+        $value: map.get($value, $key);
+    }
+
+    @return $value;
+}
+
+@function theme-color($name, $mode: null) {
+    $palette: config("colors");
+    $value: map.get($palette, $name);
+
+    @if $mode == "light" {
+        @return if($value != null, list.nth($value, 1), null);
+    }
+
+    @if $mode == "dark" {
+        @return if($value != null, list.nth($value, 2), null);
+    }
+
+    @return $value;
+}
+
+@function light-dark($name) {
+    $value: theme-color($name);
+
+    @if $value == null {
+        @return null;
+    }
+
+    @return light-dark(#{list.nth($value, 1)}, #{list.nth($value, 2)});
+}
+
+@function spacing($size) {
+    @return config("spacing", $size);
+}
+
+@function breakpoint($name) {
+    @return config("breakpoints", $name);
+}
+
+@function container-size($name) {
+    @return config("container-sizes", $name);
+}
+
+@function typography($category, $key) {
+    @return config("typography", $category, $key);
+}
+
+@function shadow($size) {
+    @return config("shape", "shadow", $size);
+}
+
+@function radius($size) {
+    @return config("shape", "border-radius", $size);
+}
+
+// ============================================================================
+// UNIT CONVERSION FUNCTIONS
+// ============================================================================
+@function rem($px, $base: 16) {
+    @if type-of($px) == "number" and unit($px) == "px" {
+        @return math.div($px, $base * 1px) * 1rem;
+    } @else if type-of($px) == "number" and unitless($px) {
+        @return math.div($px, $base) * 1rem;
+    }
+
+    @return $px;
+}
+
+@function em($px, $base: 16) {
+    @if type-of($px) == "number" and unit($px) == "px" {
+        @return math.div($px, $base * 1px) * 1em;
+    } @else if type-of($px) == "number" and unitless($px) {
+        @return math.div($px, $base) * 1em;
+    }
+
+    @return $px;
+}
+
+// ============================================================================
+// COLOR FUNCTIONS
+// ============================================================================
+@function alpha($color, $opacity) {
+    @return color.change($color, $alpha: $opacity);
+}
+
+@function lighten-color($color, $amount) {
+    @return color.scale($color, $lightness: $amount);
+}
+
+@function darken-color($color, $amount) {
+    @return color.scale($color, $lightness: -$amount);
+}
+
+@function contrast-text($bg) {
+    $luminance: color.channel($bg, "lightness", $space: hsl);
+    @return if($luminance > 50%, #1a1a1a, #ffffff);
+}
+
+@function mix-colors($color1, $color2, $weight: 50%) {
+    @return color.mix($color1, $color2, $weight);
+}
+
+// ============================================================================
+// SPACING FUNCTIONS
+// ============================================================================
+@function space($multiplier, $base: 0.25rem) {
+    @return $multiplier * $base;
+}
+
+@function negative($value) {
+    @return -$value;
+}
+
+// ============================================================================
+// Z-INDEX FUNCTIONS
+// ============================================================================
+@function z($layer) {
+    @if map.has-key($-z-layers, $layer) {
+        @return map.get($-z-layers, $layer);
+    }
+
+    @warn "Unknown z-layer: #{$layer}";
+    @return 0;
+}
+
+// ============================================================================
+// STRING FUNCTIONS
+// ============================================================================
+@function strip-unit($value) {
+    @if type-of($value) == "number" and not unitless($value) {
+        @return math.div($value, $value * 0 + 1);
+    }
+
+    @return $value;
+}
+
+@function to-class($str) {
+    @return string.to-lower-case(string.unquote($str));
+}
+
+// ============================================================================
+// LIST/MAP FUNCTIONS
+// ============================================================================
+@function get($map, $key, $fallback: null) {
+    @if map.has-key($map, $key) {
+        @return map.get($map, $key);
+    }
+
+    @return $fallback;
+}
+
+@function deep-get($map, $keys...) {
+    @each $key in $keys {
+        @if type-of($map) != "map" {
+            @return null;
+        }
+
+        $map: map.get($map, $key);
+    }
+
+    @return $map;
+}
+
+// ============================================================================
+// MATH FUNCTIONS
+// ============================================================================
+@function clamp-value($value, $min, $max) {
+    @return math.max($min, math.min($value, $max));
+}
+
+@function percentage($part, $whole) {
+    @if $whole == 0 {
+        @return 0%;
+    }
+
+    @return math.percentage(math.div($part, $whole));
+}
+
+@function round-to($value, $places: 2) {
+    $factor: math.pow(10, $places);
+    @return math.div(math.round($value * $factor), $factor);
+}

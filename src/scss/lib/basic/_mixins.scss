@@ -1,30 +1,67 @@
-@use "./config" as cfg;
+@use "./functions" as cfg;
+@use "sass:math";
+@use "sass:color";
+@use "sass:list";
 
-// ============================================================================
-// RESPONSIVE & CONTAINER QUERY MIXINS
-// ============================================================================
+@mixin for-shell($shell-id) {
+    :is(html, body):has([data-shell="#{$shell-id}"]) {
+        @content;
+    }
+}
 
-/// Container query mixin for responsive design
-/// @param {String} $size - Container size (xs, sm, md, lg, xl, 2xl)
-/// @param {String} $direction - Direction (min-width, max-width)
+@mixin for-view($view-id) {
+    :is(html, body):has([data-view="#{$view-id}"]) {
+        @content;
+    }
+}
+
+@mixin for-shell-view($shell-id, $view-id) {
+    :is(html, body):has([data-shell="#{$shell-id}"] [data-view="#{$view-id}"]) {
+        @content;
+    }
+}
+
+@mixin when-state($selector) {
+    :is(html, body):has(#{$selector}) {
+        @content;
+    }
+}
+
+@mixin component-styles($selector) {
+    :where(#{$selector}) {
+        @content;
+    }
+}
+
+@mixin respond-to($breakpoint) {
+    $breakpoints: (
+        "sm": 640px,
+        "md": 768px,
+        "lg": 1024px,
+        "xl": 1280px,
+    );
+
+    @if map-has-key($breakpoints, $breakpoint) {
+        @media (min-width: map-get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    } @else {
+        @warn "Breakpoint '#{$breakpoint}' not found";
+    }
+}
+
 @mixin container-query($size, $direction: min-width) {
     @container (#{$direction}: #{cfg.config("container-sizes", $size)}) {
         @content;
     }
 }
 
-/// Media query mixin (use sparingly, prefer container queries)
-/// @param {String} $size - Breakpoint size (xs, sm, md, lg, xl, 2xl)
-/// @param {String} $direction - Direction (min-width, max-width)
 @mixin media-query($size, $direction: min-width) {
     @media (#{$direction}: #{cfg.config("breakpoints", $size)}) {
         @content;
     }
 }
 
-/// Responsive spacing mixin
-/// @param {String} $property - CSS property (margin, padding, etc.)
-/// @param {Map} $sizes - Map of breakpoint -> size
 @mixin responsive-spacing($property, $sizes) {
     @each $breakpoint, $size in $sizes {
         @if $breakpoint == "base" {
@@ -37,15 +74,6 @@
     }
 }
 
-// ============================================================================
-// LAYOUT & POSITIONING MIXINS
-// ============================================================================
-
-/// Flexbox utilities
-/// @param {String} $direction - Flex direction
-/// @param {String} $align - Align items
-/// @param {String} $justify - Justify content
-/// @param {String} $wrap - Flex wrap
 @mixin flex($direction: row, $align: stretch, $justify: flex-start, $wrap: nowrap) {
     display: flex;
     flex-direction: $direction;
@@ -54,10 +82,6 @@
     flex-wrap: $wrap;
 }
 
-/// Grid utilities
-/// @param {String|Number} $columns - Grid template columns
-/// @param {String} $rows - Grid template rows
-/// @param {String} $gap - Gap between items
 @mixin grid($columns: 1, $rows: auto, $gap: 0) {
     display: grid;
     grid-template-columns: $columns;
@@ -65,7 +89,6 @@
     gap: $gap;
 }
 
-/// Centering utilities
 @mixin center-absolute {
     position: absolute;
     top: 50%;
@@ -77,64 +100,91 @@
     @include flex(row, center, center);
 }
 
-// ============================================================================
-// LOGICAL PROPERTIES MIXINS
-// ============================================================================
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-/// Logical sizing
-/// @param {Length} $block-size - Block size (height)
-/// @param {Length} $inline-size - Inline size (width)
-/// @param {Length} $max-block-size - Max block size
-/// @param {Length} $max-inline-size - Max inline size
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin absolute-fill {
+    position: absolute;
+    inset: 0;
+}
+
+@mixin fixed-fill {
+    position: fixed;
+    inset: 0;
+}
+
+@mixin stack($direction: column, $gap: var(--space-md)) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
 @mixin logical-size($block-size: auto, $inline-size: auto, $max-block-size: none, $max-inline-size: none) {
     @if $block-size != auto {
         block-size: $block-size;
     }
+
     @if $inline-size != auto {
         inline-size: $inline-size;
     }
+
     @if $max-block-size != none {
         max-block-size: $max-block-size;
     }
+
     @if $max-inline-size != none {
         max-inline-size: $max-inline-size;
     }
 }
 
-/// Logical spacing (margins/padding)
-/// @param {String} $property - Property type (margin, padding)
-/// @param {Length} $block - Block direction spacing
-/// @param {Length} $inline - Inline direction spacing
-/// @param {Length} $block-start - Block start spacing
-/// @param {Length} $block-end - Block end spacing
-/// @param {Length} $inline-start - Inline start spacing
-/// @param {Length} $inline-end - Inline end spacing
-@mixin logical-spacing($property, $block: 0, $inline: 0, $block-start: null, $block-end: null, $inline-start: null, $inline-end: null) {
+@mixin logical-spacing(
+    $property,
+    $block: 0,
+    $inline: 0,
+    $block-start: null,
+    $block-end: null,
+    $inline-start: null,
+    $inline-end: null
+) {
     @if $block-start != null {
         #{$property}-block-start: $block-start;
     }
+
     @if $block-end != null {
         #{$property}-block-end: $block-end;
     }
+
     @if $inline-start != null {
         #{$property}-inline-start: $inline-start;
     }
+
     @if $inline-end != null {
         #{$property}-inline-end: $inline-end;
     }
+
     @if $block-start == null and $block-end == null and $block != 0 {
         #{$property}-block: $block;
     }
+
     @if $inline-start == null and $inline-end == null and $inline != 0 {
         #{$property}-inline: $inline;
     }
 }
 
-/// Logical borders
-/// @param {Length} $width - Border width
-/// @param {String} $style - Border style
-/// @param {Color} $color - Border color
-/// @param {String} $sides - Which sides (all, block, inline, start, end)
 @mixin logical-border($width: 1px, $style: solid, $color: currentColor, $sides: all) {
     @if $sides == "all" {
         border: $width $style $color;
@@ -153,15 +203,6 @@
     }
 }
 
-// ============================================================================
-// TYPOGRAPHY MIXINS
-// ============================================================================
-
-/// Typography scale mixin
-/// @param {String} $size - Font size key
-/// @param {String} $weight - Font weight key
-/// @param {String} $line-height - Line height key
-/// @param {String} $letter-spacing - Letter spacing key
 @mixin typography($size: base, $weight: normal, $line-height: normal, $letter-spacing: normal) {
     font-size: cfg.config("typography", "font-size", $size);
     font-weight: cfg.config("typography", "font-weight", $weight);
@@ -169,95 +210,10 @@
     letter-spacing: cfg.config("typography", "letter-spacing", $letter-spacing);
 }
 
-/// Font family mixin
-/// @param {String} $family - Font family type (sans, mono, emoji)
 @mixin font-family($family: sans) {
     font-family: cfg.config("typography", "font-family", $family);
 }
 
-// ============================================================================
-// INTERACTION & ANIMATION MIXINS
-// ============================================================================
-
-/// Interactive element base styles
-/// @param {String} $cursor - Cursor type
-/// @param {String} $touch-action - Touch action
-@mixin interactive($cursor: pointer, $touch-action: manipulation) {
-    cursor: $cursor;
-    touch-action: $touch-action;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    &:focus-visible {
-        outline: 2px solid cfg.config("colors", "focus");
-        outline-offset: 2px;
-    }
-}
-
-/// Hover and active states
-/// @param {Color} $hover-bg - Hover background
-/// @param {Color} $active-bg - Active background
-/// @param {Number} $scale - Transform scale on hover
-@mixin interactive-states($hover-bg: null, $active-bg: null, $scale: 1.02) {
-    transition: all cfg.config("effects", "motion-fast");
-
-    &:hover {
-        @if $hover-bg != null {
-            background-color: $hover-bg;
-        }
-        @if $scale != 1 {
-            transform: scale($scale);
-        }
-    }
-
-    &:active {
-        @if $active-bg != null {
-            background-color: $active-bg;
-        }
-        transform: scale(0.98);
-    }
-}
-
-// ============================================================================
-// UTILITY MIXINS
-// ============================================================================
-
-/// Scrollbar styling
-/// @param {Length} $size - Scrollbar size
-/// @param {Color} $thumb-color - Thumb color
-/// @param {Color} $track-color - Track color
-@mixin scrollbar($size: 8px, $thumb-color: rgba(0, 0, 0, 0.3), $track-color: transparent) {
-    scrollbar-width: thin;
-    scrollbar-color: $thumb-color $track-color;
-
-    &::-webkit-scrollbar {
-        inline-size: $size;
-        block-size: $size;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: $thumb-color;
-        border-radius: cfg.config("shape", "border-radius", "full");
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: $track-color;
-    }
-}
-
-/// Focus ring mixin
-/// @param {Color} $color - Focus ring color
-/// @param {Length} $width - Focus ring width
-/// @param {Length} $offset - Focus ring offset
-@mixin focus-ring($color: cfg.config("colors", "focus"), $width: 2px, $offset: 2px) {
-    &:focus-visible {
-        outline: $width solid $color;
-        outline-offset: $offset;
-    }
-}
-
-/// Truncate text with ellipsis
-/// @param {Number} $lines - Number of lines (1 for single line, >1 for multiline)
 @mixin truncate($lines: 1) {
     @if $lines == 1 {
         overflow: hidden;
@@ -271,15 +227,151 @@
     }
 }
 
-/// Aspect ratio mixin
-/// @param {Number} $ratio - Aspect ratio (width/height)
+@mixin text-truncate {
+    @include truncate(1);
+}
+
+@mixin text-clamp($lines: 2) {
+    @include truncate($lines);
+}
+
+@mixin heading($level: 1) {
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    margin-block-start: 0;
+    margin-block-end: 0;
+
+    @if $level == 1 {
+        font-size: var(--text-3xl);
+    } @else if $level == 2 {
+        font-size: var(--text-2xl);
+    } @else if $level == 3 {
+        font-size: var(--text-xl);
+    } @else if $level == 4 {
+        font-size: var(--text-lg);
+    } @else if $level == 5 {
+        font-size: var(--text-md);
+    } @else {
+        font-size: var(--text-base);
+    }
+}
+
+@mixin interactive($cursor: pointer, $touch-action: manipulation, $focus-ring: true) {
+    cursor: $cursor;
+    touch-action: $touch-action;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    @if $focus-ring {
+        &:focus-visible {
+            outline: 2px solid cfg.config("colors", "focus");
+            outline-offset: 2px;
+        }
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+}
+
+@mixin interactive-states($hover-bg: null, $active-bg: null, $scale: 1.02) {
+    transition: all cfg.config("effects", "motion-fast");
+
+    &:hover {
+        @if $hover-bg != null {
+            background-color: $hover-bg;
+        }
+
+        @if $scale != 1 {
+            transform: scale($scale);
+        }
+    }
+
+    &:active {
+        @if $active-bg != null {
+            background-color: $active-bg;
+        }
+
+        transform: scale(0.98);
+    }
+}
+
+@mixin focus-ring($color: cfg.config("colors", "focus"), $width: 2px, $offset: 2px) {
+    &:focus-visible {
+        outline: $width solid $color;
+        outline-offset: $offset;
+    }
+}
+
+@mixin hover-lift($amount: -2px) {
+    transition: transform var(--transition-normal);
+
+    &:hover {
+        transform: translateY($amount);
+    }
+}
+
+@mixin button-reset {
+    appearance: none;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+@mixin scrollbar-base($size, $thumb-color, $track-color, $radius) {
+    scrollbar-width: thin;
+    scrollbar-color: $thumb-color $track-color;
+
+    &::-webkit-scrollbar {
+        inline-size: $size;
+        block-size: $size;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $thumb-color;
+        border-radius: $radius;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $track-color;
+    }
+}
+
+@mixin scrollbar($size: 8px, $thumb-color: rgba(0, 0, 0, 0.3), $track-color: transparent) {
+    @include scrollbar-base($size, $thumb-color, $track-color, cfg.config("shape", "border-radius", "full"));
+}
+
+@mixin custom-scrollbar($width: 8px, $thumb: var(--color-border-strong), $track: transparent) {
+    @include scrollbar-base($width, $thumb, $track, math.div($width, 2));
+}
+
+@mixin hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@mixin focus-ring-alias($color: cfg.config("colors", "focus"), $width: 2px, $offset: 2px) {
+    @include focus-ring($color, $width, $offset);
+}
+
 @mixin aspect-ratio($ratio) {
     aspect-ratio: $ratio;
 }
-
-// ============================================================================
-// LEGACY COMPATIBILITY MIXINS
-// ============================================================================
 
 @mixin md-break($before: auto, $inside: auto, $after: auto) {
     break-before: $before;
@@ -346,21 +438,113 @@
     $scroll-size: if($size == null, cfg.config("scrollbar", "size"), $size);
     $radius: cfg.config("shape", "border-radius");
 
-    scrollbar-color: var(--color-scrollbar) transparent;
-    scrollbar-width: thin;
+    @include scrollbar-base($scroll-size, var(--color-scrollbar), transparent, $radius);
+}
 
-    &::-webkit-scrollbar {
-        inline-size: $scroll-size;
-        block-size: $scroll-size;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--color-scrollbar);
-        border-radius: $radius;
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: transparent;
+@mixin breakpoint($size) {
+    @if $size == "xs" {
+        @media (max-width: 480px) {
+            @content;
+        }
+    } @else if $size == "sm" {
+        @media (max-width: 640px) {
+            @content;
+        }
+    } @else if $size == "md" {
+        @media (max-width: 768px) {
+            @content;
+        }
+    } @else if $size == "lg" {
+        @media (max-width: 1024px) {
+            @content;
+        }
+    } @else if $size == "xl" {
+        @media (max-width: 1280px) {
+            @content;
+        }
+    } @else if $size == "2xl" {
+        @media (max-width: 1536px) {
+            @content;
+        }
+    } @else {
+        @warn "Unknown breakpoint: #{$size}";
     }
 }
 
+@mixin breakpoint-up($size) {
+    @if $size == "sm" {
+        @media (min-width: 640px) {
+            @content;
+        }
+    } @else if $size == "md" {
+        @media (min-width: 768px) {
+            @content;
+        }
+    } @else if $size == "lg" {
+        @media (min-width: 1024px) {
+            @content;
+        }
+    } @else if $size == "xl" {
+        @media (min-width: 1280px) {
+            @content;
+        }
+    } @else if $size == "2xl" {
+        @media (min-width: 1536px) {
+            @content;
+        }
+    } @else {
+        @warn "Unknown breakpoint: #{$size}";
+    }
+}
+
+@mixin print {
+    @media print {
+        @content;
+    }
+}
+
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+@mixin dark-mode {
+    @media (prefers-color-scheme: dark) {
+        @content;
+    }
+}
+
+@mixin card {
+    background-color: var(--color-surface-elevated);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--card-padding);
+}
+
+@mixin overlay($bg: var(--modal-backdrop-bg)) {
+    @include fixed-fill;
+    background-color: $bg;
+    z-index: var(--z-modal-backdrop);
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@mixin fade-in($duration: var(--transition-normal)) {
+    animation: fade-in $duration ease-out;
+}
+
+@mixin slide-in($direction: bottom, $distance: 1rem, $duration: var(--transition-normal)) {
+    --slide-distance: #{$distance};
+    animation: slide-in-#{$direction} $duration ease-out;
+}

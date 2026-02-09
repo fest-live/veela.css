@@ -258,6 +258,58 @@ $-z-layers: (
     @return config("shape", "border-radius", $size);
 }
 
+//
+$cps: 0.0001;
+
+@function mix($a, $b, $i) { @return string.unquote("calc(#{$b} * #{$i} + #{$a} * calc(1 - #{$i}))"); }
+@function abs($a) { @return string.unquote("abs(#{$a})"); }
+@function sign($a) { @return string.unquote("sign(#{$a})"); }
+@function land($a, $b) { @return string.unquote("calc(#{$a} * #{$b})"); }
+@function lor($a, $b) { @return string.unquote("max(#{$a}, #{$b})"); }
+
+//
+@function inv-mul($a, $b) {
+    @return string.unquote("calc(1.0 - calc(1.0 - #{$a}) * #{$b})");
+}
+
+//
+@function gt($a, $b) {
+    $diff: "calc(#{$b} - #{$cps} - #{$a})";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+//
+@function lt($a, $b) {
+    $diff: "calc(#{$a} - #{$cps} - #{$b})";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+//
+@function ge($a, $b) {
+    $diff: "calc(#{$b} + #{$cps} - #{$a})";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+//
+@function le($a, $b) {
+    $diff: "calc(#{$a} + #{$cps} - #{$b})";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+//
+@function ne($a, $b) {
+    $comp: "calc(#{$a} - #{$b})";
+    $diff: "max(#{abs($comp)} - #{$cps}, 0)";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+//
+@function eq($a, $b) {
+    $diff: "calc(1 - #{ne($a, $b)})";
+    @return string.unquote("max(#{sign($diff)}, 0)");
+}
+
+
 // ============================================================================
 // UNIT CONVERSION FUNCTIONS
 // ============================================================================
@@ -385,3 +437,39 @@ $-z-layers: (
     $factor: math.pow(10, $places);
     @return math.div(math.round($value * $factor), $factor);
 }
+
+//
+@function option-or($options, $key, $fallback) {
+    $value: map.get($options, $key);
+    @return if($value == null, $fallback, $value);
+}
+
+// alias for option-or
+@function _option-or($options, $key, $fallback) {
+    $value: map.get($options, $key);
+    @return if($value ==null, $fallback, $value);
+}
+
+//
+// Fetch function
+@function md3-fetch($source, $token, $label: "token") {
+    @if map.has-key($source, $token) {
+        @return map.get($source, $token);
+    }
+
+    @error "Unknown #{$label} `#{$token}`. Available: #{map.keys($source)}";
+}
+
+//
+@function css-mod($value, $mod) {
+    @return string.unquote("mod(#{$value}, #{$mod})");
+}
+
+@function css-rem($value, $mod) {
+    @return string.unquote("rem(#{$value}, #{$mod})");
+}
+
+@function neutral-size($value) {
+    @return string.unquote("calc(#{$value} + #{$value})");
+}
+

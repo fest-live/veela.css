@@ -1,7 +1,112 @@
 @use "./functions" as cfg;
+
+//
 @use "sass:math";
 @use "sass:color";
 @use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+
+/**
+ * Unified CSS Custom Property Registration System
+ * 
+ * This module consolidates property registration logic used across the library.
+ * It provides a single source of truth for @property declarations via the
+ * CSS Properties and Values API (CSS Houdini).
+ * 
+ * Used by:
+ * - lib/core/_properties.scss (orientation, transform, layout properties)
+ * - lib/basic/_typed-properties.scss (UI component properties)
+ * - lib/advanced/design/ (MD3 design properties)
+ */
+
+// ============================================================================
+// Default initial values by CSS type
+// ============================================================================
+
+$_default-initial-values: (
+    "integer": 0,
+    "number": 0.0,
+    "color": #0000,
+    "boolean": false,
+    "string": "",
+    "length": 0px,
+    "length-percentage": 0px,
+    "angle": 0deg,
+    "percentage": 0%,
+    "time": 0ms,
+    "frequency": 0hz,
+    ) !default;
+
+// ============================================================================
+// Mixin: Register a single CSS Custom Property
+// ============================================================================
+
+///
+/// Registers a single CSS Custom Property via the Properties & Values API.
+///
+/// Accepts a map with keys:
+/// - syntax: (string) CSS property syntax (e.g., "<color>", "<length>")
+/// - initial or initial-value: (any) default value for the property
+/// - inherits: (boolean) whether property inherits (defaults to true)
+///
+/// @example
+///   @include register-property("--my-color", ("syntax": "<color>", "initial": #fff, "inherits": false));
+///
+@mixin register-property($name, $definition) {
+    $config: if(meta.type-of($definition)=="map", $definition, ());
+
+    $syntax: map.get($config, "syntax") or "<number>";
+    $initial: if(map.has-key($config, "initial-value"),
+            map.get($config, "initial-value"),
+            map.get($config, "initial")) or _option-or($_default-initial-values, $syntax, 0.0);
+    $inherits: if(map.has-key($config, "inherits"), map.get($config, "inherits"), true);
+
+    @property #{$name} {
+        @if $syntax !=null {
+            syntax: "#{$syntax}";
+        }
+
+        @if $inherits !=null {
+            inherits: $inherits;
+        }
+
+        @if $initial !=null {
+            initial-value: #{$initial};
+        }
+    }
+}
+
+// ============================================================================
+// Mixin: Register multiple CSS Custom Properties at once
+// ============================================================================
+
+///
+/// Registers multiple CSS Custom Properties at once from one or more maps.
+///
+/// Each map entry should follow the format used by `register-property`.
+/// Multiple maps can be passed as arguments.
+///
+/// @example
+///   @include register-properties((
+///       "--my-color": ("syntax": "<color>", "initial": #fff),
+///       "--my-size": ("syntax": "<length>", "initial": 0px),
+///   ));
+///
+@mixin register-properties($bundles...) {
+    @each $bundle in $bundles {
+        @if meta.type-of($bundle)=="map" {
+            @each $name, $definition in $bundle {
+                @include register-property($name, $definition);
+            }
+        }
+
+        @else if $bundle !=null {
+            @warn "register-properties expects map entries, received #{meta.type-of($bundle)}.";
+        }
+    }
+}
 
 @mixin for-shell($shell-id) {
     :is(html, body):has([data-shell="#{$shell-id}"]) {
@@ -41,13 +146,15 @@
         "xl": 1280px,
     );
 
-    @if map-has-key($breakpoints, $breakpoint) {
-        @media (min-width: map-get($breakpoints, $breakpoint)) {
-            @content;
-        }
-    } @else {
-        @warn "Breakpoint '#{$breakpoint}' not found";
+@if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+        @content;
     }
+}
+
+@else {
+    @warn "Breakpoint '#{$breakpoint}' not found";
+}
 }
 
 @mixin container-query($size, $direction: min-width) {
@@ -64,9 +171,11 @@
 
 @mixin responsive-spacing($property, $sizes) {
     @each $breakpoint, $size in $sizes {
-        @if $breakpoint == "base" {
+        @if $breakpoint =="base" {
             #{$property}: cfg.config("spacing", $size);
-        } @else {
+        }
+
+        @else {
             @include container-query($breakpoint) {
                 #{$property}: cfg.config("spacing", $size);
             }
@@ -134,71 +243,81 @@
 }
 
 @mixin logical-size($block-size: auto, $inline-size: auto, $max-block-size: none, $max-inline-size: none) {
-    @if $block-size != auto {
+    @if $block-size !=auto {
         block-size: $block-size;
     }
 
-    @if $inline-size != auto {
+    @if $inline-size !=auto {
         inline-size: $inline-size;
     }
 
-    @if $max-block-size != none {
+    @if $max-block-size !=none {
         max-block-size: $max-block-size;
     }
 
-    @if $max-inline-size != none {
+    @if $max-inline-size !=none {
         max-inline-size: $max-inline-size;
     }
 }
 
-@mixin logical-spacing(
-    $property,
+@mixin logical-spacing($property,
     $block: 0,
     $inline: 0,
     $block-start: null,
     $block-end: null,
     $inline-start: null,
-    $inline-end: null
-) {
-    @if $block-start != null {
+    $inline-end: null) {
+    @if $block-start !=null {
         #{$property}-block-start: $block-start;
     }
 
-    @if $block-end != null {
+    @if $block-end !=null {
         #{$property}-block-end: $block-end;
     }
 
-    @if $inline-start != null {
+    @if $inline-start !=null {
         #{$property}-inline-start: $inline-start;
     }
 
-    @if $inline-end != null {
+    @if $inline-end !=null {
         #{$property}-inline-end: $inline-end;
     }
 
-    @if $block-start == null and $block-end == null and $block != 0 {
+    @if $block-start ==null and $block-end ==null and $block !=0 {
         #{$property}-block: $block;
     }
 
-    @if $inline-start == null and $inline-end == null and $inline != 0 {
+    @if $inline-start ==null and $inline-end ==null and $inline !=0 {
         #{$property}-inline: $inline;
     }
 }
 
 @mixin logical-border($width: 1px, $style: solid, $color: currentColor, $sides: all) {
-    @if $sides == "all" {
+    @if $sides =="all" {
         border: $width $style $color;
-    } @else if $sides == "block" {
+    }
+
+    @else if $sides =="block" {
         border-block: $width $style $color;
-    } @else if $sides == "inline" {
+    }
+
+    @else if $sides =="inline" {
         border-inline: $width $style $color;
-    } @else if $sides == "block-start" {
+    }
+
+    @else if $sides =="block-start" {
         border-block-start: $width $style $color;
-    } @else if $sides == "block-end" {
+    }
+
+    @else if $sides =="block-end" {
         border-block-end: $width $style $color;
-    } @else if $sides == "inline-start" {
+    }
+
+    @else if $sides =="inline-start" {
         border-inline-start: $width $style $color;
-    } @else if $sides == "inline-end" {
+    }
+
+    @else if $sides =="inline-end" {
         border-inline-end: $width $style $color;
     }
 }
@@ -215,11 +334,13 @@
 }
 
 @mixin truncate($lines: 1) {
-    @if $lines == 1 {
+    @if $lines ==1 {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-    } @else {
+    }
+
+    @else {
         display: -webkit-box;
         -webkit-line-clamp: $lines;
         -webkit-box-orient: vertical;
@@ -241,17 +362,27 @@
     margin-block-start: 0;
     margin-block-end: 0;
 
-    @if $level == 1 {
+    @if $level ==1 {
         font-size: var(--text-3xl);
-    } @else if $level == 2 {
+    }
+
+    @else if $level ==2 {
         font-size: var(--text-2xl);
-    } @else if $level == 3 {
+    }
+
+    @else if $level ==3 {
         font-size: var(--text-xl);
-    } @else if $level == 4 {
+    }
+
+    @else if $level ==4 {
         font-size: var(--text-lg);
-    } @else if $level == 5 {
+    }
+
+    @else if $level ==5 {
         font-size: var(--text-md);
-    } @else {
+    }
+
+    @else {
         font-size: var(--text-base);
     }
 }
@@ -281,17 +412,17 @@
     transition: all cfg.config("effects", "motion-fast");
 
     &:hover {
-        @if $hover-bg != null {
+        @if $hover-bg !=null {
             background-color: $hover-bg;
         }
 
-        @if $scale != 1 {
+        @if $scale !=1 {
             transform: scale($scale);
         }
     }
 
     &:active {
-        @if $active-bg != null {
+        @if $active-bg !=null {
             background-color: $active-bg;
         }
 
@@ -380,7 +511,7 @@
 }
 
 @mixin md-heading-print($scale, $padding: null) {
-    $resolved-padding: if($padding == null, cfg.config("heading", "padding"), $padding);
+    $resolved-padding: if($padding ==null, cfg.config("heading", "padding"), $padding);
     $line-height: cfg.config("layout", "line-height");
     $h-size: calc(3 - clamp(1, sqrt($scale) * 0.9, 2));
 
@@ -397,7 +528,7 @@
 }
 
 @mixin md-table-cell($padding: null) {
-    $resolved-padding: if($padding == null, cfg.config("table", "cell-padding"), $padding);
+    $resolved-padding: if($padding ==null, cfg.config("table", "cell-padding"), $padding);
 
     padding: $resolved-padding;
     white-space: normal;
@@ -405,8 +536,8 @@
 
 @mixin md-font-smoothing($mode: always) {
     font-smooth: $mode !important;
-    -webkit-font-smoothing: if($mode == always, subpixel-antialiased, antialiased) !important;
-    -moz-osx-font-smoothing: if($mode == always, auto, grayscale) !important;
+    -webkit-font-smoothing: if($mode ==always, subpixel-antialiased, antialiased) !important;
+    -moz-osx-font-smoothing: if($mode ==always, auto, grayscale) !important;
 }
 
 @mixin md-interactive-area($align: null, $touch: manipulation) {
@@ -414,7 +545,7 @@
     pointer-events: auto;
     user-select: text;
 
-    @if $align != null {
+    @if $align !=null {
         text-align: $align;
     }
 }
@@ -435,64 +566,86 @@
 }
 
 @mixin md-scrollbars($size: null) {
-    $scroll-size: if($size == null, cfg.config("scrollbar", "size"), $size);
+    $scroll-size: if($size ==null, cfg.config("scrollbar", "size"), $size);
     $radius: cfg.config("shape", "border-radius");
 
     @include scrollbar-base($scroll-size, var(--color-scrollbar), transparent, $radius);
 }
 
 @mixin breakpoint($size) {
-    @if $size == "xs" {
+    @if $size =="xs" {
         @media (max-width: 480px) {
             @content;
         }
-    } @else if $size == "sm" {
+    }
+
+    @else if $size =="sm" {
         @media (max-width: 640px) {
             @content;
         }
-    } @else if $size == "md" {
+    }
+
+    @else if $size =="md" {
         @media (max-width: 768px) {
             @content;
         }
-    } @else if $size == "lg" {
+    }
+
+    @else if $size =="lg" {
         @media (max-width: 1024px) {
             @content;
         }
-    } @else if $size == "xl" {
+    }
+
+    @else if $size =="xl" {
         @media (max-width: 1280px) {
             @content;
         }
-    } @else if $size == "2xl" {
+    }
+
+    @else if $size =="2xl" {
         @media (max-width: 1536px) {
             @content;
         }
-    } @else {
+    }
+
+    @else {
         @warn "Unknown breakpoint: #{$size}";
     }
 }
 
 @mixin breakpoint-up($size) {
-    @if $size == "sm" {
+    @if $size =="sm" {
         @media (min-width: 640px) {
             @content;
         }
-    } @else if $size == "md" {
+    }
+
+    @else if $size =="md" {
         @media (min-width: 768px) {
             @content;
         }
-    } @else if $size == "lg" {
+    }
+
+    @else if $size =="lg" {
         @media (min-width: 1024px) {
             @content;
         }
-    } @else if $size == "xl" {
+    }
+
+    @else if $size =="xl" {
         @media (min-width: 1280px) {
             @content;
         }
-    } @else if $size == "2xl" {
+    }
+
+    @else if $size =="2xl" {
         @media (min-width: 1536px) {
             @content;
         }
-    } @else {
+    }
+
+    @else {
         @warn "Unknown breakpoint: #{$size}";
     }
 }
@@ -547,4 +700,51 @@
 @mixin slide-in($direction: bottom, $distance: 1rem, $duration: var(--transition-normal)) {
     --slide-distance: #{$distance};
     animation: slide-in-#{$direction} $duration ease-out;
+}
+
+//
+@mixin when-hover($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:hover { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:active { @content; } }
+}
+
+//
+@mixin when-active($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:active { @content; } }
+}
+
+//
+@mixin when-focus($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:focus-visible { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:focus { @content; } }
+}
+
+//
+@mixin when-focus-visible($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:focus-visible { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:focus-visible { @content; } }
+}
+
+//
+@mixin when-disabled($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}:disabled, #{$selector}[aria-disabled="true"] { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}:disabled, #{$selector}[aria-disabled="true"] { @content; } }
+}
+
+//
+@mixin when-selected($selector: "&") {
+    @media (hover: hover) and (pointer: fine) { #{$selector}::selection, #{$selector}:checked, #{$selector}[aria-selected="true"] { @content; } }
+    @media (hover: none) and (pointer: coarse) { #{$selector}::selection, #{$selector}:checked, #{$selector}[aria-selected="true"] { @content; } }
+}
+
+//
+@mixin when-autofill($selector: "&") {
+    #{$selector}:-webkit-autofill { @content; }
+    #{$selector}:autofill { @content; }
+    #{$selector}:auto-fill { @content; }
+}
+
+@mixin hover($selector: "&") {
+    @include when-hover { #{$selector}:hover { @content; } }
+    @include when-active { #{$selector}:active { @content; } }
 }

@@ -1,20 +1,7 @@
-@use "./logical" as lg;
+@use "./functions" as lg;
 @use "sass:list";
 @use "sass:string";
 @use "sass:meta";
-
-//
-@function css-mod($value, $mod) {
-    @return string.unquote("mod(#{$value}, #{$mod})");
-}
-
-@function css-rem($value, $mod) {
-    @return string.unquote("rem(#{$value}, #{$mod})");
-}
-
-@function neutral-size($value) {
-    @return string.unquote("calc(#{$value} + #{$value})");
-}
 
 //
 // 2D shorthand helpers
@@ -462,8 +449,6 @@
 @mixin compute_orient_grid_layout() {
     & {
         @include v2-pair("os-layout", var(--layout-c, 4), var(--layout-r, 8), ("c", "r"));
-
-        //
         @include v2-size-num-pair(
             "cs-layout",
             (var(--os-layout-c, 4), var(--os-layout-r, 8)),

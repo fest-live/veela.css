@@ -1,265 +1,227 @@
-@use "./utils" as prop;
-
+@use "./mixins" as prop;
 
 @mixin declare-unit-props {
-    @include prop.register-properties((
-        "--ppx": ("syntax": "<length-percentage>", "initial": 1px),
-        "--zpx": ("syntax": "<length-percentage>", "initial": 1px)
-    ));
+    @include prop.register-properties(("--ppx": ("syntax": "<length-percentage>", "initial": 1px),
+            "--zpx": ("syntax": "<length-percentage>", "initial": 1px)));
 }
 
 @mixin declare-orientation-props {
-    @include prop.register-properties((
-        "--ox-orient": ("syntax": "<number>", "initial": 0),
-        "--os-orient": ("syntax": "<number>", "initial": 0),
-        "--in-orient": ("syntax": "<number>", "initial": 0),
-        "--orient": ("syntax": "<number>", "initial": 0),
-        "--orientation-secondary": ("syntax": "<integer>", "initial": 0)
-    ));
+    @include prop.register-properties(("--ox-orient": ("syntax": "<number>", "initial": 0),
+            "--os-orient": ("syntax": "<number>", "initial": 0),
+            "--in-orient": ("syntax": "<number>", "initial": 0),
+            "--orient": ("syntax": "<number>", "initial": 0),
+            "--orientation-secondary": ("syntax": "<integer>", "initial": 0)));
 }
 
 @mixin declare-transform-props {
-    @include prop.register-properties((
-        "--scaling": ("syntax": "<number>", "initial": 1),
-        "--resize-x": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--resize-y": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--drag-x": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--drag-y": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--zoom": ("syntax": "<number>", "initial": 1),
-        "--translate-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--translate-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--opacity": ("syntax": "<number>", "initial": 1, "inherits": false),
-        "--scale": ("syntax": "<number>", "initial": 1, "inherits": false),
-        "--corrector": ("syntax": "<number>", "initial": 1, "inherits": false)
-    ));
+    @include prop.register-properties(("--scaling": ("syntax": "<number>", "initial": 1),
+            "--resize-x": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--resize-y": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--drag-x": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--drag-y": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--zoom": ("syntax": "<number>", "initial": 1),
+            "--translate-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--translate-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--opacity": ("syntax": "<number>", "initial": 1, "inherits": false),
+            "--scale": ("syntax": "<number>", "initial": 1, "inherits": false),
+            "--corrector": ("syntax": "<number>", "initial": 1, "inherits": false)));
 }
 
 @mixin declare-viewport-props {
-    @include prop.register-properties((
-        "--avi": ("syntax": "<length-percentage>", "initial": 0px),
-        "--avb": ("syntax": "<length-percentage>", "initial": 0px),
-        "--vp-i-size": ("syntax": "<length-percentage>", "initial": 0px),
-        "--vp-b-size": ("syntax": "<length-percentage>", "initial": 0px),
-        "--border-width": ("syntax": "<length-percentage>", "initial": 100%),
-        "--border-height": ("syntax": "<length-percentage>", "initial": 100%),
-        "--pixel-ratio": ("syntax": "<number>", "initial": 1),
-        "--screen-width": ("syntax": "<length-percentage>", "initial": 100dvi),
-        "--screen-height": ("syntax": "<length-percentage>", "initial": 100dvb),
-        "--avail-width": ("syntax": "<length-percentage>", "initial": 100dvi),
-        "--avail-height": ("syntax": "<length-percentage>", "initial": 100dvb),
-        "--view-height": ("syntax": "<length-percentage>", "initial": 100dvb),
-        "--keyboard-inset-bottom": ("syntax": "<length-percentage>", "initial": 0px),
-        "--keyboard-inset-height": ("syntax": "<length-percentage>", "initial": 0px)
-    ));
+    @include prop.register-properties(("--avi": ("syntax": "<length-percentage>", "initial": 0px),
+            "--avb": ("syntax": "<length-percentage>", "initial": 0px),
+            "--vp-i-size": ("syntax": "<length-percentage>", "initial": 0px),
+            "--vp-b-size": ("syntax": "<length-percentage>", "initial": 0px),
+            "--border-width": ("syntax": "<length-percentage>", "initial": 100%),
+            "--border-height": ("syntax": "<length-percentage>", "initial": 100%),
+            "--pixel-ratio": ("syntax": "<number>", "initial": 1),
+            "--screen-width": ("syntax": "<length-percentage>", "initial": 100dvi),
+            "--screen-height": ("syntax": "<length-percentage>", "initial": 100dvb),
+            "--avail-width": ("syntax": "<length-percentage>", "initial": 100dvi),
+            "--avail-height": ("syntax": "<length-percentage>", "initial": 100dvb),
+            "--view-height": ("syntax": "<length-percentage>", "initial": 100dvb),
+            "--keyboard-inset-bottom": ("syntax": "<length-percentage>", "initial": 0px),
+            "--keyboard-inset-height": ("syntax": "<length-percentage>", "initial": 0px)));
 }
 
 @mixin declare-conditional-props {
-    @include prop.register-properties((
-        "--in-rev-cond-x": ("syntax": "<number>", "initial": 0),
-        "--in-rev-cond-y": ("syntax": "<number>", "initial": 0),
-        "--in-swap-cond": ("syntax": "<number>", "initial": 0),
-        "--in-rev-vx": ("syntax": "<number>", "initial": 0),
-        "--in-rev-vy": ("syntax": "<number>", "initial": 0)
-    ));
+    @include prop.register-properties(("--in-rev-cond-x": ("syntax": "<number>", "initial": 0),
+            "--in-rev-cond-y": ("syntax": "<number>", "initial": 0),
+            "--in-swap-cond": ("syntax": "<number>", "initial": 0),
+            "--in-rev-vx": ("syntax": "<number>", "initial": 0),
+            "--in-rev-vy": ("syntax": "<number>", "initial": 0)));
 }
 
 @mixin declare-inset-props {
-    @include prop.register-properties((
-        "--cs-transition-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--cs-transition-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--os-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--in-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--in-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false)
-    ));
+    @include prop.register-properties(("--cs-transition-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-transition-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--os-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--in-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--in-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false)));
 }
 
 @mixin declare-region-drag-props {
-    @include prop.register-properties((
-        "--cs-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--cs-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--os-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--os-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--in-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
-        "--in-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false)
-    ));
+    @include prop.register-properties(("--cs-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--os-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--os-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--in-drag-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--in-drag-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false)));
 }
 
 @mixin declare-size-props {
-    @include prop.register-properties((
-        "--cs-sw-unit-x": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cs-sw-unit-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cs-size-x": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cs-size-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--os-size-x": ("syntax": "<length-percentage>", "initial": 100%),
-        "--os-size-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cs-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cs-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--os-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
-        "--os-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cqi": ("syntax": "<length-percentage>", "initial": 100%),
-        "--cqb": ("syntax": "<length-percentage>", "initial": 100%)
-    ));
+    @include prop.register-properties(("--cs-sw-unit-x": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cs-sw-unit-y": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cs-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cs-size-y": ("syntax": "<length-percentage>", "initial": 100%),
+            "--os-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+            "--os-size-y": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cs-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cs-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
+            "--os-self-size-x": ("syntax": "<length-percentage>", "initial": 100%),
+            "--os-self-size-y": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cqi": ("syntax": "<length-percentage>", "initial": 100%),
+            "--cqb": ("syntax": "<length-percentage>", "initial": 100%)));
 }
 
 @mixin declare-rotation-props {
-    @include prop.register-properties((
-        "--rot": ("syntax": "<angle>", "initial": 0deg),
-        "--i-rot": ("syntax": "<angle>", "initial": 0deg)
-    ));
+    @include prop.register-properties(("--rot": ("syntax": "<angle>", "initial": 0deg),
+            "--i-rot": ("syntax": "<angle>", "initial": 0deg)));
 }
 
 @mixin declare-grid-props {
-    @include prop.register-properties((
-        "--ox-c-span": ("syntax": "<number>", "initial": 1),
-        "--ox-r-span": ("syntax": "<number>", "initial": 1),
-        "--ox-c-unit": ("syntax": "<length-percentage>", "initial": 1px),
-        "--ox-r-unit": ("syntax": "<length-percentage>", "initial": 1px),
-        "--r-gap": ("syntax": "<length-percentage>", "initial": 0px),
-        "--c-gap": ("syntax": "<length-percentage>", "initial": 0px),
-        "--dir-x": ("syntax": "<number>", "initial": 0),
-        "--dir-y": ("syntax": "<number>", "initial": 0),
-        "--f-col": ("syntax": "<integer>", "initial": 0),
-        "--f-row": ("syntax": "<integer>", "initial": 0),
-        "--grid-c": ("syntax": "<number>", "initial": 0),
-        "--grid-r": ("syntax": "<number>", "initial": 0),
-        "--cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--cs-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--cs-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--rv-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--rv-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--cs-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--cs-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--os-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--os-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--os-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--os-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
-    ));
+    @include prop.register-properties(("--ox-c-span": ("syntax": "<number>", "initial": 1),
+            "--ox-r-span": ("syntax": "<number>", "initial": 1),
+            "--ox-c-unit": ("syntax": "<length-percentage>", "initial": 1px),
+            "--ox-r-unit": ("syntax": "<length-percentage>", "initial": 1px),
+            "--r-gap": ("syntax": "<length-percentage>", "initial": 0px),
+            "--c-gap": ("syntax": "<length-percentage>", "initial": 0px),
+            "--dir-x": ("syntax": "<number>", "initial": 0),
+            "--dir-y": ("syntax": "<number>", "initial": 0),
+            "--f-col": ("syntax": "<integer>", "initial": 0),
+            "--f-row": ("syntax": "<integer>", "initial": 0),
+            "--grid-c": ("syntax": "<number>", "initial": 0),
+            "--grid-r": ("syntax": "<number>", "initial": 0),
+            "--cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--cs-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--cs-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--rv-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--rv-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--cs-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--cs-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--os-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--os-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--os-p-grid-c": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--os-p-grid-r": ("syntax": "<number>", "initial": 0, "inherits": false),
+        ));
 }
 
 @mixin declare-layout-props {
-    @include prop.register-properties((
-        "--p-drag-x": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--p-drag-y": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--layout-r": ("syntax": "<integer>", "initial": 1),
-        "--layout-c": ("syntax": "<integer>", "initial": 1),
-        "--p-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--p-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--fc-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--fc-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--fp-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--fp-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
-        "--c-shift-mod": ("syntax": "<number>", "initial": 0),
-        "--r-shift-mod": ("syntax": "<number>", "initial": 0)
-    ));
+    @include prop.register-properties(("--p-drag-x": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--p-drag-y": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--layout-r": ("syntax": "<integer>", "initial": 1),
+            "--layout-c": ("syntax": "<integer>", "initial": 1),
+            "--p-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--p-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--fc-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--fc-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--fp-cell-x": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--fp-cell-y": ("syntax": "<integer>", "initial": 0, "inherits": false),
+            "--c-shift-mod": ("syntax": "<number>", "initial": 0),
+            "--r-shift-mod": ("syntax": "<number>", "initial": 0)));
 }
 
 @mixin declare-lighting-props {
-    @include prop.register-properties((
-        "--light-az": ("syntax": "<angle>", "initial": 225deg),
-        "--light-alt": ("syntax": "<angle>", "initial": 55deg),
-        "--soft-ang": ("syntax": "<angle>", "initial": 18deg),
-        "--parallax-k": ("syntax": "<number>", "initial": 0.01),
-        "--parallax-ref": ("syntax": "<length>", "initial": 600px),
-        "--az-span": ("syntax": "<angle>", "initial": 12deg),
-        "--alt-span": ("syntax": "<angle>", "initial": 6deg),
-        "--umbra-density": ("syntax": "<number>", "initial": 0.32),
-        "--penumbra-density": ("syntax": "<number>", "initial": 0.18)
-    ));
+    @include prop.register-properties(("--light-az": ("syntax": "<angle>", "initial": 225deg),
+            "--light-alt": ("syntax": "<angle>", "initial": 55deg),
+            "--soft-ang": ("syntax": "<angle>", "initial": 18deg),
+            "--parallax-k": ("syntax": "<number>", "initial": 0.01),
+            "--parallax-ref": ("syntax": "<length>", "initial": 600px),
+            "--az-span": ("syntax": "<angle>", "initial": 12deg),
+            "--alt-span": ("syntax": "<angle>", "initial": 6deg),
+            "--umbra-density": ("syntax": "<number>", "initial": 0.32),
+            "--penumbra-density": ("syntax": "<number>", "initial": 0.18)));
 }
 
 @mixin declare-shadow-props {
-    @include prop.register-properties((
-        "--elev": ("syntax": "<number>", "initial": 0, "inherits": false),
-        "--lx": ("syntax": "<number>", "initial": -1),
-        "--ly": ("syntax": "<number>", "initial": -1),
-        "--lz": ("syntax": "<number>", "initial": 1.2),
-        "--z-index": ("syntax": "<number>", "initial": 0),
-        "--dx": ("syntax": "<number>", "initial": 0),
-        "--dy": ("syntax": "<number>", "initial": 0),
-        "--spreadC": ("syntax": "<number>", "initial": 0),
-        "--spreadU": ("syntax": "<number>", "initial": 0),
-        "--spreadP": ("syntax": "<number>", "initial": 0),
-        "--alphaC": ("syntax": "<number>", "initial": 0),
-        "--alphaU": ("syntax": "<number>", "initial": 0),
-        "--alphaP": ("syntax": "<number>", "initial": 0)
-    ));
+    @include prop.register-properties(("--elev": ("syntax": "<number>", "initial": 0, "inherits": false),
+            "--lx": ("syntax": "<number>", "initial": -1),
+            "--ly": ("syntax": "<number>", "initial": -1),
+            "--lz": ("syntax": "<number>", "initial": 1.2),
+            "--z-index": ("syntax": "<number>", "initial": 0),
+            "--dx": ("syntax": "<number>", "initial": 0),
+            "--dy": ("syntax": "<number>", "initial": 0),
+            "--spreadC": ("syntax": "<number>", "initial": 0),
+            "--spreadU": ("syntax": "<number>", "initial": 0),
+            "--spreadP": ("syntax": "<number>", "initial": 0),
+            "--alphaC": ("syntax": "<number>", "initial": 0),
+            "--alphaU": ("syntax": "<number>", "initial": 0),
+            "--alphaP": ("syntax": "<number>", "initial": 0)));
 }
 
 @mixin declare-color-scale-props {
     //
-    @include prop.register-properties((
-        "--current": ("syntax": "<color>", "inherits": true, "initial": #469),
-        "--primary": ("syntax": "<color>", "inherits": true, "initial": #469),
-        "--secondary": ("syntax": "<color>", "inherits": true, "initial": #469),
-        "--trinary": ("syntax": "<color>", "inherits": true, "initial": #469),
-        "--current-is-light": ("syntax": "<number>", "inherits": true, "initial": 1),
-        "--size-scale": ("syntax": "<number>", "initial": 1),
-        "--font-scale": ("syntax": "<number>", "initial": 1)
-    ));
+    @include prop.register-properties(("--current": ("syntax": "<color>", "inherits": true, "initial": #469),
+            "--primary": ("syntax": "<color>", "inherits": true, "initial": #469),
+            "--secondary": ("syntax": "<color>", "inherits": true, "initial": #469),
+            "--trinary": ("syntax": "<color>", "inherits": true, "initial": #469),
+            "--current-is-light": ("syntax": "<number>", "inherits": true, "initial": 1),
+            "--size-scale": ("syntax": "<number>", "initial": 1),
+            "--font-scale": ("syntax": "<number>", "initial": 1)));
 
     //
-    @include prop.register-properties((
-        "--accent": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--error": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--neutral": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--on-surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--surface-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--on-surface-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--outline": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--contrast": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--color-on-surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--border-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--scrollbar-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--contrast-color": ("syntax": "<color>", "inherits": true, "initial": #000),
-        "--on-contrast-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--on-contrast": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--outline-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--accent-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--text-decoration-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--fill-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
-        "--text-emphasis-color": ("syntax": "<color>", "inherits": true, "initial": #0000)
-    ));
+    @include prop.register-properties(("--accent": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--error": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--neutral": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--on-surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--surface-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--on-surface-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--outline": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--contrast": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--color-on-surface": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--border-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--scrollbar-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--contrast-color": ("syntax": "<color>", "inherits": true, "initial": #000),
+            "--on-contrast-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--on-contrast": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--outline-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--accent-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--text-decoration-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--fill-color": ("syntax": "<color>", "inherits": true, "initial": #0000),
+            "--text-emphasis-color": ("syntax": "<color>", "inherits": true, "initial": #0000)));
 
     //
-    @include prop.register-properties((
-        "--background-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--color-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--icon-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--accent-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--scrollbar-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0)
-    ));
+    @include prop.register-properties(("--background-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--color-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--icon-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--accent-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--scrollbar-tone-shift": ("syntax": "<number>", "inherits": true, "initial": 0.0)));
 
     // internals
-    @include prop.register-properties((
-        "--_color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--_color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--hover-lift": ("syntax": "<number>", "inherits": true, "initial": 0.03),
-        "--active-lift": ("syntax": "<number>", "inherits": true, "initial": 0.05),
-        "--focus-lift": ("syntax": "<number>", "inherits": true, "initial": 0.02)
-    ));
+    @include prop.register-properties(("--_color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--_color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--hover-lift": ("syntax": "<number>", "inherits": true, "initial": 0.03),
+            "--active-lift": ("syntax": "<number>", "inherits": true, "initial": 0.05),
+            "--focus-lift": ("syntax": "<number>", "inherits": true, "initial": 0.02)));
 
     //
-    @include prop.register-properties((
-        "--color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--color-opacity": ("syntax": "<number>", "inherits": true, "initial": 0.0),
-        "--color-enable-blur": ("syntax": "<number>", "inherits": true, "initial": 0),
-        "--c2h-ct": ("syntax": "<number>", "inherits": true, "initial": 0)
-    ));
+    @include prop.register-properties(("--color-shade": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--color-tint": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--color-opacity": ("syntax": "<number>", "inherits": true, "initial": 0.0),
+            "--color-enable-blur": ("syntax": "<number>", "inherits": true, "initial": 0),
+            "--c2h-ct": ("syntax": "<number>", "inherits": true, "initial": 0)));
 }
 
 
 @mixin declare-md-props {
-    @include prop.register-properties((
-        "--md-state-layer-opacity": ("syntax": "<number>", "initial": 0),
-        "--md-elevation-level": ("syntax": "<integer>", "initial": 0),
-        "--interaction-tone-direction": ("syntax": "<number>", "initial": 1)
-    ));
+    @include prop.register-properties(("--md-state-layer-opacity": ("syntax": "<number>", "initial": 0),
+            "--md-elevation-level": ("syntax": "<integer>", "initial": 0),
+            "--interaction-tone-direction": ("syntax": "<number>", "initial": 1)));
 }
 
 @mixin declare-props {

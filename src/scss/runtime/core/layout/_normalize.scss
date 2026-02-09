@@ -184,7 +184,6 @@
         :where(textarea) {
             overflow: auto;
             resize: vertical;
-            min-block-size: 4rem;
         }
 
         :where([type="search"]) {
@@ -579,7 +578,7 @@
             display: block;
             inline-size: 100%;
             padding: 0.5rem;
-            background-color: var(--color-bg);
+            background-color: var(--color-bg-alt);
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
             color: var(--color-text);

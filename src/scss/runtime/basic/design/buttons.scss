@@ -44,11 +44,11 @@
     }
 
     .btn {
-        --ui-bg: var(--basic-surface-container-high);
-        --ui-fg: var(--basic-on-surface);
-        --ui-bg-hover: var(--basic-surface-container-highest);
-        --ui-ring: var(--basic-primary);
-        --ui-radius: var(--basic-radius-lg);
+        --ui-bg: var(--color-surface-container-high);
+        --ui-fg: var(--color-on-surface);
+        --ui-bg-hover: var(--color-surface-container-highest);
+        --ui-ring: var(--color-primary);
+        --ui-radius: var(--radius-lg);
         --ui-pad-y: var(--space-sm);
         --ui-pad-x: var(--space-lg);
         --ui-font-size: var(--text-sm);
@@ -68,10 +68,10 @@
         block-size: calc-size(fit-content, max(var(--ui-min-h), size));
         cursor: pointer;
         transition:
-            background-color var(--basic-motion-fast),
-            box-shadow var(--basic-motion-fast),
-            transform var(--basic-motion-fast);
-        box-shadow: var(--basic-elev-0);
+            background-color var(--motion-fast),
+            box-shadow var(--motion-fast),
+            transform var(--motion-fast);
+        box-shadow: var(--elev-0);
         user-select: none;
         touch-action: manipulation;
         pointer-events: auto;
@@ -104,13 +104,13 @@
 
         &:hover {
             background: var(--ui-bg-hover);
-            box-shadow: var(--basic-elev-1);
+            box-shadow: var(--elev-1);
             transform: translateY(-1px);
         }
 
         &:active {
             transform: translateY(0);
-            box-shadow: var(--basic-elev-0);
+            box-shadow: var(--elev-0);
         }
 
         &:focus-visible {
@@ -124,24 +124,24 @@
             transform: none !important;
 
             &:hover {
-                background: var(--basic-surface-container-high);
-                box-shadow: var(--basic-elev-0);
+                background: var(--color-surface-container-high);
+                box-shadow: var(--elev-0);
             }
         }
 
         &.primary,
         &.active {
-            --ui-bg: var(--basic-primary);
-            --ui-fg: var(--basic-on-primary);
-            --ui-ring: var(--basic-primary);
+            --ui-bg: var(--color-primary);
+            --ui-fg: var(--color-on-primary);
+            --ui-ring: var(--color-primary);
         }
 
         &.primary {
-            --ui-bg-hover: color-mix(in oklab, var(--basic-primary) 90%, black);
+            --ui-bg-hover: color-mix(in oklab, var(--color-primary) 90%, black);
         }
 
         &.active {
-            box-shadow: var(--basic-elev-1);
+            box-shadow: var(--elev-1);
         }
 
         &.small {
@@ -149,7 +149,7 @@
             --ui-pad-x: var(--space-md);
             --ui-font-size: var(--text-xs);
             --ui-min-h: 32px;
-            --ui-radius: var(--basic-radius-md);
+            --ui-radius: var(--radius-md);
         }
 
         &.icon-btn {
@@ -196,9 +196,9 @@
             [data-action="view-workcenter"][data-current],
             [data-action="view-workcenter"].active
         ) {
-            --ui-bg: var(--basic-surface-container-highest);
-            --ui-fg: var(--basic-primary);
-            --ui-ring: var(--basic-primary);
+            --ui-bg: var(--color-surface-container-highest);
+            --ui-fg: var(--color-primary);
+            --ui-ring: var(--color-primary);
         }
 
         &:is(

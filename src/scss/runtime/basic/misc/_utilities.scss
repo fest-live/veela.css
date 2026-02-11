@@ -651,11 +651,11 @@
     }
 
     .vs-error {
-        color: var(--basic-error, #dc3545);
+        color: var(--color-error, #dc3545);
     }
 
     .vs-success {
-        color: var(--basic-success, #28a745);
+        color: var(--color-success, #28a745);
     }
 
     .vs-hidden {
@@ -714,51 +714,51 @@
     }
 
     .vc-surface {
-        background-color: var(--basic-surface);
-        color: var(--basic-on-surface);
+        background-color: var(--color-surface);
+        color: var(--color-on-surface);
     }
 
     .vc-surface-variant {
-        background-color: var(--basic-surface-variant);
-        color: var(--basic-on-surface-variant);
+        background-color: var(--color-surface-variant);
+        color: var(--color-on-surface-variant);
     }
 
     .vc-primary {
-        background-color: var(--basic-primary);
-        color: var(--basic-on-primary);
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
     }
 
     .vc-secondary {
-        background-color: var(--basic-secondary);
-        color: var(--basic-on-secondary);
+        background-color: var(--color-secondary);
+        color: var(--color-on-secondary);
     }
 
     .vc-elevated {
-        box-shadow: var(--basic-elev-1);
+        box-shadow: var(--elev-1);
     }
 
     .vc-elevated-2 {
-        box-shadow: var(--basic-elev-2);
+        box-shadow: var(--elev-2);
     }
 
     .vc-elevated-3 {
-        box-shadow: var(--basic-elev-3);
+        box-shadow: var(--elev-3);
     }
 
     .vc-rounded {
-        border-radius: var(--basic-radius-md);
+        border-radius: var(--radius-md);
     }
 
     .vc-rounded-sm {
-        border-radius: var(--basic-radius-sm);
+        border-radius: var(--radius-sm);
     }
 
     .vc-rounded-lg {
-        border-radius: var(--basic-radius-lg);
+        border-radius: var(--radius-lg);
     }
 
     .vc-rounded-full {
-        border-radius: var(--basic-radius-full, 9999px);
+        border-radius: var(--radius-full, 9999px);
     }
 
     .card {
@@ -825,13 +825,13 @@
 
     @media (prefers-contrast: high) {
         .text-primary {
-            color: var(--basic-on-surface);
+            color: var(--color-on-surface);
         }
 
         .text-secondary,
         .text-muted,
         .text-disabled {
-            color: var(--basic-on-surface-variant);
+            color: var(--color-on-surface-variant);
         }
 
         .border {

@@ -327,17 +327,17 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--basic-outline-variant, #d1d5db);
+            background: var(--color-outline-variant, #d1d5db);
             border-radius: 4px;
 
             &:hover {
-                background: var(--basic-outline, #9ca3af);
+                background: var(--color-outline, #9ca3af);
             }
         }
 
         * {
             scrollbar-width: thin;
-            scrollbar-color: var(--basic-outline-variant, #d1d5db) transparent;
+            scrollbar-color: var(--color-outline-variant, #d1d5db) transparent;
         }
 
         :where(input, textarea, select) {

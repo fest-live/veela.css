@@ -118,7 +118,7 @@
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background: var(--basic-outline, #9ca3af);
+        background: var(--color-outline, #9ca3af);
     }
 }
 
@@ -198,11 +198,11 @@
 
 /**
  * Focus ring without outline (M3-style)
- * @param $color [var(--basic-primary, #0066cc)] - focus color
- * @param $radius [var(--basic-radius-sm, 8px)] - border radius
- * @usage: @include focus-ring(var(--basic-primary));
+ * @param $color [var(--color-primary, #0066cc)] - focus color
+ * @param $radius [var(--radius-sm, 8px)] - border radius
+ * @usage: @include focus-ring(var(--color-primary));
  */
-@mixin focus-ring($color: var(--basic-primary, #0066cc), $radius: var(--basic-radius-sm, 8px)) {
+@mixin focus-ring($color: var(--color-primary, #0066cc), $radius: var(--radius-sm, 8px)) {
     outline: none;
     box-shadow: 0 0 0 3px color-mix(in oklab, $color 35%, transparent);
     border-radius: $radius;

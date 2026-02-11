@@ -21,37 +21,37 @@
 @layer ux-tokens {
     :root {
         // Map veela tokens to Beer CSS naming
-        --primary: var(--basic-primary, #6200ee);
-        --on-primary: var(--basic-on-primary, #ffffff);
-        --secondary: var(--basic-secondary, #03dac6);
-        --on-secondary: var(--basic-on-secondary, #000000);
-        --background: var(--basic-background, #fafafa);
-        --on-background: var(--basic-on-background, #000000);
-        --surface: var(--basic-surface, #ffffff);
-        --on-surface: var(--basic-on-surface, #000000);
-        --error: var(--basic-error, #b00020);
-        --on-error: var(--basic-on-error, #ffffff);
+        --primary: var(--color-primary, #6200ee);
+        --on-primary: var(--color-on-primary, #ffffff);
+        --secondary: var(--color-secondary, #03dac6);
+        --on-secondary: var(--color-on-secondary, #000000);
+        --background: var(--color-background, #fafafa);
+        --on-background: var(--color-on-background, #000000);
+        --surface: var(--color-surface, #ffffff);
+        --on-surface: var(--color-on-surface, #000000);
+        --error: var(--color-error, #b00020);
+        --on-error: var(--color-on-error, #ffffff);
 
         // Beer CSS specific
-        --active: var(--basic-primary);
-        --border: var(--basic-outline-variant, #e0e0e0);
+        --active: var(--color-primary);
+        --border: var(--color-outline-variant, #e0e0e0);
         --overlay: color-mix(in oklab, var(--on-surface) 12%, transparent);
 
         // Elevation (Beer CSS compatible)
-        --elevate1: var(--basic-elev-1, 0 1px 3px rgba(0,0,0,.12));
-        --elevate2: var(--basic-elev-2, 0 3px 6px rgba(0,0,0,.16));
-        --elevate3: var(--basic-elev-3, 0 6px 12px rgba(0,0,0,.16));
+        --elevate1: var(--elev-1, 0 1px 3px rgba(0,0,0,.12));
+        --elevate2: var(--elev-2, 0 3px 6px rgba(0,0,0,.16));
+        --elevate3: var(--elev-3, 0 6px 12px rgba(0,0,0,.16));
 
         // Radius (Beer CSS compatible)
-        --round1: var(--basic-radius-sm, 8px);
-        --round2: var(--basic-radius-md, 12px);
-        --round3: var(--basic-radius-lg, 16px);
-        --round4: var(--basic-radius-xl, 24px);
+        --round1: var(--radius-sm, 8px);
+        --round2: var(--radius-md, 12px);
+        --round3: var(--radius-lg, 16px);
+        --round4: var(--radius-xl, 24px);
 
         // Animation (Beer CSS compatible)
-        --speed1: var(--basic-motion-fast, 0.1s);
-        --speed2: var(--basic-motion-normal, 0.2s);
-        --speed3: var(--basic-motion-slow, 0.3s);
+        --speed1: var(--motion-fast, 0.1s);
+        --speed2: var(--motion-normal, 0.2s);
+        --speed3: var(--motion-slow, 0.3s);
         --speed4: 0.4s;
     }
 }

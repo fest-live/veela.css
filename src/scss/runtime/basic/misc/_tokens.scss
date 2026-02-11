@@ -1,56 +1,56 @@
 
 @mixin -theme-light {
-    --basic-primary: #5a7fff;
-    --basic-on-primary: #ffffff;
-    --basic-secondary: #6b7280;
-    --basic-on-secondary: #ffffff;
-    --basic-tertiary: #64748b;
-    --basic-on-tertiary: #ffffff;
-    --basic-error: #ef4444;
-    --basic-on-error: #ffffff;
-    --basic-success: #4caf50;
-    --basic-warning: #ff9800;
-    --basic-info: #2196f3;
-    --basic-background: #fafbfc;
-    --basic-on-background: #1e293b;
-    --basic-surface: #fafbfc;
-    --basic-on-surface: #1e293b;
-    --basic-surface-variant: #f1f5f9;
-    --basic-on-surface-variant: #64748b;
-    --basic-outline: #cbd5e1;
-    --basic-outline-variant: #94a3b8;
-    --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 96%, var(--basic-primary) 4%);
-    --basic-surface-container: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-    --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-    --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-    --basic-border: color-mix(in oklab, var(--basic-outline-variant) 75%, transparent);
+    --color-primary: #5a7fff;
+    --color-on-primary: #ffffff;
+    --color-secondary: #6b7280;
+    --color-on-secondary: #ffffff;
+    --color-tertiary: #64748b;
+    --color-on-tertiary: #ffffff;
+    --color-error: #ef4444;
+    --color-on-error: #ffffff;
+    --color-success: #4caf50;
+    --color-warning: #ff9800;
+    --color-info: #2196f3;
+    --color-background: #fafbfc;
+    --color-on-background: #1e293b;
+    --color-surface: #fafbfc;
+    --color-on-surface: #1e293b;
+    --color-surface-variant: #f1f5f9;
+    --color-on-surface-variant: #64748b;
+    --color-outline: #cbd5e1;
+    --color-outline-variant: #94a3b8;
+    --color-surface-container-low: color-mix(in oklab, var(--color-surface) 96%, var(--color-primary) 4%);
+    --color-surface-container: color-mix(in oklab, var(--color-surface) 92%, var(--color-primary) 8%);
+    --color-surface-container-high: color-mix(in oklab, var(--color-surface) 88%, var(--color-primary) 12%);
+    --color-surface-container-highest: color-mix(in oklab, var(--color-surface) 84%, var(--color-primary) 16%);
+    --color-border: color-mix(in oklab, var(--color-outline-variant) 75%, transparent);
 }
 
 @mixin -theme-dark {
-    --basic-primary: #7ca7ff;
-    --basic-on-primary: #0f172a;
-    --basic-secondary: #94a3b8;
-    --basic-on-secondary: #1e293b;
-    --basic-tertiary: #94a3b8;
-    --basic-on-tertiary: #0f172a;
-    --basic-error: #f87171;
-    --basic-on-error: #450a0a;
-    --basic-success: #66bb6a;
-    --basic-warning: #ffa726;
-    --basic-info: #42a5f5;
-    --basic-background: #0f1419;
-    --basic-on-background: #f1f5f9;
-    --basic-surface: #0f1419;
-    --basic-on-surface: #f1f5f9;
-    --basic-surface-variant: #1e293b;
-    --basic-on-surface-variant: #cbd5e1;
-    --basic-outline: #475569;
-    --basic-outline-variant: #334155;
-    --basic-surface-container-low: color-mix(in oklab, var(--basic-surface) 92%, var(--basic-primary) 8%);
-    --basic-surface-container: color-mix(in oklab, var(--basic-surface) 88%, var(--basic-primary) 12%);
-    --basic-surface-container-high: color-mix(in oklab, var(--basic-surface) 84%, var(--basic-primary) 16%);
-    --basic-surface-container-highest: color-mix(in oklab, var(--basic-surface) 80%, var(--basic-primary) 20%);
-    --basic-border: color-mix(in oklab, var(--basic-outline-variant) 70%, transparent);
+    --color-primary: #7ca7ff;
+    --color-on-primary: #0f172a;
+    --color-secondary: #94a3b8;
+    --color-on-secondary: #1e293b;
+    --color-tertiary: #94a3b8;
+    --color-on-tertiary: #0f172a;
+    --color-error: #f87171;
+    --color-on-error: #450a0a;
+    --color-success: #66bb6a;
+    --color-warning: #ffa726;
+    --color-info: #42a5f5;
+    --color-background: #0f1419;
+    --color-on-background: #f1f5f9;
+    --color-surface: #0f1419;
+    --color-on-surface: #f1f5f9;
+    --color-surface-variant: #1e293b;
+    --color-on-surface-variant: #cbd5e1;
+    --color-outline: #475569;
+    --color-outline-variant: #334155;
+    --color-surface-container-low: color-mix(in oklab, var(--color-surface) 92%, var(--color-primary) 8%);
+    --color-surface-container: color-mix(in oklab, var(--color-surface) 88%, var(--color-primary) 12%);
+    --color-surface-container-high: color-mix(in oklab, var(--color-surface) 84%, var(--color-primary) 16%);
+    --color-surface-container-highest: color-mix(in oklab, var(--color-surface) 80%, var(--color-primary) 20%);
+    --color-border: color-mix(in oklab, var(--color-outline-variant) 70%, transparent);
 }
 
 @layer tokens {
@@ -89,12 +89,12 @@
         --gap-xl: var(--space-xl);
         --gap-2xl: var(--space-2xl);
 
-        --basic-radius-sm: 8px;
-        --basic-radius-md: 12px;
-        --basic-radius-lg: 16px;
-        --basic-radius-xl: 22px;
-        --basic-radius-2xl: 28px;
-        --basic-radius-full: 9999px;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 22px;
+        --radius-2xl: 28px;
+        --radius-full: 9999px;
 
         --radius-none: 0;
         --radius-sm: 0.25rem;
@@ -106,10 +106,10 @@
         --radius-3xl: 1.5rem;
         --radius-full: 9999px;
 
-        --basic-elev-0: none;
-        --basic-elev-1: 0 1px 1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
-        --basic-elev-2: 0 2px 6px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
-        --basic-elev-3: 0 6px 16px rgba(0, 0, 0, 0.14), 0 18px 48px rgba(0, 0, 0, 0.1);
+        --elev-0: none;
+        --elev-1: 0 1px 1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
+        --elev-2: 0 2px 6px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
+        --elev-3: 0 6px 16px rgba(0, 0, 0, 0.14), 0 18px 48px rgba(0, 0, 0, 0.1);
 
         --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
         --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -153,11 +153,11 @@
         --transition-normal: 160ms cubic-bezier(0.2, 0, 0, 1);
         --transition-slow: 200ms cubic-bezier(0.2, 0, 0, 1);
 
-        --basic-motion-fast: var(--transition-fast);
-        --basic-motion-normal: var(--transition-normal);
-        --basic-motion-slow: var(--transition-slow);
+        --motion-fast: var(--transition-fast);
+        --motion-normal: var(--transition-normal);
+        --motion-slow: var(--transition-slow);
 
-        --basic-focus-ring: 0 0 0 3px color-mix(in oklab, var(--basic-primary) 35%, transparent);
+        --focus-ring: 0 0 0 3px color-mix(in oklab, var(--color-primary) 35%, transparent);
 
         --z-base: 0;
         --z-dropdown: 100;
@@ -170,65 +170,65 @@
         --z-toast: 800;
         --z-max: 9999;
 
-        --view-bg: var(--basic-surface);
-        --view-fg: var(--basic-on-surface);
-        --view-border: var(--basic-outline-variant);
-        --view-input-bg: light-dark(#ffffff, var(--basic-surface-container-high));
-        --view-files-bg: light-dark(rgba(0, 0, 0, 0.02), var(--basic-surface-container-low));
-        --view-file-bg: light-dark(rgba(0, 0, 0, 0.03), var(--basic-surface-container-lowest, var(--basic-surface-container-low)));
-        --view-results-bg: light-dark(rgba(0, 0, 0, 0.01), var(--basic-surface-container-low));
-        --view-result-bg: light-dark(rgba(0, 0, 0, 0.03), var(--basic-surface-container-lowest, var(--basic-surface-container-low)));
+        --view-bg: var(--color-surface);
+        --view-fg: var(--color-on-surface);
+        --view-border: var(--color-outline-variant);
+        --view-input-bg: light-dark(#ffffff, var(--color-surface-container-high));
+        --view-files-bg: light-dark(rgba(0, 0, 0, 0.02), var(--color-surface-container-low));
+        --view-file-bg: light-dark(rgba(0, 0, 0, 0.03), var(--color-surface-container-lowest, var(--color-surface-container-low)));
+        --view-results-bg: light-dark(rgba(0, 0, 0, 0.01), var(--color-surface-container-low));
+        --view-result-bg: light-dark(rgba(0, 0, 0, 0.03), var(--color-surface-container-lowest, var(--color-surface-container-low)));
 
-        --color-surface: var(--basic-surface);
-        --color-surface-elevated: var(--basic-surface-container);
-        --color-surface-hover: var(--basic-surface-container-low);
-        --color-surface-active: var(--basic-surface-container-high);
-        --color-on-surface: var(--basic-on-surface);
-        --color-on-surface-muted: var(--basic-on-surface-variant);
+        --color-surface: var(--color-surface);
+        --color-surface-elevated: var(--color-surface-container);
+        --color-surface-hover: var(--color-surface-container-low);
+        --color-surface-active: var(--color-surface-container-high);
+        --color-on-surface: var(--color-on-surface);
+        --color-on-surface-muted: var(--color-on-surface-variant);
 
-        --color-background: var(--basic-background);
-        --color-background-alt: var(--basic-surface-variant);
-        --color-on-background: var(--basic-on-background);
+        --color-background: var(--color-background);
+        --color-background-alt: var(--color-surface-variant);
+        --color-on-background: var(--color-on-background);
 
-        --color-primary: var(--basic-primary);
-        --color-primary-hover: color-mix(in oklab, var(--basic-primary) 80%, black);
-        --color-primary-active: color-mix(in oklab, var(--basic-primary) 65%, black);
-        --color-on-primary: var(--basic-on-primary);
-        --color-accent: var(--basic-secondary);
-        --color-accent-hover: color-mix(in oklab, var(--basic-secondary) 80%, black);
-        --color-on-accent: var(--basic-on-secondary);
+        --color-primary: var(--color-primary);
+        --color-primary-hover: color-mix(in oklab, var(--color-primary) 80%, black);
+        --color-primary-active: color-mix(in oklab, var(--color-primary) 65%, black);
+        --color-on-primary: var(--color-on-primary);
+        --color-accent: var(--color-secondary);
+        --color-accent-hover: color-mix(in oklab, var(--color-secondary) 80%, black);
+        --color-on-accent: var(--color-on-secondary);
 
-        --color-border: var(--basic-border);
-        --color-border-hover: var(--basic-outline-variant);
-        --color-border-strong: var(--basic-outline);
-        --color-border-focus: var(--basic-primary);
+        --color-border: var(--color-border);
+        --color-border-hover: var(--color-outline-variant);
+        --color-border-strong: var(--color-outline);
+        --color-border-focus: var(--color-primary);
 
-        --color-text: var(--basic-on-surface);
-        --color-text-secondary: var(--basic-on-surface-variant);
-        --color-text-muted: color-mix(in oklab, var(--basic-on-surface) 50%, var(--basic-surface));
-        --color-text-disabled: color-mix(in oklab, var(--basic-on-surface) 38%, var(--basic-surface));
-        --color-text-inverse: var(--basic-on-primary);
+        --color-text: var(--color-on-surface);
+        --color-text-secondary: var(--color-on-surface-variant);
+        --color-text-muted: color-mix(in oklab, var(--color-on-surface) 50%, var(--color-surface));
+        --color-text-disabled: color-mix(in oklab, var(--color-on-surface) 38%, var(--color-surface));
+        --color-text-inverse: var(--color-on-primary);
 
-        --color-link: var(--basic-primary);
-        --color-link-hover: color-mix(in oklab, var(--basic-primary) 80%, black);
+        --color-link: var(--color-primary);
+        --color-link-hover: color-mix(in oklab, var(--color-primary) 80%, black);
 
-        --color-success: var(--basic-success);
-        --color-success-light: color-mix(in oklab, var(--basic-success) 60%, white);
-        --color-success-dark: color-mix(in oklab, var(--basic-success) 70%, black);
-        --color-warning: var(--basic-warning);
-        --color-warning-light: color-mix(in oklab, var(--basic-warning) 60%, white);
-        --color-warning-dark: color-mix(in oklab, var(--basic-warning) 70%, black);
-        --color-error: var(--basic-error);
-        --color-error-light: color-mix(in oklab, var(--basic-error) 60%, white);
-        --color-error-dark: color-mix(in oklab, var(--basic-error) 70%, black);
-        --color-info: var(--basic-info);
-        --color-info-light: color-mix(in oklab, var(--basic-info) 60%, white);
-        --color-info-dark: color-mix(in oklab, var(--basic-info) 70%, black);
+        --color-success: var(--color-success);
+        --color-success-light: color-mix(in oklab, var(--color-success) 60%, white);
+        --color-success-dark: color-mix(in oklab, var(--color-success) 70%, black);
+        --color-warning: var(--color-warning);
+        --color-warning-light: color-mix(in oklab, var(--color-warning) 60%, white);
+        --color-warning-dark: color-mix(in oklab, var(--color-warning) 70%, black);
+        --color-error: var(--color-error);
+        --color-error-light: color-mix(in oklab, var(--color-error) 60%, white);
+        --color-error-dark: color-mix(in oklab, var(--color-error) 70%, black);
+        --color-info: var(--color-info);
+        --color-info-light: color-mix(in oklab, var(--color-info) 60%, white);
+        --color-info-dark: color-mix(in oklab, var(--color-info) 70%, black);
 
-        --color-bg: var(--color-surface, var(--basic-surface));
-        --color-bg-alt: var(--color-surface-variant, var(--basic-surface-variant));
-        --color-fg: var(--color-on-surface, var(--basic-on-surface));
-        --color-fg-muted: var(--color-on-surface-variant, var(--basic-on-surface-variant));
+        --color-bg: var(--color-surface, var(--color-surface));
+        --color-bg-alt: var(--color-surface-variant, var(--color-surface-variant));
+        --color-fg: var(--color-on-surface, var(--color-on-surface));
+        --color-fg-muted: var(--color-on-surface-variant, var(--color-on-surface-variant));
 
         --btn-height-sm: 2rem;
         --btn-height-md: 2.5rem;
@@ -244,17 +244,17 @@
         --input-height-lg: 3rem;
         --input-padding-x: var(--space-md);
         --input-radius: var(--radius-md);
-        --input-border-color: var(--color-border, var(--basic-border));
+        --input-border-color: var(--color-border, var(--color-border));
         --input-focus-ring-color: var(--color-primary);
         --input-focus-ring-width: 2px;
 
         --card-padding: var(--space-lg);
         --card-radius: var(--radius-lg);
         --card-shadow: var(--shadow-sm);
-        --card-border-color: var(--color-border, var(--basic-border));
+        --card-border-color: var(--color-border, var(--color-border));
 
         --modal-backdrop-bg: light-dark(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.7));
-        --modal-bg: var(--color-surface, var(--basic-surface));
+        --modal-bg: var(--color-surface, var(--color-surface));
         --modal-radius: var(--radius-xl);
         --modal-shadow: var(--shadow-xl);
         --modal-padding: 1.5rem;
@@ -272,8 +272,8 @@
         --toast-transform: translateY(100%) scale(0.9);
         --toast-transition: opacity 160ms ease-out, transform 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 100ms ease;
         
-        --toast-text: var(--color-on-surface, var(--basic-on-surface, light-dark(#ffffff, #000000)));
-        --toast-bg: color-mix(in oklab, var(--color-surface-elevated, var(--basic-surface-container-high, var(--color-surface, light-dark(#fafbfc, #1e293b)))) 90%, var(--color-on-surface, var(--basic-on-surface, light-dark(#000000, #ffffff))));
+        --toast-text: var(--color-on-surface, var(--color-on-surface, light-dark(#ffffff, #000000)));
+        --toast-bg: color-mix(in oklab, var(--color-surface-elevated, var(--color-surface-container-high, var(--color-surface, light-dark(#fafbfc, #1e293b)))) 90%, var(--color-on-surface, var(--color-on-surface, light-dark(#000000, #ffffff))));
         --toast-radius: var(--radius-lg);
         --toast-shadow: var(--shadow-lg);
         --toast-padding: var(--space-lg);
@@ -284,7 +284,7 @@
         --nav-height-compact: 48px;
 
         --status-height: 24px;
-        --status-bg: var(--color-surface-elevated, var(--basic-surface-container-high));
+        --status-bg: var(--color-surface-elevated, var(--color-surface-container-high));
         --status-font-size: var(--text-xs);
     }
 
@@ -311,18 +311,18 @@
             --transition-fast: 0ms;
             --transition-normal: 0ms;
             --transition-slow: 0ms;
-            --basic-motion-fast: 0ms;
-            --basic-motion-normal: 0ms;
-            --basic-motion-slow: 0ms;
+            --motion-fast: 0ms;
+            --motion-normal: 0ms;
+            --motion-slow: 0ms;
         }
     }
 
     @media (prefers-contrast: high) {
         :root {
-            --color-border: var(--color-border, var(--basic-outline));
-            --color-border-hover: color-mix(in oklab, var(--color-border, var(--basic-outline)) 80%, var(--color-on-surface, var(--basic-on-surface)));
-            --color-text-secondary: var(--color-on-surface, var(--basic-on-surface));
-            --color-text-muted: var(--color-on-surface-variant, var(--basic-on-surface-variant));
+            --color-border: var(--color-border, var(--color-outline));
+            --color-border-hover: color-mix(in oklab, var(--color-border, var(--color-outline)) 80%, var(--color-on-surface, var(--color-on-surface)));
+            --color-text-secondary: var(--color-on-surface, var(--color-on-surface));
+            --color-text-muted: var(--color-on-surface-variant, var(--color-on-surface-variant));
         }
     }
 

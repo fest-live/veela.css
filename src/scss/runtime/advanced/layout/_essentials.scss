@@ -1,7 +1,13 @@
 @use "veela-lib" as *;
 
+@use "sass:string";
+
 //
-@layer ux-classes {
+@layer essentials {
+
+    :root, :host, :scope {
+        --font-family: "InterVariable", "Inter", "Helvetica Neue", "Helvetica", "Calibri", "Roboto", ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+    }
 
     //
     .round-decor {
@@ -59,6 +65,8 @@
 
     //
     .ctx-menu {
+        --font-family: "InterVariable", "Inter", "Helvetica Neue", "Helvetica", "Calibri", "Roboto", ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+    
         //
         &, * {
             visibility: visible;

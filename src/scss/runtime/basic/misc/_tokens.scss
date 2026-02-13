@@ -53,7 +53,7 @@
     --color-border: color-mix(in oklab, var(--color-outline-variant) 70%, transparent);
 }
 
-@layer tokens, base, layout, components, utilities, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, markdown, essentials, overrides;
 
 @layer tokens {
     :root,
@@ -115,10 +115,10 @@
         --shadow-inset-strong: inset 0 4px 8px rgba(0, 0, 0, 0.12);
         --shadow-none: 0 0 #0000;
 
-        --text-xs: 0.7rem;
-        --text-sm: 0.8rem;
-        --text-base: 0.9rem;
-        --text-lg: 1rem;
+        --text-xs: 0.8rem;
+        --text-sm: 0.9rem;
+        --text-base: 1rem;
+        --text-lg: 1.1rem;
         --text-xl: 1.25rem;
         --text-2xl: 1.6rem;
         --text-3xl: 2rem;

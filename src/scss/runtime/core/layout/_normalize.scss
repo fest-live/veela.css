@@ -1,7 +1,7 @@
 /* ai-refactor: optimized/refactored at 2026-02-13T00:44:57Z */
 @use "./shared" as *;
 
-@layer tokens, base, layout, components, utilities, markdown, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, markdown, essentials, overrides;
 
 @layer tokens {
     :where(:root, html) {

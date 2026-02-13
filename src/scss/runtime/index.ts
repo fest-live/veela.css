@@ -68,6 +68,10 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
     await loadCoreStyles();
 
     switch (variant) {
+        case "core": {
+            await loadCoreStyles();
+            break;
+        }
         case "basic": {
             await loadBasicStyles();
             break;
@@ -81,7 +85,9 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
             break;
         }
         default:
-            throw new Error(`Unknown veela variant: ${variant}`);
+            console.warn(`[Veela] Unknown variant: ${variant}, using basic`);
+            await loadBasicStyles();
+            break;
     }
 
     _loadedVariant = variant;

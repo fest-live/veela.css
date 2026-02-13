@@ -350,7 +350,6 @@
             color: var(--color-fg);
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
-            transition: border-color var(--transition-fast);
 
             &:focus {
                 outline: none;

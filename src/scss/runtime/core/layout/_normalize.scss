@@ -1,6 +1,8 @@
 /* ai-refactor: optimized/refactored at 2026-02-13T00:44:57Z */
 @use "./shared" as *;
 
+@layer tokens, base, layout, components, utilities, markdown, overrides;
+
 @layer tokens {
     :where(:root, html) {
         color-scheme: light dark;

@@ -1,4 +1,4 @@
-
+/* ai-refactor: optimized/refactored at 2026-02-13T00:48:23Z */
 @mixin -theme-light {
     --color-primary: #5a7fff;
     --color-on-primary: #ffffff;
@@ -53,8 +53,9 @@
     --color-border: color-mix(in oklab, var(--color-outline-variant) 70%, transparent);
 }
 
-@layer tokens {
+@layer tokens, base, layout, components, utilities, overrides;
 
+@layer tokens {
     :root,
     :host,
     :scope {
@@ -88,13 +89,6 @@
         --gap-lg: var(--space-lg);
         --gap-xl: var(--space-xl);
         --gap-2xl: var(--space-2xl);
-
-        --radius-sm: 8px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --radius-xl: 22px;
-        --radius-2xl: 28px;
-        --radius-full: 9999px;
 
         --radius-none: 0;
         --radius-sm: 0.25rem;
@@ -179,26 +173,19 @@
         --view-results-bg: light-dark(rgba(0, 0, 0, 0.01), var(--color-surface-container-low));
         --view-result-bg: light-dark(rgba(0, 0, 0, 0.03), var(--color-surface-container-lowest, var(--color-surface-container-low)));
 
-        --color-surface: var(--color-surface);
         --color-surface-elevated: var(--color-surface-container);
         --color-surface-hover: var(--color-surface-container-low);
         --color-surface-active: var(--color-surface-container-high);
-        --color-on-surface: var(--color-on-surface);
         --color-on-surface-muted: var(--color-on-surface-variant);
 
-        --color-background: var(--color-background);
         --color-background-alt: var(--color-surface-variant);
-        --color-on-background: var(--color-on-background);
 
-        --color-primary: var(--color-primary);
         --color-primary-hover: color-mix(in oklab, var(--color-primary) 80%, black);
         --color-primary-active: color-mix(in oklab, var(--color-primary) 65%, black);
-        --color-on-primary: var(--color-on-primary);
         --color-accent: var(--color-secondary);
         --color-accent-hover: color-mix(in oklab, var(--color-secondary) 80%, black);
         --color-on-accent: var(--color-on-secondary);
 
-        --color-border: var(--color-border);
         --color-border-hover: var(--color-outline-variant);
         --color-border-strong: var(--color-outline);
         --color-border-focus: var(--color-primary);
@@ -212,16 +199,12 @@
         --color-link: var(--color-primary);
         --color-link-hover: color-mix(in oklab, var(--color-primary) 80%, black);
 
-        --color-success: var(--color-success);
         --color-success-light: color-mix(in oklab, var(--color-success) 60%, white);
         --color-success-dark: color-mix(in oklab, var(--color-success) 70%, black);
-        --color-warning: var(--color-warning);
         --color-warning-light: color-mix(in oklab, var(--color-warning) 60%, white);
         --color-warning-dark: color-mix(in oklab, var(--color-warning) 70%, black);
-        --color-error: var(--color-error);
         --color-error-light: color-mix(in oklab, var(--color-error) 60%, white);
         --color-error-dark: color-mix(in oklab, var(--color-error) 70%, black);
-        --color-info: var(--color-info);
         --color-info-light: color-mix(in oklab, var(--color-info) 60%, white);
         --color-info-dark: color-mix(in oklab, var(--color-info) 70%, black);
 
@@ -258,7 +241,8 @@
         --modal-radius: var(--radius-xl);
         --modal-shadow: var(--shadow-xl);
         --modal-padding: 1.5rem;
-        --toast-font-family: var(--font-family, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+
+        --toast-font-family: var(--font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
         --toast-font-size: var(--font-size-base, 1rem);
         --toast-font-weight: var(--font-weight-medium, 500);
         --toast-letter-spacing: 0.01em;
@@ -267,11 +251,9 @@
         --toast-pointer-events: auto;
         --toast-user-select: none;
         --toast-cursor: default;
-        
         --toast-opacity: 0;
         --toast-transform: translateY(100%) scale(0.9);
         --toast-transition: opacity 160ms ease-out, transform 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 100ms ease;
-        
         --toast-text: var(--color-on-surface, var(--color-on-surface, light-dark(#ffffff, #000000)));
         --toast-bg: color-mix(in oklab, var(--color-surface-elevated, var(--color-surface-container-high, var(--color-surface, light-dark(#fafbfc, #1e293b)))) 90%, var(--color-on-surface, var(--color-on-surface, light-dark(#000000, #ffffff))));
         --toast-radius: var(--radius-lg);

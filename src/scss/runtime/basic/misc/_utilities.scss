@@ -1,3 +1,4 @@
+/* ai-refactor: optimized/refactored at 2026-02-13T00:47:57Z */
 @use "sass:map";
 @use "veela-lib" as *;
 @use "veela-lib" as mixins;
@@ -9,18 +10,18 @@
     overflow: hidden;
 }
 
-@layer utilities {
-    $spaces: (
-        "0": 0,
-        "xs": config("spacing", "xs"),
-        "sm": config("spacing", "sm"),
-        "md": config("spacing", "md"),
-        "lg": config("spacing", "lg"),
-        "xl": config("spacing", "xl"),
-        "2xl": config("spacing", "2xl"),
-        "3xl": config("spacing", "3xl")
-    );
+$spaces: (
+    "0": 0,
+    "xs": config("spacing", "xs"),
+    "sm": config("spacing", "sm"),
+    "md": config("spacing", "md"),
+    "lg": config("spacing", "lg"),
+    "xl": config("spacing", "xl"),
+    "2xl": config("spacing", "2xl"),
+    "3xl": config("spacing", "3xl")
+);
 
+@layer utilities {
     @each $name, $value in $spaces {
         .m-#{$name} {
             margin: $value;

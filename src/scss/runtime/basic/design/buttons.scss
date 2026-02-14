@@ -100,6 +100,7 @@
                 max-block-size: stretch;
                 min-inline-size: 0px;
                 max-inline-size: fit-content;
+                gap: 0px;
 
                 span {
                     display: none !important;
@@ -113,6 +114,7 @@
                 max-block-size: stretch;
                 min-inline-size: 0px;
                 max-inline-size: fit-content;
+                gap: 0px;
 
                 span {
                     display: none !important;
@@ -238,6 +240,20 @@
             --ui-pad-y: 0px;
             --ui-min-h: 28px;
             --ui-radius: 14px;
+        }
+
+        &:has(ui-icon:only-child), &:has(span:only-of-type:empty) {
+            font-size: 0px !important;
+            aspect-ratio: 1 / 1;
+            block-size: fit-content;
+            max-block-size: stretch;
+            min-inline-size: 0px;
+            max-inline-size: fit-content;
+            gap: 0px;
+
+            span {
+                display: none !important;
+            }
         }
     }
 

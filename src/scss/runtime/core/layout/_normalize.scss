@@ -1,7 +1,7 @@
 /* ai-refactor: optimized/refactored at 2026-02-13T00:44:57Z */
 @use "./shared" as *;
 
-@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, markdown, essentials, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, overrides;
 
 @layer tokens {
     :where(:root, html) {
@@ -342,7 +342,6 @@
         }
 
         :where(input, textarea, select) {
-            display: block;
             inline-size: 100%;
             padding: 0.5rem;
             font-size: var(--font-size-base);
@@ -389,7 +388,6 @@
 
         :where(label) {
             font-weight: 600;
-            display: block;
             user-select: none;
             pointer-events: none;
             margin-block-end: 0.25rem;

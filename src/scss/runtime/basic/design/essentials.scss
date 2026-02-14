@@ -1,7 +1,7 @@
 @use "sass:string";
 
 /* ai-refactor: optimized/refactored at 2026-02-13T00:45:12Z */
-@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, markdown, essentials, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, overrides;
 
 @layer utilities {
     .round-decor {

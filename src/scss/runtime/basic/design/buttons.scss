@@ -1,5 +1,5 @@
 /* ai-refactor: optimized/refactored at 2026-02-13T00:45:15Z */
-@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, markdown, essentials, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, overrides;
 
 @layer components {
     button,
@@ -90,6 +90,35 @@
         justify-items: safe center;
         align-content: safe center;
         align-items: safe center;
+
+        &.btn-icon {
+
+            @container (max-inline-size: 480px) {
+                font-size: 0px !important;
+                aspect-ratio: 1 / 1;
+                block-size: fit-content;
+                max-block-size: stretch;
+                min-inline-size: 0px;
+                max-inline-size: fit-content;
+
+                span {
+                    display: none !important;
+                }
+            }
+
+            @container (max-inline-size: 360px) {
+                font-size: 0px !important;
+                aspect-ratio: 1 / 1;
+                block-size: fit-content;
+                max-block-size: stretch;
+                min-inline-size: 0px;
+                max-inline-size: fit-content;
+
+                span {
+                    display: none !important;
+                }
+            }
+        }
 
         &:hover {
             background: var(--ui-bg-hover);

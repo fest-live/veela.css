@@ -53,7 +53,7 @@
     --color-border: color-mix(in oklab, var(--color-outline-variant) 70%, transparent);
 }
 
-@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, overrides;
+@layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, print, print-breaks, overrides;
 
 @layer tokens {
     :root,

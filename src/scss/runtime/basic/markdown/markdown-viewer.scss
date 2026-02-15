@@ -2878,5 +2878,25 @@
         * + :where(hr, h1) {
             break-before: auto !important;
         }
+
+        :where(p, :heading):has(+ :where(ul, ol)) {
+            break-after: avoid !important;
+            break-after: avoid-page !important;
+        }
+
+        :where(p, :heading) + :where(ul, ol) {
+            break-before: avoid !important;
+            break-before: avoid-page !important;
+        }
+
+        :where(:heading):has(+ :where(table, pre, code, blockquote)) {
+            break-after: avoid !important;
+            break-after: avoid-page !important;
+        }
+
+        :where(:heading) + :where(table, pre, code, blockquote) {
+            break-before: avoid !important;
+            break-before: avoid-page !important;
+        }
     }
 }

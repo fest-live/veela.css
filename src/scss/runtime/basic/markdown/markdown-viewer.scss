@@ -453,7 +453,6 @@
         pre {
             margin: var(--space-xl) 0;
             padding: var(--space-lg);
-            overflow-x: auto;
             border: none;
             border-radius: var(--radius-lg);
             background: var(--color-surface-container-high);
@@ -461,21 +460,19 @@
             font-family: var(--font-family-mono);
             font-size: var(--text-sm);
             line-height: var(--leading-normal);
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-outline) transparent;
+            scrollbar-width: none;
+            overflow: visible !important;
+            scrollbar-color: transparent transparent;
+            block-size: max-content !important;
+            max-block-size: max-content !important;
+            contain: inline-size layout paint style;
+            container-type: inline-size;
+            inline-size: stretch;
+            max-inline-size: stretch;
 
             @container (max-width: 768px) {
                 margin: var(--space-lg) 0;
                 padding: var(--space-md);
-            }
-
-            &::-webkit-scrollbar {
-                height: 6px;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background: var(--color-outline);
-                border-radius: 3px;
             }
 
             code {
@@ -485,6 +482,13 @@
                 color: inherit;
                 font-family: inherit;
                 font-size: inherit;
+                overflow: visible !important;
+                block-size: max-content !important;
+                max-block-size: max-content !important;
+                contain: inline-size layout paint style;
+                container-type: inline-size;
+                inline-size: stretch;
+                max-inline-size: stretch;
             }
         }
 

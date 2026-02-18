@@ -583,14 +583,37 @@
         }
 
         img {
-            max-width: 100%;
-            height: auto;
+            max-inline-size: stretch;
+            inline-size: fit-content;
+            block-size: auto;
+            object-fit: contain;
+            object-position: center;
             margin: var(--space-lg) 0;
             border-radius: var(--radius-md);
             box-shadow: var(--elev-1);
 
             @container (max-width: 768px) {
                 margin: var(--space-md) 0;
+            }
+
+            &[align="right"] {
+                margin-inline-start: auto;
+            }
+
+            &[align="left"] {
+                margin-inline-end: auto;
+            }
+
+            &[align="center"] {
+                margin-inline: auto;
+            }
+
+            &[width] {
+                inline-size: attr(width px, auto);
+            }
+
+            &[height] {
+                block-size: attr(height px, auto);
             }
         }
 
@@ -728,7 +751,7 @@
 
             ol,
             ul {
-                margin-block-end: 0;
+                margin-block: 0;
             }
         }
 
@@ -841,7 +864,34 @@
             }
 
             img {
+                inline-size: fit-content;
+                max-inline-size: stretch;
+                block-size: auto;
                 background-color: transparent;
+                object-fit: contain;
+                object-position: center;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+
+                &[width] {
+                    inline-size: attr(width px, auto);
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto);
+                }
             }
         }
 
@@ -986,6 +1036,8 @@
             img {
                 inline-size: 1em;
                 block-size: 1em;
+                object-fit: contain;
+                object-position: center;
             }
         }
 
@@ -1041,17 +1093,35 @@
         }
 
         img {
-            max-inline-size: 100%;
+            max-inline-size: stretch;
+            inline-size: fit-content;
+            block-size: auto;
             box-sizing: content-box;
             background-color: transparent;
             border-style: none;
+            object-fit: contain;
+            object-position: center;
 
             &[align="right"] {
+                margin-inline-start: auto;
                 padding-inline-start: 20px;
             }
 
             &[align="left"] {
+                margin-inline-end: auto;
                 padding-inline-end: 20px;
+            }
+
+            &[align="center"] {
+                margin-inline: auto;
+            }
+
+            &[width] {
+                inline-size: attr(width px, auto);
+            }
+
+            &[height] {
+                block-size: attr(height px, auto);
             }
         }
 
@@ -1266,10 +1336,34 @@
         }
 
         img {
-            max-width: 100%;
-            max-inline-size: 100%;
-            height: auto;
+            max-inline-size: stretch;
+            inline-size: fit-content;
+            block-size: auto;
+            object-fit: contain;
+            object-position: center;
             display: block;
+
+            &[align="right"] {
+                margin-inline-start: auto;
+                padding-inline-start: 20px;
+            }
+
+            &[align="left"] {
+                margin-inline-end: auto;
+                padding-inline-end: 20px;
+            }
+
+            &[align="center"] {
+                margin-inline: auto;
+            }
+
+            &[width] {
+                inline-size: attr(width px, auto);
+            }
+
+            &[height] {
+                block-size: attr(height px, auto);
+            }
         }
 
         a {
@@ -1685,9 +1779,34 @@
             }
 
             img {
-                max-inline-size: 100%;
+                max-inline-size: stretch;
+                inline-size: fit-content;
                 block-size: auto;
+                object-fit: contain;
+                object-position: center;
                 border-radius: 8px;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+                
+                &[width] {
+                    inline-size: attr(width px, auto);
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto);
+                }
             }
 
             hr {
@@ -1798,12 +1917,36 @@
             }
 
             img {
-                max-inline-size: 100%;
-                inline-size: auto;
+                max-inline-size: stretch;
+                inline-size: fit-content;
                 block-size: auto;
                 margin-block: 1.5em;
                 margin-inline: auto;
                 display: block;
+                object-fit: contain;
+                object-position: center;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+                
+                &[width] {
+                    inline-size: attr(width px, auto);
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto);
+                }
             }
 
             a {
@@ -1898,12 +2041,6 @@
             font-variant-caps: normal !important;
             font-variant-ligatures: normal !important;
             text-transform: none !important;
-            font-style: oblique 5deg;
-        }
-    
-        .katex .mathnormal,
-        .katex .mathit {
-            font-style: oblique 5deg !important;
         }
 
         :where(#{tokens.$selectors}):not(.katex, .footnote-ref, .footnote-backref) {
@@ -2241,7 +2378,34 @@
             }
 
             img {
-                max-width: 100%;
+                max-inline-size: stretch;
+                inline-size: fit-content;
+                block-size: auto;
+                object-fit: contain;
+                object-position: center;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+
+                &[width] {
+                    inline-size: attr(width px, auto);
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto);
+                }
             }
 
             a {
@@ -2285,8 +2449,34 @@
             }
 
             img {
-                max-width: 100% !important;
-                height: auto !important;
+                max-inline-size: stretch !important;
+                inline-size: fit-content !important;
+                block-size: auto !important;
+                object-fit: contain !important;
+                object-position: center !important;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+
+                &[width] {
+                    inline-size: attr(width px, auto) !important;
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto) !important;
+                }
             }
 
             pre {
@@ -2357,9 +2547,37 @@
             }
 
             img {
-                @include print-grayscale;
+                max-inline-size: stretch !important;
+                inline-size: fit-content !important;
+                block-size: auto !important;
+                object-fit: contain !important;
+                object-position: center !important;
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: optimize-contrast;
+                @include print-grayscale;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+
+                &[width] {
+                    inline-size: attr(width px, auto) !important;
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto) !important;
+                }
             }
 
             *,
@@ -2513,8 +2731,38 @@
             }
 
             img {
+                max-inline-size: stretch !important;
+                inline-size: fit-content !important;
+                block-size: auto !important;
+                object-fit: contain !important;
+                object-position: center !important;
                 margin: 1em auto;
                 display: block;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: optimize-contrast;
+                @include print-grayscale;
+
+                &[align="right"] {
+                    margin-inline-start: auto;
+                    padding-inline-start: 20px;
+                }
+                
+                &[align="left"] {
+                    margin-inline-end: auto;
+                    padding-inline-end: 20px;
+                }
+
+                &[align="center"] {
+                    margin-inline: auto;
+                }
+
+                &[width] {
+                    inline-size: attr(width px, auto) !important;
+                }
+
+                &[height] {
+                    block-size: attr(height px, auto) !important;
+                }
             }
 
             hr {
@@ -2656,12 +2904,6 @@
         font-variant-caps: normal !important;
         font-variant-ligatures: normal !important;
         text-transform: none !important;
-        font-style: oblique 5deg;
-    }
-
-    .katex .mathnormal,
-    .katex .mathit {
-        font-style: oblique 5deg !important;
     }
 
     @media screen {

@@ -2036,11 +2036,23 @@
         }
 
         .katex,
-        .katex * {
-            font-variant: normal !important;
-            font-variant-caps: normal !important;
-            font-variant-ligatures: normal !important;
-            text-transform: none !important;
+        .katex:not(:has(math)) *,
+        .katex :not(math) *:not(math) {
+            font-variant: normal;
+            font-variant-caps: normal;
+            font-variant-ligatures: normal;
+            text-transform: none;
+            font-family: "Noto Sans Math", "Cambria Math", "STIX Two Math", "Latin Modern Math", var(--print-font-family-serif), serif;
+        }
+
+        .katex math {
+            font-variant: normal;
+            font-variant-caps: normal;
+            font-variant-ligatures: normal;
+            text-transform: none;
+            math-style: compact;
+            math-shift: compact;
+            math-depth: auto-add;
         }
 
         :where(#{tokens.$selectors}):not(.katex, .footnote-ref, .footnote-backref) {
@@ -2851,16 +2863,11 @@
     }
 
     .katex {
-        inline-size: fit-content;
-        max-inline-size: stretch;
-        block-size: fit-content;
-        max-block-size: stretch;
-        font-variant: normal;
-        font-kerning: normal;
-        text-transform: none;
         text-align: start;
 
-        * {
+        &, 
+        & :not(math) *:not(math),
+        &:not(:has(math)) *:not(math) {
             text-align: start;
             inline-size: fit-content;
             max-inline-size: stretch;
@@ -2869,7 +2876,18 @@
             font-variant: normal;
             font-kerning: normal;
             text-transform: none;
+            font-family: "Noto Sans Math", "Cambria Math", "STIX Two Math", "Latin Modern Math", var(--print-font-family-serif), serif;
         }
+    }
+
+    .katex math {
+        font-variant: normal;
+        font-variant-caps: normal;
+        font-variant-ligatures: normal;
+        text-transform: none;
+        math-style: compact;
+        math-shift: compact;
+        math-depth: auto-add;
     }
 
     .footnote-ref,
@@ -2896,14 +2914,25 @@
     }
 }
 
-
 @layer overrides {
     .katex,
-    .katex * {
-        font-variant: normal !important;
-        font-variant-caps: normal !important;
-        font-variant-ligatures: normal !important;
-        text-transform: none !important;
+    .katex:not(:has(math)) *,
+    .katex :not(math) *:not(math) {
+        font-variant: normal;
+        font-variant-caps: normal;
+        font-variant-ligatures: normal;
+        text-transform: none;
+        font-family: "Noto Sans Math", "Cambria Math", "STIX Two Math", "Latin Modern Math", var(--print-font-family-serif), serif;
+    }
+
+    .katex math {
+        font-variant: normal;
+        font-variant-caps: normal;
+        font-variant-ligatures: normal;
+        text-transform: none;
+        math-style: compact;
+        math-shift: compact;
+        math-depth: auto-add;
     }
 
     @media screen {

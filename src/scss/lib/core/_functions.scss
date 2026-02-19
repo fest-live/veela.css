@@ -214,11 +214,11 @@ $-z-layers: (
     $value: map.get($palette, $name);
 
     @if $mode == "light" {
-        @return if($value != null, list.nth($value, 1), null);
+        @return if(sass($value != null): list.nth($value, 1))
     }
 
     @if $mode == "dark" {
-        @return if($value != null, list.nth($value, 2), null);
+        @return if(sass($value != null): list.nth($value, 2))
     }
 
     @return $value;
@@ -350,7 +350,7 @@ $cps: 0.0001;
 
 @function contrast-text($bg) {
     $luminance: color.channel($bg, "lightness", $space: hsl);
-    @return if($luminance > 50%, #1a1a1a, #ffffff);
+    @return if(sass($luminance > 50%): #1a1a1a; else: #ffffff);
 }
 
 @function mix-colors($color1, $color2, $weight: 50%) {
@@ -441,13 +441,13 @@ $cps: 0.0001;
 //
 @function option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
-    @return if($value == null, $fallback, $value);
+    @return if(sass($value == null): $fallback; else: $value);
 }
 
 // alias for option-or
 @function _option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
-    @return if($value ==null, $fallback, $value);
+    @return if(sass($value == null): $fallback; else: $value);
 }
 
 //

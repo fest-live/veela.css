@@ -76,7 +76,7 @@
  * @usage: @include disable-interaction(); or @include disable-interaction(true);
  */
 @mixin disable-interaction($importance: false) {
-    $imp: if($importance, !important, '');
+    $imp: if(sass($importance): !important; else: "");
     pointer-events: none #{$imp};
     touch-action: none #{$imp};
     user-select: none #{$imp};

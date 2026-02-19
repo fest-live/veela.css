@@ -345,7 +345,7 @@ $cps: 0.0001;
 }
 
 @function darken-color($color, $amount) {
-    @return color.scale($color, $lightness: -$amount);
+    @return color.scale($color, $lightness: - $amount);
 }
 
 @function contrast-text($bg) {

@@ -55,7 +55,7 @@ $_default-initial-values: (
 ///   @include register-property("--my-color", ("syntax": "<color>", "initial": #fff, "inherits": false));
 ///
 @mixin register-property($name, $definition) {
-    $config: if(meta.type-of($definition)=="map", $definition, ());
+    $config: if(meta.type-of($definition) == "map", $definition, ());
 
     $syntax: map.get($config, "syntax") or "<number>";
     $initial: if(map.has-key($config, "initial-value"),
@@ -64,15 +64,15 @@ $_default-initial-values: (
     $inherits: if(map.has-key($config, "inherits"), map.get($config, "inherits"), true);
 
     @property #{$name} {
-        @if $syntax !=null {
+        @if $syntax != null {
             syntax: "#{$syntax}";
         }
 
-        @if $inherits !=null {
+        @if $inherits != null {
             inherits: $inherits;
         }
 
-        @if $initial !=null {
+        @if $initial != null {
             initial-value: #{$initial};
         }
     }

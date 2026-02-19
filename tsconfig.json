@@ -3,14 +3,13 @@
     "exclude": ["./dist/**/*", "./externals/**/*"],
     "compilerOptions": {
         "outDir": "./dist/",
-        "baseUrl": "./",
         "paths": {
             "fest/*": ["../../shared/fest/*"],
             "fest/cdnImport": ["../../cdnImport.mjs"],
             "fest/dom": ["../../shared/fest/dom/index.ts"],
             "fest/core": ["../../shared/fest/core/index.ts"],
             "fest/veela": ["./src/ts/index.ts"],
-            "fest/veela-runtime": ["src/scss/runtime/advanced/index.ts"],
+            "fest/veela-runtime": ["./src/scss/runtime/index.ts"],
             "veela-lib": ["./src/scss/lib/index.scss"],
             "veela-lib/*": ["./src/scss/lib/*"]
         },

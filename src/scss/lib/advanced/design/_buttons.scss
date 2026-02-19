@@ -31,7 +31,7 @@
     min-block-size: var(--button-min-height, fit-content);
     border-radius: var(--button-radius, var(--radius-full));
 
-    //
+    // Cursor and transition
     cursor: pointer;
     transition:
         var(--transition-transform, transform var(--duration-fast) var(--ease-out)),
@@ -90,6 +90,7 @@
 //
 @mixin button-overlays($fallback-color) {
     --md-button-state-color: var(--md-button-state-color, #{$fallback-color});
+
     @include overlays.state-overlay(var(--md-button-state-color, #{$fallback-color}));
 }
 
@@ -116,7 +117,7 @@
     $include-base: true
 ) {
     @include colorize.solid-colorize("&", ("shade": 0.05, "tint": 0.0, "scope": "selector", "global-targets": true));
-    @if $include-base { @include button-structure(); }
+    @if $include-base { @include button-structure; }
 
     // Compute the CSS variable to use for state overlays
     $state-var: if(
@@ -148,7 +149,7 @@
 
     // Apply state overlays and focus ring
     @include button-overlays(var(#{$state-var}));
-    @include button-focus-ring();
+    @include button-focus-ring;
 }
 
 
@@ -186,8 +187,8 @@
 
 
 @mixin button-base {
-    @include button-structure();
-    @include button-filled();
+    @include button-structure;
+    @include button-filled;
 }
 
 //
@@ -197,16 +198,16 @@
 
 //
 @mixin button-colors() {
-    @include button-structure();
-    @include button-filled();
+    @include button-structure;
+    @include button-filled;
 }
 
 //
 @mixin button-base-variant() {
     // Reuse unified structure with alternate sizing tokens
-    @include button-structure();
-    @include button-interactions();
-    @include button-colors();
+    @include button-structure;
+    @include button-interactions;
+    @include button-colors;
 }
 
 //

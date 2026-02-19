@@ -7,7 +7,7 @@
 
 /* Fallback fonts: */
 :root, :host, :scope {
-    font-family: "Inter", sans-serif;
+    font-family: Inter, sans-serif;
     font-optical-sizing: auto;
     font-variation-settings: "opsz" 16;
 }
@@ -15,7 +15,7 @@
 /* Variable fonts usage: */
 @supports (font-variation-settings: normal) {
     :root, :host, :scope {
-        font-family: "InterVariable", sans-serif;
+        font-family: InterVariable, sans-serif;
         font-optical-sizing: auto;
         font-variation-settings: "opsz" 16;
     }

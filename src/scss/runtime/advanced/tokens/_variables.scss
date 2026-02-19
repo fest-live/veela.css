@@ -118,9 +118,9 @@
         @media(prefers-color-scheme: dark) { color-scheme: dark; }
         @media(prefers-color-scheme: light) { color-scheme: light; }
 
-        & { color-scheme: light; }
-        &:is([data-scheme="dark"], [data-theme="dark"]) { color-scheme: dark only; }
-        &:is([data-scheme="light"], [data-theme="light"]) { color-scheme: light only; }
+        & { color-scheme: light; & * { color-scheme: light; } }
+        &:is([data-scheme="dark"], [data-theme="dark"]) { color-scheme: dark only; & * { color-scheme: dark; } }
+        &:is([data-scheme="light"], [data-theme="light"]) { color-scheme: light only; & * { color-scheme: light; } }
         &:is([data-scheme="system"], [data-theme="system"], [data-scheme="auto"], [data-theme="auto"]) {
             color-scheme: light dark;
         }

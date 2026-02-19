@@ -535,7 +535,7 @@
     }
 
     /* Scheme Overrides */
-    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; }
-    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; }
+    [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; & * { color-scheme: dark; } }
+    [data-scheme="light"], [data-theme="light"] { color-scheme: light only; & * { color-scheme: light; } }
     [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
 }

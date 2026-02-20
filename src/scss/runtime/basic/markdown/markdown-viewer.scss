@@ -183,7 +183,7 @@ $_h-sizes: (
     min-inline-size: fit-content;
     overflow: hidden !important;
     overflow-inline: hidden !important;
-    overflow-block: visible !important;
+    overflow-block: hidden !important;
     content-visibility: visible !important;
     contain: none !important;
     position: relative !important;
@@ -499,6 +499,9 @@ $_h-sizes: (
         }
 
         pre {
+            flex-grow: 1 !important;
+            flex-shrink: 0 !important;
+            flex-basis: max-content !important;
             margin-block: 0 1rem;
             padding: 1rem;
             font-size: 85%;
@@ -533,11 +536,13 @@ $_h-sizes: (
             overflow: auto;
             contain: inline-size layout paint style;
             container-type: inline-size;
+            block-size: max-content;
 
             tbody,
             thead {
                 inline-size: fit-content;
                 max-inline-size: stretch;
+                block-size: max-content;
             }
 
             th,
@@ -547,17 +552,22 @@ $_h-sizes: (
                 text-align: start;
                 vertical-align: top;
                 overflow-wrap: break-word;
+                overflow: hidden;
+                inline-size: fit-content;
+                max-inline-size: stretch;
+                block-size: max-content;
             }
 
             th {
                 font-weight: 600;
                 background-color: var(--md-bg-subtle);
+                block-size: max-content;
             }
 
             tr {
                 background-color: var(--md-bg-default);
                 border-block-start: 1px solid var(--md-border-subtle);
-
+                block-size: max-content;
                 &:nth-child(2n) {
                     background-color: var(--md-bg-subtle);
                 }
@@ -1294,13 +1304,16 @@ $_h-sizes: (
                 min-inline-size: fit-content;
                 overflow: hidden !important;
                 overflow-inline: hidden !important;
-                overflow-block: visible !important;
+                overflow-block: hidden !important;
                 content-visibility: visible !important;
                 contain: none !important;
                 position: relative !important;
             }
 
             pre {
+                flex-grow: 1 !important;
+                flex-shrink: 0 !important;
+                flex-basis: max-content !important;
                 padding: 1rem;
                 border: 1px solid #ccc;
                 border-radius: .5rem;
@@ -1367,6 +1380,10 @@ $_h-sizes: (
                 vertical-align: top;
                 color: #111;
                 overflow-wrap: break-word;
+                overflow: hidden;
+                inline-size: fit-content;
+                max-inline-size: stretch;
+                block-size: max-content;
             }
 
             th {

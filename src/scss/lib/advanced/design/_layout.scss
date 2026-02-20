@@ -282,11 +282,11 @@ $md3-avatar-sizes: (
     --sidebar-width-mobile: min(clamp(17.5rem, 35vw, 20rem), 100cqi);
     --sidebar-width-mobile-small: min(clamp(18.75rem, 40vw, 21.25rem), 100cqi);
 
-    @media (max-width: #{map.get($md3-breakpoints, md)}) {
+    @media (max-inline-size: #{map.get($md3-breakpoints, md)}) {
         --sidebar-width: var(--sidebar-width-mobile);
     }
 
-    @media (max-width: #{map.get($md3-breakpoints, sm)}) {
+    @media (max-inline-size: #{map.get($md3-breakpoints, sm)}) {
         --sidebar-width: var(--sidebar-width-mobile-small);
     }
 }
@@ -447,7 +447,7 @@ $mobile-width: 9in;
 // Is touch
 $is-touch: "screen and (hover: none) and (pointer: coarse)";
 $is-not-wide: "(width < #{$mobile-width})";
-$is-desktop: "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobile-width}) or (orientation: landscape)))";
+$is-deskinset-block-start: "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobile-width}) or (orientation: landscape)))";
 $is-mobile: "not #{$is-desktop}";
 $is-windowed: "@container u2-windowed #{$is-not-wide}";
 
@@ -495,7 +495,7 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 }
 
 // Border/radius/shadow helpers
-@mixin border($width: null, $style: null, $color: null) {
+@mixin border($inline-size: null, $style: null, $color: null) {
     & {
         @if $width != null { --border-w: #{$width}; }
         @if $style != null { --border-s: #{$style}; }
@@ -517,7 +517,7 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 
 
 // Border/radius/shadow helpers
-@mixin outline($width: null, $style: null, $color: null) {
+@mixin outline($inline-size: null, $style: null, $color: null) {
     & {
         @if $width != null { --outline-w: #{$width}; }
         @if $style != null { --outline-s: #{$style}; }
@@ -615,7 +615,7 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
     }
 }
 
-@mixin scrollbar($overflow: null, $width: null, $color: null, $gutter: null) {
+@mixin scrollbar($overflow: null, $inline-size: null, $color: null, $gutter: null) {
     & {
         @if $width != null { --sb-w: #{$width}; }
         @if $color != null { --sb-c: #{$color}; }
@@ -781,9 +781,9 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
     $limit: map.get($map, $size);
 
     @if $limit {
-        @media (max-width: $limit) { @content; }
+        @media (max-inline-size: $limit) { @content; }
     } @else {
-        @media (max-width: #{$size}) { @content; }
+        @media (max-inline-size: #{$size}) { @content; }
     }
 }
 
@@ -798,9 +798,9 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
     $limit: map.get($map, $size);
 
     @if $limit {
-        @media (min-width: $limit) { @content; }
+        @media (min-inline-size: $limit) { @content; }
     } @else {
-        @media (min-width: #{$size}) { @content; }
+        @media (min-inline-size: #{$size}) { @content; }
     }
 }
 
@@ -894,23 +894,23 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 
 @mixin media-up($breakpoint) {
     @if $breakpoint == sm {
-        @media (min-width: $breakpoint-sm) {
+        @media (min-inline-size: $breakpoint-sm) {
             @content;
         }
     } @else if $breakpoint == md {
-        @media (min-width: $breakpoint-md) {
+        @media (min-inline-size: $breakpoint-md) {
             @content;
         }
     } @else if $breakpoint == lg {
-        @media (min-width: $breakpoint-lg) {
+        @media (min-inline-size: $breakpoint-lg) {
             @content;
         }
     } @else if $breakpoint == xl {
-        @media (min-width: $breakpoint-xl) {
+        @media (min-inline-size: $breakpoint-xl) {
             @content;
         }
     } @else if $breakpoint == 2xl {
-        @media (min-width: $breakpoint-2xl) {
+        @media (min-inline-size: $breakpoint-2xl) {
             @content;
         }
     }
@@ -919,30 +919,30 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 //
 @mixin media-down($breakpoint) {
     @if $breakpoint == sm {
-        @media (max-width: #{$breakpoint-sm - 1px}) {
+        @media (max-inline-size: #{$breakpoint-sm - 1px}) {
             @content;
         }
     } @else if $breakpoint == md {
-        @media (max-width: #{$breakpoint-md - 1px}) {
+        @media (max-inline-size: #{$breakpoint-md - 1px}) {
             @content;
         }
     } @else if $breakpoint == lg {
-        @media (max-width: #{$breakpoint-lg - 1px}) {
+        @media (max-inline-size: #{$breakpoint-lg - 1px}) {
             @content;
         }
     } @else if $breakpoint == xl {
-        @media (max-width: #{$breakpoint-xl - 1px}) {
+        @media (max-inline-size: #{$breakpoint-xl - 1px}) {
             @content;
         }
     } @else if $breakpoint == 2xl {
-        @media (max-width: #{$breakpoint-2xl - 1px}) {
+        @media (max-inline-size: #{$breakpoint-2xl - 1px}) {
             @content;
         }
     }
 }
 
 @mixin media-between($min, $max) {
-    @media (min-width: $min) and (max-width: #{$max - 1px}) {
+    @media (min-inline-size: $min) and (max-inline-size: #{$max - 1px}) {
         @content;
     }
 }
@@ -951,7 +951,7 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 // LAYOUT MIXINS
 // =============================================================================
 
-@mixin grid-auto-fit($min-width: 250px) {
+@mixin grid-auto-fit($min-inline-size: 250px) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
     gap: $spacing-lg;
@@ -968,8 +968,8 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
 
 @mixin sr-only {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    inline-size: 1px;
+    block-size: 1px;
     padding: 0;
     margin: -1px;
     overflow: hidden;
@@ -990,15 +990,15 @@ $is-windowed: "@container u2-windowed #{$is-not-wide}";
     &::before {
         content: "";
         display: block;
-        padding-top: calc(#{$height} / #{$width} * 100%);
+        padding-block-start: calc(#{$height} / #{$width} * 100%);
     }
 
     & > * {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        inline-size: 100%;
+        block-size: 100%;
     }
 }
 

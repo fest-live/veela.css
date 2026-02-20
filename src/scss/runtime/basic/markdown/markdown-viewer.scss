@@ -22,9 +22,7 @@
 @use "./lib/config" as config;
 @use "sass:map";
 @use "sass:list";
-
 @import "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
-
 @layer tokens, markdown, overrides, print, print-breaks;
 
 /* ─── Animations ──────────────────────────────────────────────────────────── */
@@ -182,7 +180,7 @@ $_h-sizes: (
 
 /* Mixin: md-vars (CSS custom properties для цветовой схемы) */
 @mixin md-vars($mode: auto) {
-    @if $mode ==auto {
+    @if $mode == auto {
         --md-fg-default: #{config.md-light-dark("text")};
         --md-fg-muted: #{config.md-light-dark("text-muted")};
         --md-fg-accent: #{config.md-light-dark("accent")};
@@ -720,27 +718,14 @@ $_h-sizes: (
             padding: .5rem 1rem;
             border-inline-start: .25em solid var(--md-border-default);
 
-            &.markdown-alert-note {
-                border-color: var(--md-fg-accent);
-            }
-
-            &.markdown-alert-important {
-                border-color: #8250df;
-            }
-
-            &.markdown-alert-warning {
-                border-color: #bf8700;
-            }
-
-            &.markdown-alert-tip {
-                border-color: #1a7f37;
-            }
-
-            &.markdown-alert-caution {
-                border-color: #d1242f;
-            }
-
-            .markdown-alert-title {
+            &.markdown-alert-note { border-color: var(--md-fg-accent); }
+            &.markdown-alert-important { border-color: #8250df; }
+            &.markdown-alert-warning { border-color: #bf8700; }
+            &.markdown-alert-tip { border-color: #1a7f37; }
+            &.markdown-alert-caution { border-color: #d1242f; }
+            
+            &.markdown-alert-title,
+            .markdown-alert-title{
                 display: flex;
                 align-items: center;
                 margin-block-end: .5rem;
@@ -756,7 +741,7 @@ $_h-sizes: (
         /* ── Octicon / g-emoji ── */
         .octicon {
             display: inline-block;
-            fill: currentcolor;
+            fill: currentColor;
             vertical-align: text-bottom;
         }
 
@@ -804,29 +789,12 @@ $_h-sizes: (
         }
 
         /* ── Prettylights (light) ── */
-        .pl-c {
-            color: #6e7781;
-        }
-
-        .pl-c1 {
-            color: #0550ae;
-        }
-
-        .pl-k {
-            color: #cf222e;
-        }
-
-        .pl-s {
-            color: #0a3069;
-        }
-
-        .pl-v {
-            color: #953800;
-        }
-
-        .pl-en {
-            color: #8250df;
-        }
+        .pl-c { color: #6e7781; }
+        .pl-c1 { color: #0550ae;  }
+        .pl-k { color: #cf222e; }
+        .pl-s { color: #0a3069; }
+        .pl-v { color: #953800; }
+        .pl-en { color: #8250df; }
 
         /* ── KaTeX ── */
         .katex {
@@ -896,8 +864,8 @@ $_h-sizes: (
             flex-wrap: wrap;
 
             @container (max-inline-size: 360px) {
-                overflow-x: auto;
-                overflow-y: hidden;
+                overflow-inline: auto;
+                overflow-block: hidden;
                 padding-block-end: var(--space-xs);
                 scrollbar-width: none;
 
@@ -972,7 +940,7 @@ $_h-sizes: (
                 block-size: 16px;
                 margin-inline-start: var(--space-xs);
                 border: 2px solid transparent;
-                border-block-start-color: currentcolor;
+                border-block-start-color: currentColor;
                 border-radius: 50%;
                 animation: spin 1s linear infinite;
             }
@@ -1306,7 +1274,7 @@ $_h-sizes: (
                 padding: 1rem;
                 border: 1px solid #ccc;
                 border-radius: .5rem;
-                overflow-x: auto;
+                overflow-inline: auto;
                 white-space: pre-wrap;
                 word-wrap: break-word;
                 orphans: 1;
@@ -1381,8 +1349,7 @@ $_h-sizes: (
                 @include img-base(1em auto, 0);
                 display: block;
                 filter: grayscale(1);
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: optimize-contrast;
+                image-rendering: pixelated;
             }
 
             /* ── SVG ── */
@@ -1390,8 +1357,8 @@ $_h-sizes: (
                 filter: grayscale(1);
 
                 * {
-                    fill: currentcolor !important;
-                    stroke: currentcolor !important;
+                    fill: currentColor !important;
+                    stroke: currentColor !important;
                 }
             }
 

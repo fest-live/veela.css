@@ -40,7 +40,7 @@ export default {
             "severity": "warning"
         }],
         "keyframes-name-pattern": null,
-        "at-rule-empty-line-before": ["always", { "severity": "warning", "except": ["first-nested", "blockless-after-blockless"] }],
+        "at-rule-empty-line-before": ["always", { "severity": "warning", "except": ["first-nested", "blockless-after-blockless"], "ignore": ["after-comment"] }],
         "max-nesting-depth": [6, { "severity": "warning" }],
         "selector-max-compound-selectors": [6, { "severity": "warning" }],
         "scss/comment-no-empty": [true, { "severity": "warning" }],

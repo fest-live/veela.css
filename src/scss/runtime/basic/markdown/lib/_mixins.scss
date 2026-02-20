@@ -1,3 +1,5 @@
+/* stylelint-disable scss/function-no-unknown */
+
 @use "./config" as config;
 
 @mixin md-break($before: auto, $inside: auto, $after: auto) {

@@ -1,15 +1,16 @@
+/* stylelint-disable at-rule-empty-line-before */
 /* ai-refactor: optimized/refactored at 2026-02-13T02:51:13Z */
+
 @use "./lib/mixins" as mixins;
 @use "./lib/tokens" as tokens;
 @use "./lib/config" as config;
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
+@import "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
 @layer tokens, base, layout, utilities, shells, shell, views, view, viewer, components, ux-layer, markdown, essentials, print, print-breaks, overrides;
 
 /* ===========================
    Meta / Mixins
    =========================== */
+
 @mixin print-sizing {
     inline-size: 100%;
     box-sizing: border-box;
@@ -23,7 +24,9 @@
     @if $mode == never {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-    } @else {
+    }
+
+    @else {
         -webkit-font-smoothing: auto;
         -moz-osx-font-smoothing: auto;
     }
@@ -53,7 +56,9 @@
         --md-bg-code: #{config.md-light-dark("code-bg")};
         --md-border-default: #{config.md-light-dark("border")};
         --md-border-subtle: #{config.md-light-dark("border-subtle")};
-    } @else {
+    }
+
+    @else {
         --md-fg-default: #{config.md-color("text", $mode)};
         --md-fg-muted: #{config.md-color("text-muted", $mode)};
         --md-fg-accent: #{config.md-color("accent", $mode)};
@@ -105,7 +110,7 @@
         --print-font-family-sans: var(--font-family-sans, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
         --print-font-mono: var(--font-family-mono, "Monaco", "Menlo", "Ubuntu Mono", "Liberation Mono", "Noto Mono", monospace);
         --print-text-color: light-dark(#1a1a1a, #f3f4f6);
-        --print-bg: light-dark(#ffffff, #111827);
+        --print-bg: light-dark(#fff, #111827);
         --print-border-color: light-dark(#d1d5db, #374151);
         --print-link-color: light-dark(#2563eb, #60a5fa);
     }
@@ -115,7 +120,7 @@
    Page
    =========================== */
 @page {
-    size: A4;
+    size: a4;
     margin: config("page", "margin");
 
     @bottom-center {
@@ -133,59 +138,59 @@
 }
 
 @page :first {
-    margin-top: 2cm;
-    margin-bottom: 2.5cm;
-    margin-left: 2cm;
-    margin-right: 2cm;
+    margin-block-start: 2cm;
+    margin-block-end: 2.5cm;
+    margin-inline-start: 2cm;
+    margin-inline-end: 2cm;
 }
 
 @page :left {
-    margin-right: 2cm;
-    margin-left: 2cm;
+    margin-inline-start: 2cm;
+    margin-inline-end: 2cm;
 }
 
 @page :right {
-    margin-left: 2cm;
-    margin-right: 2cm;
+    margin-inline-start: 2cm;
+    margin-inline-end: 2cm;
 }
 
 @page narrow {
-    size: A5 portrait;
-    margin: 1.5cm 1.5cm 1.5cm 1.5cm;
+    size: a5 portrait;
+    margin: 1.5cm;
 }
 
 @page wide {
-    size: A4 landscape;
-    margin: 2cm 2cm 2cm 2cm;
+    size: a4 landscape;
+    margin: 2cm;
 }
 
 @page letter {
     size: letter portrait;
-    margin: 2.5cm 2cm 2.5cm 2cm;
+    margin: 2.5cm 2cm;
 }
 
 @page legal {
     size: legal portrait;
-    margin: 2.5cm 2cm 2.5cm 2cm;
+    margin: 2.5cm 2cm;
 }
 
 @page professional {
-    size: A4 portrait;
-    margin: 2.5cm 2cm 2.5cm 2cm;
+    size: a4 portrait;
+    margin: 2.5cm 2cm;
     marks: crop cross;
     bleed: 0.25cm;
 }
 
 @page booklet {
-    size: A5 portrait;
-    margin: 1.5cm 1.5cm 1.5cm 1.5cm;
+    size: a5 portrait;
+    margin: 1.5cm;
     marks: none;
     bleed: 0;
 }
 
 @page draft {
-    size: A4 portrait;
-    margin: 2cm 1.5cm 2cm 1.5cm;
+    size: a4 portrait;
+    margin: 2cm 1.5cm;
     marks: none;
     bleed: 0;
 }
@@ -193,6 +198,7 @@
 /* ===========================
    Markdown
    =========================== */
+
 @layer markdown {
     @include tokens.markdown-root-props();
 
@@ -254,7 +260,6 @@
         font-size: #{config.md-config("font", "size-base")};
         line-height: #{config.md-config("layout", "line-height")};
         font-weight: #{config.md-config("font", "weight-normal")};
-
         position: relative;
         display: flex;
         flex: 1;
@@ -272,22 +277,20 @@
         transition: all var(--motion-normal);
         overflow-wrap: break-word;
         word-wrap: break-word;
-        text-rendering: optimizeLegibility;
+        text-rendering: optimizelegibility;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         scrollbar-width: thin;
         scrollbar-color: var(--color-outline-variant) transparent;
-
         touch-action: manipulation;
         pointer-events: auto;
         text-align: start;
-
         contain: inline-size layout paint style;
 
         @include mixins.md-surface-root(start);
         @include mixins.md-scrollbars();
 
-        @container (max-width: 768px) {
+        @container (max-inline-size: 768px) {
             border-radius: var(--radius-lg);
             box-shadow: none;
         }
@@ -302,8 +305,8 @@
         }
 
         &::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            inline-size: 8px;
+            block-size: 8px;
         }
 
         &::-webkit-scrollbar-track {
@@ -332,10 +335,10 @@
             letter-spacing: -0.025em;
 
             &:first-child {
-                margin-top: 0;
+                margin-block-start: 0;
             }
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 margin: var(--space-xl) 0 var(--space-md);
             }
         }
@@ -369,7 +372,7 @@
             color: var(--color-on-surface);
 
             &:last-child {
-                margin-bottom: 0;
+                margin-block-end: 0;
             }
         }
 
@@ -395,18 +398,18 @@
         ul,
         ol {
             margin: var(--space-lg) 0;
-            padding-left: var(--space-2xl);
+            padding-inline-start: var(--space-2xl);
             color: var(--color-on-surface);
 
-            @container (max-width: 480px) {
-                padding-left: var(--space-xl);
+            @container (max-inline-size: 480px) {
+                padding-inline-start: var(--space-xl);
             }
 
             li {
-                margin-bottom: var(--space-sm);
+                margin-block-end: var(--space-sm);
 
                 &:last-child {
-                    margin-bottom: 0;
+                    margin-block-end: 0;
                 }
             }
         }
@@ -415,13 +418,13 @@
             position: relative;
             margin: var(--space-xl) 0;
             padding: var(--space-lg) var(--space-xl);
-            border-left: 4px solid var(--color-primary);
+            border-inline-start: 4px solid var(--color-primary);
             border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
             background: var(--color-surface-container-low);
             color: var(--color-on-surface);
             font-style: italic;
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 margin: var(--space-lg) 0;
                 padding: var(--space-md) var(--space-lg);
             }
@@ -429,8 +432,8 @@
             &::before {
                 content: '"';
                 position: absolute;
-                top: var(--space-sm);
-                left: var(--space-sm);
+                inset-block-start: var(--space-sm);
+                inset-inline-start: var(--space-sm);
                 color: var(--color-primary);
                 font-size: var(--text-2xl);
                 opacity: 0.3;
@@ -457,7 +460,7 @@
             inline-size: stretch;
             max-inline-size: stretch;
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 margin: var(--space-lg) 0;
                 padding: var(--space-md);
             }
@@ -505,7 +508,7 @@
             max-block-size: max-content;
             overflow: hidden;
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 margin: var(--space-lg) 0;
                 font-size: var(--text-xs);
             }
@@ -523,13 +526,13 @@
             th,
             td {
                 padding: var(--space-md) var(--space-lg);
-                border-bottom: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+                border-block-end: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
                 color: var(--color-on-surface);
-                text-align: left;
+                text-align: start;
                 block-size: max-content;
                 max-block-size: max-content;
 
-                @container (max-width: 768px) {
+                @container (max-inline-size: 768px) {
                     padding: var(--space-sm) var(--space-md);
                 }
             }
@@ -546,7 +549,7 @@
                 }
 
                 &:last-child td {
-                    border-bottom: none;
+                    border-block-end: none;
                 }
             }
         }
@@ -555,15 +558,15 @@
             position: relative;
             margin: var(--space-2xl) 0;
             border: none;
-            border-top: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+            border-block-start: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
 
             &::before {
                 content: "";
                 position: absolute;
-                top: -1px;
-                left: 50%;
-                width: 60px;
-                height: 1px;
+                inset-block-start: -1px;
+                inset-inline-start: 50%;
+                inline-size: 60px;
+                block-size: 1px;
                 transform: translateX(-50%);
                 background: var(--color-primary);
             }
@@ -579,7 +582,7 @@
             border-radius: var(--radius-md);
             box-shadow: var(--elev-1);
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 margin: var(--space-md) 0;
             }
 
@@ -605,7 +608,7 @@
         }
 
         input[type="checkbox"] {
-            margin-right: var(--space-sm);
+            margin-inline-end: var(--space-sm);
             accent-color: var(--color-primary);
         }
 
@@ -624,7 +627,7 @@
             margin: var(--space-lg) 0;
 
             dt {
-                margin-bottom: var(--space-xs);
+                margin-block-end: var(--space-xs);
                 color: var(--color-on-surface);
                 font-weight: var(--font-weight-semibold);
             }
@@ -931,7 +934,6 @@
         }
 
         svg {
-            width: fit-content !important;
             inline-size: fit-content !important;
             max-inline-size: stretch !important;
             contain: strict;
@@ -1006,14 +1008,14 @@
 
         .octicon {
             display: inline-block;
-            fill: currentColor;
+            fill: currentcolor;
             vertical-align: text-bottom;
         }
 
         g-emoji {
             display: inline-block;
             min-inline-size: 1ch;
-            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
             font-size: 1em;
             font-style: normal;
             font-weight: 400;
@@ -1061,7 +1063,7 @@
         hr {
             box-sizing: content-box;
             overflow: hidden;
-            margin: 24px 0;
+            margin-block: 24px;
             block-size: 0.25em;
             padding: 0;
             border: 0;
@@ -1186,21 +1188,21 @@
         h4,
         h5,
         h6 {
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
+            margin-block-start: 1.5em;
+            margin-block-end: 0.5em;
             line-height: 1.2;
         }
 
         h1 {
             font-size: 2rem;
-            border-bottom: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
-            padding-bottom: 0.5rem;
+            border-block-end: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+            padding-block-end: 0.5rem;
         }
 
         h2 {
             font-size: 1.5rem;
-            border-bottom: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
-            padding-bottom: 0.25rem;
+            border-block-end: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+            padding-block-end: 0.25rem;
         }
 
         h3 {
@@ -1223,20 +1225,20 @@
         ul,
         ol,
         blockquote {
-            margin-bottom: 1rem;
+            margin-block-end: 1rem;
             orphans: 3;
             widows: 3;
-            text-align: justify;
+            text-align: start;
             hyphens: auto;
         }
 
         ul,
         ol {
-            padding-left: 1.5rem;
+            padding-inline-start: 1.5rem;
         }
 
         li {
-            margin-bottom: 0.25rem;
+            margin-block-end: 0.25rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -1256,7 +1258,7 @@
             @include print-sizing;
 
             background: #f3f4f6;
-            padding: 1rem;
+            padding-block: 1rem;
             border-radius: 0.5rem;
             overflow-x: auto;
             margin: 1rem 0;
@@ -1274,8 +1276,8 @@
         }
 
         blockquote {
-            border-left: 4px solid var(--print-border-color);
-            padding-left: 1rem;
+            border-inline-start: 4px solid var(--print-border-color);
+            padding-inline-start: 1rem;
             color: #6b7280;
             font-style: italic;
             margin: 1rem 0;
@@ -1294,7 +1296,6 @@
             table-layout: fixed;
             word-wrap: break-word;
             overflow-wrap: break-word;
-
             contain: inline-size layout paint style;
             container-type: inline-size;
         }
@@ -1303,7 +1304,7 @@
         td {
             border: 1px solid var(--print-border-color);
             padding: 0.5rem;
-            text-align: left;
+            text-align: start;
             vertical-align: top;
             word-wrap: break-word;
             overflow-wrap: break-word;
@@ -1318,7 +1319,7 @@
             @include print-sizing;
 
             border: none;
-            border-top: 1px solid var(--print-border-color);
+            border-block-start: 1px solid var(--print-border-color);
             margin: 2rem 0;
         }
 
@@ -1384,13 +1385,14 @@
 
         * {
             max-inline-size: 100%;
+
             @include print-sizing;
         }
     }
 
     .print-view {
-        max-width: none;
-        min-height: 100vh;
+        max-inline-size: none;
+        min-block-size: 100vh;
         padding: 0;
         margin: 0;
         inline-size: 100vw;
@@ -1403,7 +1405,7 @@
 
         padding: 2rem;
         margin: 0;
-        min-height: 100vh;
+        min-block-size: 100vh;
         font-size: 14px;
         line-height: 1.6;
         text-align: justify;
@@ -1438,12 +1440,12 @@
         padding: var(--space-lg) var(--space-xl);
         background: var(--color-surface-container-high);
 
-        @container (max-width: 768px) {
+        @container (max-inline-size: 768px) {
             gap: var(--space-md);
             padding: var(--space-md) var(--space-lg);
         }
 
-        @container (max-width: 480px) {
+        @container (max-inline-size: 480px) {
             flex-direction: column;
             align-items: stretch;
             gap: var(--space-sm);
@@ -1457,7 +1459,7 @@
             line-height: var(--leading-tight);
             letter-spacing: -0.025em;
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 font-size: var(--text-lg);
             }
         }
@@ -1468,20 +1470,21 @@
             gap: var(--space-sm);
             flex-wrap: wrap;
 
-            @container (max-width: 640px) {
+            @container (max-inline-size: 640px) {
                 gap: var(--space-xs);
             }
 
-            @container (max-width: 480px) {
+            @container (max-inline-size: 480px) {
                 justify-content: center;
+                max-inline-size: 480px;
                 gap: var(--space-sm);
             }
 
-            @container (max-width: 360px) {
+            @container (max-inline-size: 360px) {
                 overflow-x: auto;
+                max-inline-size: 360px;
                 overflow-y: hidden;
-                padding-bottom: var(--space-xs);
-                flex-wrap: nowrap;
+                padding-block-end: var(--space-xs);
                 scrollbar-width: none;
                 -webkit-overflow-scrolling: touch;
 
@@ -1509,14 +1512,14 @@
         cursor: pointer;
         transition: all var(--motion-fast);
 
-        @container (max-width: 640px) {
-            min-block-size: 40px;
+        @container (max-inline-size: 640px) {
+            min-block-size: 640px;
             padding: var(--space-xs) var(--space-md);
             font-size: var(--text-xs);
         }
 
-        @container (max-width: 480px) {
-            min-block-size: 44px;
+        @container (max-inline-size: 480px) {
+            min-block-size: 480px;
             padding: var(--space-sm) var(--space-md);
         }
 
@@ -1539,7 +1542,7 @@
         &.btn-icon {
             padding: var(--space-sm);
 
-            @container (max-width: 640px) {
+            @container (max-inline-size: 640px) {
                 padding: var(--space-xs);
             }
 
@@ -1549,7 +1552,7 @@
             }
 
             .btn-text {
-                @container (max-width: 640px) {
+                @container (max-inline-size: 640px) {
                     display: none;
                 }
             }
@@ -1565,25 +1568,25 @@
 
             &::after {
                 content: "";
-                width: 16px;
-                height: 16px;
-                margin-left: var(--space-xs);
+                inline-size: 16px;
+                block-size: 16px;
+                margin-inline-start: var(--space-xs);
                 border: 2px solid transparent;
-                border-top: 2px solid currentColor;
+                border-block-start: 2px solid currentcolor;
                 border-radius: 50%;
                 animation: spin 1s linear infinite;
             }
         }
 
-        @container (max-width: 1024px) {
+        @container (max-inline-size: 1024px) {
             padding: var(--space-xl) var(--space-lg);
         }
 
-        @container (max-width: 768px) {
+        @container (max-inline-size: 768px) {
             padding: var(--space-lg) var(--space-md);
         }
 
-        @container (max-width: 480px) {
+        @container (max-inline-size: 480px) {
             padding: var(--space-md) var(--space-sm);
         }
 
@@ -1632,6 +1635,7 @@
             min-block-size: 100vh;
             margin: 0;
             padding: 0;
+
             @include print-sizing;
         }
 
@@ -1640,13 +1644,15 @@
             margin: 0;
             max-inline-size: none;
             line-height: 1.7;
-            text-rendering: optimizeLegibility;
+            text-rendering: optimizelegibility;
+
             @include print-sizing;
         }
 
         :where(#{tokens.$selectors}):not(.katex, .footnote-ref, .footnote-backref) {
             font-family: var(--print-font-family-sans);
             color-scheme: inherit !important;
+
             @include print-sizing;
 
             h1,
@@ -1702,14 +1708,14 @@
                 font-family: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
                 font-size: 0.875em;
                 padding: 0.2em 0.4em;
-                background-color: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.08));
+                background-color: light-dark(rgb(0 0 0 / 5%), rgb(255 255 255 / 8%));
                 border-radius: 4px;
             }
 
             pre {
                 margin-block: 1em;
                 padding: 1rem;
-                background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.05));
+                background-color: light-dark(rgb(0 0 0 / 3%), rgb(255 255 255 / 5%));
                 border-radius: 8px;
                 overflow-x: auto;
 
@@ -1723,7 +1729,7 @@
                 margin-block: 1em;
                 margin-inline: 0;
                 padding-inline-start: 1rem;
-                border-inline-start: 4px solid rgba(0, 122, 204, 0.4);
+                border-inline-start: 4px solid rgb(0 122 204 / 40%);
                 color: var(--view-fg);
                 opacity: 0.8;
                 font-style: italic;
@@ -1735,7 +1741,6 @@
                 max-inline-size: stretch;
                 border-collapse: collapse;
                 margin-block: 1em;
-
                 contain: inline-size layout paint style;
                 container-type: inline-size;
 
@@ -1747,12 +1752,12 @@
                 }
 
                 th {
-                    background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.05));
+                    background-color: light-dark(rgb(0 0 0 / 3%), rgb(255 255 255 / 5%));
                     font-weight: 600;
                 }
 
                 tr:nth-child(even) {
-                    background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02));
+                    background-color: light-dark(rgb(0 0 0 / 2%), rgb(255 255 255 / 2%));
                 }
             }
 
@@ -1886,9 +1891,9 @@
                 border-collapse: collapse;
                 block-size: max-content;
                 max-block-size: max-content;
-
                 contain: inline-size layout paint style;
                 container-type: inline-size;
+
                 @include print-sizing;
             }
 
@@ -1985,6 +1990,7 @@
 
         :where(html, body):has(:where(#{tokens.$selectors}):not([hidden])) {
             color-scheme: light;
+
             @include print-sizing;
 
             font-variant-emoji: text;
@@ -2017,7 +2023,9 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             text-align: center;
+
             @include print-sizing;
+
             inline-size: auto !important;
             max-inline-size: 100% !important;
             zoom: 1 !important;
@@ -2123,7 +2131,7 @@
                 color: var(--color-on-surface);
 
                 &:first-child {
-                    margin-top: 0;
+                    margin-block-start: 0;
                 }
             }
 
@@ -2155,11 +2163,11 @@
                 margin: var(--space-md) 0;
 
                 &:first-child {
-                    margin-top: 0;
+                    margin-block-start: 0;
                 }
 
                 &:last-child {
-                    margin-bottom: 0;
+                    margin-block-end: 0;
                 }
             }
 
@@ -2250,7 +2258,6 @@
                 background: var(--color-surface-container);
                 border-radius: var(--radius-md);
                 overflow: hidden;
-
                 contain: inline-size layout paint style;
                 container-type: inline-size;
 
@@ -2258,7 +2265,7 @@
                 td {
                     padding: var(--space-sm) var(--space-md);
                     text-align: start;
-                    border-bottom: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+                    border-block-end: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
                 }
 
                 th {
@@ -2268,7 +2275,7 @@
                 }
 
                 tbody tr:last-child td {
-                    border-bottom: none;
+                    border-block-end: none;
                 }
 
                 tbody tr:hover {
@@ -2279,7 +2286,7 @@
             hr {
                 margin: var(--space-xl) 0;
                 border: none;
-                border-top: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
+                border-block-start: 0.5px solid color-mix(in oklab, var(--print-border-color) 30%, transparent);
             }
 
             strong,
@@ -2294,7 +2301,7 @@
                 color: var(--color-on-surface-variant);
             }
 
-            @container (max-width: 768px) {
+            @container (max-inline-size: 768px) {
                 h1 {
                     font-size: var(--text-2xl);
                 }
@@ -2339,7 +2346,7 @@
 
             blockquote {
                 background: #f9f9f9;
-                border-left-color: #666;
+                border-inline-start-color: #666;
                 color: black;
             }
 
@@ -2360,7 +2367,6 @@
                 inline-size: stretch;
                 max-inline-size: stretch;
                 border: 1px solid #666;
-
                 contain: inline-size layout paint style;
                 container-type: inline-size;
                 border-radius: 0.5rem;
@@ -2430,6 +2436,7 @@
             .print-content {
                 margin: 0;
                 padding: 0;
+
                 @include print-sizing;
             }
 
@@ -2437,6 +2444,7 @@
             *::before,
             *::after {
                 max-inline-size: 100%;
+
                 @include print-sizing;
             }
 
@@ -2447,7 +2455,7 @@
             }
 
             table {
-                width: 100% !important;
+                inline-size: 100% !important;
                 table-layout: fixed;
             }
 
@@ -2495,6 +2503,7 @@
             h5,
             h6 {
                 color: black !important;
+
                 @include print-font-smoothing(never);
             }
 
@@ -2502,6 +2511,7 @@
             li,
             blockquote {
                 color: black !important;
+
                 @include print-grayscale;
                 @include print-font-smoothing(never);
             }
@@ -2509,6 +2519,7 @@
             a {
                 color: #333 !important;
                 text-decoration: underline !important;
+
                 @include print-grayscale;
                 @include print-font-smoothing(never);
             }
@@ -2517,35 +2528,41 @@
             pre {
                 background: #f5f5f5 !important;
                 color: #333 !important;
+
                 @include print-grayscale;
                 @include print-font-smoothing(never);
             }
 
             table {
                 border-color: #666 !important;
+
                 @include print-grayscale;
             }
 
             th,
             td {
                 border-color: #999 !important;
+
                 @include print-grayscale;
             }
 
             th {
                 background: #e5e5e5 !important;
                 color: #333 !important;
+
                 @include print-grayscale;
             }
 
             blockquote {
                 background: #fafafa !important;
-                border-left-color: #666 !important;
+                border-inline-start-color: #666 !important;
+
                 @include print-grayscale;
             }
 
             hr {
                 border-color: #999 !important;
+
                 @include print-grayscale;
             }
 
@@ -2557,6 +2574,7 @@
                 object-position: center !important;
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: optimize-contrast;
+
                 @include print-grayscale;
 
                 &[align="right"] {
@@ -2587,7 +2605,9 @@
             *::before,
             *::after {
                 color: inherit !important;
+
                 @include print-font-smoothing(never);
+
                 text-shadow: none !important;
                 font-variant-emoji: text !important;
             }
@@ -2617,6 +2637,7 @@
 
             pre[class*="language-"] {
                 background: #f8f8f8 !important;
+
                 @include print-grayscale;
             }
 
@@ -2626,6 +2647,7 @@
 
             .katex {
                 @include print-grayscale;
+
                 color: black !important;
             }
 
@@ -2634,8 +2656,8 @@
             }
 
             svg * {
-                fill: currentColor !important;
-                stroke: currentColor !important;
+                fill: currentcolor !important;
+                stroke: currentcolor !important;
             }
 
             input,
@@ -2644,19 +2666,22 @@
                 border: 1px solid #999 !important;
                 background: white !important;
                 color: black !important;
+
                 @include print-grayscale;
             }
 
             .highlight,
             .mark {
                 background: #e6e6e6 !important;
+
                 @include print-grayscale;
             }
 
             .footnote,
             .reference {
-                border-top: 1px solid #ccc !important;
+                border-block-start: 1px solid #ccc !important;
                 background: transparent !important;
+
                 @include print-grayscale;
             }
 
@@ -2672,24 +2697,24 @@
             h6 {
                 orphans: 2;
                 widows: 2;
-                margin-top: 1.5em;
-                margin-bottom: 0.8em;
+                margin-block-start: 1.5em;
+                margin-block-end: 0.8em;
             }
 
             h1:not(:first-of-type) {
-                margin-top: 0;
-                margin-bottom: 1.2em;
+                margin-block-start: 0;
+                margin-block-end: 1.2em;
             }
 
             h2:not(:first-of-type) {
-                margin-top: 1.8em;
-                margin-bottom: 1em;
+                margin-block-start: 1.8em;
+                margin-block-end: 1em;
             }
 
             p {
                 orphans: 3;
                 widows: 3;
-                margin-bottom: 1em;
+                margin-block-end: 1em;
                 text-align: justify;
                 hyphens: auto;
             }
@@ -2698,21 +2723,22 @@
             ol {
                 orphans: 2;
                 widows: 2;
-                margin-bottom: 1em;
+                margin-block-end: 1em;
             }
 
             li {
                 orphans: 1;
                 widows: 1;
-                margin-bottom: 0.3em;
+                margin-block-end: 0.3em;
             }
 
             blockquote {
                 orphans: 2;
                 widows: 2;
-                margin: 1.2em 0;
+                margin-block: 1.2em;
                 padding: 0.8em 1.2em;
-                border-left: 4px solid #ccc;
+                border-inline-start: 4px solid #ccc;
+                border-inline-start: 4px;
             }
 
             pre {
@@ -2743,6 +2769,7 @@
                 display: block;
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: optimize-contrast;
+
                 @include print-grayscale;
 
                 &[align="right"] {
@@ -2771,8 +2798,9 @@
             hr {
                 margin: 2em auto;
                 border: none;
-                border-top: 1px solid #ccc;
-                height: 0;
+                border-block-start: 1px solid #ccc;
+                border-block-start: 1px;
+                block-size: 0;
             }
 
             a,
@@ -2785,15 +2813,15 @@
             }
 
             & > h1:not(:first-of-type) {
-                margin-top: 0;
+                margin-block-start: 0;
             }
 
             & > *:first-child {
-                margin-top: 0;
+                margin-block-start: 0;
             }
 
             & > *:last-child {
-                margin-bottom: 0;
+                margin-block-end: 0;
             }
 
             .print-narrow {
@@ -2933,6 +2961,7 @@
             --md-code-block-bg: var(--md-bg-code);
             --md-code-block-fg: var(--md-fg-default);
             --md-code-block-border: color-mix(in oklab, var(--md-border-default) 60%, transparent);
+
             text-rendering: auto;
             -webkit-font-smoothing: auto;
             -moz-osx-font-smoothing: auto;
@@ -3106,6 +3135,7 @@
 
         :where(.pb, .np, .pagebreak, .newpage, .page-break, .new-page) {
             background-color: transparent;
+
             @include mixins.md-break(auto, auto, page);
         }
 

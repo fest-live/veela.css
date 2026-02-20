@@ -1,4 +1,5 @@
 /* ai-refactor: optimized/refactored at 2026-02-13T02:50:43Z */
+
 @use "./config" as config;
 
 /* ==========================================================================
@@ -18,6 +19,7 @@ $selectors: $md-roots;
 /* ==========================================================================
     Tokens / Mixins (global, not layered)
    ========================================================================== */
+
 @mixin markdown-root-props(
     $selector: ":where(#{$selectors}):not([hidden])"
 ) {
@@ -68,7 +70,7 @@ $selectors: $md-roots;
         --focus: light-dark(#dbeafe, #1e40af);
 
         /* Elevation */
-        --elev-0: 0 0 0 0 rgba(0, 0, 0, 0);
+        --elev-0: 0 0 0 0 rgba(0, 0, 0, 0%);
         --elev-1: 0 1px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         --elev-2: 0 2px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 6px 0 rgba(0, 0, 0, 0.11);
         --elev-3: 0 4px 6px 0 rgba(0, 0, 0, 0.14), 0 6px 12px 0 rgba(0, 0, 0, 0.11);

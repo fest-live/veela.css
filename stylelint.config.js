@@ -55,7 +55,7 @@ export default {
         "media-feature-range-notation": null,
         "declaration-block-no-duplicate-properties": [true, { "severity": "warning" }],
         "color-function-notation": ["modern", {"severity": "warning"}],
-        "alpha-value-notation": ["percentage", {"severity": "warning"}],
+        "alpha-value-notation": ["number", {"severity": "warning"}],
         "custom-property-empty-line-before": null,
         "declaration-empty-line-before": null,
         "unit-allowed-list": [

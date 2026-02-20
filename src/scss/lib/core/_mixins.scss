@@ -561,7 +561,6 @@ $_default-initial-values: (
 @mixin md-children-inherit($selector, $block-size: auto 1em) {
     #{$selector} {
         color-scheme: inherit;
-        contain-intrinsic-block-size: $block-size;
     }
 }
 

@@ -1,3 +1,4 @@
+/* stylelint-disable scss/at-else-empty-line-before */
 /* stylelint-disable at-rule-empty-line-before */
 
 /*
@@ -173,9 +174,19 @@ $_h-sizes: (
     border-radius: 0;
     font-size: inherit;
     color: inherit;
-    overflow: visible;
     white-space: pre;
     word-wrap: normal;
+    block-size: max-content !important;
+    max-block-size: none !important;
+    inline-size: stretch;
+    max-inline-size: stretch;
+    min-inline-size: fit-content;
+    overflow: hidden !important;
+    overflow-inline: hidden !important;
+    overflow-block: visible !important;
+    content-visibility: visible !important;
+    contain: none !important;
+    position: relative !important;
 }
 
 /* Mixin: md-vars (CSS custom properties для цветовой схемы) */
@@ -490,13 +501,20 @@ $_h-sizes: (
         pre {
             margin-block: 0 1rem;
             padding: 1rem;
-            overflow: auto;
             font-size: 85%;
             line-height: 1.45;
             background-color: var(--md-bg-code);
             border-radius: 6px;
-            contain: inline-size layout paint style;
-            container-type: inline-size;
+            inline-size: stretch;
+            max-inline-size: stretch;
+            block-size: max-content !important;
+            max-block-size: none !important;
+            min-inline-size: fit-content;
+            overflow: hidden !important;
+            overflow-inline: hidden !important;
+            overflow-block: hidden !important;
+            content-visibility: visible !important;
+            position: relative !important;
 
             code,
             tt {
@@ -547,6 +565,7 @@ $_h-sizes: (
 
             img {
                 @include img-base(0, 0);
+
                 background-color: transparent;
             }
         }
@@ -576,6 +595,7 @@ $_h-sizes: (
         /* ── Images ── */
         img {
             @include img-base();
+
             box-sizing: content-box;
             background-color: transparent;
             border-style: none;
@@ -1082,7 +1102,6 @@ $_h-sizes: (
 
 @layer print {
     @media print {
-
         /* html / body reset */
         :where(:root, html, body) {
             color-scheme: light;
@@ -1268,21 +1287,42 @@ $_h-sizes: (
                 word-break: break-word;
                 overflow-wrap: break-word;
                 hyphens: none;
+                inline-size: stretch;
+                max-inline-size: stretch;
+                block-size: max-content !important;
+                max-block-size: none !important;
+                min-inline-size: fit-content;
+                overflow: hidden !important;
+                overflow-inline: hidden !important;
+                overflow-block: visible !important;
+                content-visibility: visible !important;
+                contain: none !important;
+                position: relative !important;
             }
 
             pre {
                 padding: 1rem;
                 border: 1px solid #ccc;
                 border-radius: .5rem;
-                overflow-inline: auto;
                 white-space: pre-wrap;
                 word-wrap: break-word;
                 orphans: 1;
                 widows: 1;
                 margin-block: 1.2em;
+                inline-size: stretch;
+                max-inline-size: stretch;
+                block-size: max-content !important;
+                max-block-size: none !important;
+                min-inline-size: fit-content;
+                overflow: hidden !important;
+                overflow-inline: hidden !important;
+                overflow-block: hidden !important;
+                content-visibility: visible !important;
+                position: relative !important;
 
                 code {
                     @include code-in-pre;
+
                     background: transparent;
                     border: 0;
                 }
@@ -1481,7 +1521,6 @@ $_h-sizes: (
 
 @layer print-breaks {
     @media print {
-
         /* Базовые правила для всех блочных элементов */
         :where(h1, h2, h3, h4, h5, h6, p, pre, table, img, blockquote, hr) {
             break-before: auto;

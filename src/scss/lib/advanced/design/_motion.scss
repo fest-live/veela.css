@@ -100,7 +100,7 @@ $md3-transition-aliases: (
 }
 
 @function _transition-props($properties) {
-    @return if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties);
+    @return sass(if(meta.type-of($properties) == "list", list.join($properties, ", "), $properties));
 }
 
 @function _transition-definition($config) {

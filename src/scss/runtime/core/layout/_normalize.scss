@@ -8,6 +8,9 @@
         color-scheme: light dark;
         tab-size: 4;
         text-size-adjust: 100%;
+        interpolate-size: allow-keywords;
+        font-size-adjust: from-font;
+        font-optical-sizing: auto;
         font-size: 16px;
         line-height: 1.5;
         min-block-size: 0;
@@ -45,6 +48,8 @@
 
         :where(html) {
             -webkit-text-size-adjust: 100%;
+            font-size-adjust: from-font;
+            font-optical-sizing: auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;

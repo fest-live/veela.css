@@ -57,9 +57,9 @@ $shimmer-keyframes-name: veela-shimmer-glide;
 }
 
 @mixin effect-transition($properties: (transform, box-shadow), $duration: null, $timing: null) {
-    $prop-list: if(meta.type-of($properties) == "list", $properties, ($properties,));
-    $resolved-duration: if($duration == null, _effect-token(transition-duration), $duration);
-    $resolved-timing: if($timing == null, _effect-token(transition-timing), $timing);
+    $prop-list: sass(if(meta.type-of($properties) == "list", $properties, ($properties,)));
+    $resolved-duration: sass(if($duration == null, _effect-token(transition-duration), $duration));
+    $resolved-timing: sass(if($timing == null, _effect-token(transition-timing), $timing));
 
     @include motion.transition($prop-list, $resolved-duration, $resolved-timing);
 }
@@ -72,7 +72,7 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $duration: null,
     $timing: null
 ) {
-    $prop-list: if(meta.type-of($properties) == "list", $properties, ($properties,));
+    $prop-list: sass(if(meta.type-of($properties) == "list", $properties, ($properties,)));
 
     @include effect-transition($prop-list, $duration, $timing);
 
@@ -106,9 +106,9 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $border-opacity: null,
     $blur: null
 ) {
-    $surface-opacity: if($surface-opacity == null, _effect-token(glass-surface-opacity), $surface-opacity);
-    $border-opacity: if($border-opacity == null, _effect-token(glass-border-opacity), $border-opacity);
-    $blur-value: if($blur == null, _effect-token(glass-blur), $blur);
+    $surface-opacity: sass(if($surface-opacity == null, _effect-token(glass-surface-opacity), $surface-opacity));
+    $border-opacity: sass(if($border-opacity == null, _effect-token(glass-border-opacity), $border-opacity));
+    $blur-value: sass(if($blur == null, _effect-token(glass-blur), $blur));
 
     @include colorize.surface($surface-opacity);
     @include colorize.border-color(var(--scrollbar-tint), $border-opacity);
@@ -155,9 +155,9 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $duration: null,
     $timing: null
 ) {
-    $resolved-lift: if($lift == null, _effect-token(lift), $lift);
-    $resolved-shadow: if($shadow == null, _effect-token(hover-shadow), $shadow);
-    $resolved-scale: if($scale == null, _effect-token(scale), $scale);
+    $resolved-lift: sass(if($lift == null, _effect-token(lift), $lift));
+    $resolved-shadow: sass(if($shadow == null, _effect-token(hover-shadow), $shadow));
+    $resolved-scale: sass(if($scale == null, _effect-token(scale), $scale));
 
     $hover-transform: translate3d(0, $resolved-lift, 0);
 
@@ -182,11 +182,11 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $opacity: null,
     $color: null
 ) {
-    $resolved-duration: if($duration == null, _effect-token(shimmer-duration), $duration);
-    $resolved-angle: if($angle == null, _effect-token(shimmer-angle), $angle);
-    $resolved-width: if($width == null, _effect-token(shimmer-width), $width);
-    $resolved-opacity: if($opacity == null, _effect-token(shimmer-opacity), $opacity);
-    $resolved-color: if($color == null, _effect-token(shimmer-color), $color);
+    $resolved-duration: sass(if($duration == null, _effect-token(shimmer-duration), $duration));
+    $resolved-angle: sass(if($angle == null, _effect-token(shimmer-angle), $angle));
+    $resolved-width: sass(if($width == null, _effect-token(shimmer-width), $width));
+    $resolved-opacity: sass(if($opacity == null, _effect-token(shimmer-opacity), $opacity));
+    $resolved-color: sass(if($color == null, _effect-token(shimmer-color), $color));
 
     position: relative;
     overflow: hidden;
@@ -229,11 +229,11 @@ $shimmer-keyframes-name: veela-shimmer-glide;
     $opacity: null,
     $shadow: null
 ) {
-    $resolved-duration: if($duration == null, _effect-token(shine-duration), $duration);
-    $resolved-angle: if($angle == null, _effect-token(shine-angle), $angle);
-    $resolved-width: if($width == null, _effect-token(shine-width), $width);
-    $resolved-opacity: if($opacity == null, _effect-token(shine-opacity), $opacity);
-    $resolved-shadow: if($shadow == null, _effect-token(hover-shadow), $shadow);
+    $resolved-duration: sass(if($duration == null, _effect-token(shine-duration), $duration));
+    $resolved-angle: sass(if($angle == null, _effect-token(shine-angle), $angle));
+    $resolved-width: sass(if($width == null, _effect-token(shine-width), $width));
+    $resolved-opacity: sass(if($opacity == null, _effect-token(shine-opacity), $opacity));
+    $resolved-shadow: sass(if($shadow == null, _effect-token(hover-shadow), $shadow));
 
     position: relative;
     overflow: hidden;

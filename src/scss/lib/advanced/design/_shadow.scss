@@ -35,10 +35,10 @@ $md3-elevation-levels: (
     $result: "";
 
     @each $layer in $layers {
-        $result: if($result == "", "#{$layer}", "#{$result}, #{$layer}");
+        $result: sass(if($result == "", "#{$layer}", "#{$result}, #{$layer}"));
     }
 
-    @return if($result == "", none, string.unquote($result));
+    @return sass(if($result == "", none, string.unquote($result)));
 }
 
 //
@@ -207,7 +207,7 @@ $dynamic-shadow-defaults: (
 
 @function md3-shadow-var($token, $fallback: null) {
     $key: _shadow-token-key($token);
-    $fallback-value: if($fallback == null, md3-shadow-fallback($token), $fallback);
+    $fallback-value: sass(if($fallback == null, md3-shadow-fallback($token), $fallback));
 
     @if $fallback-value == null {
         $fallback-value: md3-shadow($token);
@@ -217,7 +217,7 @@ $dynamic-shadow-defaults: (
 }
 
 @function _shadow-config($overrides) {
-    $overrides-map: if(type-of($overrides) == "map", $overrides, ());
+    $overrides-map: sass(if(type-of($overrides) == "map", $overrides, ()));
     @return map.merge($dynamic-shadow-defaults, $overrides-map);
 }
 
@@ -275,7 +275,7 @@ $dynamic-shadow-defaults: (
 @mixin md3-shadow-apply($token, $property: box-shadow, $important: false) {
     $value: md3-shadow-var($token);
 
-    #{$property}: #{$value}#{if($important, " !important", "")};
+    #{$property}: #{$value}#{sass(if($important, " !important", ""))};
 }
 
 @mixin md3-shadow-layer($token) {
@@ -355,5 +355,5 @@ $ui-shadow-elevated: md3-shadow(lg) !default;
     filter:
         drop-shadow(calc(var(--sx) * 0.15) calc(var(--sy) * 0.15) calc(var(--blurC) * 1px) #{"rgb(0 0 0 / var(--alphaC))"})
         drop-shadow(var(--sx) var(--sy) calc(var(--blurU) * 1px) #{"rgb(0 0 0 / var(--alphaU))"})
-        drop-shadow(var(--sx) var(--sy) calc(var(--blurP) * 1px) #{"rgb(0 0 0 / var(--alphaP))"})#{if($important-flag, " !important", "")};
+        drop-shadow(var(--sx) var(--sy) calc(var(--blurP) * 1px) #{"rgb(0 0 0 / var(--alphaP))"})#{sass(if($important-flag, " !important", ""))};
 }

@@ -274,7 +274,7 @@ $md3-line-height-scale: (
 
 @function md3-font-size-var($alias, $aliases: $md3-font-size-aliases) {
     $token: md3-font-size-token($alias, $aliases);
-    $source: if(map.has-key($aliases, $alias), map.get($aliases, $alias), $token);
+    $source: sass(if(map.has-key($aliases, $alias), map.get($aliases, $alias), $token));
     $fallback: md3-resolve-type-value($source, size);
 
     @if $token != null {
@@ -368,7 +368,7 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
 // Typography configuration helpers
 @function md3-typography-config($token, $overrides: ()) {
     $configuration: md3-type($token);
-    $normalized-overrides: if(meta.type-of($overrides) == "map", $overrides, ());
+    $normalized-overrides: sass(if(meta.type-of($overrides) == "map", $overrides, ()));
 
     @if $normalized-overrides != () {
         $configuration: map.merge($configuration, $normalized-overrides);
@@ -397,7 +397,7 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
     $should-apply-family: $family != null or $ensure-family;
 
     @if $should-apply-family {
-        $resolved-family: if(
+        $resolved-family: sass(if(
             $family != null,
             md3-font-family-value($family),
             md3-font-family-value($family-fallback)
@@ -478,15 +478,15 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
 
 //
 @mixin font-style($selector: "&", $options: ()) {
-    $size-key: if(map.has-key($options, "size"), map.get($options, "size"), "base");
+    $size-key: sass(if(map.has-key($options, "size"), map.get($options, "size"), "base"));
     $token-option: map.get($options, "token");
-    $family-option: if(map.has-key($options, "family"), map.get($options, "family"), "inherit");
+    $family-option: sass(if(map.has-key($options, "family"), map.get($options, "family"), "inherit"));
     $line-height-option: map.get($options, "line-height");
     $tracking-option: map.get($options, "tracking");
     $weight-has-key: map.has-key($options, "weight");
-    $weight-option: if($weight-has-key, map.get($options, "weight"), null);
+    $weight-option: sass(if($weight-has-key, map.get($options, "weight"), null));
 
-    $token: if($token-option != null, $token-option, md3-font-size-token($size-key));
+    $token: sass(if($token-option != null, $token-option, md3-font-size-token($size-key)));
     @if $token == null {
         $token: "body-medium";
     }
@@ -534,7 +534,7 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
 
 //
 @mixin type($token: "body-medium", $overrides: (), $family: null) {
-    $normalized-overrides: if(meta.type-of($overrides) == "map", $overrides, ());
+    $normalized-overrides: sass(if(meta.type-of($overrides) == "map", $overrides, ()));
     $configuration: md3-typography-config($token, $normalized-overrides);
     $apply-family: $family != false;
 
@@ -545,7 +545,7 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
     @include md3-apply-typography(
         $configuration,
         $apply-family,
-        if($family != null and $family != false, $family, "base")
+        sass(if($family != null and $family != false, $family, "base"))
     );
 }
 

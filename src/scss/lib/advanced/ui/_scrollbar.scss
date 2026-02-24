@@ -55,7 +55,7 @@
 //
 @mixin with-timeline($timeline: "ux-scrollbox", $name: "percent-coef", $prop: "percent") {
     $is-custom: starts-with($prop, "var("); $strip-prop: strip-prefix($prop, "--");
-    $css-prop : if($is-custom, $prop, "--#{$strip-prop}");
+    $css-prop : sass(if($is-custom, $prop, "--#{$strip-prop}"));
     & {
         animation-name: #{$name};
         animation-timeline: --#{$timeline};
@@ -68,7 +68,7 @@
 //
 @mixin inner-property($name: "percent-coef", $prop: "percent") {
     $is-custom: starts-with($prop, "--"); $strip-prop: strip-prefix($prop, "--");
-    $css-prop : if($is-custom, $prop, "--#{$strip-prop}");
+    $css-prop : sass(if($is-custom, $prop, "--#{$strip-prop}"));
     @at-root {
         @if $is-custom { @property --#{$strip-prop} { initial-value: 0; syntax: "<number>"; inherits: true; } }
         @keyframes #{$name} { from { #{$css-prop}: 0.0; }; to { #{$css-prop}: 1.0; }}
@@ -121,11 +121,11 @@ $counter: 0;
             //@include timeline-interpol-coef("--percent-#{$axe}", "#{$timeline-name}-#{$axe}");
 
             pointer-events: none !important;
-            pointer-events: #{"if(style(--determinant: 0): none; else: auto)"} !important;
+            pointer-events: if(style(--determinant: 0): none; else: auto) !important;
 
             //! new CSS if feature
             visibility: collapse !important;
-            visibility: #{"if(style(--determinant: 0): collapse; else: visible)"} !important; //! new CSS if feature
+            visibility: if(style(--determinant: 0): collapse; else: visible) !important;
             @include timeline-interpol-coef("--percent-#{$axe}", "#{$timeline-name}-#{$axe}");
         }
 

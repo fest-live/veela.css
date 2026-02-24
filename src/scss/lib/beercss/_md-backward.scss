@@ -216,7 +216,7 @@ $border-strong: md3-color(outline);
 //! UNUSED!
 @mixin md3-export-color-vars($mode: light) {
     $scheme: md3-color-scheme($mode);
-    color-scheme: if($mode == dark, dark, light);
+    color-scheme: sass(if($mode == dark, dark, light));
 
     @each $role, $value in $scheme {
         #{md3-var($role)}: #{$value};
@@ -335,7 +335,7 @@ $border-strong: md3-color(outline);
 // Surface mixin
 @mixin md3-surface($role: surface, $on-role: null, $elevation: null, $tint: null) {
     $bg-var: md3-var($role);
-    $on-role-computed: if($on-role != null, $on-role, md3-on($role));
+    $on-role-computed: sass(if($on-role != null, $on-role, md3-on($role)));
     background: var(#{$bg-var});
     background-color: var(#{$bg-var});
     color: var(#{md3-var($on-role-computed)});

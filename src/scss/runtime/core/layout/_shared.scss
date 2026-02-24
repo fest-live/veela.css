@@ -76,10 +76,10 @@
  * @usage: @include disable-interaction(); or @include disable-interaction(true);
  */
 @mixin disable-interaction($importance: false) {
-    $imp: if(sass($importance): !important; else: "");
-    pointer-events: none #{$imp};
-    touch-action: none #{$imp};
-    user-select: none #{$imp};
+    $imp: if(sass($importance): !important; else: null);
+    pointer-events: none if(sass($imp != null): #{$imp}; else: null);
+    touch-action: none if(sass($imp != null): #{$imp}; else: null);
+    user-select: none if(sass($imp != null): #{$imp}; else: null);
 }
 
 /**

@@ -11,7 +11,7 @@
 //
 @function option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
-    @return if($value == null, $fallback, $value);
+    @return sass(if($value == null, $fallback, $value));
 }
 
 //

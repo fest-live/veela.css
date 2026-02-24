@@ -214,11 +214,11 @@ $-z-layers: (
     $value: map.get($palette, $name);
 
     @if $mode == "light" {
-        @return if(sass($value != null): list.nth($value, 1))
+        @return if(sass($value != null): list.nth($value, 1); else: null)
     }
 
     @if $mode == "dark" {
-        @return if(sass($value != null): list.nth($value, 2))
+        @return if(sass($value != null): list.nth($value, 2); else: null)
     }
 
     @return $value;

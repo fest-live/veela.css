@@ -308,6 +308,15 @@ $_h-sizes: (
         container-type: inline-size;
         isolation: isolate;
 
+        &, & * {
+            user-select: auto;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: default;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
         &:hover {
             box-shadow: var(--elev-2);
         }
@@ -1070,6 +1079,15 @@ $_h-sizes: (
             -webkit-font-smoothing: auto;
             -moz-osx-font-smoothing: auto;
             color-scheme: inherit !important;
+
+            &, & * {
+                user-select: auto;
+                -webkit-user-drag: none;
+                -webkit-touch-callout: default;
+                -webkit-tap-highlight-color: transparent;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
 
             p,
             li,

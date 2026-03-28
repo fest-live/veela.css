@@ -462,17 +462,17 @@
             @include scrollbar-styling();
         }
 
-        :not(:defined),
+        //:not(:defined),
         :where(link, head, script, style, meta),
         [hidden] {
             display: none !important;
         }
 
-        :not(:defined) {
+        /*:not(:defined) {
             opacity: 0;
             visibility: collapse;
             pointer-events: none;
-        }
+        }*/
 
         :where(link, head, script, style, meta) {
             pointer-events: none !important;

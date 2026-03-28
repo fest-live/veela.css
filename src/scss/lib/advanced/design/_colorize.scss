@@ -5,7 +5,6 @@
 
 //
 @use "./color" as color;
-@use "./logical" as lg;
 @use "./utils" as utils;
 
 //
@@ -76,7 +75,7 @@
     $base-tint: utils.option-or($options, "tint", 0.0);
     $scheme-id: utils.option-or($options, "scheme-id", 2);
     $scope: utils.option-or($options, "scope", "component");
-    $propagate-default: sass(if($scope == "selector", false, true));
+    $propagate-default: if(sass($scope == "selector"): false; else: true);
     $propagate: utils.option-or($options, "propagate", $propagate-default);
     $forms-background: utils.option-or($options, "forms-background", $propagate);
     $global-targets: utils.option-or($options, "global-targets", $propagate);
@@ -128,10 +127,11 @@
             @include _apply-surface-palette("& :where(select)", var(--on-surface-color, currentColor));
         }
 
-        $interactive-scope: sass(if(
-            $propagate,
-            "&:where(button, input, select, textarea, option), & :where(button, input, select, textarea, option)",
-            "&:where(button, input, select, textarea, option)"
+        $interactive-scope: if(
+            sass($propagate):
+                "&:where(button, input, select, textarea, option), & :where(button, input, select, textarea, option)";
+            else:
+                "&:where(button, input, select, textarea, option)"
         );
 
         #{$interactive-scope} {
@@ -314,7 +314,7 @@
 
     @if meta.type-of($selectors) == list {
         @for $i from 1 through list.length($selectors) {
-            $separator: sass(if($i > 1, ", ", ""));
+            $separator: if(sass($i > 1): ", "; else: "");
             $result: #{$result}#{$separator}#{list.nth($selectors, $i)};
         }
 

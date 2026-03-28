@@ -286,7 +286,7 @@ $md3-semantic-tones: (
 //
 // Export state vars mixin
 @mixin md3-export-state-vars($overrides: ()) {
-    $config: sass(if(meta.type-of($overrides) == "map", $overrides, ()));
+    $config: if(sass(meta.type-of($overrides) == "map"): $overrides; else: ());
 
     @include md3-export-backdrop-filters($config);
     @include md3-export-layer-opacities($config);

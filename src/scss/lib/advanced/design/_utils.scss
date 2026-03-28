@@ -4,14 +4,10 @@
 @use "sass:meta";
 @use "sass:string";
 
-// Re-export unified property registration system from core
-@use "../../core/register-properties" as *;
-@use "../../core/utils" as core-utils;
-
 //
 @function option-or($options, $key, $fallback) {
     $value: map.get($options, $key);
-    @return sass(if($value == null, $fallback, $value));
+    @return if(sass($value == null): $fallback; else: $value);
 }
 
 //

@@ -55,6 +55,8 @@
 @mixin declare-inset-props {
     @include prop.register-properties(("--cs-transition-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
             "--cs-transition-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-transition-c": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
+            "--cs-transition-r": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
             "--cs-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
             "--cs-inset-y": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),
             "--os-inset-x": ("syntax": "<length-percentage>", "initial": 0px, "inherits": false),

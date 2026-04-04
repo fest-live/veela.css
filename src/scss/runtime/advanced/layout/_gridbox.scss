@@ -73,6 +73,27 @@
         }
 
         //
+        .ui-ws-item {
+            cursor: pointer;
+            user-select: none;
+            pointer-events: auto;
+    
+            span {
+                pointer-events: none;
+                aspect-ratio: 1 / 1;
+                inline-size: fit-content;
+                block-size: fit-content;
+                display: inline;
+            }
+    
+            &:active,
+            &:has(:active) {
+                will-change: inset, translate, transform, opacity, z-index;
+                cursor: grabbing;
+            }
+        }
+
+        //
         & > :where(*) {
             @include compute_grid_item_cell();
 

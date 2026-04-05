@@ -1,7 +1,7 @@
 // Window Frame component mixins - veela-independent fallbacks
 
-@use "../core/layout" as l;
-@use "../core/utils" as utils;
+@use "./layout" as l;
+@use "./utils" as utils;
 
 // default styles
 @mixin reset-styles {

@@ -1,0 +1,17 @@
+@mixin when-hover {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin when-active {
+    &:active {
+        @content;
+    }
+}
+
+@mixin when-focus-visible {
+    &:focus-visible {
+        @content;
+    }
+}

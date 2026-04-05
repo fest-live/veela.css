@@ -1,0 +1,49 @@
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+@mixin border($width, $style, $color) {
+    border: $width $style $color;
+}
+
+@mixin container-layout($name, $type: normal) {
+    container-name: #{$name};
+    container-type: #{$type};
+}
+
+@mixin grid() {
+    display: grid;
+}
+
+@mixin place($justify: center, $align: center) {
+    justify-items: $justify;
+    align-items: $align;
+}
+
+@mixin display($display, $direction: row, $justify: flex-start, $align: stretch) {
+    display: $display;
+    @if $display == flex {
+        flex-direction: $direction;
+        justify-content: $justify;
+        align-items: $align;
+    }
+}
+
+@mixin flex($direction: row, $justify: flex-start, $align: stretch) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin text($size, $weight: 400, $color: inherit) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+@mixin text-ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

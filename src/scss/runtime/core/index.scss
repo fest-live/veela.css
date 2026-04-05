@@ -15,16 +15,16 @@
 @use "../layers" as *;
 
 // Shared utilities (mixins, placeholders, common patterns)
-@use "./layout/shared" as *;
+@use "./shared" as *;
 
 // Grid and orientation systems
-@use "./misc/orientation-functions" as *;
-@use "./misc/properties" as *;
-@use "./misc/wavy-runtime" as *;
+@use "./orientation-functions" as *;
+@use "./properties" as *;
+@use "./wavy-runtime" as *;
 
 // Normalize, layout, and state management
-@use "./layout/normalize" as *;
-@use "./layout/core-layout" as *;
-@use "./layout/states" as *;
-@use "./layout/gridbox" as *;
-@use "./layout/orientbox" as *;
+@use "./normalize" as *;
+@use "./core-layout" as *;
+@use "./states" as *;
+@use "./gridbox" as *;
+@use "./orientbox" as *;

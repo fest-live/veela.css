@@ -26,5 +26,6 @@
 @use "./normalize" as *;
 @use "./core-layout" as *;
 @use "./states" as *;
-@use "./gridbox" as *;
-@use "./orientbox" as *;
+// Grid/orient layout lives under advanced/layout (shared by core runtime bundle).
+@use "../advanced/layout/gridbox" as *;
+@use "../advanced/layout/orientbox" as *;

@@ -13,6 +13,7 @@
 
 import { loadAsAdopted } from "fest/dom";
 
+import { loadCoreStyles } from "../core/index";
 import basicStyles from "./index.scss?inline";
 
 /**
@@ -20,6 +21,7 @@ import basicStyles from "./index.scss?inline";
  */
 export async function loadBasicStyles(): Promise<void> {
     try {
+        await loadCoreStyles();
         if (basicStyles) {
             await loadAsAdopted(basicStyles);
             console.log("[Veela/Basic] Basic styles loaded");

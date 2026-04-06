@@ -15,11 +15,14 @@
 
 import { loadAsAdopted } from "fest/dom";
 
+import { loadCoreStyles } from "../core/index";
+
 /**
  * Load Beer CSS compatible styles
  */
 export async function loadBeerCssStyles(): Promise<void> {
     try {
+        await loadCoreStyles();
         const beerStyles = await import("./_index.scss?inline");
         if (beerStyles.default) {
             await loadAsAdopted(beerStyles.default);

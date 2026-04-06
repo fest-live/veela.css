@@ -2,6 +2,8 @@
 @use "sass:map";
 @use "veela-lib" as *;
 @use "veela-lib" as mixins;
+// host-related, grid-*, display, size, … (veela-lib only forwards core; namespace avoids mixin clashes)
+@use "../../../lib/advanced/layout" as ux;
 
 @mixin line-clamp($lines) {
     display: -webkit-box;
@@ -857,8 +859,6 @@ $spaces: (
     }
 }
 
-@use "veela-lib" as *;
-
 //
 @property --value  { syntax: "<number>"; initial-value: 0; inherits: true; };
 @property --relate { syntax: "<number>"; initial-value: 0; inherits: true; };
@@ -876,11 +876,11 @@ $spaces: (
 
 //
 @layer ux-classes {
-    @include host-related(".grid-rows", "::slotted(*)") { @include grid-row; }
-    @include host-related(".grid-rows", "*") { @include grid-row; }
-    @include host-context(".grid-rows") {
-        @include display(inline-grid, column, center, center);
-        @include size(auto, auto);
+    @include ux.host-related(".grid-rows", "::slotted(*)") { @include ux.grid-row; }
+    @include ux.host-related(".grid-rows", "*") { @include ux.grid-row; }
+    @include ux.host-context(".grid-rows") {
+        @include ux.display(inline-grid, column, center, center);
+        @include ux.size(auto, auto);
 
         //
         & {
@@ -894,11 +894,11 @@ $spaces: (
     }
 
     //
-    @include host-related(".grid-columns", "::slotted(*)") { @include grid-column; }
-    @include host-related(".grid-columns", "*") { @include grid-column; }
-    @include host-context(".grid-columns") {
-        @include display(inline-grid, row, center, center);
-        @include size(auto, auto);
+    @include ux.host-related(".grid-columns", "::slotted(*)") { @include ux.grid-column; }
+    @include ux.host-related(".grid-columns", "*") { @include ux.grid-column; }
+    @include ux.host-context(".grid-columns") {
+        @include ux.display(inline-grid, row, center, center);
+        @include ux.size(auto, auto);
 
         //
         & {
@@ -912,55 +912,55 @@ $spaces: (
     }
 
     //
-    @include host-related(".flex-columns", "::slotted(*)") { @include flex-column; }
-    @include host-related(".flex-columns", "*") { @include flex-column; }
-    @include host-context(".flex-columns") {
-        @include display(inline-flex, column, center, center);
-        @include size(max-content, max-content);
+    @include ux.host-related(".flex-columns", "::slotted(*)") { @include ux.flex-column; }
+    @include ux.host-related(".flex-columns", "*") { @include ux.flex-column; }
+    @include ux.host-context(".flex-columns") {
+        @include ux.display(inline-flex, column, center, center);
+        @include ux.size(max-content, max-content);
     }
 
     //
-    @include host-related(".grid-layered", "::slotted(*)") { @include grid-layered; }
-    @include host-related(".grid-layered", "*") { @include grid-layered; }
-    @include host-context(".grid-layered") {
-        @include grid-layered;
-        @include display(inline-grid, column, center, center);
-        @include size(max-content, max-content);
+    @include ux.host-related(".grid-layered", "::slotted(*)") { @include ux.grid-layered; }
+    @include ux.host-related(".grid-layered", "*") { @include ux.grid-layered; }
+    @include ux.host-context(".grid-layered") {
+        @include ux.grid-layered;
+        @include ux.display(inline-grid, column, center, center);
+        @include ux.size(max-content, max-content);
     }
 
     //
-    @include host-related(".grid-rows-3c", "::slotted(*)") { @include grid-rows-3c; }
-    @include host-related(".grid-rows-3c", "*") { @include grid-rows-3c; }
-    @include host-context(".grid-rows-3c") {
+    @include ux.host-related(".grid-rows-3c", "::slotted(*)") { @include ux.grid-rows-3c; }
+    @include ux.host-related(".grid-rows-3c", "*") { @include ux.grid-rows-3c; }
+    @include ux.host-context(".grid-rows-3c") {
         & { grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content); }
-        @include size(auto, auto);
+        @include ux.size(auto, auto);
     }
 
     //
-    @include host-related(".grid-rows-3c", "::slotted(*:last-child)") { grid-column: var(--order, 1) / 3 span; }
-    @include host-related(".grid-rows-3c", "*:last-child") { grid-column: var(--order, 1) / 3 span; }
-    @include host-context(".grid-rows-3c") {
+    @include ux.host-related(".grid-rows-3c", "::slotted(*:last-child)") { grid-column: var(--order, 1) / 3 span; }
+    @include ux.host-related(".grid-rows-3c", "*:last-child") { grid-column: var(--order, 1) / 3 span; }
+    @include ux.host-context(".grid-rows-3c") {
         & { --order: sibling-index(); };
         & { grid-column: var(--order, 1) / var(--order, 1) span; }
-        @include size(auto, auto);
+        @include ux.size(auto, auto);
     }
 
     //
-    @include host-context(".stretch-inline") { @include inline-stretch; }
-    @include host-context(".stretch-block") { @include block-stretch; }
+    @include ux.host-context(".stretch-inline") { @include ux.inline-stretch; }
+    @include ux.host-context(".stretch-block") { @include ux.block-stretch; }
 
     // requires `box-sizing: border-box`
-    @include host-context(".content-inline-size") { @include content-inline-size; }
+    @include ux.host-context(".content-inline-size") { @include ux.content-inline-size; }
 
     // requires `box-sizing: border-box`
-    @include host-context(".content-block-size") { @include content-block-size; }
+    @include ux.host-context(".content-block-size") { @include ux.content-block-size; }
 
     //
-    @include host-context(".ux-anchor") { @include ps-anchor; }
-    @include host-context(".ux-anchor") { @include ps-cursor; }
+    @include ux.host-context(".ux-anchor") { @include ps-anchor; }
+    @include ux.host-context(".ux-anchor") { @include ps-cursor; }
 
     //
-    @include host-context(".layered-wrap") {
+    @include ux.host-context(".layered-wrap") {
         & { background-color: transparent; display: inline grid; inline-size: max-content; block-size: max-content; grid-template-columns: minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr); z-index: calc(var(--z-index, 0) + 1); overflow: visible; }
         & > * { grid-column: 1 / -1; grid-row: 1 / -1; }
     }

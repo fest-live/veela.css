@@ -447,6 +447,7 @@ $mobile-width: 9in;
 // Is touch
 $is-touch: "screen and (hover: none) and (pointer: coarse)";
 $is-not-wide: "(width < #{$mobile-width})";
+$is-desktop: "(width >= #{$mobile-width})";
 $is-deskinset-block-start: "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobile-width}) or (orientation: landscape)))";
 $is-mobile: "not #{$is-desktop}";
 $is-windowed: "@container u2-windowed #{$is-not-wide}";

@@ -65,22 +65,23 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
 
     console.log(`[Veela] Loading variant: ${variant}`);
 
-    await loadCoreStyles();
-
     switch (variant) {
         case "core": {
             await loadCoreStyles();
             break;
         }
         case "basic": {
+            // Basic SCSS (misc + design) requires core foundation as a separate sheet.
             await loadBasicStyles();
             break;
         }
         case "advanced": {
+            // Advanced bundle already @use's core; avoid double-loading core.
             await loadAdvancedStyles();
             break;
         }
         case "beercss": {
+            // Beer bundle @use's basic (not core); ensure foundation is present.
             await loadBeerCssStyles();
             break;
         }

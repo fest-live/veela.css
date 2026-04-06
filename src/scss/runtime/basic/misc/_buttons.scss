@@ -500,7 +500,7 @@
                 & > span {
                     flex: 1 1 auto;
                     min-inline-size: 0;
-                    text-align: start;
+                    text-align: start !important;
                     user-select: none;
                     pointer-events: none;
                     font-size: 0.875rem;
@@ -529,6 +529,31 @@
                 background-color: var(--color-outline-variant);
                 opacity: 0.3;
                 pointer-events: none;
+            }
+
+            /*
+             * `.grid-rows` applies subgrid + place(center) to children, which centers
+             * label text per row. Context menus must stay flex rows with start-aligned labels.
+             */
+            &.grid-rows {
+                display: flex !important;
+                flex-direction: column;
+                align-items: stretch;
+                grid-template-columns: unset !important;
+                grid-auto-rows: unset !important;
+
+                & > *:not(.ctx-menu-separator) {
+                    display: flex !important;
+                    flex-flow: row nowrap !important;
+                    align-items: center !important;
+                    justify-content: flex-start !important;
+                    grid-column: unset !important;
+                    grid-row: unset !important;
+                    grid-template-columns: unset !important;
+                    grid-template-rows: unset !important;
+                    place-content: unset !important;
+                    place-items: unset !important;
+                }
             }
         }
 

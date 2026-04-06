@@ -1,0 +1,18 @@
+// Core is canonical for layout helpers that also exist in `basic` (FL fallbacks).
+// Hide basic's duplicates so the forwarded surface stays a single definition.
+@forward "./core";
+@forward "./basic" hide
+    aspect-ratio,
+    breakpoint,
+    breakpoint-up,
+    container-query,
+    flex,
+    flex-between,
+    flex-center,
+    flex-column,
+    grid,
+    hide-scrollbar,
+    position,
+    scrollbar,
+    stack,
+    truncate;

@@ -1,3 +1,9 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
 // Layout mixins - veela-independent fallbacks
 
 @mixin flex-layout($direction: row, $wrap: nowrap, $gap: null) {
@@ -18,4 +24,1017 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+// =============================================================================
+// LAYOUT & BREAKPOINTS
+// =============================================================================
+
+
+
+//
+// Space scale
+$md3-space-scale: (
+    2xs: clamp(0.1875rem, 0.4cqi + 0.05rem, 0.25rem),
+    xs: clamp(0.25rem, 0.45cqi + 0.06rem, 0.5rem),
+    sm: clamp(0.5rem, 0.6cqi + 0.1rem, 0.75rem),
+    md: clamp(0.75rem, 0.8cqi + 0.18rem, 1rem),
+    lg: clamp(1rem, 1cqi + 0.24rem, 1.5rem),
+    xl: clamp(1.5rem, 1.4cqi + 0.32rem, 2rem),
+    2xl: clamp(2rem, 2cqi + 0.4rem, 2.75rem),
+    3xl: clamp(2.75rem, 2.6cqi + 0.6rem, 3.5rem),
+    4xl: clamp(3.5rem, 3cqi + 0.8rem, 4.5rem),
+);
+
+//
+// Radius scale
+$md3-radius-scale: (
+    xs: clamp(0.25rem, 0.6cqi, 0.375rem), // 4-6px
+    sm: clamp(0.5rem, 0.8cqi, 0.75rem),   // 8-12px
+    md: clamp(0.75rem, 1cqi, 1rem),       // 12-16px
+    lg: clamp(1rem, 1.25cqi, 1.5rem),     // 16-24px
+    xl: clamp(1.5rem, 1.75cqi, 2rem),     // 24-32px
+    full: 9999px,
+);
+
+//
+// Shape scale
+$md3-shape-scale: (
+    corner-none: 0,
+    extra-small: clamp(0.25rem, 0.6cqi, 0.375rem),
+    extra-small-top: clamp(0.25rem, 0.6cqi, 0.375rem) clamp(0.25rem, 0.6cqi, 0.375rem) 0 0,
+    small: clamp(0.5rem, 0.9cqi, 0.75rem),
+    small-top: clamp(0.5rem, 0.9cqi, 0.75rem) clamp(0.5rem, 0.9cqi, 0.75rem) 0 0,
+    medium: clamp(0.75rem, 1.2cqi, 1rem),
+    large: clamp(1rem, 1.5cqi, 1.5rem),
+    large-top: clamp(1rem, 1.5cqi, 1.5rem) clamp(1rem, 1.5cqi, 1.5rem) 0 0,
+    large-end: clamp(1rem, 1.5cqi, 1.5rem) clamp(1rem, 1.5cqi, 1.5rem) 0 0,
+    extra-extra-large: clamp(2rem, 2.4cqi, 2.5rem),
+    extra-large: clamp(1.75rem, 2.4cqi, 2.25rem),
+    extra-large-top: clamp(1.75rem, 2.4cqi, 2.25rem) clamp(1.75rem, 2.4cqi, 2.25rem) 0 0,
+    extra-large-bottom: 0 0 clamp(1.75rem, 2.4cqi, 2.25rem) clamp(1.75rem, 2.4cqi, 2.25rem),
+    full: 9999px,
+);
+
+//
+// Radius aliases
+$md3-radius-aliases: (
+    3xs: xs,
+    2xs: xs,
+    xs: xs,
+    extra-small: xs,
+    sm: sm,
+    small: sm,
+    md: md,
+    medium: md,
+    lg: lg,
+    large: lg,
+    xl: xl,
+    extra-large: xl,
+    2xl: xl,
+    3xl: xl,
+    4xl: xl,
+    full: full,
+);
+
+//
+// Shape aliases
+$md3-shape-aliases: (
+    3xs: extra-small,
+    2xs: extra-small,
+    xs: extra-small,
+    extra-small: extra-small,
+    sm: small,
+    small: small,
+    md: medium,
+    medium: medium,
+    lg: large,
+    large: large,
+    xl: extra-large,
+    extra-large: extra-large,
+    2xl: extra-large,
+    3xl: extra-extra-large,
+    4xl: extra-extra-large,
+    full: full,
+);
+
+//
+// Breakpoint scale
+$md3-breakpoints: (
+    sm: 40rem,
+    md: 60rem,
+    lg: 75rem,
+    xl: 90rem,
+    2xl: 105rem,
+);
+
+//
+// Container query thresholds
+$md3-container-compact-max: 30rem;
+$md3-container-cozy-max: 60rem;
+
+
+//
+// Icon sizes
+$md3-icon-sizes: (
+    xs: clamp(0.75rem, 0.35cqi + 0.65rem, 0.9rem),
+    sm: clamp(0.95rem, 0.4cqi + 0.85rem, 1.1rem),
+    md: clamp(1.25rem, 0.45cqi + 1.1rem, 1.45rem),
+    lg: clamp(1.5rem, 0.6cqi + 1.3rem, 1.75rem),
+    xl: clamp(2rem, 0.8cqi + 1.65rem, 2.25rem),
+    2xl: clamp(2.5rem, 1cqi + 2.25rem, 3rem),
+    18xs: extra-small,
+    19xs: extra-small,
+    20xs: extra-small,
+    21xs: extra-small,
+    22xs: extra-small,
+    23xs: extra-small,
+    24xs: extra-small,
+    25xs: extra-small,
+    26xs: extra-small,
+    27xs: extra-small,
+    28xs: extra-small,
+    29xs: extra-small,
+    30xs: extra-small,
+    31xs: extra-small,
+    full: full,
+);
+
+//
+// Avatar sizes
+$md3-avatar-sizes: (
+    sm: clamp(2.25rem, 1cqi + 2rem, 2.75rem),
+    md: clamp(2.75rem, 1.4cqi + 2.4rem, 3.5rem),
+    lg: clamp(3.5rem, 1.6cqi + 3rem, 4.5rem),
+);
+
+
+//
+// Mobile width
+$mobile-width: 9in;
+
+//
+// Is touch
+$is-touch: "screen and (hover: none) and (pointer: coarse)";
+$is-not-wide: "(width < #{$mobile-width})";
+$is-desktop: "(width >= #{$mobile-width})";
+$is-deskinset-block-start: "(((hover: hover) or (pointer: fine)) and ((width >= #{$mobile-width}) or (orientation: landscape)))";
+$is-mobile: "not #{$is-desktop}";
+$is-windowed: "@container u2-windowed #{$is-not-wide}";
+
+// Display mixins - veela-independent fallbacks
+
+@mixin hidden {
+    display: none !important;
+}
+
+@mixin visible($type: block) {
+    display: #{$type} !important;
+}
+
+
+//
+@mixin host-related($host, $child) {
+    // outside web component
+    #{$host} { & > #{$child} { @content; } }
+    // inside web component
+    :host(#{$host}) { ::slotted(#{$child}) { @content; } }
+}
+
+//
+@mixin host-context($host) {
+    // outside web component
+    #{$host} { @content; }
+    // inside web component
+    :host(#{$host}) { @content; }
+}
+
+
+// Spacing helpers
+@mixin padding($value: null) {
+    & {
+        @if $value != null { --p: #{$value}; }
+        padding: var(--p, var(--padding-md, 0.25rem));
+    }
+}
+
+//
+@mixin margin($value: null) {
+    & {
+        @if $value != null { --m: #{$value}; }
+        margin: var(--m, var(--space-md, 0rem));
+    }
+}
+
+//
+@mixin spacing($p: null, $m: null) {
+    & {
+        @if $p != null { padding: $p; }
+        @if $m != null { margin: $m; }
+    }
+}
+
+// Border/radius/shadow helpers
+@mixin border($inline-size: null, $style: null, $color: null) {
+    & {
+        @if $width != null { --border-w: #{$width}; }
+        @if $style != null { --border-s: #{$style}; }
+        @if $color != null { --border-c: #{$color}; }
+        border-width: var(--border-w, 0.5px);
+        border-style: var(--border-s, solid);
+        border-color: var(--border-c, currentColor);
+    }
+}
+
+// Alignment helpers
+@mixin center($axis: "both") {
+    & {
+        @if $axis == "both" { place-content: center; place-items: center; }
+        @else if $axis == "x" { justify-content: center; align-items: stretch; }
+        @else if $axis == "y" { align-items: center; justify-content: stretch; }
+    }
+}
+
+
+// Border/radius/shadow helpers
+@mixin outline($inline-size: null, $style: null, $color: null) {
+    & {
+        @if $width != null { --outline-w: #{$width}; }
+        @if $style != null { --outline-s: #{$style}; }
+        @if $color != null { --outline-c: #{$color}; }
+        outline-width: var(--outline-w, 0.5px);
+        outline-style: var(--outline-s, solid);
+        outline-color: var(--outline-c, currentColor);
+    }
+}
+
+//
+@mixin radius($r: null) { & { @if $r != null { --radius: #{$r}; } border-radius: var(--radius, var(--radius-md, 0.25rem)); } }
+@mixin border-radius($r: null) { & { @if $r != null { --radius: #{$r}; } border-radius: var(--radius, var(--radius-md, 0.25rem)); } }
+@mixin shadow($value: null) { & { @if $value != null { --shadow: #{$value}; } box-shadow: var(--shadow); } }
+
+// Container helpers
+// pseudo-container helper for future compatibility
+
+@mixin box($r: null, $ov: null) {
+    & {
+        @if $r != null { --radius: #{$r}; }
+        @if $ov != null { --overflow: #{$ov}; }
+        border-radius: var(--radius, var(--radius-md, 0.25rem));
+        overflow: var(--overflow, visible);
+    }
+}
+
+@mixin color($bg: null, $color: null) {
+    & {
+        @if $bg != null { --bg: #{$bg}; }
+        @if $color != null { --fg: #{$color}; }
+        color: var(--fg, currentColor);
+        background-color: var(--bg, transparent);
+    }
+}
+
+
+
+
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// Size mixins - veela-independent fallbacks
+
+
+@mixin min-size($inline: null, $block: null) {
+    @if $inline { min-inline-size: $inline; }
+    @if $block { min-block-size: $block; }
+}
+
+@mixin max-size($inline: null, $block: null) {
+    @if $inline { max-inline-size: $inline; }
+    @if $block { max-block-size: $block; }
+}
+
+@mixin full-size {
+    inline-size: 100%;
+    block-size: 100%;
+}
+
+// Sizing
+@mixin size($inline: null, $block: null, $aspect: null) {
+    & {
+        @if $inline == 100% and $block == 100% {
+            inline-size: 100%;
+            block-size: 100%;
+        } @else {
+            @if $inline { inline-size: $inline; }
+            @if $block { block-size: $block; }
+        }
+        @if $aspect { aspect-ratio: $aspect; }
+        @if $inline != null { --i-size: #{$inline}; }
+        @if $block != null { --b-size: #{$block}; }
+        @if $aspect != null { --ar: #{$aspect}; }
+        inline-size: var(--i-size, 100%);
+        block-size: var(--b-size, 100%);
+        aspect-ratio: var(--ar, auto);
+    }
+}
+
+@mixin position($type: null, $inset: null) {
+    & {
+        @if $type != null { --pos: #{$type}; }
+        @if $inset != null { --inset: #{$inset}; }
+        position: var(--pos, absolute);
+        inset: var(--inset, 0);
+    }
+}
+
+@mixin display-2($type: 'block', $align: null, $justify: null) {
+    @if $type == 'flex' or $type == 'inline-flex' {
+        display: #{$type};
+        @if $align { align-items: $align; }
+        @if $justify { justify-content: $justify; }
+    } @else if $type == 'grid' or $type == 'inline-grid' {
+        display: #{$type};
+        @if $align { align-items: $align; }
+        @if $justify { justify-items: $justify; }
+    } @else if $type == 'none' {
+        display: none;
+    } @else {
+        display: #{$type};
+    }
+}
+
+@mixin display($type: null, $direction: null, $items: null, $content: null) {
+    & {
+        @if $type != null { --display: #{$type}; }
+        @if $direction != null { --flow: #{$direction}; }
+        @if $items != null { --items: #{$items}; }
+        @if $content != null { --content: #{$content}; }
+        display: var(--display, inline-block);
+        flex-direction: var(--flow, row);
+        place-items: var(--items, center);
+        place-content: var(--content, center);
+        box-sizing: border-box;
+    }
+}
+
+@mixin interaction($pointerEvents: null, $cursor: null, $userSelect: null) {
+    & {
+        @if $pointerEvents != null { --pe: #{$pointerEvents}; }
+        @if $userSelect != null { --us: #{$userSelect}; }
+        @if $cursor != null { --cursor: #{$cursor}; }
+        pointer-events: var(--pe, auto);
+        user-select: var(--us, none);
+    }
+}
+
+@mixin scrollbar($overflow: null, $inline-size: null, $color: null, $gutter: null) {
+    & {
+        @if $width != null { --sb-w: #{$width}; }
+        @if $color != null { --sb-c: #{$color}; }
+        @if $gutter != null { --sb-g: #{$gutter}; }
+        @if $overflow != null { --ov: #{$overflow}; }
+        scrollbar-width: var(--sb-w, thin);
+        scrollbar-color: var(--sb-c, transparent transparent);
+        scrollbar-gutter: var(--sb-g, auto);
+        overflow: var(--ov, hidden);
+    }
+}
+
+@mixin place($method: stretch, $items: center) {
+    & { place-content: #{$method}; place-items: #{$items}; }
+}
+
+@mixin grid-flow($direction: row) {
+    & {
+        display: grid;
+        grid-auto-flow: #{$direction};
+    }
+}
+
+@mixin grid-center {
+    display: grid;
+    place-items: center;
+}
+
+@mixin flex-flow($direction: row) {
+    & {
+        display: flex;
+        flex-direction: #{$direction};
+    }
+}
+
+@mixin grid-column {
+    @include grid-flow(row);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: var(--order, 1) / calc(var(--order, 1) + 1);
+        grid-row: 1 / -1;
+        grid-template-columns: minmax(0px, 1fr);
+        grid-template-rows: subgrid;
+    }
+}
+
+@mixin grid-row {
+    @include grid-flow(column);
+    @include place(center);
+
+    & {
+        --order: sibling-index();
+        grid-column: 1 / -1;
+        grid-row: var(--order, 1) / calc(var(--order, 1) + 1);
+        grid-template-columns: subgrid;
+        grid-template-rows: minmax(0px, max-content);
+    }
+}
+
+@mixin flex-column {
+    & {
+        --order: sibling-index();
+        order: var(--order, auto);
+        flex: 1 1 max-content;
+    }
+
+    @include place(center);
+}
+
+@function limit-by-size($pwidth, $basis: 100%, $min: 0px) {
+    @return max(calc($basis - ($basis - $pwidth)), $min);
+}
+
+@mixin inline-stretch { & { inline-size: 100%; inline-size: -webkit-fill-available; inline-size: stretch; } }
+@mixin block-stretch { & { block-size: 100%; block-size: -webkit-fill-available; block-size: stretch; } }
+@mixin content-inline-size { & { padding-inline: limit-by-size(calc(var(--content-inline-size, 100%) * 0.5), 100%); } }
+@mixin content-block-size { & { padding-block: limit-by-size(calc(var(--content-block-size, 100%) * 0.5), 100%); } }
+@mixin ux-anchor { & { transform: scale3d(var(--scale, 1), var(--scale, 1), 1) translate3d(var(--translate-x, 0px), var(--translate-y, 0px), 0px); } }
+
+@mixin grid-layered {
+    & { grid-template-columns: minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr); }
+    & > * { grid-column: 1 / -1; grid-row: 1 / -1; }
+}
+
+@mixin grid-rows-3c { & { grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content); } }
+
+@mixin grid-layout($columns: minmax(0px, 1fr), $rows: minmax(0px, 1fr), $type: inline) {
+    display: #{$type} grid;
+    grid-template-columns: #{$columns};
+    grid-template-rows: #{$rows};
+}
+
+@mixin grid-auto-fill($min-size: null) {
+    @if $min-size != null { --min-col-size: #{$min-size}; }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-col-size, 260px), 1fr));
+    gap: var(--gap-md);
+}
+
+@mixin scrollable($direction: "y") {
+    @if $direction == "x" {
+        overflow-inline: auto;
+        overflow-block: hidden;
+    }
+
+    @else if $direction == "y" {
+        overflow-block: auto;
+        overflow-inline: hidden;
+    }
+
+    @else {
+        overflow-inline: auto;
+        overflow-block: auto;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: oklch(
+        from --c2-on-surface(
+            var(--scrollbar-tint),
+            var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
+        ) l c h / var(--scrollbar-opacity)
+    ) transparent;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        inline-size: 6px;
+        block-size: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: oklch(
+            from --c2-on-surface(
+                var(--scrollbar-tint),
+                var(--current, var(--color-on-surface, var(--md-on-surface, #1c1b1f)))
+            ) l c h / var(--scrollbar-opacity)
+        );
+        border-radius: var(--radius-full);
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+}
+
+@mixin hide-scrollbar {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@mixin breakpoint($size) {
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px,
+        "xl": 1200px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @media (max-inline-size: $limit) { @content; }
+    } @else {
+        @media (max-inline-size: #{$size}) { @content; }
+    }
+}
+
+@mixin breakpoint-up($size) {
+    $map: (
+        "sm": 481px,
+        "md": 721px,
+        "lg": 961px,
+        "xl": 1201px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @media (min-inline-size: $limit) { @content; }
+    } @else {
+        @media (min-inline-size: #{$size}) { @content; }
+    }
+}
+
+@mixin container-query($size) {
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px
+    );
+
+    $limit: map.get($map, $size);
+
+    @if $limit {
+        @container (max-inline-size: $limit) { @content; }
+    } @else {
+        @container (max-inline-size: #{$size}) { @content; }
+    }
+}
+
+@mixin flex($direction: row, $items: center, $content: center) {
+    @include display('flex', $direction, $items, $content);
+}
+
+@mixin grid($columns: minmax(0px, 1fr), $rows: minmax(0px, var(--ui-window-frame-titlebar-height)) minmax(0px, 1fr)) {
+    display: grid;
+    grid-template-columns: #{$columns};
+    grid-template-rows: #{$rows};
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
+//
+@mixin container-base($size: stretch, $strict: false, $type: size, $name: auto, $contain: strict) {
+    & {
+        container-type: $type;
+        @if $name != auto { container-name: $name; }
+        contain: $contain;
+    }
+
+    @if $strict {
+        @include size($size);
+    }
+    @else {
+        @include size(stretch);
+    }
+}
+
+@mixin container-layout($type: ui-container, $contain: strict) {
+    @include container-base(stretch, false, $type, auto, $contain);
+}
+
+// Container query variants
+@mixin container($size) {
+    max-inline-size: stretch;//$container-max-width;
+
+    $map: (
+        "sm": 480px,
+        "md": 720px,
+        "lg": 960px
+    );
+
+    $limit: map.get($map, $size);
+
+    /*@include media-down(md) {
+        padding: 0 $spacing-md;
+    }*/
+
+    @if $limit {
+        @container (max-inline-size: $limit) { @content; }
+    } @else {
+        @container (max-inline-size: #{$size}) { @content; }
+    }
+}
+
+
+@mixin text($size: $ui-font-base-size, $weight: 400, $color: currentColor) {
+    font-size: #{$size};
+    font-weight: #{$weight};
+    color: #{$color};
+}
+
+@mixin text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// =============================================================================
+// RESPONSIVE MIXINS
+// =============================================================================
+
+@mixin media-up($breakpoint) {
+    @if $breakpoint == sm {
+        @media (min-inline-size: $breakpoint-sm) {
+            @content;
+        }
+    } @else if $breakpoint == md {
+        @media (min-inline-size: $breakpoint-md) {
+            @content;
+        }
+    } @else if $breakpoint == lg {
+        @media (min-inline-size: $breakpoint-lg) {
+            @content;
+        }
+    } @else if $breakpoint == xl {
+        @media (min-inline-size: $breakpoint-xl) {
+            @content;
+        }
+    } @else if $breakpoint == 2xl {
+        @media (min-inline-size: $breakpoint-2xl) {
+            @content;
+        }
+    }
+}
+
+//
+@mixin media-down($breakpoint) {
+    @if $breakpoint == sm {
+        @media (max-inline-size: #{$breakpoint-sm - 1px}) {
+            @content;
+        }
+    } @else if $breakpoint == md {
+        @media (max-inline-size: #{$breakpoint-md - 1px}) {
+            @content;
+        }
+    } @else if $breakpoint == lg {
+        @media (max-inline-size: #{$breakpoint-lg - 1px}) {
+            @content;
+        }
+    } @else if $breakpoint == xl {
+        @media (max-inline-size: #{$breakpoint-xl - 1px}) {
+            @content;
+        }
+    } @else if $breakpoint == 2xl {
+        @media (max-inline-size: #{$breakpoint-2xl - 1px}) {
+            @content;
+        }
+    }
+}
+
+@mixin media-between($min, $max) {
+    @media (min-inline-size: $min) and (max-inline-size: #{$max - 1px}) {
+        @content;
+    }
+}
+
+// =============================================================================
+// LAYOUT MIXINS
+// =============================================================================
+
+@mixin grid-auto-fit($min-inline-size: 250px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    gap: $spacing-lg;
+}
+
+// =============================================================================
+// VISUAL EFFECTS MIXINS
+// (moved to design/_effects.scss)
+// =============================================================================
+
+// =============================================================================
+// UTILITY MIXINS
+// =============================================================================
+
+@mixin sr-only {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+
+    &::before {
+        content: "";
+        display: block;
+        padding-block-start: calc(#{$height} / #{$width} * 100%);
+    }
+
+    & > * {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        inline-size: 100%;
+        block-size: 100%;
+    }
+}
+
+
+
+
+
+//
+@mixin fit-content-inline {
+    interpolate-size: allow-keywords;
+    min-inline-size: min-content;
+    max-inline-size: stretch;
+    inline-size: fit-content;
+}
+
+//
+@mixin fit-content-block {
+    interpolate-size: allow-keywords;
+    min-block-size: min-content;
+    max-block-size: stretch;
+    block-size: fit-content;
+}
+
+//
+@mixin stretch-inline {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    inline-size: stretch;
+}
+
+//
+@mixin stretch-block {
+    interpolate-size: allow-keywords;
+    max-block-size: stretch;
+    block-size: stretch;
+}
+
+//
+@mixin stretch {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    max-block-size: stretch;
+    inline-size: stretch;
+    block-size: stretch;
+}
+
+//
+@mixin container-inline-clamped($inline: max-content) {
+    interpolate-size: allow-keywords;
+    max-inline-size: stretch;
+    inline-size: calc-size($inline, clamp(0px, size, min(100cqi, 100dvi)));
+    min-inline-size: min-content;
+}
+
+//
+@mixin container-block-clamped($block: max-content) {
+    interpolate-size: allow-keywords;
+    max-block-size: stretch;
+    block-size: calc-size($block, clamp(0px, size, min(100cqb, 100dvb)));
+    min-block-size: min-content;
+}
+
+//
+@mixin container-clamped($inline: max-content, $block: max-content) {
+    interpolate-size: allow-keywords;
+    @include container-inline-clamped($inline);
+    @include container-block-clamped($block);
+}
+
+
+// Typography mixins - veela-independent fallbacks
+
+@mixin typography-props($size: null, $weight: null, $line-height: null, $family: null) {
+    @if $size { font-size: $size; }
+    @if $weight { font-weight: $weight; }
+    @if $line-height { line-height: $line-height; }
+    @if $family { font-family: $family; }
+}
+
+@mixin text-wrap($wrap: normal) {
+    white-space: $wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+@mixin heading-level($level: 1) {
+    font-weight: var(--fl-font-weight-bold, 700);
+    line-height: var(--fl-leading-tight, 1.2);
+    
+    @if $level == 1 {
+        font-size: var(--fl-text-4xl, 2.5rem);
+    } @else if $level == 2 {
+        font-size: var(--fl-text-3xl, 2rem);
+    } @else if $level == 3 {
+        font-size: var(--fl-text-2xl, 1.6rem);
+    } @else if $level == 4 {
+        font-size: var(--fl-text-xl, 1.25rem);
+    } @else {
+        font-size: var(--fl-text-lg, 1rem);
+    }
+}
+
+// Color mixins - veela-independent fallbacks
+// Uses CSS custom properties for theming compatibility
+
+@mixin color($color: null, $bg: null, $border-color: null) {
+    @if $color { color: $color; }
+    @if $bg { background-color: $bg; }
+    @if $border-color { border-color: $border-color; }
+}
+
+@mixin surface($tone: 0) {
+    // Fallback surface colors using CSS variables
+    // Can be overridden by any theming system
+    background-color: var(--fl-surface, #fff);
+    color: var(--fl-on-surface, #111);
+}
+
+@mixin primary-surface {
+    background-color: var(--fl-primary, #1a73e8);
+    color: var(--fl-on-primary, #fff);
+}
+
+@mixin secondary-surface {
+    background-color: var(--fl-secondary, #5f6368);
+    color: var(--fl-on-secondary, #fff);
+}
+
+// Border mixins - veela-independent fallbacks
+
+@mixin border($width: 1px, $style: solid, $color: currentColor) {
+    border: $width $style $color;
+}
+
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+@mixin rounded($size: md) {
+    @if $size == xs {
+        border-radius: var(--fl-radius-xs, 0.25rem);
+    } @else if $size == sm {
+        border-radius: var(--fl-radius-sm, 0.5rem);
+    } @else if $size == md {
+        border-radius: var(--fl-radius-md, 0.75rem);
+    } @else if $size == lg {
+        border-radius: var(--fl-radius-lg, 0.85rem);
+    } @else if $size == xl {
+        border-radius: var(--fl-radius-xl, 1rem);
+    } @else if $size == full {
+        border-radius: 9999px;
+    } @else {
+        border-radius: $size;
+    }
+}
+
+@mixin no-border {
+    border: none;
+    border-width: 0;
+}
+
+// Interaction mixins - veela-independent fallbacks
+
+@mixin interaction($pointerEvents: null, $cursor: null, $userSelect: null) {
+    @if $pointerEvents { pointer-events: #{$pointerEvents}; }
+    @if $cursor { cursor: #{$cursor}; }
+    @if $userSelect { user-select: #{$userSelect}; }
+}
+
+@mixin non-interactive {
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}
+
+@mixin selectable {
+    user-select: text;
+    cursor: text;
+}
+
+@mixin draggable {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+// Shadow mixins - veela-independent fallbacks
+
+@mixin shadow($value) {
+    box-shadow: #{$value};
+}
+
+@mixin elevation($level: 1) {
+    @if $level == 0 {
+        box-shadow: none;
+    } @else if $level == 1 {
+        box-shadow: var(--fl-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+    } @else if $level == 2 {
+        box-shadow: var(--fl-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+    } @else if $level == 3 {
+        box-shadow: var(--fl-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+    } @else if $level == 4 {
+        box-shadow: var(--fl-shadow-xl, 0 20px 25px rgba(0, 0, 0, 0.1));
+    } @else {
+        box-shadow: var(--fl-shadow-2xl, 0 25px 50px rgba(0, 0, 0, 0.1));
+    }
+}
+
+@mixin no-shadow {
+    box-shadow: none;
+}
+
+// Container mixins - veela-independent fallbacks
+
+@mixin container-base($size: auto, $strict: false, $type: size, $name: null, $mode: null) {
+    container-type: $type;
+    @if $name { container-name: $name; }
+    
+    @if $strict {
+        contain: strict;
+    } @else {
+        contain: layout paint style;
+    }
+    
+    @if $size == stretch {
+        inline-size: stretch;
+        block-size: stretch;
+    } @else if $size != auto {
+        inline-size: $size;
+        block-size: $size;
+    }
+}
+
+@mixin container($name: null, $type: inline-size) {
+    container-type: $type;
+    @if $name { container-name: $name; }
+}
+
+@mixin container-query-named($name, $min: null, $max: null) {
+    @if $min and $max {
+        @container #{$name} (min-width: #{$min}) and (max-width: #{$max}) {
+            @content;
+        }
+    } @else if $min {
+        @container #{$name} (min-width: #{$min}) {
+            @content;
+        }
+    } @else if $max {
+        @container #{$name} (max-width: #{$max}) {
+            @content;
+        }
+    }
 }

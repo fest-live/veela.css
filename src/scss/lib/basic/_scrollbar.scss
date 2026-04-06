@@ -1,33 +1,5 @@
 // Scrollbar mixins - veela-independent fallbacks
-
-@mixin hide-scrollbar {
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-        display: none;
-        inline-size: 0;
-        block-size: 0;
-    }
-}
-
-@mixin custom-scrollbar($inline-size: 8px, $thumb-color: rgba(0, 0, 0, 0.3), $track-color: transparent) {
-    scrollbar-width: thin;
-    scrollbar-color: $thumb-color $track-color;
-
-    &::-webkit-scrollbar {
-        inline-size: $width;
-        block-size: $width;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: $track-color;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: $thumb-color;
-        border-radius: calc($width / 2);
-    }
-}
+// (scrollbar / custom-scrollbar / hide-scrollbar: core/_mixins.scss)
 
 @mixin scrollbox {
     overflow: auto;

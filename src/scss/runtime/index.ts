@@ -45,7 +45,6 @@ let _loadedVariant: VeelaVariant | null = null;
 import { loadCoreStyles } from "./core/index";
 import { loadBasicStyles } from "./basic/index";
 import { loadAdvancedStyles } from "./advanced/index";
-import { loadBeerCssStyles } from "./beercss/index";
 
 // ============================================================================
 // UNIFIED LOADER
@@ -78,11 +77,6 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
         case "advanced": {
             // Advanced bundle already @use's core; avoid double-loading core.
             await loadAdvancedStyles();
-            break;
-        }
-        case "beercss": {
-            // Beer bundle @use's basic (not core); ensure foundation is present.
-            await loadBeerCssStyles();
             break;
         }
         default:

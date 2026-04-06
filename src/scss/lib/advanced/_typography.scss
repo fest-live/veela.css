@@ -4,6 +4,8 @@
 @use "sass:meta";
 @use "sass:string";
 
+@use "../basic/position" as position;
+
 //
 @use "utils" as _;
 
@@ -588,14 +590,7 @@ $font-weight-extrabold: md3-font-weight-value("extrabold");
 
 //
 @mixin visually-hidden {
-    position: absolute;
-    inline-size: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    @include position.visually-hidden;
 }
 
 //

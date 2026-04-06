@@ -12,7 +12,7 @@
     transition: none;
 }
 
-@mixin reduced-motion {
+@mixin reduced-motion-disable {
     @media (prefers-reduced-motion: reduce) {
         transition: none;
         animation: none;

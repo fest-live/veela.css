@@ -57,8 +57,4 @@ $backdrop: var(--backdrop, oklch(from black l c h / 0.22));
 $scrollbar-opacity: var(--scrollbar-opacity, 0.56);
 $scrollbar-tint: var(--scrollbar-tint, 86%);
 
-// Stacking (use with lib/basic/_position.scss — overlays, modals)
-$z-modal-backdrop: var(--z-modal-backdrop);
-$z-modal: var(--z-modal);
-
 

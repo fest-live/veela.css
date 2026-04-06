@@ -1,7 +1,7 @@
 // Shared mixins to unify common property blocks
-// Do not @use "veela-lib" here: this file is part of veela-lib (via @forward) and that would create a Sass module loop.
 @use "sass:map";
 @use "sass:meta";
+@use "veela-lib" as *;
 @use "./tokens" as t;
 
 // Layout stacks

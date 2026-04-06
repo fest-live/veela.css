@@ -1,4 +1,6 @@
 @use "./functions" as cfg;
+@use "./config" as config;
+@use "./tokens" as tokens;
 
 //
 @use "sass:math";
@@ -7,6 +9,8 @@
 @use "sass:map";
 @use "sass:meta";
 @use "sass:string";
+
+@use "./position" as position;
 
 /**
  * Unified CSS Custom Property Registration System
@@ -38,6 +42,8 @@ $_default-initial-values: (
     "time": 0ms,
     "frequency": 0hz,
     ) !default;
+
+/* stylelint-disable scss/function-no-unknown */
 
 // ============================================================================
 // Mixin: Register a single CSS Custom Property
@@ -198,13 +204,6 @@ $_default-initial-values: (
     gap: $gap;
 }
 
-@mixin center-absolute {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 @mixin center-flex {
     @include flex(row, center, center);
 }
@@ -224,16 +223,6 @@ $_default-initial-values: (
 @mixin flex-column {
     display: flex;
     flex-direction: column;
-}
-
-@mixin absolute-fill {
-    position: absolute;
-    inset: 0;
-}
-
-@mixin fixed-fill {
-    position: fixed;
-    inset: 0;
 }
 
 @mixin stack($direction: column, $gap: var(--space-md)) {
@@ -566,7 +555,8 @@ $_default-initial-values: (
 
 @mixin md-scrollbars($size: null) {
     $scroll-size: sass(if($size ==null, cfg.config("scrollbar", "size"), $size));
-    $radius: cfg.config("shape", "border-radius");
+    // border-radius is a token map; pick one scalar (matches @mixin scrollbar).
+    $radius: cfg.radius("full");
 
     @include scrollbar-base($scroll-size, var(--color-scrollbar), transparent, $radius);
 }
@@ -675,21 +665,9 @@ $_default-initial-values: (
 }
 
 @mixin overlay($bg: var(--modal-backdrop-bg)) {
-    @include fixed-fill;
+    @include position.fixed-fill;
     background-color: $bg;
     z-index: var(--z-modal-backdrop);
-}
-
-@mixin visually-hidden {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
 }
 
 @mixin fade-in($duration: var(--transition-normal)) {
@@ -747,3 +725,21 @@ $_default-initial-values: (
     @include when-hover { #{$selector}:hover { @content; } }
     @include when-active { #{$selector}:active { @content; } }
 }
+
+@mixin line-clamp($lines) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+$spaces: (
+    "0": 0,
+    "xs": cfg.config("spacing", "xs"),
+    "sm": cfg.config("spacing", "sm"),
+    "md": cfg.config("spacing", "md"),
+    "lg": cfg.config("spacing", "lg"),
+    "xl": cfg.config("spacing", "xl"),
+    "2xl": cfg.config("spacing", "2xl"),
+    "3xl": cfg.config("spacing", "3xl")
+);

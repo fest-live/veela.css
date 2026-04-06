@@ -11,6 +11,9 @@
 @forward "./functions";
 @forward "./properties";
 @forward "./icons";
+@forward "./config";
+@forward "./tokens";
+
 
 // Component-specific style mixins
 // These provide veela-independent implementations for UI components
@@ -18,3 +21,4 @@
 @forward "./draggable";
 @forward "./resizable";
 @forward "./taskbar";
+@forward "./position";

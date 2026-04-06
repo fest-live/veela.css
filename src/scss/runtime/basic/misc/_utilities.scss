@@ -1,27 +1,6 @@
-/* ai-refactor: optimized/refactored at 2026-02-13T00:47:57Z */
-@use "sass:map";
 @use "veela-lib" as *;
-@use "veela-lib" as mixins;
-// host-related, grid-*, display, size, … (veela-lib only forwards core; namespace avoids mixin clashes)
-@use "../../../lib/advanced/layout" as ux;
-
-@mixin line-clamp($lines) {
-    display: -webkit-box;
-    -webkit-line-clamp: $lines;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-$spaces: (
-    "0": 0,
-    "xs": config("spacing", "xs"),
-    "sm": config("spacing", "sm"),
-    "md": config("spacing", "md"),
-    "lg": config("spacing", "lg"),
-    "xl": config("spacing", "xl"),
-    "2xl": config("spacing", "2xl"),
-    "3xl": config("spacing", "3xl")
-);
+@use "veela-lib" as cfg;
+@use "veela-lib" as ux;
 
 @layer utilities {
     @each $name, $value in $spaces {
@@ -59,51 +38,51 @@ $spaces: (
     }
 
     .text-xs {
-        @include mixins.typography("xs");
+        @include typography("xs");
     }
 
     .text-sm {
-        @include mixins.typography("sm");
+        @include typography("sm");
     }
 
     .text-base {
-        @include mixins.typography("base");
+        @include typography("base");
     }
 
     .text-lg {
-        @include mixins.typography("lg");
+        @include typography("lg");
     }
 
     .text-xl {
-        @include mixins.typography("xl");
+        @include typography("xl");
     }
 
     .text-2xl {
-        @include mixins.typography("2xl");
+        @include typography("2xl");
     }
 
     .font-thin {
-        font-weight: config("typography", "font-weight", "thin");
+        font-weight: cfg.config("typography", "font-weight", "thin");
     }
 
     .font-light {
-        font-weight: config("typography", "font-weight", "light");
+        font-weight: cfg.config("typography", "font-weight", "light");
     }
 
     .font-normal {
-        font-weight: config("typography", "font-weight", "normal");
+        font-weight: cfg.config("typography", "font-weight", "normal");
     }
 
     .font-medium {
-        font-weight: config("typography", "font-weight", "medium");
+        font-weight: cfg.config("typography", "font-weight", "medium");
     }
 
     .font-semibold {
-        font-weight: config("typography", "font-weight", "semibold");
+        font-weight: cfg.config("typography", "font-weight", "semibold");
     }
 
     .font-bold {
-        font-weight: config("typography", "font-weight", "bold");
+        font-weight: cfg.config("typography", "font-weight", "bold");
     }
 
     .text-start {
@@ -119,19 +98,19 @@ $spaces: (
     }
 
     .text-primary {
-        color: config("colors", "text-primary");
+        color: cfg.config("colors", "text-primary");
     }
 
     .text-secondary {
-        color: config("colors", "text-secondary");
+        color: cfg.config("colors", "text-secondary");
     }
 
     .text-muted {
-        color: config("colors", "text-muted");
+        color: cfg.config("colors", "text-muted");
     }
 
     .text-disabled {
-        color: config("colors", "text-disabled");
+        color: cfg.config("colors", "text-disabled");
     }
 
     .block,
@@ -304,39 +283,39 @@ $spaces: (
     }
 
     .bg-surface {
-        background-color: config("colors", "surface");
+        background-color: cfg.config("colors", "surface");
     }
 
     .bg-surface-container {
-        background-color: config("colors", "surface-container");
+        background-color: cfg.config("colors", "surface-container");
     }
 
     .bg-surface-container-high {
-        background-color: config("colors", "surface-container-high");
+        background-color: cfg.config("colors", "surface-container-high");
     }
 
     .bg-primary {
-        background-color: config("colors", "primary");
+        background-color: cfg.config("colors", "primary");
     }
 
     .bg-secondary {
-        background-color: config("colors", "secondary");
+        background-color: cfg.config("colors", "secondary");
     }
 
     .border {
-        @include mixins.logical-border(1px, solid, config("colors", "border"));
+        @include logical-border(1px, solid, cfg.config("colors", "border"));
     }
 
     .border-2 {
-        @include mixins.logical-border(2px, solid, config("colors", "border"));
+        @include logical-border(2px, solid, cfg.config("colors", "border"));
     }
 
     .border-primary {
-        @include mixins.logical-border(1px, solid, config("colors", "primary"));
+        @include logical-border(1px, solid, cfg.config("colors", "primary"));
     }
 
     .border-secondary {
-        @include mixins.logical-border(1px, solid, config("colors", "secondary"));
+        @include logical-border(1px, solid, cfg.config("colors", "secondary"));
     }
 
     .rounded-none {
@@ -344,39 +323,39 @@ $spaces: (
     }
 
     .rounded-sm {
-        border-radius: config("shape", "border-radius", "sm");
+        border-radius: cfg.config("shape", "border-radius", "sm");
     }
 
     .rounded-md {
-        border-radius: config("shape", "border-radius", "md");
+        border-radius: cfg.config("shape", "border-radius", "md");
     }
 
     .rounded-lg {
-        border-radius: config("shape", "border-radius", "lg");
+        border-radius: cfg.config("shape", "border-radius", "lg");
     }
 
     .rounded-full {
-        border-radius: config("shape", "border-radius", "full");
+        border-radius: cfg.config("shape", "border-radius", "full");
     }
 
     .shadow-xs {
-        box-shadow: config("shape", "shadow", "xs");
+        box-shadow: cfg.config("shape", "shadow", "xs");
     }
 
     .shadow-sm {
-        box-shadow: config("shape", "shadow", "sm");
+        box-shadow: cfg.config("shape", "shadow", "sm");
     }
 
     .shadow-md {
-        box-shadow: config("shape", "shadow", "md");
+        box-shadow: cfg.config("shape", "shadow", "md");
     }
 
     .shadow-lg {
-        box-shadow: config("shape", "shadow", "lg");
+        box-shadow: cfg.config("shape", "shadow", "lg");
     }
 
     .shadow-xl {
-        box-shadow: config("shape", "shadow", "xl");
+        box-shadow: cfg.config("shape", "shadow", "xl");
     }
 
     .cursor-pointer {
@@ -437,62 +416,62 @@ $spaces: (
     }
 
     .hidden\@xs {
-        @include mixins.container-query("xs", "max-width") {
+        @include container-query("xs", "max-width") {
             display: none;
         }
     }
 
     .hidden\@sm {
-        @include mixins.container-query("sm", "max-width") {
+        @include container-query("sm", "max-width") {
             display: none;
         }
     }
 
     .hidden\@md {
-        @include mixins.container-query("md", "max-width") {
+        @include container-query("md", "max-width") {
             display: none;
         }
     }
 
     .hidden\@lg {
-        @include mixins.container-query("lg", "max-width") {
+        @include container-query("lg", "max-width") {
             display: none;
         }
     }
 
     .block\@xs {
-        @include mixins.container-query("xs") {
+        @include container-query("xs") {
             display: block;
         }
     }
 
     .block\@sm {
-        @include mixins.container-query("sm") {
+        @include container-query("sm") {
             display: block;
         }
     }
 
     .block\@md {
-        @include mixins.container-query("md") {
+        @include container-query("md") {
             display: block;
         }
     }
 
     .block\@lg {
-        @include mixins.container-query("lg") {
+        @include container-query("lg") {
             display: block;
         }
     }
 
     .text-sm\@xs {
-        @include mixins.container-query("xs", "max-width") {
-            @include mixins.typography("sm");
+        @include container-query("xs", "max-width") {
+            @include typography("sm");
         }
     }
 
     .text-base\@sm {
-        @include mixins.container-query("sm") {
-            @include mixins.typography("base");
+        @include container-query("sm") {
+            @include typography("base");
         }
     }
 
@@ -517,39 +496,39 @@ $spaces: (
     }
 
     .center-absolute {
-        @include mixins.center-absolute;
+        @include center-absolute;
     }
 
     .center-flex {
-        @include mixins.center-flex;
+        @include center-flex;
     }
 
     .interactive {
-        @include mixins.interactive;
+        @include interactive;
     }
 
     .focus-ring {
-        @include mixins.focus-ring;
+        @include focus-ring;
     }
 
     .truncate {
-        @include mixins.truncate(1);
+        @include truncate(1);
     }
 
     .truncate-2 {
-        @include mixins.truncate(2);
+        @include truncate(2);
     }
 
     .truncate-3 {
-        @include mixins.truncate(3);
+        @include truncate(3);
     }
 
     .aspect-square {
-        @include mixins.aspect-ratio(1);
+        @include aspect-ratio(1);
     }
 
     .aspect-video {
-        @include mixins.aspect-ratio(#{"16 / 9"});
+        @include aspect-ratio(#{"16 / 9"});
     }
 
     .margin-block-0 {
@@ -705,15 +684,7 @@ $spaces: (
     }
 
     .vu-sr-only {
-        position: absolute;
-        inline-size: 1px;
-        block-size: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
+        @include visually-hidden;
     }
 
     .vc-surface {

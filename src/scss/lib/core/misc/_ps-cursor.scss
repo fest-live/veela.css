@@ -1,0 +1,18 @@
+@mixin ps-cursor {
+    & {
+        --shift-x: var(--client-x, 0px);
+        --shift-y: var(--client-y, 0px);
+        --translate-x: round(nearest, min(0px, calc(100cqi - (100% + var(--shift-x, 0px)))), calc(1px / var(--pixel-ratio, 1))) !important;
+        --translate-y: round(nearest, min(0px, calc(100cqb - (100% + var(--shift-y, 0px)))), calc(1px / var(--pixel-ratio, 1))) !important;
+
+        inset-inline-start: max(var(--shift-x), 0px);
+        inset-block-start: max(var(--shift-y), var(--status-bar-padding, 0px));
+        inset-inline-end: auto;
+        inset-block-end: auto;
+
+        direction: ltr;
+        translate: 0% 0% 0%;
+        writing-mode: horizontal-tb;
+        transform: none;
+    };
+};

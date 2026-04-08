@@ -1,3 +1,3 @@
-// Canonical source: lib/basic/_config.scss
-// Re-exported here to maintain runtime/basic/misc/ local import paths.
-@forward "../../../lib/core/functions";
+// Canonical source: veela `src/scss/runtime/basic/misc/_config.scss`.
+// Resolved via Vite `css.preprocessorOptions.scss.loadPaths` → `modules/projects/veela.css/src/scss`.
+@forward "lib/core/misc/functions";

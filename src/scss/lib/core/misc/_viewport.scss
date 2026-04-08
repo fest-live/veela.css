@@ -363,8 +363,8 @@
         @include v2-pair("p-cell", var(--cell-x), var(--cell-y));
 
         // CLAMPED GRID
-        --f-col: clamp(4, var(--layout-c, 4), 6);
-        --f-row: clamp(6, var(--layout-r, 8), 12);
+        --f-col: clamp(1, var(--layout-c, 4), 16);
+        --f-row: clamp(1, var(--layout-r, 8), 16);
 
         //
         @include v2-pair(
@@ -456,3 +456,6 @@
         );
     }
 }
+
+// :root `--vv-width`, `--vv-height`, `--vv-offset-left`, `--vv-offset-top`, `--vv-scale`
+// are set by fest/dom `getAvailSize()` / `updateVP()` (see `whenAnyScreenChanges`).

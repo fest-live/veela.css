@@ -82,8 +82,8 @@
 //
 @include func.make-func("@function --get-oriented-vector(\
 --orient <number>: 0, \
---osx <length-percentage>: 0px, \
---osy <length-percentage>: 0px, \
+--ocx <length-percentage>: 0px, \
+--ocy <length-percentage>: 0px, \
 --axis-to-return <number>: 0 \
 ) returns <length-percentage>") {
     --go-orient: mod(round(nearest, var(--orient, 0), 1), 4);

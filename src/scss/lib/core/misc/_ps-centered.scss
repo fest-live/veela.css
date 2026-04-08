@@ -1,15 +1,15 @@
 @mixin ps-centered {
     & {
-        --shift-x: calc(50% / 1px);
-        --shift-y: calc(50% / 1px);
-        --drag-x: 0;
-        --drag-y: 0;
+        --shift-x: 50%;
+        --shift-y: 50%;
+        --drag-x: 0px;
+        --drag-y: 0px;
         --translate-x: 0px;
         --translate-y: 0px;
 
 
-        inset-inline-start: max(calc(var(--shift-x) * 1px), 0px);
-        inset-block-start: max(calc(var(--shift-y) * 1px), 0px);
+        inset-inline-start: max(var(--shift-x), 0px);
+        inset-block-start: max(var(--shift-y), 0px);
         inset-inline-end: auto;
         inset-block-end: auto;
 

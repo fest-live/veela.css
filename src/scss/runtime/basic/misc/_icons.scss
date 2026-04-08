@@ -1,3 +1,3 @@
-// Canonical source: lib/basic/_icons.scss
-// Re-exported here to maintain runtime/basic/misc/ local import paths.
-@forward "../../../lib/core/icons";
+// Canonical source: veela `src/scss/lib/core/misc/_icons.scss`.
+// Resolved via Vite `css.preprocessorOptions.scss.loadPaths` → `modules/projects/veela.css/src/scss`.
+@forward "lib/core/misc/icons";

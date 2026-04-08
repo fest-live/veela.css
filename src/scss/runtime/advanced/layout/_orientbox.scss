@@ -43,8 +43,9 @@
             direction: ltr !important;
 
             //
-            max-inline-size: min(100%, min(100cqi, 100dvi)) !important;
-            max-block-size: min(100%, min(100cqb, 100dvb)) !important;
+            // Cap by dynamic viewport and by JS visual viewport (--vv-* from fest/dom updateVP) for mobile browser chrome / keyboard.
+            max-inline-size: min(100%, min(100cqi, 100dvi), var(--vv-width, 100dvi)) !important;
+            max-block-size: min(100%, min(100cqb, 100dvb), var(--vv-height, 100dvb)) !important;
 
             //
             /*outline-color: oklch(from var(--on-surface-color) l c h / 0.1);

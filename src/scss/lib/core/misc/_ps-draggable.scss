@@ -1,14 +1,14 @@
 @mixin ps-draggable {
     & {
-        --shift-x: 0;
-        --shift-y: 0;
-        --drag-x: 0;
-        --drag-y: 0;
-        --translate-x: var(--ds-x, 0px);
-        --translate-y: var(--ds-y, 0px);
+        --shift-x: 0px;
+        --shift-y: 0px;
+        --drag-x: 0px;
+        --drag-y: 0px;
+        --translate-x: var(--drag-x, 0px);
+        --translate-y: var(--drag-y, 0px);
 
-        inset-inline-start: var(--sp-x, 0px);
-        inset-block-start : var(--sp-y, 0px);
+        inset-inline-start: var(--shift-x, 0px);
+        inset-block-start : var(--shift-y, 0px);
         transform-origin  : 0% 0%;
         inset-inline-end  : auto;
         inset-block-end   : auto;
@@ -20,6 +20,6 @@
 
         transform:
             scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1))
-            translate3d(calc(var(--drag-x, 0) * 1px), calc(var(--drag-y, 0) * 1px), 0px);
+            translate3d(var(--drag-x, 0px), var(--drag-y, 0px), 0px);
     };
 };

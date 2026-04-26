@@ -11,19 +11,3 @@
  *
  * Inherited by: basic, advanced, beercss
  */
-
-@use "../layers" as *;
-
-// Shared utilities (mixins, placeholders, common patterns)
-@use "./misc/shared" as *;
-
-// Grid and orientation systems
-@use "./misc/orientation-functions" as *;
-@use "./misc/properties" as *;
-@use "./misc/wavy-runtime" as *;
-
-// Normalize, layout, and state management
-@use "./misc/normalize" as *;
-@use "./misc/core-layout" as *;
-@use "./misc/states" as *;
-@use "./misc/launcher-grid" as *;

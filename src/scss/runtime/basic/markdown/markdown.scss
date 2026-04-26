@@ -1,7 +1,0 @@
-// Markdown viewer surface (CrossWord `Markdown.ts` imports this path).
-@use "../misc/tokens" as *;
-
-:where(.markdown-body, [data-markdown-root]) {
-    box-sizing: border-box;
-    max-width: 100%;
-}

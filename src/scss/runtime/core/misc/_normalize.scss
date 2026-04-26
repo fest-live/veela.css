@@ -641,5 +641,10 @@
             object-fit: cover;
             object-position: center;
         }
+
+        /* Scheme Overrides */
+        [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; & * { color-scheme: dark; } }
+        [data-scheme="light"], [data-theme="light"] { color-scheme: light only; & * { color-scheme: light; } }
+        [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
     }
 }

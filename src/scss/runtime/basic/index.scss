@@ -1,1 +1,13 @@
-@use "./markdown" as *;
+/**
+ * Veela CSS - Core Runtime
+ *
+ * Shared foundation styles for all veela variants.
+ * This module provides:
+ * - CSS layer definitions
+ * - Normalize/reset styles
+ * - Core layout utilities
+ * - Base tokens and properties
+ * - Essential state management
+ *
+ * Inherited by: basic, advanced, beercss
+ */

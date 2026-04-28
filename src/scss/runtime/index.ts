@@ -42,7 +42,6 @@ let _loadedVariant: VeelaVariant | null = null;
 // VARIANT LOADERS
 // ============================================================================
 
-import { loadCoreStyles } from "./core/index";
 import { loadBasicStyles } from "./basic/index";
 import { loadAdvancedStyles } from "./advanced/index";
 
@@ -65,10 +64,6 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
     console.log(`[Veela] Loading variant: ${variant}`);
 
     switch (variant) {
-        case "core": {
-            await loadCoreStyles();
-            break;
-        }
         case "basic": {
             // Basic SCSS (misc + design) requires core foundation as a separate sheet.
             await loadBasicStyles();

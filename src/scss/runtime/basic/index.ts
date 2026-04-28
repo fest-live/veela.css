@@ -1,37 +1,30 @@
 /**
- * Veela CSS - Basic Runtime Loader
+ * Veela CSS - Core Runtime Loader
  *
- * Provides lightweight styling for minimal applications.
- * Inherits core foundation + adds basic component styles.
+ * Provides the shared foundation styles for all veela variants.
+ * Use this when you only need the essential normalize and layout utilities.
  *
  * @example
  * ```ts
- * import { loadBasicStyles } from "fest/veela/basic";
- * await loadBasicStyles();
+ * import { loadCoreStyles } from "fest/veela/core";
+ * await loadCoreStyles();
  * ```
  */
 
 import { loadAsAdopted } from "fest/dom";
 
-import { loadCoreStyles } from "../core/index";
-import basicStyles from "./index.scss?inline";
+import styles from "./index.scss?inline";
 
 /**
- * Load basic veela styles
+ * Load core veela styles (normalize + layout + states)
  */
 export async function loadBasicStyles(): Promise<void> {
     try {
-        await loadCoreStyles();
-        if (basicStyles) {
-            await loadAsAdopted(basicStyles);
-            console.log("[Veela/Basic] Basic styles loaded");
-        }
+        await loadAsAdopted(styles);
+        console.log("[Veela/Core] Core styles loaded");
     } catch (e) {
-        console.warn("[Veela/Basic] Failed to load basic styles:", e);
+        console.warn("[Veela/Core] Failed to load core styles:", e);
     }
 }
-
-// Re-export core utilities
-export * from "../core/index";
 
 export default loadBasicStyles;

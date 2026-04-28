@@ -30,6 +30,6 @@ export async function loadAdvancedStyles(): Promise<void> {
 }
 
 // Re-export core utilities
-export * from "../core/index";
+export * from "../basic/index";
 
 export default loadAdvancedStyles;

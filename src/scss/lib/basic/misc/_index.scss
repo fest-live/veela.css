@@ -12,9 +12,9 @@
 // These provide basic implementations that work without veela
 // When veela is available, these can be enhanced/overridden
 
-@forward "./layout";
-@forward "./display";
-@forward "./motion";
-@forward "./scrollbar";
+@forward "./queries";
 @forward "./mixins";
 @forward "./motion";
+@forward "./layout";
+@forward "./display";
+@forward "./scrollbar";

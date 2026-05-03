@@ -11,8 +11,7 @@
  * ```
  */
 
-import { loadAsAdopted } from "fest/dom";
-
+import { loadAsAdopted } from "fest/dom"; //@ts-ignore
 import styles from "./index.scss?inline";
 
 /**

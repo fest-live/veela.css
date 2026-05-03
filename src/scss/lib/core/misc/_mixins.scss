@@ -10,7 +10,7 @@
 @use "sass:meta";
 @use "sass:string";
 
-@use "./position" as position;
+@use "../interact/position" as position;
 
 /**
  * Unified CSS Custom Property Registration System

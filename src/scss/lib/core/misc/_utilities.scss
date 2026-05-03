@@ -1,6 +1,9 @@
-@use "veela-lib" as *;
-@use "veela-lib" as cfg;
-@use "veela-lib" as ux;
+@use "./mixins" as *;
+@use "./functions" as cfg;
+@use "../../basic/misc/layout" as ux;
+@use "../interact/position" as *;
+@use "../interact/ps-anchor" as *;
+@use "../interact/ps-cursor" as *;
 
 @layer utilities {
     @each $name, $value in $spaces {

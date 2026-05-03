@@ -1,4 +1,4 @@
-@use "veela-lib" as *;
+@use "../../../lib/core/orient/viewport" as *;
 
 //
 // Desktop-like launcher / speed-dial grids (orient-aware drag + placement).
@@ -8,7 +8,7 @@
 // - JS: `fest/dom` `resolveGridCellFromClientPoint`, `fest/lure` `bindDraggable`, `fest/core` `normalizeGridLayout` / `redirectCell`
 //
 @layer ux-launcher-grid {
-    .ui-launcher-grid {
+    .ui-launcher-grid, .ui-speed-dial-grid {
         @include compute_orient_grid_layout();
 
         display: grid;

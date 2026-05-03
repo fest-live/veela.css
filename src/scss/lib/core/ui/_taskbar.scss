@@ -1,5 +1,5 @@
-@use "./layout" as l;
-@use "./utils" as utils;
+@use "../misc/layout" as l;
+@use "../misc/utils" as utils;
 
 // Variables for taskbar theming and sizing
 @mixin taskbar-variables {

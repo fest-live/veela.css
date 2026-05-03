@@ -11,3 +11,8 @@
  *
  * Inherited by: basic, advanced, beercss
  */
+
+@use "layers" as *;
+@use "misc" as *;
+@use "orient" as *;
+@use "design" as *;

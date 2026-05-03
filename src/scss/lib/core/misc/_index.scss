@@ -1,6 +1,7 @@
-@forward "./draggable";
-@forward "./resizable";
-@forward "./taskbar";
-@forward "./position";
+@forward "../interact/draggable";
+@forward "../interact/resizable";
+@forward "../ui/taskbar";
+@forward "../interact/position";
 @forward "./utilities";
 @forward "./icons";
+

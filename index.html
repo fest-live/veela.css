@@ -1,96 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="veela-probe-lab">
 <head>
     <meta charset="UTF-8">
-    <meta name="text-scale" content="scale" />
+    <meta name="text-scale" content="scale">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <!-- -->
-    <script type="importmap">{
-        "imports": {
-            "fest/": "fest-src/",
-            "fest/cdnImport": "fest/cdnImport.mjs",
-            "fest/dom": "fest-src/dom.ts/src/index.ts",
-            "fest/lure": "fest-src/BLU.E/src/index.ts",
-            "fest/object": "fest-src/object.ts/src/index.ts",
-            "fest/uniform": "fest-src/uniform.ts/src/index.ts",
-            "fest/theme": "fest-src/theme.core/src/index.ts"
+    <title>Veela · CSS probe lab</title>
+    <meta name="color-scheme" content="dark light">
+    <style>
+        /*
+            Veela runtime (`orient/_core-layout.scss`) fixes html/body for app shells:
+            html is `position: fixed` + flex; body is `inline-flex`. That collapses normal
+            block flow here after **Run probes** loads stylesheets. Keep this page readable
+            with overrides that win after constructable-sheet injection (author, unlayered).
+        */
+        html.veela-probe-lab {
+            position: static !important;
+            inset: auto !important;
+            transform: none !important;
+            display: block !important;
+            font-family: system-ui, sans-serif;
+            overflow: visible !important;
+            container-type: normal !important;
+            contain: none !important;
+            content-visibility: visible !important;
+            /* WHY: Veela `:root` uses `max-inline-size: … !important` with `min(…cqi…)` — unlayered + important beats layered rules. */
+            inline-size: 100% !important;
+            block-size: auto !important;
+            max-inline-size: none !important;
+            max-block-size: none !important;
         }
-    }</script>
+        html.veela-probe-lab body {
+            display: block !important;
+            position: static !important;
+            inset: auto !important;
+            margin: 0;
+            translate: none !important;
+            transform: none !important;
+            pointer-events: auto !important;
+            box-sizing: border-box !important;
+            inline-size: 100% !important;
+            width: 100% !important;
+            max-inline-size: 52rem !important;
+            margin-inline: auto !important;
+            block-size: auto !important;
+            min-inline-size: 0 !important;
+            padding: 1rem 1.25rem 2rem !important;
+            overflow: visible !important;
+            contain: none !important;
+            /*
+                WHY: `body > * { max-inline-size: min(100%, min(100cqi,100dvi)) }` makes every child’s cap depend on
+                body CQ size (`container-type: size` + `contain: strict`) → circular shrink → ~1ch column + word stacking.
+                Drop CQ sizing here so headings/fieldset/grid get real width again.
+             */
+            container-type: normal !important;
+            container-name: none !important;
+            line-height: 1.45;
+            content-visibility: visible !important;
+        }
+        /* Kill Veela caps on immediate body children only (narrow scope). */
+        html.veela-probe-lab body > * {
+            max-inline-size: none !important;
+            max-block-size: none !important;
+        }
+        /*
+            WHY: `runtime/basic/misc/_normalize.scss` uses `:where(label) { pointer-events: none }`
+            so themed apps drive controls via overlays. Native `<label><input>` need hit targets here.
+        */
+        html.veela-probe-lab label {
+            pointer-events: auto !important;
+            touch-action: auto !important;
+            user-select: auto !important;
+            cursor: pointer;
+        }
+        html.veela-probe-lab button,
+        html.veela-probe-lab input,
+        html.veela-probe-lab select,
+        html.veela-probe-lab textarea {
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+        }
+        /*
+            WHY: Veela (core + advanced normalize) assigns `content-visibility: auto` to body and headings/paragraphs.
+            Keeps probe lab deterministic across repeated **Run probes** clicks.
+        */
+        html.veela-probe-lab *,
+        html.veela-probe-lab ::before,
+        html.veela-probe-lab ::after {
+            content-visibility: visible !important;
+        }
+        h1 { margin-block: 0 0.35rem; font-size: 1.5rem; }
+        .intro {
+            opacity: 0.9;
+            margin-block-end: 1rem;
+            font-size: 0.95rem;
+        }
+        code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+        fieldset {
+            border: 1px solid color-mix(in oklch, CanvasText 28%, Canvas);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem 1rem;
+            margin-block: 1rem;
+        }
+        legend { padding-inline: 0.35rem; font-weight: 600; }
+        .grid-cats {
+            display: grid;
+            gap: 0.55rem;
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        }
+        label.cat-label {
+            display: flex;
+            gap: 0.45rem;
+            align-items: flex-start;
+            padding: 0.35rem 0.35rem;
+            border-radius: 0.35rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        label.cat-label:hover {
+            border-color: color-mix(in oklch, CanvasText 18%, Canvas);
+            background: color-mix(in oklch, CanvasText 4%, Canvas);
+        }
+        .cat-hint { display: block; font-size: 0.82rem; opacity: 0.85; margin-block-start: 0.08rem; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem 0.65rem; margin-block-start: 0.75rem; }
+        button {
+            font: inherit;
+            padding: 0.42rem 0.85rem;
+            border-radius: 0.38rem;
+            border: 1px solid color-mix(in oklch, CanvasText 25%, Canvas);
+            cursor: pointer;
+            background: color-mix(in oklch, CanvasText 8%, Canvas);
+        }
+        button#lab-run {
+            font-weight: 600;
+            background: color-mix(in oklch, Highlight 65%, Canvas);
+            color: HighlightText;
+            border-color: color-mix(in oklch, Highlight 88%, Canvas);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .fixtures {
+            margin-block-start: 1.25rem;
+            padding-block-start: 1rem;
+            border-top: 1px solid color-mix(in oklch, CanvasText 15%, Canvas);
+        }
+        .fixtures h2 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+        }
+        #veela-test-summary {
+            padding: 0.75rem 1rem;
+            margin-block-start: 1rem;
+            border-radius: 0.5rem;
+            background: color-mix(in oklch, CanvasText 5%, Canvas);
+            color: CanvasText;
+            border: 1px solid color-mix(in oklch, CanvasText 20%, Canvas);
+            font: 0.8rem/1.45 ui-monospace, monospace;
+            white-space: pre-wrap;
+            min-block-size: 5rem;
+            box-sizing: border-box !important;
+            inline-size: 100%;
+            max-inline-size: none;
+            min-inline-size: 0;
+        }
+        #spacing-probe {
+            outline: 1px dashed color-mix(in oklch, CanvasText 30%, Canvas);
+            margin-block-start: 0.35rem;
+        }
+        #spacing-probe > span {
+            display: inline-block;
+            min-inline-size: 2ch;
+            min-block-size: 1.25rem;
+            background: color-mix(in oklch, CanvasText 10%, Canvas);
+            border-radius: 0.2rem;
+        }
+        .muted { opacity: 0.75; font-size: 0.9em; }
+    </style>
 </head>
 <body>
+    <h1>Veela CSS probe lab</h1>
+    <p class="intro">
+        Choose which runtime bundle to load (<strong>basic</strong> vs <strong>advanced</strong>) and what to assert
+        — normalize/reset, typography, layout, spacing utilities, tokens, stylesheet delivery, and optional advanced effects.
+        <strong>Visible:</strong> <code>npm run dev</code> · <strong>CI:</strong> <code>npm run test</code> (<code>?veela_ci=1</code>).
+    </p>
 
-    <div class="r0">
-        <div class="r1">
-            <span>Titles</span>
+    <fieldset>
+        <legend>1 · Runtime variant</legend>
+        <label><input type="radio" id="lab-variant-basic" name="lab-variant" value="basic" checked> Basic — <code>loadVeelaVariant("basic")</code></label><br><br>
+        <label><input type="radio" id="lab-variant-advanced" name="lab-variant" value="advanced"> Advanced — basic, then <code>loadVeelaVariant("advanced")</code></label>
+    </fieldset>
+
+    <fieldset>
+        <legend>2 · What to probe</legend>
+        <p class="intro muted" style="margin:0 0 0.5rem"><code>#spacing-probe</code> carries <code>.p-md .gap-sm</code> · flex row for gap.</p>
+        <div class="grid-cats" id="category-grid"></div>
+        <div class="toolbar">
+            <button type="button" id="lab-select-all">Select all</button>
+            <button type="button" id="lab-select-none">Clear</button>
+            <button type="button" id="lab-run">Run probes</button>
         </div>
-    </div>
-    <div class="coordinate">
-        <span class="x"></span>
-        <span class="y"></span>
-    </div>
+    </fieldset>
 
-    <!-- -->
-    <style>
-        body, html {
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
+    <h2 style="margin:1rem 0 0.35rem;font-size:1.05rem">Results</h2>
+    <pre id="veela-test-summary" aria-live="polite"></pre>
 
-        /* */
-        .coordinate {
-            display: grid;
-            grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
-            grid-template-rows: minmax(max-content, 1fr);
-            block-size: max-height;
-            inline-size: 12rem;
-            gap: 1rem;
-        }
+    <section class="fixtures" aria-labelledby="fixtures-title">
+        <h2 id="fixtures-title">DOM fixtures</h2>
+        <p><strong>Normalize / box-model</strong> — <code>#veela-probe</code></p>
+        <div id="veela-probe">Border-box cascade probe</div>
+        <p style="margin-block-start:1rem"><strong>Spacing utilities</strong> — <code>#spacing-probe</code></p>
+        <div id="spacing-probe" class="p-md gap-sm" style="display:inline-flex; flex-wrap:wrap; align-items:center">
+            <span></span><span></span>
+        </div>
+    </section>
 
-        /* */
-        .coordinate > * {
-            margin-block-start: 2rem;
-            position: relative;
-
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-
-            align-content: safe center;
-            align-items: safe center;
-
-            padding: 0.5rem;
-        }
-
-        /* */
-        .r0 {
-            background-color: orange;
-            inline-size: 100px;
-            block-size: 100px;
-            overflow: visible;
-            display: flex;
-            place-content: safe center;
-            place-items: safe center;
-            transform: rotate(60deg);
-            user-select: none;
-        }
-
-        /* */
-        .r1 {
-            color: white;
-            background-color: green;
-            inline-size: 80px;
-            block-size: 80px;
-            overflow: visible;
-            display: flex;
-            place-content: safe center;
-            place-items: safe center;
-            transform: rotate(-40deg);
-            user-select: none;
-        }
-    </style>
-
-    <script src="./test/Coordinate.ts" type="module"></script>
-
+    <script type="module" src="./test/browser/runner.ts"></script>
 </body>
 </html>

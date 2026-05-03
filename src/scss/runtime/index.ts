@@ -71,6 +71,7 @@ export async function loadVeelaVariant(variant: VeelaVariant): Promise<void> {
         }
         case "advanced": {
             // Advanced bundle already @use's core; avoid double-loading core.
+            await loadBasicStyles();
             await loadAdvancedStyles();
             break;
         }

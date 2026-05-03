@@ -4,11 +4,8 @@
  * Temporarily reduced to fix build issues.
  * Full advanced features require fixing lib/advanced structure.
  *
- * @see core/index.scss for foundation styles
+ * Preconditions: callers should adopt `runtime/basic/index.scss` first (see loadVeelaVariant).
  */
 
-// Inherit core foundation (includes normalize, layout, states, etc.)
-@use "../core/index" as *;
-
-// Effects and animations (no lib dependencies)
+// Effects and animations (depends on upstream tokens/normalize from basic runtime)
 @use "./effects/animations" as *;

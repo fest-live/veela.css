@@ -44,13 +44,28 @@ const fontEncoderPlugin = fontEncoder({
     compress: false // woff2 files are already compressed
 });
 
+//
+// WHY: Shared workspace Vite expects HTTPS on :443 — needs elevated ports/certs and breaks
+// `npm run dev`/Puppeteer on typical machines. This package overrides to HTTP on VEELA_DEV_PORT.
+//
+const VEELA_DEV_PORT = Number(process.env.VEELA_DEV_PORT ?? process.env.PORT ?? "5176");
+const VEELA_DEV_HOST = process.env.VEELA_DEV_HOST ?? "127.0.0.1";
+const mayOpenBrowser =
+    process.env.CI !== "true" && process.env.VEELA_OPEN !== "0";
+
 // Merge configs
-export default objectAssign(
-    baseConfig,
-    {
-        plugins: [
-            ...(baseConfig?.plugins || []),
-            fontEncoderPlugin
-        ]
-    }
-);
+export default objectAssign(baseConfig, {
+    plugins: [
+        ...(baseConfig?.plugins || []),
+        fontEncoderPlugin,
+    ],
+    server: objectAssign({}, baseConfig?.server ?? {}, {
+        host: VEELA_DEV_HOST,
+        port: VEELA_DEV_PORT,
+        strictPort: true,
+        https: false,
+        /** `npm run dev` — opens default browser to the probe page (disable: VEELA_OPEN=0). */
+        open: mayOpenBrowser,
+        origin: `http://${VEELA_DEV_HOST === "0.0.0.0" ? "127.0.0.1" : VEELA_DEV_HOST}:${VEELA_DEV_PORT}`,
+    }),
+});

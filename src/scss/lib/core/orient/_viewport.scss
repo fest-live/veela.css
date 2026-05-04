@@ -46,7 +46,10 @@
 
 @function v2-pick($value, $index, $fallback: null) {
     @if meta.type-of($value) != "list" {
-    @return sass(if($index == 1, $value, $fallback));
+        @return if(
+            sass($index == 1): $value; 
+            else: $fallback;
+        );
     }
 
     @if list.length($value) < $index {

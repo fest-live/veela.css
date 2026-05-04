@@ -6,6 +6,29 @@
 @layer tokens {
     :where(:root, html) {
         color-scheme: light dark;
+        /*
+         * WHY: vl-basic loads only this runtime sheet; advanced MD3 tokens are not bundled.
+         * Body/normalize use var(--color-bg) etc. — without defaults, backgrounds stay transparent
+         * and light-dark() in views never resolves meaningfully.
+         * Native CSS light-dark() follows the used color-scheme (Theme.ts sets html.style.colorScheme).
+         */
+        --color-bg: light-dark(#f4f6fa, #0f1419);
+        --color-text: light-dark(#111827, #e5e7eb);
+        --color-fg: var(--color-text);
+        --color-bg-secondary: light-dark(#e8ecf4, #1a2332);
+        --color-bg-alt: light-dark(#dfe6ee, #151f2e);
+        --color-text-secondary: light-dark(#64748b, #94a3b8);
+        --color-border: light-dark(#cbd5e1, #334155);
+        --color-table: light-dark(#f1f5f9, #1e293b);
+        --color-link: light-dark(#2563eb, #60a5fa);
+        --color-primary: var(--color-link);
+        --color-primary-hover: light-dark(#1d4ed8, #93c5fd);
+        --color-secondary: light-dark(#64748b, #94a3b8);
+        --color-outline: light-dark(#94a3b8, #475569);
+        --color-outline-variant: light-dark(#cbd5e1, #334155);
+        --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --line-height: 1.5;
+        --border-radius: 0.5rem;
         tab-size: 4;
         text-size-adjust: 100%;
         interpolate-size: allow-keywords;
@@ -503,29 +526,6 @@
                 scroll-behavior: auto !important;
             }
         }
-
-        [data-scheme="dark"],
-        [data-theme="dark"] {
-            color-scheme: dark only;
-
-            & * {
-                color-scheme: dark;
-            }
-        }
-
-        [data-scheme="light"],
-        [data-theme="light"] {
-            color-scheme: light only;
-
-            & * {
-                color-scheme: light;
-            }
-        }
-
-        [data-scheme="system"],
-        [data-theme="system"] {
-            color-scheme: light dark;
-        }
     }
 }
 
@@ -641,10 +641,5 @@
             object-fit: cover;
             object-position: center;
         }
-
-        /* Scheme Overrides */
-        [data-scheme="dark"], [data-theme="dark"] { color-scheme: dark only; & * { color-scheme: dark; } }
-        [data-scheme="light"], [data-theme="light"] { color-scheme: light only; & * { color-scheme: light; } }
-        [data-scheme="system"], [data-theme="system"] { color-scheme: light dark; }
     }
 }

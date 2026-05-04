@@ -1,6 +1,5 @@
 import { resolve  } from "node:path";
 import { readFile } from "node:fs/promises";
-import { fontEncoder } from "./vite-plugin-font-encoder.js";
 
 //
 const importConfig = (url, ...args)=>{ return import(url)?.then?.((m)=>m?.default?.(...args)); }
@@ -37,13 +36,6 @@ const baseConfig = await importConfig(resolve(__dirname, "../../shared/vite.conf
     __dirname
 );
 
-// Add font encoder plugin
-const fontEncoderPlugin = fontEncoder({
-    fontDir: resolve(__dirname, "./assets/fonts"),
-    outputFile: resolve(__dirname, "./src/ts/font-registry.ts"),
-    compress: false // woff2 files are already compressed
-});
-
 //
 // WHY: Shared workspace Vite expects HTTPS on :443 — needs elevated ports/certs and breaks
 // `npm run dev`/Puppeteer on typical machines. This package overrides to HTTP on VEELA_DEV_PORT.
@@ -56,8 +48,7 @@ const mayOpenBrowser =
 // Merge configs
 export default objectAssign(baseConfig, {
     plugins: [
-        ...(baseConfig?.plugins || []),
-        fontEncoderPlugin,
+        ...(baseConfig?.plugins || [])
     ],
     server: objectAssign({}, baseConfig?.server ?? {}, {
         host: VEELA_DEV_HOST,

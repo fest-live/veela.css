@@ -2,8 +2,8 @@ import { resolve  } from "node:path";
 import { readFile } from "node:fs/promises";
 
 //
-const importConfig = (url, ...args)=>{ return import(url)?.then?.((m)=>m?.default?.(...args)); }
-const objectAssign = (target, ...sources) => {
+export const importConfig = (url, ...args)=>{ return import(url)?.then?.((m)=>m?.default?.(...args)); }
+export const objectAssign = (target, ...sources) => {
     if (!sources.length) return target;
 
     const source = sources.shift();
